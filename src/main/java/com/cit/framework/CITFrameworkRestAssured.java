@@ -22,11 +22,11 @@ public class CITFrameworkRestAssured {
     public String MENSAGEM_REPORT_ERROR = "";
 
 
-    public Response RESPONSE = null;
-    public String BODY = null;
-    public String ENDPOINT = null;
-    public Map<String, Object> PARAM = new HashMap<>();
-    public Map<String, Object> HEADER = new HashMap<>();
+    public static Response RESPONSE = null;
+    public static String BODY = null;
+    public static String ENDPOINT = null;
+    public static Map<String, Object> PARAM = new HashMap<>();
+    public static Map<String, Object> HEADER = new HashMap<>();
 
     public void InitalEndpoint(String Endpoint) {
         enableLoggingOfRequestAndResponseIfValidationFails();
@@ -205,7 +205,7 @@ public class CITFrameworkRestAssured {
 
         System.out.println("-------------------------------------\n Iniciando Report Bradesco...  " + scenario.getStatus().toUpperCase() + "   \n   ------------------------------------");
         if (ENDPOINT == null || BODY == null || RESPONSE == null) {
-            System.out.println(ENDPOINT.toString() + "\n" + BODY + "\n" + RESPONSE);
+            System.out.println(ENDPOINT + "\n" + BODY + "\n" + RESPONSE);
         }
         if (scenario.isFailed()) {
 
