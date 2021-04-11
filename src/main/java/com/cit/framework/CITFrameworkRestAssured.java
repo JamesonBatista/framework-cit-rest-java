@@ -19,7 +19,7 @@ import java.util.Map;
 import static io.restassured.RestAssured.*;
 
 public class CITFrameworkRestAssured {
-    public String MENSAGEM_REPORT_ERROR = "";
+    public static String MENSAGEM_REPORT_ERROR = "";
 
 
     public static Response RESPONSE = null;
