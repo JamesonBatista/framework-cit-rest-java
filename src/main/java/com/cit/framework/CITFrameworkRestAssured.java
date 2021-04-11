@@ -202,8 +202,11 @@ public class CITFrameworkRestAssured {
 
 
     public void AfterScenarioStartReportBradesco(Scenario scenario) throws BradescoException {
-        System.out.println("-------------------------------------\n Iniciando Report Bradesco...    \n ------------------------------------");
 
+        System.out.println("-------------------------------------\n Iniciando Report Bradesco...  " + scenario.getStatus() + "   \n   ------------------------------------");
+        if (ENDPOINT == null || BODY == null || RESPONSE == null) {
+            System.out.println(ENDPOINT.toString() + "\n" + BODY + "\n" + RESPONSE);
+        }
         if (scenario.isFailed()) {
 
             if (MENSAGEM_REPORT_ERROR == "") {
