@@ -201,8 +201,6 @@ public class CITFrameworkRestAssured {
                 .post(Endpoint)
                 .then();
     }
-    @After
-    public void afterFramework(){
 
         @After
         public void after(Scenario scenario) throws BradescoException {
@@ -226,6 +224,6 @@ public class CITFrameworkRestAssured {
             RESPONSE = null;
             ENDPOINT = null;
             reset();
-        }
+
     }
 }
