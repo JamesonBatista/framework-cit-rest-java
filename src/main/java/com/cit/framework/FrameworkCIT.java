@@ -28,5 +28,14 @@ public class FrameworkCIT {
     public ValidatableResponse GetParamHeaderEndpoint(String Endpoint ){
         return given().log().all().queryParams(REST_PARAM).headers(REST_HEADER).when().get(Endpoint).then();
     }
+    public ValidatableResponse GetParamHeader(){
+        return given().log().all().queryParams(REST_PARAM).headers(REST_HEADER).when().get().then();
+    }
+    public ValidatableResponse GetParamEndpoint(String Endpoint ){
+        return given().log().all().queryParams(REST_PARAM).when().get(Endpoint).then();
+    }
 
+    public ValidatableResponse GetHeaderEndpoint(String Endpoint ){
+        return given().log().all().headers(REST_HEADER).when().get(Endpoint).then();
+    }
 }
