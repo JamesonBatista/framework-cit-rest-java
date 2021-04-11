@@ -1,16 +1,17 @@
 package com.cit.framework;
 
+import com.bradesco.core.exception.BradescoRuntimeException;
+import com.bradesco.core.sdk.enums.ReportStatus;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
-//
-//import com.bradesco.core.exception.BradescoException;
-//import com.bradesco.core.report.BradescoReporter;
-//import com.bradesco.core.report.model.HttpRequestEvent;
-//import cucumber.api.java.After;
-//import cucumber.api.Scenario;
 
+import com.bradesco.core.exception.BradescoException;
+import com.bradesco.core.report.BradescoReporter;
+import com.bradesco.core.report.model.HttpRequestEvent;
+import cucumber.api.java.After;
+import cucumber.api.Scenario;
 
 
 import java.util.HashMap;
@@ -19,9 +20,7 @@ import java.util.Map;
 import static io.restassured.RestAssured.*;
 
 public class CITFrameworkRestAssured {
-    public  String MENSAGEM_REPORT_ERROR = "";
-
-
+    public String MENSAGEM_REPORT_ERROR = "";
 
 
     public Response RESPONSE = null;
@@ -202,28 +201,34 @@ public class CITFrameworkRestAssured {
                 .then();
     }
 
-        @After
-        public void after(Scenario scenario) throws BradescoException {
+    @After
+    public void after(Scenario scenario) throws BradescoException {
+        System.out.println("-------------------------------------\n Iniciando Report Bradesco...    \n ------------------------------------");
 
-            if (scenario.isFailed()) {
+        if (scenario.isFailed()) {
 
-                if (MENSAGEM_REPORT_ERROR == "") {
-                    BradescoReporter.report(ReportStatus.ERROR, scenario.getName());
-                }
-                BradescoReporter.report(ReportStatus.ERROR, MENSAGEM_REPORT_ERROR);
-            } else {
-                if (BODY == null) {
-                    BradescoReporter.reportEvent(HttpRequestEvent.getRequest(ENDPOINT, RESPONSE.getBody().asString()));
-                } else {
-                    BradescoReporter.reportEvent(HttpRequestEvent.postRequest(ENDPOINT, BODY, RESPONSE.getBody().asString()));
-                }
+            if (MENSAGEM_REPORT_ERROR == "") {
+
+                BradescoReporter.report(ReportStatus.ERROR, scenario.getName());
             }
-            PARAM.clear();
-            HEADER.clear();
-            BODY = null;
-            RESPONSE = null;
-            ENDPOINT = null;
-            reset();
+            BradescoReporter.report(ReportStatus.ERROR, MENSAGEM_REPORT_ERROR);
+        } else {
+
+            if (BODY == null) {
+                BradescoReporter.reportEvent(HttpRequestEvent.getRequest(ENDPOINT, RESPONSE.getBody().asString()));
+            } else {
+                BradescoReporter.reportEvent(HttpRequestEvent.postRequest(ENDPOINT, BODY, RESPONSE.getBody().asString()));
+            }
+
+            throw new BradescoRuntimeException("Finalizando criação do Report Bradesco: " + scenario.getName());
+
+        }
+        PARAM.clear();
+        HEADER.clear();
+        BODY = null;
+        RESPONSE = null;
+        ENDPOINT = null;
+        reset();
 
     }
 }
