@@ -201,36 +201,42 @@ public class CITFrameworkRestAssured {
     }
 
 
-    public void AfterScenarioStartReportBradesco(Scenario scenario) throws BradescoException {
+    public void AfterScenarioStartReport(Scenario scenario) throws BradescoException {
 
-        System.out.println("-------------------------------------\n Iniciando Report Bradesco...  " + scenario.getStatus() + "   \n   ------------------------------------");
+        System.out.println("-------------------------------------\n Iniciando Report Bradesco...  " + scenario.getStatus().toUpperCase() + "   \n   ------------------------------------");
         if (ENDPOINT == null || BODY == null || RESPONSE == null) {
             System.out.println(ENDPOINT.toString() + "\n" + BODY + "\n" + RESPONSE);
         }
         if (scenario.isFailed()) {
 
-//            if (MENSAGEM_REPORT_ERROR == "") {
-//
-//                BradescoReporter.report(ReportStatus.ERROR, scenario.getName());
-//            }
-//            BradescoReporter.report(ReportStatus.ERROR, MENSAGEM_REPORT_ERROR);
-//        } else {
-//
-//            if (BODY == null) {
-//                BradescoReporter.reportEvent(HttpRequestEvent.getRequest(ENDPOINT, RESPONSE.getBody().asString()));
-//            } else {
-//                BradescoReporter.reportEvent(HttpRequestEvent.postRequest(ENDPOINT, BODY, RESPONSE.getBody().asString()));
-//            }
+            if (MENSAGEM_REPORT_ERROR != "") {
+                BradescoReporter.report(ReportStatus.ERROR, MENSAGEM_REPORT_ERROR);
 
-            throw new BradescoRuntimeException("Finalizando criação do Report Bradesco: " + scenario.getName());
+            }
+        } else {
+            if (BODY == null) {
+                try {
+                    BradescoReporter.reportEvent(HttpRequestEvent.getRequest(ENDPOINT, RESPONSE.getBody().asString()));
 
+                } catch (BradescoException e) {
+                    System.out.println("ERROR GET: " + e.getMessage());
+                }
+
+            } else {
+                try {
+                    BradescoReporter.reportEvent(HttpRequestEvent.postRequest(ENDPOINT, BODY, RESPONSE.getBody().asString()));
+
+                } catch (BradescoException e) {
+                    System.out.println("ERROR POST: " + e.getMessage());
+                }
+                BradescoReporter.reportEvent(HttpRequestEvent.postRequest(ENDPOINT, BODY, RESPONSE.getBody().asString()));
+            }
         }
         PARAM.clear();
         HEADER.clear();
         BODY = null;
         RESPONSE = null;
         ENDPOINT = null;
-        reset();
-
+        RestAssured.reset();
     }
 }
