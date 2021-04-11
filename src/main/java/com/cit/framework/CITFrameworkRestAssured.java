@@ -10,7 +10,6 @@ import io.restassured.response.ValidatableResponse;
 import com.bradesco.core.exception.BradescoException;
 import com.bradesco.core.report.BradescoReporter;
 import com.bradesco.core.report.model.HttpRequestEvent;
-import cucumber.api.java.After;
 import cucumber.api.Scenario;
 
 
@@ -201,8 +200,8 @@ public class CITFrameworkRestAssured {
                 .then();
     }
 
-    @After
-    public void after(Scenario scenario) throws BradescoException {
+
+    public void AfterScenarioStartReportBradesco(Scenario scenario) throws BradescoException {
         System.out.println("-------------------------------------\n Iniciando Report Bradesco...    \n ------------------------------------");
 
         if (scenario.isFailed()) {
