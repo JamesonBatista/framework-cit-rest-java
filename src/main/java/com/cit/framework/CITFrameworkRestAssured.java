@@ -209,18 +209,18 @@ public class CITFrameworkRestAssured {
         }
         if (scenario.isFailed()) {
 
-            if (MENSAGEM_REPORT_ERROR == "") {
-
-                BradescoReporter.report(ReportStatus.ERROR, scenario.getName());
-            }
-            BradescoReporter.report(ReportStatus.ERROR, MENSAGEM_REPORT_ERROR);
-        } else {
-
-            if (BODY == null) {
-                BradescoReporter.reportEvent(HttpRequestEvent.getRequest(ENDPOINT, RESPONSE.getBody().asString()));
-            } else {
-                BradescoReporter.reportEvent(HttpRequestEvent.postRequest(ENDPOINT, BODY, RESPONSE.getBody().asString()));
-            }
+//            if (MENSAGEM_REPORT_ERROR == "") {
+//
+//                BradescoReporter.report(ReportStatus.ERROR, scenario.getName());
+//            }
+//            BradescoReporter.report(ReportStatus.ERROR, MENSAGEM_REPORT_ERROR);
+//        } else {
+//
+//            if (BODY == null) {
+//                BradescoReporter.reportEvent(HttpRequestEvent.getRequest(ENDPOINT, RESPONSE.getBody().asString()));
+//            } else {
+//                BradescoReporter.reportEvent(HttpRequestEvent.postRequest(ENDPOINT, BODY, RESPONSE.getBody().asString()));
+//            }
 
             throw new BradescoRuntimeException("Finalizando criação do Report Bradesco: " + scenario.getName());
 
