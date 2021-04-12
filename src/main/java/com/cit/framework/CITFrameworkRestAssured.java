@@ -1,25 +1,22 @@
 package com.cit.framework;
 
-import com.bradesco.core.exception.BradescoRuntimeException;
+import com.bradesco.core.exception.BradescoException;
+import com.bradesco.core.report.BradescoReporter;
+import com.bradesco.core.report.model.HttpRequestEvent;
 import com.bradesco.core.sdk.enums.ReportStatus;
+import cucumber.api.Scenario;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
-
-import com.bradesco.core.exception.BradescoException;
-import com.bradesco.core.report.BradescoReporter;
-import com.bradesco.core.report.model.HttpRequestEvent;
-import cucumber.api.Scenario;
 import util.Constantes;
-
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
+import static util.FileProperties.*;
 import static io.restassured.RestAssured.*;
 
 /*
@@ -352,9 +349,9 @@ public class CITFrameworkRestAssured {
         RestAssured.reset();
     }
 
-    public static void ExcludReportBradesco() {
+    public static void ExcludReportBradesco() throws IOException {
         // Método irá excluir todos os Reports antigos
-        File folder = new File("target/logs");
+        File folder = new File(GetProp().getProperty("excludReport"));
         if (folder.isDirectory()) {
             File[] sun = folder.listFiles();
             for (File toDelete : sun) {
