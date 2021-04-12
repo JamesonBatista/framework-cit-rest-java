@@ -15,6 +15,7 @@ import cucumber.api.Scenario;
 import util.Constantes;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,12 +26,13 @@ import static io.restassured.RestAssured.*;
 Lembrete:
 TODO:
     Para usar o Framework, basta extender o frame no seu step, Ex: ** public class StepUser extends CITFrameworkRestAssured{} **
+    E chamar o metodo que você quer, Ex. PostParam();  isto é um Post com parametros given().queryparams().when.post();
     Caso não tenha, crie uma pasta na raiz do projeto chamada environment e dentro um arquivo chamado data.properties, dentro dele estará
-    os valores dos Ambientes, EX: Env.tu=http://11111111111111111.  **caso nao tenha o data.properties, crie e cole o valor que está no final desta classe**
-    No AterClass é necessário chamar a variável AMBIENTE = "Env.tu" e passar o valor.
+    os valores dos Ambientes, EX: tu=http://11111111111111111.  **caso nao tenha o data.properties, crie e cole o valor que está no final do comentário**
+    o default=tu será a base, caso queira mudar de ambiente, para muda-lo.
     Todos métodos chamados nos steps, precisa passar o valor para RESPONSE: RESPONSE = given()........then().extract().response();
     Isso fará com que o report capte o Body.
-    Automaticamente será decidido entre GET e POST a criação do Report. Caso seja passado valor para variável BODY, será um Post, caso não, GET
+    Automaticamente será decidido entre GET e POST a criação do Report. Caso seja passado valor para variável BODY, será um Post, caso não, GET.
     Em caso de POST, **SEMPRE** passar o valor do body enviado no Post para BODY:   BODY = {"data":"valor", "key":"value"}, BODY = variavel.body
      Headers e Params, use dessa forma no seu step PARAM.put("key", "value") OBS: nao precisa passar dentro do metodo Ex: PARAM.put("key", "value"); e abaixo o
      metodo é chamado GetParam(); ...NAO PRECISA PASSAR DENTRO TO METODO.
@@ -44,13 +46,25 @@ TODO:
         }
      }
 
+
+TODO: copie apenas os valores abaixo, sem o TODO.
+    tu=....
+    ti=.....
+    th=....
+    tu_local=.....
+    local=.....
+    prod=......
+    env1=.........
+    env2=.........
+    env3=.........
+    env4=.........
+    default=......
+
  */
 
 public class CITFrameworkRestAssured {
 
     public static String MENSAGEM_REPORT_ERROR = "";
-
-    public static String AMBIENTE = null;
 
     public static Response RESPONSE = null;
 
@@ -62,7 +76,8 @@ public class CITFrameworkRestAssured {
     public static Map<String, Object> PARAM = new HashMap<>();
     public static Map<String, Object> HEADER = new HashMap<>();
 
-    public void InitalEndpoint(String Endpoint) throws IOException {
+    public void InitialEndpoint(String Endpoint) throws IOException {
+        ExcludReportBradesco();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         baseURI = Constantes.selecionaAmbiente() + Endpoint;
         ENDPOINT = baseURI;
@@ -147,6 +162,8 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse PostBody(String body) {
+        BODY = body;
+
         return given()
                 .urlEncodingEnabled(false).log().all()
                 .contentType(ContentType.JSON)
@@ -157,6 +174,7 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse PostBodyEndpoint(String body, String Endpoint) {
+        BODY = body;
         return given()
                 .urlEncodingEnabled(false).log().all()
                 .contentType(ContentType.JSON)
@@ -167,6 +185,8 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse PostParamHeaderBodyEndpoint(String body, String Endpoint) {
+        BODY = body;
+
         return given()
                 .contentType(ContentType.JSON).log().all()
                 .urlEncodingEnabled(false)
@@ -179,6 +199,8 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse PostParamHeaderBody(String body) {
+        BODY = body;
+
         return given()
                 .contentType(ContentType.JSON).log().all()
                 .urlEncodingEnabled(false)
@@ -191,6 +213,8 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse PostParamBodyEndpoint(String body, String Endpoint) {
+        BODY = body;
+
         return given()
                 .contentType(ContentType.JSON).log().all()
                 .urlEncodingEnabled(false)
@@ -202,6 +226,8 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse PostParamBody(String body) {
+        BODY = body;
+
         return given()
                 .contentType(ContentType.JSON).log().all()
                 .urlEncodingEnabled(false)
@@ -213,6 +239,8 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse PostHeaderBody(String body) {
+        BODY = body;
+
         return given()
                 .log().all().urlEncodingEnabled(false)
                 .contentType(ContentType.JSON)
@@ -224,6 +252,8 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse PostHeaderBodyEndpoint(String body, String Endpoint) {
+        BODY = body;
+
         return given()
                 .log().all().urlEncodingEnabled(false)
                 .contentType(ContentType.JSON)
@@ -321,19 +351,17 @@ public class CITFrameworkRestAssured {
         ENDPOINT = null;
         RestAssured.reset();
     }
+
+    public static void ExcludReportBradesco() {
+        // Método irá excluir todos os Reports antigos
+        File folder = new File("target/logs");
+        if (folder.isDirectory()) {
+            File[] sun = folder.listFiles();
+            for (File toDelete : sun) {
+                toDelete.delete();
+            }
+        }
+    }
 }
 
-/*
-TODO: copie apenas os valores abaixo, sem o TODO.
-    tu=....
-    ti=.....
-    th=....
-    tu_local=.....
-    local=.....
-    prod=......
-    env1=.........
-    env2=.........
-    env3=.........
-    env4=.........
-    default=......
- */
+
