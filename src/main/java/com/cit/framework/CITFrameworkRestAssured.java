@@ -1,7 +1,6 @@
 package com.cit.framework;
 
 import com.bradesco.core.exception.BradescoException;
-import com.bradesco.core.exception.BradescoRuntimeException;
 import com.bradesco.core.report.BradescoReporter;
 import com.bradesco.core.report.model.HttpRequestEvent;
 import com.bradesco.core.sdk.enums.ReportStatus;
@@ -18,8 +17,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static util.FileProperties.*;
 import static io.restassured.RestAssured.*;
+import static util.FileProperties.GetProp;
 
 /*
 Lembrete:
@@ -107,7 +106,7 @@ public class CITFrameworkRestAssured {
                 .headers(HEADER.toString() == "{}" ? null : HEADER)
                 .when()
                 .get(Endpoint)
-                .then();
+                .then().log().all();
     }
 
     public ValidatableResponse GetParam() {
@@ -117,7 +116,7 @@ public class CITFrameworkRestAssured {
                 .queryParams(PARAM.toString() == "{}" ? null : PARAM)
                 .when()
                 .get()
-                .then();
+                .then().log().all();
 
     }
 
@@ -127,7 +126,7 @@ public class CITFrameworkRestAssured {
                 .queryParams(PARAM.toString() == "{}" ? null : PARAM)
                 .when()
                 .get(Endpoint)
-                .then();
+                .then().log().all();
     }
 
     public ValidatableResponse GetParamHeader() {
@@ -138,7 +137,7 @@ public class CITFrameworkRestAssured {
                 .headers(HEADER.toString() == "{}" ? null : HEADER)
                 .when()
                 .get()
-                .then();
+                .then().log().all();
     }
 
     public ValidatableResponse GetHeader() {
@@ -148,7 +147,7 @@ public class CITFrameworkRestAssured {
                 .headers(HEADER.toString() == "{}" ? null : HEADER)
                 .when()
                 .get()
-                .then();
+                .then().log().all();
     }
 
     public ValidatableResponse GetHeaderEndpoint(String Endpoint) {
@@ -157,7 +156,7 @@ public class CITFrameworkRestAssured {
                 .headers(HEADER.toString() == "{}" ? null : HEADER)
                 .when()
                 .get(Endpoint)
-                .then();
+                .then().log().all();
     }
 
     public ValidatableResponse PostBody(String body) {
@@ -168,7 +167,7 @@ public class CITFrameworkRestAssured {
                 .body(body)
                 .when()
                 .post()
-                .then();
+                .then().log().all();
     }
 
     public ValidatableResponse PostBodyEndpoint(String body, String Endpoint) {
@@ -179,7 +178,7 @@ public class CITFrameworkRestAssured {
                 .body(body)
                 .when()
                 .post(Endpoint)
-                .then();
+                .then().log().all();
     }
 
     public ValidatableResponse PostParamHeaderBodyEndpoint(String body, String Endpoint) {
@@ -192,7 +191,7 @@ public class CITFrameworkRestAssured {
                 .body(body)
                 .when()
                 .post(Endpoint)
-                .then();
+                .then().log().all();
     }
 
     public ValidatableResponse PostParamHeaderBody(String body) {
@@ -205,7 +204,7 @@ public class CITFrameworkRestAssured {
                 .body(body)
                 .when()
                 .post()
-                .then();
+                .then().log().all();
     }
 
     public ValidatableResponse PostParamBodyEndpoint(String body, String Endpoint) {
@@ -217,7 +216,7 @@ public class CITFrameworkRestAssured {
                 .body(body)
                 .when()
                 .post(Endpoint)
-                .then();
+                .then().log().all();
     }
 
     public ValidatableResponse PostParamBody(String body) {
@@ -229,7 +228,7 @@ public class CITFrameworkRestAssured {
                 .body(body)
                 .when()
                 .post()
-                .then();
+                .then().log().all();
     }
 
     public ValidatableResponse PostHeaderBody(String body) {
@@ -241,7 +240,7 @@ public class CITFrameworkRestAssured {
                 .body(body)
                 .when()
                 .post()
-                .then();
+                .then().log().all();
     }
 
     public ValidatableResponse PostHeaderBodyEndpoint(String body, String Endpoint) {
@@ -254,21 +253,22 @@ public class CITFrameworkRestAssured {
                 .body(body)
                 .when()
                 .post(Endpoint)
-                .then();
+                .then().log().all();
     }
 
     public ValidatableResponse Delete() {
         return given()
                 .log().all().urlEncodingEnabled(false)
                 .contentType(ContentType.JSON)
-                .when().delete().then();
+                .when().delete()
+                .then().log().all();
     }
 
     public ValidatableResponse DeleteEndpoint(String Endpoint) {
         return given()
                 .log().all().urlEncodingEnabled(false)
                 .contentType(ContentType.JSON)
-                .when().delete(Endpoint).then();
+                .when().delete(Endpoint).then().log().all();
     }
 
     public ValidatableResponse DeleteParam() {
@@ -276,7 +276,8 @@ public class CITFrameworkRestAssured {
                 .log().all().urlEncodingEnabled(false)
                 .queryParams(PARAM.toString() == "{}" ? null : PARAM)
                 .contentType(ContentType.JSON)
-                .when().delete().then();
+                .when().delete()
+                .then().log().all();
     }
 
     public ValidatableResponse DeleteParamEndpoint(String Endpoint) {
@@ -284,7 +285,8 @@ public class CITFrameworkRestAssured {
                 .log().all().urlEncodingEnabled(false)
                 .queryParams(PARAM.toString() == "{}" ? null : PARAM)
                 .contentType(ContentType.JSON)
-                .when().delete(Endpoint).then();
+                .when().delete(Endpoint)
+                .then().log().all();
     }
 
     public ValidatableResponse DeleteParamHeader() {
@@ -293,7 +295,8 @@ public class CITFrameworkRestAssured {
                 .queryParams(PARAM.toString() == "{}" ? null : PARAM)
                 .headers(HEADER.toString() == "{}" ? null : HEADER)
                 .contentType(ContentType.JSON)
-                .when().delete().then();
+                .when().delete()
+                .then().log().all();
     }
 
     public ValidatableResponse DeleteHeader() {
@@ -301,7 +304,8 @@ public class CITFrameworkRestAssured {
                 .log().all().urlEncodingEnabled(false)
                 .headers(HEADER.toString() == "{}" ? null : HEADER)
                 .contentType(ContentType.JSON)
-                .when().delete().then();
+                .when().delete()
+                .then().log().all();
     }
 
     public ValidatableResponse DeleteHeaderEndpoint(String Endpoint) {
@@ -309,7 +313,8 @@ public class CITFrameworkRestAssured {
                 .log().all().urlEncodingEnabled(false)
                 .headers(HEADER.toString() == "{}" ? null : HEADER)
                 .contentType(ContentType.JSON)
-                .when().delete(Endpoint).then();
+                .when().delete(Endpoint)
+                .then().log().all();
     }
 
     public ValidatableResponse DeleteParamHeaderEndpoint(String Endpoint) {
@@ -318,7 +323,8 @@ public class CITFrameworkRestAssured {
                 .queryParams(PARAM.toString() == "{}" ? null : PARAM)
                 .headers(HEADER.toString() == "{}" ? null : HEADER)
                 .contentType(ContentType.JSON)
-                .when().delete(Endpoint).then();
+                .when().delete(Endpoint)
+                .then().log().all();
     }
 
     public void AfterScenarioStartReport(Scenario scenario) throws BradescoException, IOException {
@@ -332,11 +338,13 @@ public class CITFrameworkRestAssured {
             }
         } else {
             if (BODY == null) {
+                System.out.println("Report GET sendo executado...");
                 BradescoReporter.reportEvent(HttpRequestEvent.getRequest(ENDPOINT, RESPONSE.getBody().asString()));
             } else {
+                System.out.println("Report POST sendo executado...");
                 BradescoReporter.reportEvent(HttpRequestEvent.postRequest(ENDPOINT, BODY, RESPONSE.getBody().asString()));
             }
-            throw new BradescoRuntimeException("Report Bradesco gerado no path: " + GetProp().getProperty("excludReport"));
+            System.out.println("Report Bradesco gerado no path: " + GetProp().getProperty("excludReport"));
 
         }
         PARAM.clear();
