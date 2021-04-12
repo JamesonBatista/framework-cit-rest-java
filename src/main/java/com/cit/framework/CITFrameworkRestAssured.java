@@ -1,6 +1,7 @@
 package com.cit.framework;
 
 import com.bradesco.core.exception.BradescoException;
+import com.bradesco.core.exception.BradescoRuntimeException;
 import com.bradesco.core.report.BradescoReporter;
 import com.bradesco.core.report.model.HttpRequestEvent;
 import com.bradesco.core.sdk.enums.ReportStatus;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 import static util.FileProperties.*;
 import static io.restassured.RestAssured.*;
 
@@ -160,7 +162,6 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse PostBody(String body) {
         BODY = body;
-
         return given()
                 .urlEncodingEnabled(false).log().all()
                 .contentType(ContentType.JSON)
@@ -183,7 +184,6 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse PostParamHeaderBodyEndpoint(String body, String Endpoint) {
         BODY = body;
-
         return given()
                 .contentType(ContentType.JSON).log().all()
                 .urlEncodingEnabled(false)
@@ -197,7 +197,6 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse PostParamHeaderBody(String body) {
         BODY = body;
-
         return given()
                 .contentType(ContentType.JSON).log().all()
                 .urlEncodingEnabled(false)
@@ -211,7 +210,6 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse PostParamBodyEndpoint(String body, String Endpoint) {
         BODY = body;
-
         return given()
                 .contentType(ContentType.JSON).log().all()
                 .urlEncodingEnabled(false)
@@ -224,7 +222,6 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse PostParamBody(String body) {
         BODY = body;
-
         return given()
                 .contentType(ContentType.JSON).log().all()
                 .urlEncodingEnabled(false)
@@ -237,7 +234,6 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse PostHeaderBody(String body) {
         BODY = body;
-
         return given()
                 .log().all().urlEncodingEnabled(false)
                 .contentType(ContentType.JSON)
@@ -325,9 +321,9 @@ public class CITFrameworkRestAssured {
                 .when().delete(Endpoint).then();
     }
 
-    public void AfterScenarioStartReport(Scenario scenario) throws BradescoException {
+    public void AfterScenarioStartReport(Scenario scenario) throws BradescoException, IOException {
 
-        System.out.println("-------------------------------------\n Iniciando Report CI&T Bradesco..." + scenario.getStatus().toUpperCase() + "\n" + scenario.getName().toUpperCase() + "   \n-------------------------------------");
+        System.out.println("-------------------------------------\n Iniciando Report CI&T Bradesco...  " + scenario.getStatus().toUpperCase() + "\n" + scenario.getName().toUpperCase() + "   \n-------------------------------------");
 
         if (scenario.isFailed()) {
 
@@ -340,6 +336,8 @@ public class CITFrameworkRestAssured {
             } else {
                 BradescoReporter.reportEvent(HttpRequestEvent.postRequest(ENDPOINT, BODY, RESPONSE.getBody().asString()));
             }
+            throw new BradescoRuntimeException("Report Bradesco gerado no path: " + GetProp().getProperty("excludReport"));
+
         }
         PARAM.clear();
         HEADER.clear();
