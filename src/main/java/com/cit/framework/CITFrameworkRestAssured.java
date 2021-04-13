@@ -87,7 +87,7 @@ public class CITFrameworkRestAssured {
                 .urlEncodingEnabled(false).log().all()
                 .when()
                 .get()
-                .then();
+                .then().log().all();
     }
 
     public ValidatableResponse GetEndpoint(String Endpoint) {
@@ -95,7 +95,7 @@ public class CITFrameworkRestAssured {
                 .urlEncodingEnabled(false).log().all()
                 .when()
                 .get(Endpoint)
-                .then();
+                .then().log().all();
     }
 
     public ValidatableResponse GetParamHeaderEndpoint(String Endpoint) {
