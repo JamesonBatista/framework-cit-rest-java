@@ -641,7 +641,7 @@ public class CITFrameworkRestAssured {
 
     }
 
-    public void ReportBradesco() throws BradescoException, IOException {
+    static void ReportBradesco() throws BradescoException, IOException {
 
         Response response;
         System.out.println("-------------------------------------\n Iniciando Report CI&T Bradesco... \n ------------------------------------- ");
@@ -668,7 +668,7 @@ public class CITFrameworkRestAssured {
         BODY = null;
     }
 
-    public static void ExcludReportBradesco() throws IOException {
+    static void ExcludReportBradesco() throws IOException {
         // Método irá excluir todos os Reports antigos
         File folder = new File(GetProp().getProperty("excludReport"));
         if (folder.isDirectory()) {
