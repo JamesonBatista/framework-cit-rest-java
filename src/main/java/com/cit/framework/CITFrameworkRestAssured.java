@@ -23,9 +23,7 @@ import static util.FileProperties.GetProp;
 
 public class CITFrameworkRestAssured {
 
-    public static String MENSAGEM_REPORT_ERROR = "";
-    public static String BODY = null;
-    public static String ENDPOINT = null;
+    static String BODY = null;
     static String endpoint_Rest = "";
     static String PUT = null;
     public static Map<String, Object> PARAM = new HashMap<>();
@@ -36,7 +34,6 @@ public class CITFrameworkRestAssured {
         ExcludReportBradesco();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         baseURI = Constantes.selecionaAmbiente() + Endpoint;
-        ENDPOINT = baseURI;
         RestAssured.useRelaxedHTTPSValidation();
     }
 
@@ -153,7 +150,6 @@ public class CITFrameworkRestAssured {
         }
 
 
-
     }
 
     public ValidatableResponse GetHeader() throws IOException, BradescoException {
@@ -169,7 +165,6 @@ public class CITFrameworkRestAssured {
         } finally {
             ReportBradesco();
         }
-
 
 
     }
@@ -189,8 +184,6 @@ public class CITFrameworkRestAssured {
         }
 
 
-
-
     }
 
     public ValidatableResponse PostBody(String body) throws IOException, BradescoException {
@@ -207,7 +200,6 @@ public class CITFrameworkRestAssured {
         } finally {
             ReportBradesco();
         }
-
 
 
     }
@@ -272,7 +264,6 @@ public class CITFrameworkRestAssured {
         }
 
 
-
     }
 
     public ValidatableResponse PostParamBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
@@ -291,7 +282,6 @@ public class CITFrameworkRestAssured {
         } finally {
             ReportBradesco();
         }
-
 
 
     }
@@ -313,7 +303,6 @@ public class CITFrameworkRestAssured {
         }
 
 
-
     }
 
     public ValidatableResponse PostHeaderBody(String body) throws IOException, BradescoException {
@@ -331,7 +320,6 @@ public class CITFrameworkRestAssured {
         } finally {
             ReportBradesco();
         }
-
 
 
     }
@@ -354,7 +342,6 @@ public class CITFrameworkRestAssured {
         }
 
 
-
     }
 
 
@@ -375,7 +362,6 @@ public class CITFrameworkRestAssured {
         }
 
 
-
     }
 
     public ValidatableResponse PutBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
@@ -394,7 +380,6 @@ public class CITFrameworkRestAssured {
         } finally {
             ReportBradesco();
         }
-
 
 
     }
@@ -419,8 +404,6 @@ public class CITFrameworkRestAssured {
         }
 
 
-
-
     }
 
     public ValidatableResponse PutParamHeaderBody(String body) throws IOException, BradescoException {
@@ -440,7 +423,6 @@ public class CITFrameworkRestAssured {
         } finally {
             ReportBradesco();
         }
-
 
 
     }
@@ -464,7 +446,6 @@ public class CITFrameworkRestAssured {
         }
 
 
-
     }
 
     public ValidatableResponse PutParamBody(String body) throws IOException, BradescoException {
@@ -485,7 +466,6 @@ public class CITFrameworkRestAssured {
         }
 
 
-
     }
 
     public ValidatableResponse PutHeaderBody(String body) throws IOException, BradescoException {
@@ -504,7 +484,6 @@ public class CITFrameworkRestAssured {
         } finally {
             ReportBradesco();
         }
-
 
 
     }
@@ -528,7 +507,6 @@ public class CITFrameworkRestAssured {
         }
 
 
-
     }
 
     public ValidatableResponse Delete() throws IOException, BradescoException {
@@ -542,7 +520,6 @@ public class CITFrameworkRestAssured {
         } finally {
             ReportBradesco();
         }
-
 
 
     }
@@ -561,7 +538,6 @@ public class CITFrameworkRestAssured {
         }
 
 
-
     }
 
     public ValidatableResponse DeleteParam() throws IOException, BradescoException {
@@ -576,7 +552,6 @@ public class CITFrameworkRestAssured {
         } finally {
             ReportBradesco();
         }
-
 
 
     }
@@ -596,7 +571,6 @@ public class CITFrameworkRestAssured {
         }
 
 
-
     }
 
     public ValidatableResponse DeleteParamHeader() throws IOException, BradescoException {
@@ -614,7 +588,6 @@ public class CITFrameworkRestAssured {
         }
 
 
-
     }
 
     public ValidatableResponse DeleteHeader() throws IOException, BradescoException {
@@ -629,7 +602,6 @@ public class CITFrameworkRestAssured {
         } finally {
             ReportBradesco();
         }
-
 
 
     }
@@ -694,7 +666,6 @@ public class CITFrameworkRestAssured {
         PARAM.clear();
         HEADERS.clear();
         BODY = null;
-        ENDPOINT = null;
     }
 
     public static void ExcludReportBradesco() throws IOException {
