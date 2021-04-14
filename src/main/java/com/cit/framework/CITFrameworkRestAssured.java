@@ -1,22 +1,16 @@
 package com.cit.framework;
 
-import com.bradesco.core.exception.BradescoException;
-import com.bradesco.core.report.BradescoReporter;
-import com.bradesco.core.report.model.HttpRequestEvent;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import util.Constantes;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.*;
-import static util.FileProperties.GetProp;
 
 
 public class CITFrameworkRestAssured {
@@ -29,21 +23,19 @@ public class CITFrameworkRestAssured {
 
 
     public void RestEnvironment(String Endpoint) throws IOException {
-        ExcludReportBradesco();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         baseURI = Constantes.selecionaAmbiente() + Endpoint;
         RestAssured.useRelaxedHTTPSValidation();
     }
 
     public void RestEnvironment() throws IOException {
-        ExcludReportBradesco();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         baseURI = Constantes.selecionaAmbiente();
         RestAssured.useRelaxedHTTPSValidation();
     }
 
 
-    public ValidatableResponse Get() throws IOException, BradescoException {
+    public ValidatableResponse Get() throws IOException {
         try {
             return given()
                     .urlEncodingEnabled(false).log().all()
@@ -53,14 +45,13 @@ public class CITFrameworkRestAssured {
                     .log().status().log().body().assertThat();
 
         } finally {
-            ReportBradesco();
 
         }
 
 
     }
 
-    public ValidatableResponse GetEndpoint(String Endpoint) throws IOException, BradescoException {
+    public ValidatableResponse GetEndpoint(String Endpoint) throws IOException{
         endpoint_Rest = Endpoint;
 
         try {
@@ -73,13 +64,12 @@ public class CITFrameworkRestAssured {
 
 
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse GetParamHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
+    public ValidatableResponse GetParamHeaderEndpoint(String Endpoint) throws IOException {
         endpoint_Rest = Endpoint;
 
         try {
@@ -95,13 +85,12 @@ public class CITFrameworkRestAssured {
 
 
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse GetParam() throws IOException, BradescoException {
+    public ValidatableResponse GetParam() throws IOException{
         try {
             return given()
                     .urlEncodingEnabled(false)
@@ -114,13 +103,12 @@ public class CITFrameworkRestAssured {
 
 
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse GetParamEndpoint(String Endpoint) throws IOException, BradescoException {
+    public ValidatableResponse GetParamEndpoint(String Endpoint) throws IOException {
         endpoint_Rest = Endpoint;
         try {
             return given().log().all()
@@ -133,13 +121,12 @@ public class CITFrameworkRestAssured {
 
 
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse GetParamHeader() throws IOException, BradescoException {
+    public ValidatableResponse GetParamHeader() throws IOException{
         try {
             return given()
                     .urlEncodingEnabled(false)
@@ -152,13 +139,12 @@ public class CITFrameworkRestAssured {
                     .log().status().log().body().assertThat();
 
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse GetHeader() throws IOException, BradescoException {
+    public ValidatableResponse GetHeader() throws IOException{
         try {
             return given()
                     .urlEncodingEnabled(false)
@@ -169,13 +155,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse GetHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
+    public ValidatableResponse GetHeaderEndpoint(String Endpoint) throws IOException{
         endpoint_Rest = Endpoint;
         try {
             return given().log().all()
@@ -186,13 +171,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse PostBody(String body) throws IOException, BradescoException {
+    public ValidatableResponse PostBody(String body) throws IOException {
         BODY = body;
         try {
             return given()
@@ -204,13 +188,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse PostBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
+    public ValidatableResponse PostBodyEndpoint(String body, String Endpoint) throws IOException {
         endpoint_Rest = Endpoint;
         BODY = body;
         try {
@@ -224,13 +207,12 @@ public class CITFrameworkRestAssured {
                     .log().status().log().body().assertThat();
 
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse PostParamHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
+    public ValidatableResponse PostParamHeaderBodyEndpoint(String body, String Endpoint) throws IOException{
         endpoint_Rest = Endpoint;
         BODY = body;
         try {
@@ -246,13 +228,12 @@ public class CITFrameworkRestAssured {
                     .log().status().log().body().assertThat();
 
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse PostParamHeaderBody(String body) throws IOException, BradescoException {
+    public ValidatableResponse PostParamHeaderBody(String body) throws IOException {
         BODY = body;
         try {
             return given()
@@ -266,13 +247,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse PostParamBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
+    public ValidatableResponse PostParamBodyEndpoint(String body, String Endpoint) throws IOException {
         endpoint_Rest = Endpoint;
         BODY = body;
         try {
@@ -286,13 +266,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse PostParamBody(String body) throws IOException, BradescoException {
+    public ValidatableResponse PostParamBody(String body) throws IOException {
         BODY = body;
         try {
             return given()
@@ -305,13 +284,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse PostHeaderBody(String body) throws IOException, BradescoException {
+    public ValidatableResponse PostHeaderBody(String body) throws IOException {
         BODY = body;
         try {
             return given()
@@ -324,13 +302,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse PostHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
+    public ValidatableResponse PostHeaderBodyEndpoint(String body, String Endpoint) throws IOException {
         endpoint_Rest = Endpoint;
         BODY = body;
         try {
@@ -344,14 +321,13 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
 
-    public ValidatableResponse PutBody(String body) throws IOException, BradescoException {
+    public ValidatableResponse PutBody(String body) throws IOException {
         BODY = body;
         PUT = "put";
         try {
@@ -364,13 +340,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse PutBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
+    public ValidatableResponse PutBodyEndpoint(String body, String Endpoint) throws IOException{
         endpoint_Rest = Endpoint;
         BODY = body;
         PUT = "put";
@@ -384,13 +359,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse PutParamHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
+    public ValidatableResponse PutParamHeaderBodyEndpoint(String body, String Endpoint) throws IOException {
         endpoint_Rest = Endpoint;
         BODY = body;
         PUT = "put";
@@ -406,13 +380,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse PutParamHeaderBody(String body) throws IOException, BradescoException {
+    public ValidatableResponse PutParamHeaderBody(String body) throws IOException {
         BODY = body;
         PUT = "put";
         try {
@@ -427,13 +400,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse PutParamBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
+    public ValidatableResponse PutParamBodyEndpoint(String body, String Endpoint) throws IOException {
         endpoint_Rest = Endpoint;
         BODY = body;
         PUT = "put";
@@ -448,13 +420,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse PutParamBody(String body) throws IOException, BradescoException {
+    public ValidatableResponse PutParamBody(String body) throws IOException{
         BODY = body;
         PUT = "put";
         try {
@@ -468,13 +439,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse PutHeaderBody(String body) throws IOException, BradescoException {
+    public ValidatableResponse PutHeaderBody(String body) throws IOException{
         BODY = body;
         PUT = "put";
         try {
@@ -488,13 +458,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse PutHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
+    public ValidatableResponse PutHeaderBodyEndpoint(String body, String Endpoint) throws IOException {
         endpoint_Rest = Endpoint;
         BODY = body;
         PUT = "put";
@@ -509,13 +478,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse Delete() throws IOException, BradescoException {
+    public ValidatableResponse Delete() throws IOException {
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -524,13 +492,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse DeleteEndpoint(String Endpoint) throws IOException, BradescoException {
+    public ValidatableResponse DeleteEndpoint(String Endpoint) throws IOException {
         endpoint_Rest = Endpoint;
         try {
             return given()
@@ -540,13 +507,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse DeleteParam() throws IOException, BradescoException {
+    public ValidatableResponse DeleteParam() throws IOException{
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -556,13 +522,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse DeleteParamEndpoint(String Endpoint) throws IOException, BradescoException {
+    public ValidatableResponse DeleteParamEndpoint(String Endpoint) throws IOException{
         endpoint_Rest = Endpoint;
         try {
             return given()
@@ -573,13 +538,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse DeleteParamHeader() throws IOException, BradescoException {
+    public ValidatableResponse DeleteParamHeader() throws IOException {
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -590,13 +554,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse DeleteHeader() throws IOException, BradescoException {
+    public ValidatableResponse DeleteHeader() throws IOException{
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -606,13 +569,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse DeleteHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
+    public ValidatableResponse DeleteHeaderEndpoint(String Endpoint) throws IOException {
         endpoint_Rest = Endpoint;
         try {
             return given()
@@ -623,13 +585,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    public ValidatableResponse DeleteParamHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
+    public ValidatableResponse DeleteParamHeaderEndpoint(String Endpoint) throws IOException{
         endpoint_Rest = Endpoint;
         try {
             return given()
@@ -641,49 +602,12 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
-            ReportBradesco();
         }
 
 
     }
 
-    static void ReportBradesco() throws BradescoException, IOException {
 
-        Response response;
-        System.out.println("-------------------------------------\n Iniciando Report CI&T Bradesco... \n ------------------------------------- ");
-
-        if (BODY == null) {
-            System.out.println("Report GET sendo executado...");
-            response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).when().get(endpoint_Rest).then().extract().response();
-            BradescoReporter.reportEvent(HttpRequestEvent.getRequest(baseURI, response.getBody().asString()));
-        } else if (PUT != null) {
-            System.out.println("Report PUT sendo executado...");
-            response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).body(BODY).when().put(endpoint_Rest).then().extract().response();
-            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(baseURI, BODY, response.getBody().asString()));
-
-        } else {
-            System.out.println("Report POST sendo executado...");
-            response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).body(BODY).when().post(endpoint_Rest).then().extract().response();
-            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(baseURI, BODY, response.getBody().asString()));
-        }
-        System.out.println("Report Bradesco gerado no path: " + GetProp().getProperty("excludReport"));
-
-
-        PARAM.clear();
-        HEADERS.clear();
-        BODY = null;
-    }
-
-    static void ExcludReportBradesco() throws IOException {
-        // Método irá excluir todos os Reports antigos
-        File folder = new File(GetProp().getProperty("excludReport"));
-        if (folder.isDirectory()) {
-            File[] sun = folder.listFiles();
-            for (File toDelete : sun) {
-                toDelete.delete();
-            }
-        }
-    }
 }
 
 
