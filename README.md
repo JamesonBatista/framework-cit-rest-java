@@ -10,7 +10,6 @@ necessárias*
 > public class StepUser extends CITFrameworkRestAssured{}
 
 ###### No seu step onde normalmente fica o **endpoint** você chama o *RestEnvironment*
-
 ```
     @Given("^que seja acessado o endpoint \"([^\"]*)\"$")
     public void queSejaAcessadoOEndpoint(String endpoint) throws Throwable {
@@ -20,7 +19,6 @@ necessárias*
 ```
 
 *Caso você precise passar o endpoint no método chamado Ex:*
-
 ```
 GetEndpoint("api/users/id").body("users.id", Matchers.is(10));
 ```
@@ -72,11 +70,9 @@ no setup.properties
 Automaticamente será decidido entre GET e POST a criação do Report.
 
 ###### Em caso de POST, **SEMPRE** passar o valor do body dentro do método chamado Ex:
-
 ```
 PostHeaderBody(body).body("data.name", is("CIT"));
 ```
-
 ###### Headers e Params, use dessa forma no seu step PARAM.put("key", "value") OBS: nao precisa passar dentro do metodo Ex:
 
 ```
@@ -95,7 +91,6 @@ GetParamHeader().statusCode(200).body("data.name", "default");
 
 }  
 ```
-
 ###### *Abaixo, alguns exemplos que podem ser usados:*
 
 ```
@@ -111,7 +106,7 @@ Get().body("users.id", Matchers.is(10));
 GetEndpoint("api/users/id").body("users.id", Matchers.is(10));
 
 PostBodyEndpoint(body, "api/users/id").statusCode(201).body("users.id", Matchers.is(10));
-``` 
+```
 ### Aqui um Step completo de Exemplo
 ```
 package steps.Gets;
