@@ -695,7 +695,6 @@ public class CITFrameworkRestAssured {
         HEADERS.clear();
         BODY = null;
         ENDPOINT = null;
-        RestAssured.reset();
     }
 
     public static void ExcludReportBradesco() throws IOException {
