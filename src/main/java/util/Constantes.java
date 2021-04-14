@@ -3,6 +3,11 @@ package util;
 import com.bradesco.core.configuration.EnvironmentProperties;
 import com.bradesco.core.exception.BradescoRuntimeException;
 import org.apache.commons.lang3.StringUtils;
+import util.FileProperties.*;
+
+import java.io.IOException;
+
+import static util.FileProperties.GetProp;
 
 public interface Constantes {
 
@@ -19,7 +24,6 @@ public interface Constantes {
     /**
      * Ambiente TH Gateway https://api.openbanking.prebanco.com.br:8443
      */
-    String BASE_URL_GATEWAY = selecionaAmbiente();
 
     /**
      * Ambiente PROD Gateway https://api.bradesco.com
@@ -40,22 +44,23 @@ public interface Constantes {
 
     String PATH = "SCHEMA/";
 
-    public static String selecionaAmbiente() {
+    public static String selecionaAmbiente() throws IOException {
         EnvironmentProperties env = EnvironmentProperties.getGlobal();
         String environment = env.asString("environment", "tu");
         String url;
-        if (StringUtils.equalsIgnoreCase(environment, "tu")) {
-            url = "https://10.233.128.67:8443/";
-        } else if (StringUtils.equalsIgnoreCase(environment, "ti")) {
-            throw new BradescoRuntimeException("Ambiente desconhecido: " + environment);
-        } else if (StringUtils.equalsIgnoreCase(environment, "th")) {
-            url = "https://api.openbanking.prebanco.com.br";
-        } else if (StringUtils.equalsIgnoreCase(environment, "tu_local")) {
-            url = "http://10.233.129.43:8443/v1/";
-        } else if (StringUtils.equalsIgnoreCase(environment, "local")) {
-            url = "http://localhost:8080/";
-        } else if (StringUtils.equalsIgnoreCase(environment, "prod")) {
-            url = "https://api.bradesco.com";
+        if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "tu")) {
+            url = GetProp().getProperty("tu");
+        } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "ti")) {
+            url = GetProp().getProperty("ti");
+        } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "th")) {
+            url = GetProp().getProperty("th");
+
+        } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "tu_local")) {
+            url = GetProp().getProperty("tu_local");
+        } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "local")) {
+            url = GetProp().getProperty("local");
+        } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "prod")) {
+            url = GetProp().getProperty("prod");
         } else {
             throw new BradescoRuntimeException("Ambiente desconhecido: " + environment);
         }
