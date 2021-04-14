@@ -67,9 +67,21 @@ HEADER.put("key", "value");
 GetParamHeader().statusCode(200).body("data.name", "default");
 
 }  
-
+```
+###### *Abaixo, alguns exemplos que podem ser usados:*
+```
 String value = Get().extract().path("data.name").toString();
 Assert.assertEquals(value, Matchers.is("default"));
+
+PARAM.put("key", "value");
+HEADER.put("key", "value");
+PostParamHeaderBodyEndpoint(body, "api/user/id").body("users.id", Matchers.is(10));
+
+Get().body("users.id", Matchers.is(10));
+
+GetEndpoint("api/users/id").body("users.id", Matchers.is(10));
+
+PostBodyEndpoint(body, "api/users/id").statusCode(201).body("users.id", Matchers.is(10));
 ``` 
 
 > *Ao final de cada método chamado, o ReportBradesco será executado automaticamente*
