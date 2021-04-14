@@ -57,468 +57,622 @@ public class CITFrameworkRestAssured {
 
     }
 
-    public ValidatableResponse GetEndpoint(String Endpoint) {
-        endpoint_Rest = Endpoint;
-        return given()
-                .urlEncodingEnabled(false).log().all()
-                .when()
-                .get(Endpoint)
-                .then()
-                .log().status().log().body().assertThat();
-
-
-    }
-
-    public ValidatableResponse GetParamHeaderEndpoint(String Endpoint) {
-        endpoint_Rest = Endpoint;
-        return given()
-                .urlEncodingEnabled(false)
-                .log().all()
-                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                .when()
-                .get(Endpoint)
-                .then()
-                .log().status().log().body().assertThat();
-
-
-    }
-
-    public ValidatableResponse GetParam() {
-        return given()
-                .urlEncodingEnabled(false)
-                .log().all()
-                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                .when()
-                .get()
-                .then()
-                .log().status().log().body().assertThat();
-
-
-    }
-
-    public ValidatableResponse GetParamEndpoint(String Endpoint) {
+    public ValidatableResponse GetEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
 
-        return given().log().all()
-                .urlEncodingEnabled(false)
-                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                .when()
-                .get(Endpoint)
-                .then()
-                .log().status().log().body().assertThat();
+        try {
+            return given()
+                    .urlEncodingEnabled(false).log().all()
+                    .when()
+                    .get(Endpoint)
+                    .then()
+                    .log().status().log().body().assertThat();
+
+
+        } finally {
+            ReportBradesco();
+        }
 
 
     }
 
-    public ValidatableResponse GetParamHeader() {
-        return given()
-                .urlEncodingEnabled(false)
-                .log().all()
-                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                .when()
-                .get()
-                .then()
-                .log().status().log().body().assertThat();
-
-
-    }
-
-    public ValidatableResponse GetHeader() {
-        return given()
-                .urlEncodingEnabled(false)
-                .log().all()
-                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                .when()
-                .get()
-                .then()
-                .log().status().log().body().assertThat();
-
-
-    }
-
-    public ValidatableResponse GetHeaderEndpoint(String Endpoint) {
+    public ValidatableResponse GetParamHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
 
-        return given().log().all()
-                .urlEncodingEnabled(false)
-                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                .when()
-                .get(Endpoint)
-                .then()
-                .log().status().log().body().assertThat();
+        try {
+            return given()
+                    .urlEncodingEnabled(false)
+                    .log().all()
+                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .when()
+                    .get(Endpoint)
+                    .then()
+                    .log().status().log().body().assertThat();
+
+
+        } finally {
+            ReportBradesco();
+        }
 
 
     }
 
-    public ValidatableResponse PostBody(String body) {
+    public ValidatableResponse GetParam() throws IOException, BradescoException {
+        try {
+            return given()
+                    .urlEncodingEnabled(false)
+                    .log().all()
+                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .when()
+                    .get()
+                    .then()
+                    .log().status().log().body().assertThat();
+
+
+        } finally {
+            ReportBradesco();
+        }
+
+
+    }
+
+    public ValidatableResponse GetParamEndpoint(String Endpoint) throws IOException, BradescoException {
+        endpoint_Rest = Endpoint;
+        try {
+            return given().log().all()
+                    .urlEncodingEnabled(false)
+                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .when()
+                    .get(Endpoint)
+                    .then()
+                    .log().status().log().body().assertThat();
+
+
+        } finally {
+            ReportBradesco();
+        }
+
+
+    }
+
+    public ValidatableResponse GetParamHeader() throws IOException, BradescoException {
+        try {
+            return given()
+                    .urlEncodingEnabled(false)
+                    .log().all()
+                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .when()
+                    .get()
+                    .then()
+                    .log().status().log().body().assertThat();
+
+        } finally {
+            ReportBradesco();
+        }
+
+
+
+    }
+
+    public ValidatableResponse GetHeader() throws IOException, BradescoException {
+        try {
+            return given()
+                    .urlEncodingEnabled(false)
+                    .log().all()
+                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .when()
+                    .get()
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
+
+
+    }
+
+    public ValidatableResponse GetHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
+        endpoint_Rest = Endpoint;
+        try {
+            return given().log().all()
+                    .urlEncodingEnabled(false)
+                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .when()
+                    .get(Endpoint)
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
+
+
+
+    }
+
+    public ValidatableResponse PostBody(String body) throws IOException, BradescoException {
         BODY = body;
-        return given()
-                .urlEncodingEnabled(false).log().all()
-                .contentType(ContentType.JSON)
-                .body(body)
-                .when()
-                .post()
-                .then()
-                .log().status().log().body().assertThat();
+        try {
+            return given()
+                    .urlEncodingEnabled(false).log().all()
+                    .contentType(ContentType.JSON)
+                    .body(body)
+                    .when()
+                    .post()
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
 
 
     }
 
-    public ValidatableResponse PostBodyEndpoint(String body, String Endpoint) {
+    public ValidatableResponse PostBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
         BODY = body;
+        try {
+            return given()
+                    .urlEncodingEnabled(false).log().all()
+                    .contentType(ContentType.JSON)
+                    .body(body)
+                    .when()
+                    .post(Endpoint)
+                    .then()
+                    .log().status().log().body().assertThat();
 
-        return given()
-                .urlEncodingEnabled(false).log().all()
-                .contentType(ContentType.JSON)
-                .body(body)
-                .when()
-                .post(Endpoint)
-                .then()
-                .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
 
 
     }
 
-    public ValidatableResponse PostParamHeaderBodyEndpoint(String body, String Endpoint) {
+    public ValidatableResponse PostParamHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
         BODY = body;
-        return given()
-                .contentType(ContentType.JSON).log().all()
-                .urlEncodingEnabled(false)
-                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                .body(body)
-                .when()
-                .post(Endpoint)
-                .then()
-                .log().status().log().body().assertThat();
+        try {
+            return given()
+                    .contentType(ContentType.JSON).log().all()
+                    .urlEncodingEnabled(false)
+                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .body(body)
+                    .when()
+                    .post(Endpoint)
+                    .then()
+                    .log().status().log().body().assertThat();
+
+        } finally {
+            ReportBradesco();
+        }
 
 
     }
 
-    public ValidatableResponse PostParamHeaderBody(String body) {
+    public ValidatableResponse PostParamHeaderBody(String body) throws IOException, BradescoException {
         BODY = body;
-        return given()
-                .contentType(ContentType.JSON).log().all()
-                .urlEncodingEnabled(false)
-                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                .body(body)
-                .when()
-                .post()
-                .then()
-                .log().status().log().body().assertThat();
+        try {
+            return given()
+                    .contentType(ContentType.JSON).log().all()
+                    .urlEncodingEnabled(false)
+                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .body(body)
+                    .when()
+                    .post()
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
 
 
     }
 
-    public ValidatableResponse PostParamBodyEndpoint(String body, String Endpoint) {
+    public ValidatableResponse PostParamBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
         BODY = body;
-        return given()
-                .contentType(ContentType.JSON).log().all()
-                .urlEncodingEnabled(false)
-                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                .body(body)
-                .when()
-                .post(Endpoint)
-                .then()
-                .log().status().log().body().assertThat();
+        try {
+            return given()
+                    .contentType(ContentType.JSON).log().all()
+                    .urlEncodingEnabled(false)
+                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .body(body)
+                    .when()
+                    .post(Endpoint)
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
 
 
     }
 
-    public ValidatableResponse PostParamBody(String body) {
+    public ValidatableResponse PostParamBody(String body) throws IOException, BradescoException {
         BODY = body;
-        return given()
-                .contentType(ContentType.JSON).log().all()
-                .urlEncodingEnabled(false)
-                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                .body(body)
-                .when()
-                .post()
-                .then()
-                .log().status().log().body().assertThat();
+        try {
+            return given()
+                    .contentType(ContentType.JSON).log().all()
+                    .urlEncodingEnabled(false)
+                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .body(body)
+                    .when()
+                    .post()
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
 
 
     }
 
-    public ValidatableResponse PostHeaderBody(String body) {
+    public ValidatableResponse PostHeaderBody(String body) throws IOException, BradescoException {
         BODY = body;
-        return given()
-                .log().all().urlEncodingEnabled(false)
-                .contentType(ContentType.JSON)
-                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                .body(body)
-                .when()
-                .post()
-                .then()
-                .log().status().log().body().assertThat();
+        try {
+            return given()
+                    .log().all().urlEncodingEnabled(false)
+                    .contentType(ContentType.JSON)
+                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .body(body)
+                    .when()
+                    .post()
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
 
 
     }
 
-    public ValidatableResponse PostHeaderBodyEndpoint(String body, String Endpoint) {
+    public ValidatableResponse PostHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
         BODY = body;
-        return given()
-                .log().all().urlEncodingEnabled(false)
-                .contentType(ContentType.JSON)
-                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                .body(body)
-                .when()
-                .post(Endpoint)
-                .then()
-                .log().status().log().body().assertThat();
+        try {
+            return given()
+                    .log().all().urlEncodingEnabled(false)
+                    .contentType(ContentType.JSON)
+                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .body(body)
+                    .when()
+                    .post(Endpoint)
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
 
 
     }
 
 
-    public ValidatableResponse PutBody(String body) {
+    public ValidatableResponse PutBody(String body) throws IOException, BradescoException {
         BODY = body;
         PUT = "put";
-        return given()
-                .urlEncodingEnabled(false).log().all()
-                .contentType(ContentType.JSON)
-                .body(body)
-                .when()
-                .post()
-                .then()
-                .log().status().log().body().assertThat();
+        try {
+            return given()
+                    .urlEncodingEnabled(false).log().all()
+                    .contentType(ContentType.JSON)
+                    .body(body)
+                    .when()
+                    .post()
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
 
-
-    }
-
-    public ValidatableResponse PutBodyEndpoint(String body, String Endpoint) {
-        endpoint_Rest = Endpoint;
-        BODY = body;
-        PUT = "put";
-
-        return given()
-                .urlEncodingEnabled(false).log().all()
-                .contentType(ContentType.JSON)
-                .body(body)
-                .when()
-                .post(Endpoint)
-                .then()
-                .log().status().log().body().assertThat();
 
 
     }
 
-    public ValidatableResponse PutParamHeaderBodyEndpoint(String body, String Endpoint) {
-        endpoint_Rest = Endpoint;
-        BODY = body;
-        PUT = "put";
-
-        return given()
-                .contentType(ContentType.JSON).log().all()
-                .urlEncodingEnabled(false)
-                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                .body(body)
-                .when()
-                .post(Endpoint)
-                .then()
-                .log().status().log().body().assertThat();
-
-
-    }
-
-    public ValidatableResponse PutParamHeaderBody(String body) {
-        BODY = body;
-        PUT = "put";
-
-        return given()
-                .contentType(ContentType.JSON).log().all()
-                .urlEncodingEnabled(false)
-                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                .body(body)
-                .when()
-                .post()
-                .then()
-                .log().status().log().body().assertThat();
-
-
-    }
-
-    public ValidatableResponse PutParamBodyEndpoint(String body, String Endpoint) {
-        endpoint_Rest = Endpoint;
-        BODY = body;
-        PUT = "put";
-
-        return given()
-                .contentType(ContentType.JSON).log().all()
-                .urlEncodingEnabled(false)
-                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                .body(body)
-                .when()
-                .post(Endpoint)
-                .then()
-                .log().status().log().body().assertThat();
-
-
-    }
-
-    public ValidatableResponse PutParamBody(String body) {
-        BODY = body;
-        PUT = "put";
-
-        return given()
-                .contentType(ContentType.JSON).log().all()
-                .urlEncodingEnabled(false)
-                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                .body(body)
-                .when()
-                .post()
-                .then()
-                .log().status().log().body().assertThat();
-
-
-    }
-
-    public ValidatableResponse PutHeaderBody(String body) {
-        BODY = body;
-        PUT = "put";
-
-        return given()
-                .log().all().urlEncodingEnabled(false)
-                .contentType(ContentType.JSON)
-                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                .body(body)
-                .when()
-                .post()
-                .then()
-                .log().status().log().body().assertThat();
-
-
-    }
-
-    public ValidatableResponse PutHeaderBodyEndpoint(String body, String Endpoint) {
+    public ValidatableResponse PutBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
         BODY = body;
         PUT = "put";
+        try {
+            return given()
+                    .urlEncodingEnabled(false).log().all()
+                    .contentType(ContentType.JSON)
+                    .body(body)
+                    .when()
+                    .post(Endpoint)
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
 
-        return given()
-                .log().all().urlEncodingEnabled(false)
-                .contentType(ContentType.JSON)
-                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                .body(body)
-                .when()
-                .post(Endpoint)
-                .then()
-                .log().status().log().body().assertThat();
-
-
-    }
-
-    public ValidatableResponse Delete() {
-        return given()
-                .log().all().urlEncodingEnabled(false)
-                .contentType(ContentType.JSON)
-                .when().delete()
-                .then()
-                .log().status().log().body().assertThat();
 
 
     }
 
-    public ValidatableResponse DeleteEndpoint(String Endpoint) {
+    public ValidatableResponse PutParamHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
-        return given()
-                .log().all().urlEncodingEnabled(false)
-                .contentType(ContentType.JSON)
-                .when().delete(Endpoint)
-                .then()
-                .log().status().log().body().assertThat();
+        BODY = body;
+        PUT = "put";
+        try {
+            return given()
+                    .contentType(ContentType.JSON).log().all()
+                    .urlEncodingEnabled(false)
+                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .body(body)
+                    .when()
+                    .post(Endpoint)
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
+
 
 
     }
 
-    public ValidatableResponse DeleteParam() {
-        return given()
-                .log().all().urlEncodingEnabled(false)
-                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                .contentType(ContentType.JSON)
-                .when().delete()
-                .then()
-                .log().status().log().body().assertThat();
+    public ValidatableResponse PutParamHeaderBody(String body) throws IOException, BradescoException {
+        BODY = body;
+        PUT = "put";
+        try {
+            return given()
+                    .contentType(ContentType.JSON).log().all()
+                    .urlEncodingEnabled(false)
+                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .body(body)
+                    .when()
+                    .post()
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
 
 
     }
 
-    public ValidatableResponse DeleteParamEndpoint(String Endpoint) {
+    public ValidatableResponse PutParamBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
-        return given()
-                .log().all().urlEncodingEnabled(false)
-                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                .contentType(ContentType.JSON)
-                .when().delete(Endpoint)
-                .then()
-                .log().status().log().body().assertThat();
+        BODY = body;
+        PUT = "put";
+        try {
+            return given()
+                    .contentType(ContentType.JSON).log().all()
+                    .urlEncodingEnabled(false)
+                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .body(body)
+                    .when()
+                    .post(Endpoint)
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
 
-
-    }
-
-    public ValidatableResponse DeleteParamHeader() {
-        return given()
-                .log().all().urlEncodingEnabled(false)
-                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                .contentType(ContentType.JSON)
-                .when().delete()
-                .then()
-                .log().status().log().body().assertThat();
 
 
     }
 
-    public ValidatableResponse DeleteHeader() {
-        return given()
-                .log().all().urlEncodingEnabled(false)
-                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                .contentType(ContentType.JSON)
-                .when().delete()
-                .then()
-                .log().status().log().body().assertThat();
+    public ValidatableResponse PutParamBody(String body) throws IOException, BradescoException {
+        BODY = body;
+        PUT = "put";
+        try {
+            return given()
+                    .contentType(ContentType.JSON).log().all()
+                    .urlEncodingEnabled(false)
+                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .body(body)
+                    .when()
+                    .post()
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
 
 
     }
 
-    public ValidatableResponse DeleteHeaderEndpoint(String Endpoint) {
+    public ValidatableResponse PutHeaderBody(String body) throws IOException, BradescoException {
+        BODY = body;
+        PUT = "put";
+        try {
+            return given()
+                    .log().all().urlEncodingEnabled(false)
+                    .contentType(ContentType.JSON)
+                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .body(body)
+                    .when()
+                    .post()
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
+
+
+    }
+
+    public ValidatableResponse PutHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
-        return given()
-                .log().all().urlEncodingEnabled(false)
-                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                .contentType(ContentType.JSON)
-                .when().delete(Endpoint)
-                .then()
-                .log().status().log().body().assertThat();
+        BODY = body;
+        PUT = "put";
+        try {
+            return given()
+                    .log().all().urlEncodingEnabled(false)
+                    .contentType(ContentType.JSON)
+                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .body(body)
+                    .when()
+                    .post(Endpoint)
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
+
 
     }
 
-    public ValidatableResponse DeleteParamHeaderEndpoint(String Endpoint) {
+    public ValidatableResponse Delete() throws IOException, BradescoException {
+        try {
+            return given()
+                    .log().all().urlEncodingEnabled(false)
+                    .contentType(ContentType.JSON)
+                    .when().delete()
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
+
+
+    }
+
+    public ValidatableResponse DeleteEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
-        return given()
-                .log().all().urlEncodingEnabled(false)
-                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                .contentType(ContentType.JSON)
-                .when().delete(Endpoint)
-                .then()
-                .log().status().log().body().assertThat();
+        try {
+            return given()
+                    .log().all().urlEncodingEnabled(false)
+                    .contentType(ContentType.JSON)
+                    .when().delete(Endpoint)
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
+
+
+    }
+
+    public ValidatableResponse DeleteParam() throws IOException, BradescoException {
+        try {
+            return given()
+                    .log().all().urlEncodingEnabled(false)
+                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .contentType(ContentType.JSON)
+                    .when().delete()
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
+
+
+    }
+
+    public ValidatableResponse DeleteParamEndpoint(String Endpoint) throws IOException, BradescoException {
+        endpoint_Rest = Endpoint;
+        try {
+            return given()
+                    .log().all().urlEncodingEnabled(false)
+                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .contentType(ContentType.JSON)
+                    .when().delete(Endpoint)
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
+
+
+    }
+
+    public ValidatableResponse DeleteParamHeader() throws IOException, BradescoException {
+        try {
+            return given()
+                    .log().all().urlEncodingEnabled(false)
+                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .contentType(ContentType.JSON)
+                    .when().delete()
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
+
+
+    }
+
+    public ValidatableResponse DeleteHeader() throws IOException, BradescoException {
+        try {
+            return given()
+                    .log().all().urlEncodingEnabled(false)
+                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .contentType(ContentType.JSON)
+                    .when().delete()
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
+
+
+    }
+
+    public ValidatableResponse DeleteHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
+        endpoint_Rest = Endpoint;
+        try {
+            return given()
+                    .log().all().urlEncodingEnabled(false)
+                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .contentType(ContentType.JSON)
+                    .when().delete(Endpoint)
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
+
+    }
+
+    public ValidatableResponse DeleteParamHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
+        endpoint_Rest = Endpoint;
+        try {
+            return given()
+                    .log().all().urlEncodingEnabled(false)
+                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .contentType(ContentType.JSON)
+                    .when().delete(Endpoint)
+                    .then()
+                    .log().status().log().body().assertThat();
+        } finally {
+            ReportBradesco();
+        }
+
 
     }
 
     public void ReportBradesco() throws BradescoException, IOException {
 
         Response response;
-        System.out.println("-------------------------------------\n Iniciando Report CI&T Bradesco...  ");
+        System.out.println("-------------------------------------\n Iniciando Report CI&T Bradesco... \n ------------------------------------- ");
 
         if (BODY == null) {
             System.out.println("Report GET sendo executado...");
