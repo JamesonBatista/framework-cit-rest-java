@@ -44,17 +44,12 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse Get() {
-        try {
-            return given()
-                    .urlEncodingEnabled(false).log().all()
-                    .when()
-                    .get()
-                    .then()
-                    .log().body().assertThat();
-
-        } finally {
-            reset();
-        }
+        return given()
+                .urlEncodingEnabled(false).log().all()
+                .when()
+                .get()
+                .then()
+                .log().body().assertThat();
 
     }
 
