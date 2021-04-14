@@ -40,13 +40,20 @@ public class CITFrameworkRestAssured {
         RestAssured.useRelaxedHTTPSValidation();
     }
 
-    public ValidatableResponse Get() {
-        return given()
-                .urlEncodingEnabled(false).log().all()
-                .when()
-                .get()
-                .then()
-                .log().status().log().body().assertThat();
+    public ValidatableResponse Get() throws IOException, BradescoException {
+        try {
+            return given()
+                    .urlEncodingEnabled(false).log().all()
+                    .when()
+                    .get()
+                    .then()
+                    .log().status().log().body().assertThat();
+
+        } finally {
+            ReportBradesco();
+
+        }
+
 
     }
 
@@ -508,34 +515,28 @@ public class CITFrameworkRestAssured {
 
     }
 
-    public void ReportBradesco(Scenario scenario) throws BradescoException, IOException {
+    public void ReportBradesco() throws BradescoException, IOException {
 
         Response response;
-        System.out.println("-------------------------------------\n Iniciando Report CI&T Bradesco...  " + scenario.getStatus().toUpperCase() + "\n" + scenario.getName().toUpperCase() + "   \n-------------------------------------");
+        System.out.println("-------------------------------------\n Iniciando Report CI&T Bradesco...  ");
 
-        if (scenario.isFailed()) {
+        if (BODY == null) {
+            System.out.println("Report GET sendo executado...");
+            response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).when().get(endpoint_Rest).then().extract().response();
+            BradescoReporter.reportEvent(HttpRequestEvent.getRequest(ENDPOINT, response.getBody().asString()));
+        } else if (PUT != null) {
+            System.out.println("Report PUT sendo executado...");
+            response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).body(BODY).when().put(endpoint_Rest).then().extract().response();
+            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(ENDPOINT, BODY, response.getBody().asString()));
 
-            if (MENSAGEM_REPORT_ERROR != "") {
-                BradescoReporter.report(ReportStatus.ERROR, MENSAGEM_REPORT_ERROR);
-            }
         } else {
-            if (BODY == null) {
-                System.out.println("Report GET sendo executado...");
-                response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).when().get(endpoint_Rest).then().extract().response();
-                BradescoReporter.reportEvent(HttpRequestEvent.getRequest(ENDPOINT, response.getBody().asString()));
-            } else if (PUT != null) {
-                System.out.println("Report PUT sendo executado...");
-                response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).body(BODY).when().put(endpoint_Rest).then().extract().response();
-                BradescoReporter.reportEvent(HttpRequestEvent.postRequest(ENDPOINT, BODY, response.getBody().asString()));
-
-            } else {
-                System.out.println("Report POST sendo executado...");
-                response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).body(BODY).when().post(endpoint_Rest).then().extract().response();
-                BradescoReporter.reportEvent(HttpRequestEvent.postRequest(ENDPOINT, BODY, response.getBody().asString()));
-            }
-            System.out.println("Report Bradesco gerado no path: " + GetProp().getProperty("excludReport"));
-
+            System.out.println("Report POST sendo executado...");
+            response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).body(BODY).when().post(endpoint_Rest).then().extract().response();
+            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(ENDPOINT, BODY, response.getBody().asString()));
         }
+        System.out.println("Report Bradesco gerado no path: " + GetProp().getProperty("excludReport"));
+
+
         PARAM.clear();
         HEADERS.clear();
         BODY = null;
