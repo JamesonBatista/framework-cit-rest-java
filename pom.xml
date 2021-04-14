@@ -6,7 +6,7 @@
 
     <groupId>com.cit.framework</groupId>
     <artifactId>framework-cit-rest-java</artifactId>
-    <version>1.30</version>
+    <version>2.0</version>
 
     <properties>
         <maven.compiler.source>14</maven.compiler.source>
@@ -21,11 +21,6 @@
     </distributionManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>br.com.bradesco.gccs.automacao</groupId>
-            <artifactId>gccs-lib-framework-automacao</artifactId>
-            <version>1.13.0</version>
-        </dependency>
 
         <dependency>
             <groupId>io.rest-assured</groupId>
