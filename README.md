@@ -11,7 +11,7 @@ baixará as dependências necessárias*
 > public class StepUser extends CITFrameworkRestAssured{}
     
     
-######E chamar o metodo que você quer, Ex:
+###### Echamar o metodo que você quer, Ex:
 ```
 PostParam();
 ```
@@ -46,7 +46,7 @@ seguida altere o **excludReport** para o local onde deixou no setup.properties
     
 Automaticamente será decidido entre GET e POST a criação do Report. 
 
-######Em caso de POST, **SEMPRE** passar o valor do body dentro do método chamado Ex:
+###### Em caso de POST, **SEMPRE** passar o valor do body dentro do método chamado Ex:
 ```
 PostHeaderBody(body).body("data.name", is("CIT"));
 ```
