@@ -3,8 +3,6 @@ package com.cit.framework;
 import com.bradesco.core.exception.BradescoException;
 import com.bradesco.core.report.BradescoReporter;
 import com.bradesco.core.report.model.HttpRequestEvent;
-import com.bradesco.core.sdk.enums.ReportStatus;
-import cucumber.api.Scenario;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
@@ -30,12 +28,20 @@ public class CITFrameworkRestAssured {
     public static Map<String, Object> HEADERS = new HashMap<>();
 
 
-    public void InitialEndpoint(String Endpoint) throws IOException {
+    public void RestEnvironment(String Endpoint) throws IOException {
         ExcludReportBradesco();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         baseURI = Constantes.selecionaAmbiente() + Endpoint;
         RestAssured.useRelaxedHTTPSValidation();
     }
+
+    public void RestEnvironment() throws IOException {
+        ExcludReportBradesco();
+        enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
+        baseURI = Constantes.selecionaAmbiente();
+        RestAssured.useRelaxedHTTPSValidation();
+    }
+
 
     public ValidatableResponse Get() throws IOException, BradescoException {
         try {
