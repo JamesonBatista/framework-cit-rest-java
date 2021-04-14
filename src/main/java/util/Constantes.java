@@ -54,14 +54,23 @@ public interface Constantes {
             url = GetProp().getProperty("ti");
         } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "th")) {
             url = GetProp().getProperty("th");
-
         } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "tu_local")) {
             url = GetProp().getProperty("tu_local");
         } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "local")) {
             url = GetProp().getProperty("local");
         } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "prod")) {
             url = GetProp().getProperty("prod");
-        } else {
+        }else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env1")) {
+            url = GetProp().getProperty("env1");
+        }else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env2")) {
+            url = GetProp().getProperty("env2");
+        } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env3")) {
+            url = GetProp().getProperty("env3");
+        }else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env4")) {
+            url = GetProp().getProperty("env4");
+        }
+
+        else {
             throw new BradescoRuntimeException("Ambiente desconhecido: " + environment);
         }
         System.out.println("Ambiente selecionado: " + url + "(" + environment + ")");
