@@ -677,16 +677,16 @@ public class CITFrameworkRestAssured {
         if (BODY == null) {
             System.out.println("Report GET sendo executado...");
             response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).when().get(endpoint_Rest).then().extract().response();
-            BradescoReporter.reportEvent(HttpRequestEvent.getRequest(ENDPOINT, response.getBody().asString()));
+            BradescoReporter.reportEvent(HttpRequestEvent.getRequest(baseURI, response.getBody().asString()));
         } else if (PUT != null) {
             System.out.println("Report PUT sendo executado...");
             response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).body(BODY).when().put(endpoint_Rest).then().extract().response();
-            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(ENDPOINT, BODY, response.getBody().asString()));
+            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(baseURI, BODY, response.getBody().asString()));
 
         } else {
             System.out.println("Report POST sendo executado...");
             response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).body(BODY).when().post(endpoint_Rest).then().extract().response();
-            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(ENDPOINT, BODY, response.getBody().asString()));
+            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(baseURI, BODY, response.getBody().asString()));
         }
         System.out.println("Report Bradesco gerado no path: " + GetProp().getProperty("excludReport"));
 
