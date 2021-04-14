@@ -55,410 +55,319 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse GetEndpoint(String Endpoint) {
         endpoint_Rest = Endpoint;
-        try {
-            return given()
-                    .urlEncodingEnabled(false).log().all()
-                    .when()
-                    .get(Endpoint)
-                    .then()
-                    .log().body().assertThat();
+        return given()
+                .urlEncodingEnabled(false).log().all()
+                .when()
+                .get(Endpoint)
+                .then()
+                .log().body().assertThat();
 
-        } finally {
-            reset();
-
-        }
 
     }
 
     public ValidatableResponse GetParamHeaderEndpoint(String Endpoint) {
         endpoint_Rest = Endpoint;
-        try {
-            return given()
-                    .urlEncodingEnabled(false)
-                    .log().all()
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                    .when()
-                    .get(Endpoint)
-                    .then()
-                    .log().body().assertThat();
-        } finally {
-            reset();
-        }
+        return given()
+                .urlEncodingEnabled(false)
+                .log().all()
+                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                .when()
+                .get(Endpoint)
+                .then()
+                .log().body().assertThat();
+
 
     }
 
     public ValidatableResponse GetParam() {
-        try {
-            return given()
-                    .urlEncodingEnabled(false)
-                    .log().all()
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .when()
-                    .get()
-                    .then()
-                    .log().body().assertThat();
+        return given()
+                .urlEncodingEnabled(false)
+                .log().all()
+                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                .when()
+                .get()
+                .then()
+                .log().body().assertThat();
 
-
-        } finally {
-            reset();
-        }
 
     }
 
     public ValidatableResponse GetParamEndpoint(String Endpoint) {
         endpoint_Rest = Endpoint;
 
-        try {
-            return given().log().all()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .when()
-                    .get(Endpoint)
-                    .then()
-                    .log().body().assertThat();
+        return given().log().all()
+                .urlEncodingEnabled(false)
+                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                .when()
+                .get(Endpoint)
+                .then()
+                .log().body().assertThat();
 
-        } finally {
-            reset();
-        }
 
     }
 
     public ValidatableResponse GetParamHeader() {
-        try {
-            return given()
-                    .urlEncodingEnabled(false)
-                    .log().all()
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                    .when()
-                    .get()
-                    .then()
-                    .log().body().assertThat();
-
-        } finally {
-            reset();
-        }
+        return given()
+                .urlEncodingEnabled(false)
+                .log().all()
+                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                .when()
+                .get()
+                .then()
+                .log().body().assertThat();
 
 
     }
 
     public ValidatableResponse GetHeader() {
-        try {
-            return given()
-                    .urlEncodingEnabled(false)
-                    .log().all()
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                    .when()
-                    .get()
-                    .then()
-                    .log().body().assertThat();
+        return given()
+                .urlEncodingEnabled(false)
+                .log().all()
+                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                .when()
+                .get()
+                .then()
+                .log().body().assertThat();
 
-        } finally {
-            reset();
-        }
 
     }
 
     public ValidatableResponse GetHeaderEndpoint(String Endpoint) {
         endpoint_Rest = Endpoint;
 
-        try {
-            return given().log().all()
-                    .urlEncodingEnabled(false)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                    .when()
-                    .get(Endpoint)
-                    .then()
-                    .log().body().assertThat();
-        } finally {
-            reset();
-        }
+        return given().log().all()
+                .urlEncodingEnabled(false)
+                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                .when()
+                .get(Endpoint)
+                .then()
+                .log().body().assertThat();
+
 
     }
 
     public ValidatableResponse PostBody(String body) {
         BODY = body;
-        try {
-            return given()
-                    .urlEncodingEnabled(false).log().all()
-                    .contentType(ContentType.JSON)
-                    .body(body)
-                    .when()
-                    .post()
-                    .then()
-                    .log().body().assertThat();
+        return given()
+                .urlEncodingEnabled(false).log().all()
+                .contentType(ContentType.JSON)
+                .body(body)
+                .when()
+                .post()
+                .then()
+                .log().body().assertThat();
 
-        } finally {
-            reset();
-        }
 
     }
 
     public ValidatableResponse PostBodyEndpoint(String body, String Endpoint) {
         endpoint_Rest = Endpoint;
         BODY = body;
-        try {
-            return given()
-                    .urlEncodingEnabled(false).log().all()
-                    .contentType(ContentType.JSON)
-                    .body(body)
-                    .when()
-                    .post(Endpoint)
-                    .then()
-                    .log().body().assertThat();
 
-        } finally {
-            reset();
-        }
+        return given()
+                .urlEncodingEnabled(false).log().all()
+                .contentType(ContentType.JSON)
+                .body(body)
+                .when()
+                .post(Endpoint)
+                .then()
+                .log().body().assertThat();
+
 
     }
 
     public ValidatableResponse PostParamHeaderBodyEndpoint(String body, String Endpoint) {
         endpoint_Rest = Endpoint;
         BODY = body;
-        try {
-            return given()
-                    .contentType(ContentType.JSON).log().all()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                    .body(body)
-                    .when()
-                    .post(Endpoint)
-                    .then()
-                    .log().body().assertThat();
+        return given()
+                .contentType(ContentType.JSON).log().all()
+                .urlEncodingEnabled(false)
+                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                .body(body)
+                .when()
+                .post(Endpoint)
+                .then()
+                .log().body().assertThat();
 
-        } finally {
-            reset();
-        }
 
     }
 
     public ValidatableResponse PostParamHeaderBody(String body) {
         BODY = body;
-        try {
-            return given()
-                    .contentType(ContentType.JSON).log().all()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                    .body(body)
-                    .when()
-                    .post()
-                    .then()
-                    .log().body().assertThat();
+        return given()
+                .contentType(ContentType.JSON).log().all()
+                .urlEncodingEnabled(false)
+                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                .body(body)
+                .when()
+                .post()
+                .then()
+                .log().body().assertThat();
 
-        } finally {
-            reset();
-        }
 
     }
 
     public ValidatableResponse PostParamBodyEndpoint(String body, String Endpoint) {
         endpoint_Rest = Endpoint;
         BODY = body;
-        try {
-            return given()
-                    .contentType(ContentType.JSON).log().all()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .body(body)
-                    .when()
-                    .post(Endpoint)
-                    .then()
-                    .log().body().assertThat();
+        return given()
+                .contentType(ContentType.JSON).log().all()
+                .urlEncodingEnabled(false)
+                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                .body(body)
+                .when()
+                .post(Endpoint)
+                .then()
+                .log().body().assertThat();
 
-        } finally {
-            reset();
-        }
 
     }
 
     public ValidatableResponse PostParamBody(String body) {
         BODY = body;
-        try {
-            return given()
-                    .contentType(ContentType.JSON).log().all()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .body(body)
-                    .when()
-                    .post()
-                    .then()
-                    .log().body().assertThat();
+        return given()
+                .contentType(ContentType.JSON).log().all()
+                .urlEncodingEnabled(false)
+                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                .body(body)
+                .when()
+                .post()
+                .then()
+                .log().body().assertThat();
 
-        } finally {
-            reset();
-        }
 
     }
 
     public ValidatableResponse PostHeaderBody(String body) {
         BODY = body;
-        try {
-            return given()
-                    .log().all().urlEncodingEnabled(false)
-                    .contentType(ContentType.JSON)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                    .body(body)
-                    .when()
-                    .post()
-                    .then()
-                    .log().body().assertThat();
+        return given()
+                .log().all().urlEncodingEnabled(false)
+                .contentType(ContentType.JSON)
+                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                .body(body)
+                .when()
+                .post()
+                .then()
+                .log().body().assertThat();
 
-
-        } finally {
-            reset();
-        }
 
     }
 
     public ValidatableResponse PostHeaderBodyEndpoint(String body, String Endpoint) {
         endpoint_Rest = Endpoint;
         BODY = body;
-        try {
-            return given()
-                    .log().all().urlEncodingEnabled(false)
-                    .contentType(ContentType.JSON)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                    .body(body)
-                    .when()
-                    .post(Endpoint)
-                    .then()
-                    .log().body().assertThat();
+        return given()
+                .log().all().urlEncodingEnabled(false)
+                .contentType(ContentType.JSON)
+                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                .body(body)
+                .when()
+                .post(Endpoint)
+                .then()
+                .log().body().assertThat();
 
-        } finally {
-            reset();
-        }
 
     }
 
     public ValidatableResponse Delete() {
-        try {
-            return given()
-                    .log().all().urlEncodingEnabled(false)
-                    .contentType(ContentType.JSON)
-                    .when().delete()
-                    .then()
-                    .log().body().assertThat();
+        return given()
+                .log().all().urlEncodingEnabled(false)
+                .contentType(ContentType.JSON)
+                .when().delete()
+                .then()
+                .log().body().assertThat();
 
-        } finally {
-            reset();
-        }
 
     }
 
     public ValidatableResponse DeleteEndpoint(String Endpoint) {
         endpoint_Rest = Endpoint;
-        try {
-            return given()
-                    .log().all().urlEncodingEnabled(false)
-                    .contentType(ContentType.JSON)
-                    .when().delete(Endpoint)
-                    .then()
-                    .log().body().assertThat();
+        return given()
+                .log().all().urlEncodingEnabled(false)
+                .contentType(ContentType.JSON)
+                .when().delete(Endpoint)
+                .then()
+                .log().body().assertThat();
 
-        } finally {
-            reset();
-        }
 
     }
 
     public ValidatableResponse DeleteParam() {
-        try {
-            return given()
-                    .log().all().urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .contentType(ContentType.JSON)
-                    .when().delete()
-                    .then()
-                    .log().body().assertThat();
+        return given()
+                .log().all().urlEncodingEnabled(false)
+                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                .contentType(ContentType.JSON)
+                .when().delete()
+                .then()
+                .log().body().assertThat();
 
-        } finally {
-            reset();
-        }
 
     }
 
     public ValidatableResponse DeleteParamEndpoint(String Endpoint) {
         endpoint_Rest = Endpoint;
-        try {
-            return given()
-                    .log().all().urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .contentType(ContentType.JSON)
-                    .when().delete(Endpoint)
-                    .then()
-                    .log().body().assertThat();
-        } finally {
-            reset();
-        }
+        return given()
+                .log().all().urlEncodingEnabled(false)
+                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                .contentType(ContentType.JSON)
+                .when().delete(Endpoint)
+                .then()
+                .log().body().assertThat();
+
 
     }
 
     public ValidatableResponse DeleteParamHeader() {
-        try {
-            return given()
-                    .log().all().urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                    .contentType(ContentType.JSON)
-                    .when().delete()
-                    .then()
-                    .log().body().assertThat();
+        return given()
+                .log().all().urlEncodingEnabled(false)
+                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                .contentType(ContentType.JSON)
+                .when().delete()
+                .then()
+                .log().body().assertThat();
 
-        } finally {
-            reset();
-        }
 
     }
 
     public ValidatableResponse DeleteHeader() {
-        try {
-            return given()
-                    .log().all().urlEncodingEnabled(false)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                    .contentType(ContentType.JSON)
-                    .when().delete()
-                    .then()
-                    .log().body().assertThat();
-        } finally {
-            reset();
-        }
+        return given()
+                .log().all().urlEncodingEnabled(false)
+                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                .contentType(ContentType.JSON)
+                .when().delete()
+                .then()
+                .log().body().assertThat();
+
 
     }
 
     public ValidatableResponse DeleteHeaderEndpoint(String Endpoint) {
         endpoint_Rest = Endpoint;
-        try {
-            return given()
-                    .log().all().urlEncodingEnabled(false)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                    .contentType(ContentType.JSON)
-                    .when().delete(Endpoint)
-                    .then()
-                    .log().body().assertThat();
-        } finally {
-            reset();
-        }
+        return given()
+                .log().all().urlEncodingEnabled(false)
+                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                .contentType(ContentType.JSON)
+                .when().delete(Endpoint)
+                .then()
+                .log().body().assertThat();
 
     }
 
     public ValidatableResponse DeleteParamHeaderEndpoint(String Endpoint) {
         endpoint_Rest = Endpoint;
-        try {
-            return given()
-                    .log().all().urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
-                    .contentType(ContentType.JSON)
-                    .when().delete(Endpoint)
-                    .then()
-                    .log().body().assertThat();
-        } finally {
-            reset();
-        }
+        return given()
+                .log().all().urlEncodingEnabled(false)
+                .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                .contentType(ContentType.JSON)
+                .when().delete(Endpoint)
+                .then()
+                .log().body().assertThat();
 
     }
 
