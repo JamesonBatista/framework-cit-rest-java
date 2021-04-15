@@ -1,4 +1,8 @@
 #### A versão 3.0 é a versão sem o Report a 3.1 é com o Report
+
+
+>> Todas as funções da versão 3.0 estão na 3.1, única mudança é que a 3.1 usa o Report no final.
+> Caso não precise usar o Report, use a 3.0.
 ```bazaar
         <dependency>
             <groupId>com.cit.framework</groupId>
@@ -169,5 +173,3 @@ public class GetUser extends CITFrameworkRestAssured {
 ```
 > *Ao final de cada método chamado, o ReportBradesco será executado automaticamente*
    
- >> Todas as funções da versão 3.0 estão na 3.1, única mudança é que a 3.1 usa o Report no final.
- > Caso não precise usar o Report, use a 3.0.
