@@ -9,9 +9,9 @@
 
 # framework-cit-rest-java
 
-*Para baixar o maven, necessário ter o arquivo settings.xml configurado, dentro de sua pasta .m2 .*
+*Para baixar o maven 3.1, necessário ter o arquivo settings.xml configurado, dentro de sua pasta .m2 .*
 
-*Se sua Chave não tiver acesso ao Nexus Bradesco, solicite, do contrário o maven não baixará as dependências
+*Se sua Chave não tiver acesso , solicite, do contrário o maven não baixará as dependências
 necessárias*
 
 #### Para usar o Framework, basta extender o frame no seu step, Ex:
@@ -169,4 +169,5 @@ public class GetUser extends CITFrameworkRestAssured {
 ```
 > *Ao final de cada método chamado, o ReportBradesco será executado automaticamente*
    
- 
+ >> Todas as funções da versão 3.0 estão na 3.1, única mudança é que a 3.1 usa o Report no final.
+ > Caso não precise usar o Report, use a 3.0.
