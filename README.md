@@ -1,3 +1,12 @@
+#### A versão 3.0 é a versão sem o Report a 3.1 é com o Report
+```bazaar
+        <dependency>
+            <groupId>com.cit.framework</groupId>
+            <artifactId>framework-cit-rest-java</artifactId>
+            <version>3.0</version>
+        </dependency>
+```
+
 # framework-cit-rest-java
 
 *Para baixar o maven, necessário ter o arquivo settings.xml configurado, dentro de sua pasta .m2 .*
