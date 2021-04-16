@@ -360,7 +360,7 @@ public class CITFrameworkRestAssured {
                     .contentType(ContentType.JSON)
                     .body(body)
                     .when()
-                    .post()
+                    .put()
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
@@ -380,7 +380,7 @@ public class CITFrameworkRestAssured {
                     .contentType(ContentType.JSON)
                     .body(body)
                     .when()
-                    .post(Endpoint)
+                    .put(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
@@ -402,7 +402,7 @@ public class CITFrameworkRestAssured {
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
                     .body(body)
                     .when()
-                    .post(Endpoint)
+                    .put(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
@@ -423,7 +423,7 @@ public class CITFrameworkRestAssured {
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
                     .body(body)
                     .when()
-                    .post()
+                    .put()
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
@@ -444,7 +444,7 @@ public class CITFrameworkRestAssured {
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
                     .body(body)
                     .when()
-                    .post(Endpoint)
+                    .put(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
@@ -464,7 +464,7 @@ public class CITFrameworkRestAssured {
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
                     .body(body)
                     .when()
-                    .post()
+                    .put()
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
@@ -484,7 +484,7 @@ public class CITFrameworkRestAssured {
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
                     .body(body)
                     .when()
-                    .post()
+                    .put()
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
@@ -505,7 +505,7 @@ public class CITFrameworkRestAssured {
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
                     .body(body)
                     .when()
-                    .post(Endpoint)
+                    .put(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
         } finally {
