@@ -3,6 +3,7 @@ package com.cit.framework;
 import com.bradesco.core.exception.BradescoException;
 import com.bradesco.core.report.BradescoReporter;
 import com.bradesco.core.report.model.HttpRequestEvent;
+import com.bradesco.core.sdk.enums.ReportStatus;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
@@ -666,26 +667,30 @@ public class CITFrameworkRestAssured {
     static void ReportBradesco() throws BradescoException, IOException {
 
         Response response;
-        System.out.println("-------------------------------------\n Iniciando Report CI&T Bradesco... \n ------------------------------------- ");
+        System.out.println("----------------------------------------\nIniciando Report CI&T Bradesco\n----------------------------------------");
 
         if (BODY == null && DELETE == null && PUT == null) {
             System.out.println("Report GET sendo executado...");
             response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).when().get(endpoint_Rest).then().extract().response();
+            BradescoReporter.report(ReportStatus.PASSED, "GET executado, abaixo evidências:");
             BradescoReporter.reportEvent(HttpRequestEvent.getRequest(baseURI, response.getBody().asString()));
         } else if (PUT != null) {
             System.out.println("Report PUT sendo executado...");
             response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).body(BODY).when().put(endpoint_Rest).then().extract().response();
+            BradescoReporter.report(ReportStatus.PASSED, "PUT executado, abaixo evidências:");
             BradescoReporter.reportEvent(HttpRequestEvent.postRequest(baseURI, BODY, response.getBody().asString()));
 
         } else if (DELETE != null) {
             System.out.println("Report DELETE sendo executado...\n Não existe Report Bradesco para Delete.");
+            BradescoReporter.report(ReportStatus.PASSED, "DELETE executado, ainda não há report Bradesco para o Delete");
 
         } else {
             System.out.println("Report POST sendo executado...");
             response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).body(BODY).when().post(endpoint_Rest).then().extract().response();
+            BradescoReporter.report(ReportStatus.PASSED, "POST executado, abaixo evidências:");
             BradescoReporter.reportEvent(HttpRequestEvent.postRequest(baseURI, BODY, response.getBody().asString()));
         }
-        System.out.println("Report Bradesco gerado no path: " + GetProp().getProperty("excludReport"));
+        System.out.println("Report Bradesco gerado no path: ***" + GetProp().getProperty("excludReport") + "***");
 
 
         PARAM.clear();
