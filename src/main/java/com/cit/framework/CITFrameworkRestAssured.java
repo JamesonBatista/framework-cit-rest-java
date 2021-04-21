@@ -24,6 +24,7 @@ public class CITFrameworkRestAssured {
     static String BODY = null;
     static String endpoint_Rest = "";
     static String PUT = null;
+    static String DELETE = null;
     public static Map<String, Object> PARAM = new HashMap<>();
     public static Map<String, Object> HEADERS = new HashMap<>();
 
@@ -516,6 +517,7 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse Delete() throws IOException, BradescoException {
+        DELETE = null;
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -532,6 +534,8 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse DeleteEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
+        DELETE = null;
+
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -547,6 +551,8 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse DeleteParam() throws IOException, BradescoException {
+        DELETE = null;
+
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -564,6 +570,8 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse DeleteParamEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
+        DELETE = null;
+
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -580,6 +588,8 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse DeleteParamHeader() throws IOException, BradescoException {
+        DELETE = null;
+
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -597,6 +607,8 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse DeleteHeader() throws IOException, BradescoException {
+        DELETE = null;
+
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -614,6 +626,8 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse DeleteHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
+        DELETE = null;
+
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -631,6 +645,8 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse DeleteParamHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
+        DELETE = null;
+
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -652,7 +668,7 @@ public class CITFrameworkRestAssured {
         Response response;
         System.out.println("-------------------------------------\n Iniciando Report CI&T Bradesco... \n ------------------------------------- ");
 
-        if (BODY == null) {
+        if (BODY == null && DELETE == null && PUT == null) {
             System.out.println("Report GET sendo executado...");
             response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).when().get(endpoint_Rest).then().extract().response();
             BradescoReporter.reportEvent(HttpRequestEvent.getRequest(baseURI, response.getBody().asString()));
@@ -660,6 +676,9 @@ public class CITFrameworkRestAssured {
             System.out.println("Report PUT sendo executado...");
             response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).body(BODY).when().put(endpoint_Rest).then().extract().response();
             BradescoReporter.reportEvent(HttpRequestEvent.postRequest(baseURI, BODY, response.getBody().asString()));
+
+        } else if (DELETE != null) {
+            System.out.println("Report DELETE sendo executado...\n Não existe Report Bradesco para Delete.");
 
         } else {
             System.out.println("Report POST sendo executado...");
@@ -672,6 +691,8 @@ public class CITFrameworkRestAssured {
         PARAM.clear();
         HEADERS.clear();
         BODY = null;
+        PUT = null;
+        DELETE = null;
     }
 
     static void ExcludReportBradesco() throws IOException {
