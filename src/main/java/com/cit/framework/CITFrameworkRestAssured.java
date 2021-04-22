@@ -697,7 +697,7 @@ public class CITFrameworkRestAssured {
 
         } else if (DELETE != null) {
             System.out.println("Report DELETE sendo executado...");
-            BradescoReporter.report(ReportStatus.PASSED, "DELETE executado.");
+            BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências.");
             response = given()
                     .contentType(ContentType.JSON)
                     .when().delete(endpoint_Rest)
@@ -748,7 +748,7 @@ public class CITFrameworkRestAssured {
     }
 
     public static Event DeleteRequest(String url, String response) throws BradescoException {
-        return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), response == null ? "Status: " + HttpStatus.SC_OK : response);
+        return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), "Status: " + HttpStatus.SC_OK);
     }
 }
 
