@@ -732,16 +732,7 @@ public class CITFrameworkRestAssured {
         DELETE = null;
     }
 
-    static void ExcludReportBradesco() throws IOException {
-        // Método irá excluir todos os Reports antigos
-        File folder = new File(GetProp().getProperty("excludReport"));
-        if (folder.isDirectory()) {
-            File[] sun = folder.listFiles();
-            for (File toDelete : sun) {
-                toDelete.delete();
-            }
-        }
-    }
+
 
     public static Event PutRequest(String url, String bodyAsString, String response) throws BradescoException {
         return new HttpRequestEvent(ReportStatus.OK, "PUT", url, Optional.of(bodyAsString), response);
