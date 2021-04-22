@@ -521,7 +521,7 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse Delete() throws IOException, BradescoException {
-        DELETE = null;
+        DELETE = "delete";
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -538,8 +538,7 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse DeleteEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
-        DELETE = null;
-
+        DELETE = "delete";
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -555,8 +554,7 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse DeleteParam() throws IOException, BradescoException {
-        DELETE = null;
-
+        DELETE = "delete";
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -574,8 +572,7 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse DeleteParamEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
-        DELETE = null;
-
+        DELETE = "delete";
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -592,8 +589,7 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse DeleteParamHeader() throws IOException, BradescoException {
-        DELETE = null;
-
+        DELETE = "delete";
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -611,8 +607,7 @@ public class CITFrameworkRestAssured {
     }
 
     public ValidatableResponse DeleteHeader() throws IOException, BradescoException {
-        DELETE = null;
-
+        DELETE = "delete";
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -630,8 +625,7 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse DeleteHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
-        DELETE = null;
-
+        DELETE = "delete";
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
@@ -649,8 +643,7 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse DeleteParamHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
-        DELETE = null;
-
+        DELETE = "delete";
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
