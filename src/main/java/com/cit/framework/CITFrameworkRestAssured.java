@@ -11,6 +11,7 @@ import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
+import org.apache.http.HttpStatus;
 import util.Constantes;
 
 import java.io.File;
@@ -662,39 +663,66 @@ public class CITFrameworkRestAssured {
 
     static void ReportBradesco() throws BradescoException, IOException {
 
-        Response response = null;
+        String response;
         System.out.println("----------------------------------------\n     Iniciando Report CI&T Bradesco\n----------------------------------------");
 
         if (BODY == null && DELETE == null && PUT == null) {
             System.out.println("Report GET sendo executado...");
-            response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).when().get(endpoint_Rest).then().extract().response();
+            response = given()
+                    .urlEncodingEnabled(false)
+                    .queryParams(PARAM)
+                    .headers(HEADERS)
+                    .when()
+                    .get(endpoint_Rest)
+                    .then()
+                    .extract()
+                    .response()
+                    .asString();
             BradescoReporter.report(ReportStatus.PASSED, "GET executado, abaixo evidências:");
-            BradescoReporter.reportEvent(HttpRequestEvent.getRequest(baseURI, response.getBody().asString()));
+            BradescoReporter.reportEvent(HttpRequestEvent.getRequest(baseURI, response));
         } else if (PUT != null) {
             System.out.println("Report PUT sendo executado...");
-            response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).body(BODY).when().put(endpoint_Rest).then().extract().response();
+            response = given()
+                    .urlEncodingEnabled(false)
+                    .queryParams(PARAM)
+                    .headers(HEADERS)
+                    .body(BODY)
+                    .when()
+                    .put(endpoint_Rest)
+                    .then()
+                    .extract().response()
+                    .asString();
             BradescoReporter.report(ReportStatus.PASSED, "PUT executado, abaixo evidências:");
-            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(baseURI, BODY, response.getBody().asString()));
+            BradescoReporter.reportEvent(PutRequest(RestAssured.baseURI, BODY, response));
 
         } else if (DELETE != null) {
-            System.out.println("Report DELETE sendo executado...\n Não existe Report Bradesco para Delete.");
-            BradescoReporter.report(ReportStatus.PASSED, "DELETE executado, ainda não há report Bradesco para o Delete");
-//             new HttpRequestEvent(ReportStatus.OK, "DELETE", endpoint_Rest, response.getBody().asString());
+            System.out.println("Report DELETE sendo executado...");
+            BradescoReporter.report(ReportStatus.PASSED, "DELETE executado.");
+            response = given()
+                    .contentType(ContentType.JSON)
+                    .when().delete(endpoint_Rest)
+                    .then()
+                    .extract().response()
+                    .asString();
+
+            BradescoReporter.reportEvent(DeleteRequest(RestAssured.baseURI, response));
+
         } else {
             System.out.println("Report POST sendo executado...");
-            response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).body(BODY).when().post(endpoint_Rest).then().extract().response();
+            response = given().urlEncodingEnabled(false)
+                    .queryParams(PARAM)
+                    .headers(HEADERS)
+                    .body(BODY)
+                    .when()
+                    .post(endpoint_Rest)
+                    .then()
+                    .extract()
+                    .response()
+                    .asString();
             BradescoReporter.report(ReportStatus.PASSED, "POST executado, abaixo evidências:");
-            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(baseURI, BODY, response.getBody().asString()));
+            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(baseURI, BODY, response));
         }
         System.out.println("Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***");
-
-//        public static Event getRequest(String url, RestResponse response) throws BradescoException {
-//            return new HttpRequestEvent(ReportStatus.OK, "GET", url, Optional.empty(), (String)response.getBodyAs(String.class));
-//        }
-//
-//        public static Event postRequest(String url, String bodyAsString, RestResponse response) throws BradescoException {
-//            return new HttpRequestEvent(ReportStatus.OK, "POST", url, Optional.of(bodyAsString), (String)response.getBodyAs(String.class));
-//        }
 
 
         PARAM.clear();
@@ -713,6 +741,14 @@ public class CITFrameworkRestAssured {
                 toDelete.delete();
             }
         }
+    }
+
+    public static Event PutRequest(String url, String bodyAsString, String response) throws BradescoException {
+        return new HttpRequestEvent(ReportStatus.OK, "PUT", url, Optional.of(bodyAsString), response);
+    }
+
+    public static Event DeleteRequest(String url, String response) throws BradescoException {
+        return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), response == null ? "Status: " + HttpStatus.SC_OK : response);
     }
 }
 
