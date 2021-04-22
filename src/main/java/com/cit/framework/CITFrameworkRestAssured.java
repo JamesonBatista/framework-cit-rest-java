@@ -35,14 +35,14 @@ public class CITFrameworkRestAssured {
 
 
     public void RestEnvironment(String Endpoint) throws IOException {
-        ExcludReportBradesco();
+//        ExcludReportBradesco();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         baseURI = Constantes.selecionaAmbiente() + Endpoint;
         RestAssured.useRelaxedHTTPSValidation();
     }
 
     public void RestEnvironment() throws IOException {
-        ExcludReportBradesco();
+//        ExcludReportBradesco();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         baseURI = Constantes.selecionaAmbiente();
         RestAssured.useRelaxedHTTPSValidation();
