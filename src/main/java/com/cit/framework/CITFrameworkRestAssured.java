@@ -679,7 +679,7 @@ public class CITFrameworkRestAssured {
         } else if (DELETE != null) {
             System.out.println("Report DELETE sendo executado...\n Não existe Report Bradesco para Delete.");
             BradescoReporter.report(ReportStatus.PASSED, "DELETE executado, ainda não há report Bradesco para o Delete");
-            new HttpRequestEvent(ReportStatus.OK, "DELETE", endpoint_Rest, Optional.empty(), response.asString());
+//             new HttpRequestEvent(ReportStatus.OK, "DELETE", endpoint_Rest, response.getBody().asString());
         } else {
             System.out.println("Report POST sendo executado...");
             response = given().urlEncodingEnabled(false).queryParams(PARAM).headers(HEADERS).body(BODY).when().post(endpoint_Rest).then().extract().response();
