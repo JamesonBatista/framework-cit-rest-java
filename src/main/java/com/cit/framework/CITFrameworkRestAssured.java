@@ -697,7 +697,7 @@ public class CITFrameworkRestAssured {
 
         } else if (DELETE != null) {
             System.out.println("Report DELETE sendo executado...");
-            BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências.");
+            BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
             response = given()
                     .contentType(ContentType.JSON)
                     .when().delete(endpoint_Rest)
