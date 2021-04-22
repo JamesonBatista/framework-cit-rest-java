@@ -1,3 +1,4 @@
-util/FileProperties.class
+com/cit/framework/Exclud.class
 com/cit/framework/CITFrameworkRestAssured.class
 util/Constantes.class
+util/FileProperties.class
