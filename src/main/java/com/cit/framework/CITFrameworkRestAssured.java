@@ -35,7 +35,6 @@ public class CITFrameworkRestAssured {
 
 
     public void RestEnvironment(String Endpoint) throws IOException {
-        ExcludReportBradesco();
         RestAssured.reset();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         baseURI = Constantes.selecionaAmbiente() + Endpoint;
@@ -43,7 +42,6 @@ public class CITFrameworkRestAssured {
     }
 
     public void RestEnvironment() throws IOException {
-        ExcludReportBradesco();
         RestAssured.reset();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         baseURI = Constantes.selecionaAmbiente();
@@ -737,24 +735,14 @@ public class CITFrameworkRestAssured {
 
 
 
-    public static Event PutRequest(String url, String bodyAsString, String response) throws BradescoException {
+     static Event PutRequest(String url, String bodyAsString, String response) throws BradescoException {
         return new HttpRequestEvent(ReportStatus.OK, "PUT", url, Optional.of(bodyAsString), response);
     }
 
-    public static Event DeleteRequest(String url, String response) throws BradescoException {
+     static Event DeleteRequest(String url, String response) throws BradescoException {
         return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), "Status: " + HttpStatus.SC_OK);
     }
 
-    public  void ExcludReportBradesco() throws IOException {
-        // Método irá excluir todos os Reports antigos
-        File folder = new File(GetProp().getProperty("excludReport"));
-        if (folder.isDirectory()) {
-            File[] sun = folder.listFiles();
-            for (File toDelete : sun) {
-                toDelete.delete();
-            }
-        }
-    }
 }
 
 
