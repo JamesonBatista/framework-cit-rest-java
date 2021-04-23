@@ -5,7 +5,6 @@ import com.bradesco.core.report.BradescoReporter;
 import com.bradesco.core.report.model.Event;
 import com.bradesco.core.report.model.HttpRequestEvent;
 import com.bradesco.core.sdk.enums.ReportStatus;
-import com.bradesco.http.RestResponse;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
@@ -14,7 +13,6 @@ import io.restassured.response.ValidatableResponse;
 import org.apache.http.HttpStatus;
 import util.Constantes;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +23,9 @@ import static util.FileProperties.GetProp;
 
 
 public class CITFrameworkRestAssured {
+
+    static ValidatableResponse result;
+    static Response response;
 
     static String BODY = null;
     static String endpoint_Rest = "";
@@ -51,12 +52,15 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse Get() throws IOException, BradescoException {
         try {
-            return given()
+            result = given()
                     .urlEncodingEnabled(false).log().all()
                     .when()
                     .get()
                     .then()
                     .log().status().log().body().assertThat();
+
+            response = result.extract().response();
+            return result;
 
         } finally {
             ReportBradesco();
@@ -70,13 +74,14 @@ public class CITFrameworkRestAssured {
         endpoint_Rest = Endpoint;
 
         try {
-            return given()
+            result = given()
                     .urlEncodingEnabled(false).log().all()
                     .when()
                     .get(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
-
+            response = result.extract().response();
+            return result;
 
         } finally {
             ReportBradesco();
@@ -89,7 +94,7 @@ public class CITFrameworkRestAssured {
         endpoint_Rest = Endpoint;
 
         try {
-            return given()
+            result = given()
                     .urlEncodingEnabled(false)
                     .log().all()
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
@@ -98,7 +103,8 @@ public class CITFrameworkRestAssured {
                     .get(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
-
+            response = result.extract().response();
+            return result;
 
         } finally {
             ReportBradesco();
@@ -109,7 +115,7 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse GetParam() throws IOException, BradescoException {
         try {
-            return given()
+            result = given()
                     .urlEncodingEnabled(false)
                     .log().all()
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
@@ -118,7 +124,8 @@ public class CITFrameworkRestAssured {
                     .then()
                     .log().status().log().body().assertThat();
 
-
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -129,14 +136,15 @@ public class CITFrameworkRestAssured {
     public ValidatableResponse GetParamEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
         try {
-            return given().log().all()
+            result = given().log().all()
                     .urlEncodingEnabled(false)
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
                     .when()
                     .get(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
-
+            response = result.extract().response();
+            return result;
 
         } finally {
             ReportBradesco();
@@ -147,7 +155,7 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse GetParamHeader() throws IOException, BradescoException {
         try {
-            return given()
+            result = given()
                     .urlEncodingEnabled(false)
                     .log().all()
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
@@ -156,7 +164,8 @@ public class CITFrameworkRestAssured {
                     .get()
                     .then()
                     .log().status().log().body().assertThat();
-
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -166,7 +175,7 @@ public class CITFrameworkRestAssured {
 
     public ValidatableResponse GetHeader() throws IOException, BradescoException {
         try {
-            return given()
+            result = given()
                     .urlEncodingEnabled(false)
                     .log().all()
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
@@ -174,6 +183,8 @@ public class CITFrameworkRestAssured {
                     .get()
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -184,13 +195,15 @@ public class CITFrameworkRestAssured {
     public ValidatableResponse GetHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
         try {
-            return given().log().all()
+            result = given().log().all()
                     .urlEncodingEnabled(false)
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
                     .when()
                     .get(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -201,7 +214,7 @@ public class CITFrameworkRestAssured {
     public ValidatableResponse PostBody(String body) throws IOException, BradescoException {
         BODY = body;
         try {
-            return given()
+            result = given()
                     .urlEncodingEnabled(false).log().all()
                     .contentType(ContentType.JSON)
                     .body(body)
@@ -209,6 +222,8 @@ public class CITFrameworkRestAssured {
                     .post()
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -220,7 +235,7 @@ public class CITFrameworkRestAssured {
         endpoint_Rest = Endpoint;
         BODY = body;
         try {
-            return given()
+            result = given()
                     .urlEncodingEnabled(false).log().all()
                     .contentType(ContentType.JSON)
                     .body(body)
@@ -228,6 +243,8 @@ public class CITFrameworkRestAssured {
                     .post(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
 
         } finally {
             ReportBradesco();
@@ -240,7 +257,7 @@ public class CITFrameworkRestAssured {
         endpoint_Rest = Endpoint;
         BODY = body;
         try {
-            return given()
+            result = given()
                     .contentType(ContentType.JSON).log().all()
                     .urlEncodingEnabled(false)
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
@@ -250,6 +267,8 @@ public class CITFrameworkRestAssured {
                     .post(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
 
         } finally {
             ReportBradesco();
@@ -261,7 +280,7 @@ public class CITFrameworkRestAssured {
     public ValidatableResponse PostParamHeaderBody(String body) throws IOException, BradescoException {
         BODY = body;
         try {
-            return given()
+            result = given()
                     .contentType(ContentType.JSON).log().all()
                     .urlEncodingEnabled(false)
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
@@ -271,6 +290,8 @@ public class CITFrameworkRestAssured {
                     .post()
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -282,7 +303,7 @@ public class CITFrameworkRestAssured {
         endpoint_Rest = Endpoint;
         BODY = body;
         try {
-            return given()
+            result = given()
                     .contentType(ContentType.JSON).log().all()
                     .urlEncodingEnabled(false)
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
@@ -291,6 +312,8 @@ public class CITFrameworkRestAssured {
                     .post(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -301,7 +324,7 @@ public class CITFrameworkRestAssured {
     public ValidatableResponse PostParamBody(String body) throws IOException, BradescoException {
         BODY = body;
         try {
-            return given()
+            result = given()
                     .contentType(ContentType.JSON).log().all()
                     .urlEncodingEnabled(false)
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
@@ -310,6 +333,8 @@ public class CITFrameworkRestAssured {
                     .post()
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -320,7 +345,7 @@ public class CITFrameworkRestAssured {
     public ValidatableResponse PostHeaderBody(String body) throws IOException, BradescoException {
         BODY = body;
         try {
-            return given()
+            result = given()
                     .log().all().urlEncodingEnabled(false)
                     .contentType(ContentType.JSON)
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
@@ -329,6 +354,8 @@ public class CITFrameworkRestAssured {
                     .post()
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -340,7 +367,7 @@ public class CITFrameworkRestAssured {
         endpoint_Rest = Endpoint;
         BODY = body;
         try {
-            return given()
+            result = given()
                     .log().all().urlEncodingEnabled(false)
                     .contentType(ContentType.JSON)
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
@@ -349,6 +376,8 @@ public class CITFrameworkRestAssured {
                     .post(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -361,7 +390,7 @@ public class CITFrameworkRestAssured {
         BODY = body;
         PUT = "put";
         try {
-            return given()
+            result = given()
                     .urlEncodingEnabled(false).log().all()
                     .contentType(ContentType.JSON)
                     .body(body)
@@ -369,6 +398,8 @@ public class CITFrameworkRestAssured {
                     .put()
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -381,7 +412,7 @@ public class CITFrameworkRestAssured {
         BODY = body;
         PUT = "put";
         try {
-            return given()
+            result = given()
                     .urlEncodingEnabled(false).log().all()
                     .contentType(ContentType.JSON)
                     .body(body)
@@ -389,6 +420,8 @@ public class CITFrameworkRestAssured {
                     .put(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -401,7 +434,7 @@ public class CITFrameworkRestAssured {
         BODY = body;
         PUT = "put";
         try {
-            return given()
+            result = given()
                     .contentType(ContentType.JSON).log().all()
                     .urlEncodingEnabled(false)
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
@@ -411,6 +444,8 @@ public class CITFrameworkRestAssured {
                     .put(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -422,7 +457,7 @@ public class CITFrameworkRestAssured {
         BODY = body;
         PUT = "put";
         try {
-            return given()
+            result = given()
                     .contentType(ContentType.JSON).log().all()
                     .urlEncodingEnabled(false)
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
@@ -432,6 +467,8 @@ public class CITFrameworkRestAssured {
                     .put()
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -444,7 +481,7 @@ public class CITFrameworkRestAssured {
         BODY = body;
         PUT = "put";
         try {
-            return given()
+            result = given()
                     .contentType(ContentType.JSON).log().all()
                     .urlEncodingEnabled(false)
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
@@ -453,6 +490,8 @@ public class CITFrameworkRestAssured {
                     .put(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -464,7 +503,7 @@ public class CITFrameworkRestAssured {
         BODY = body;
         PUT = "put";
         try {
-            return given()
+            result = given()
                     .contentType(ContentType.JSON).log().all()
                     .urlEncodingEnabled(false)
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
@@ -473,6 +512,8 @@ public class CITFrameworkRestAssured {
                     .put()
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -484,7 +525,7 @@ public class CITFrameworkRestAssured {
         BODY = body;
         PUT = "put";
         try {
-            return given()
+            result = given()
                     .log().all().urlEncodingEnabled(false)
                     .contentType(ContentType.JSON)
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
@@ -493,6 +534,8 @@ public class CITFrameworkRestAssured {
                     .put()
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -505,7 +548,7 @@ public class CITFrameworkRestAssured {
         BODY = body;
         PUT = "put";
         try {
-            return given()
+            result = given()
                     .log().all().urlEncodingEnabled(false)
                     .contentType(ContentType.JSON)
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
@@ -514,6 +557,8 @@ public class CITFrameworkRestAssured {
                     .put(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -524,12 +569,14 @@ public class CITFrameworkRestAssured {
     public ValidatableResponse Delete() throws IOException, BradescoException {
         DELETE = "delete";
         try {
-            return given()
+            result = given()
                     .log().all().urlEncodingEnabled(false)
                     .contentType(ContentType.JSON)
                     .when().delete()
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -541,12 +588,14 @@ public class CITFrameworkRestAssured {
         endpoint_Rest = Endpoint;
         DELETE = "delete";
         try {
-            return given()
+            result = given()
                     .log().all().urlEncodingEnabled(false)
                     .contentType(ContentType.JSON)
                     .when().delete(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -557,13 +606,15 @@ public class CITFrameworkRestAssured {
     public ValidatableResponse DeleteParam() throws IOException, BradescoException {
         DELETE = "delete";
         try {
-            return given()
+            result = given()
                     .log().all().urlEncodingEnabled(false)
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
                     .contentType(ContentType.JSON)
                     .when().delete()
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -575,13 +626,15 @@ public class CITFrameworkRestAssured {
         endpoint_Rest = Endpoint;
         DELETE = "delete";
         try {
-            return given()
+            result = given()
                     .log().all().urlEncodingEnabled(false)
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
                     .contentType(ContentType.JSON)
                     .when().delete(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -592,7 +645,7 @@ public class CITFrameworkRestAssured {
     public ValidatableResponse DeleteParamHeader() throws IOException, BradescoException {
         DELETE = "delete";
         try {
-            return given()
+            result = given()
                     .log().all().urlEncodingEnabled(false)
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
@@ -600,6 +653,8 @@ public class CITFrameworkRestAssured {
                     .when().delete()
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -610,13 +665,15 @@ public class CITFrameworkRestAssured {
     public ValidatableResponse DeleteHeader() throws IOException, BradescoException {
         DELETE = "delete";
         try {
-            return given()
+            result = given()
                     .log().all().urlEncodingEnabled(false)
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
                     .contentType(ContentType.JSON)
                     .when().delete()
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -628,13 +685,15 @@ public class CITFrameworkRestAssured {
         endpoint_Rest = Endpoint;
         DELETE = "delete";
         try {
-            return given()
+            result = given()
                     .log().all().urlEncodingEnabled(false)
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
                     .contentType(ContentType.JSON)
                     .when().delete(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -646,7 +705,7 @@ public class CITFrameworkRestAssured {
         endpoint_Rest = Endpoint;
         DELETE = "delete";
         try {
-            return given()
+            result = given()
                     .log().all().urlEncodingEnabled(false)
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
@@ -654,6 +713,8 @@ public class CITFrameworkRestAssured {
                     .when().delete(Endpoint)
                     .then()
                     .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
         } finally {
             ReportBradesco();
         }
@@ -663,83 +724,49 @@ public class CITFrameworkRestAssured {
 
     static void ReportBradesco() throws BradescoException, IOException {
 
-        String response;
         System.out.println("----------------------------------------\n     Iniciando Report CI&T Bradesco\n----------------------------------------");
 
         if (BODY == null && DELETE == null && PUT == null) {
             System.out.println("Report GET sendo executado...");
-            response = given()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM)
-                    .headers(HEADERS)
-                    .when()
-                    .get(endpoint_Rest)
-                    .then()
-                    .extract()
-                    .response()
-                    .asString();
+
             BradescoReporter.report(ReportStatus.PASSED, "GET executado, abaixo evidências:");
-            BradescoReporter.reportEvent(HttpRequestEvent.getRequest(baseURI, response));
+            BradescoReporter.reportEvent(HttpRequestEvent.getRequest(baseURI, response.getBody().asString()));
         } else if (PUT != null) {
             System.out.println("Report PUT sendo executado...");
-            response = given()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM)
-                    .headers(HEADERS)
-                    .body(BODY)
-                    .when()
-                    .put(endpoint_Rest)
-                    .then()
-                    .extract().response()
-                    .asString();
+
             BradescoReporter.report(ReportStatus.PASSED, "PUT executado, abaixo evidências:");
-            BradescoReporter.reportEvent(PutRequest(RestAssured.baseURI, BODY, response));
+            BradescoReporter.reportEvent(PutRequest(RestAssured.baseURI, BODY, response.getBody().asString()));
 
         } else if (DELETE != null) {
             System.out.println("Report DELETE sendo executado...");
-            BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
-            response = given()
-                    .contentType(ContentType.JSON)
-                    .when().delete(endpoint_Rest)
-                    .then()
-                    .extract().response()
-                    .asString();
 
-            BradescoReporter.reportEvent(DeleteRequest(RestAssured.baseURI, response));
+            BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
+            BradescoReporter.reportEvent(DeleteRequest(RestAssured.baseURI, response.getBody().asString()));
 
         } else {
             System.out.println("Report POST sendo executado...");
-            response = given()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM)
-                    .headers(HEADERS)
-                    .body(BODY)
-                    .when()
-                    .post(endpoint_Rest)
-                    .then()
-                    .extract()
-                    .response()
-                    .asString();
+
             BradescoReporter.report(ReportStatus.PASSED, "POST executado, abaixo evidências:");
-            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(baseURI, BODY, response));
+            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(baseURI, BODY, response.getBody().asString()));
         }
         System.out.println("Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***");
 
 
         PARAM.clear();
         HEADERS.clear();
+        result = null;
+        response = null;
         BODY = null;
         PUT = null;
         DELETE = null;
     }
 
 
-
-     static Event PutRequest(String url, String bodyAsString, String response) throws BradescoException {
+    static Event PutRequest(String url, String bodyAsString, String response) throws BradescoException {
         return new HttpRequestEvent(ReportStatus.OK, "PUT", url, Optional.of(bodyAsString), response);
     }
 
-     static Event DeleteRequest(String url, String response) throws BradescoException {
+    static Event DeleteRequest(String url, String response) throws BradescoException {
         return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), "Status: " + HttpStatus.SC_OK);
     }
 
