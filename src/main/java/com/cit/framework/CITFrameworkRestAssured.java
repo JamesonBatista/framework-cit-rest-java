@@ -731,6 +731,7 @@ public class CITFrameworkRestAssured {
 
             BradescoReporter.report(ReportStatus.PASSED, "GET executado, abaixo evidências:");
             BradescoReporter.reportEvent(HttpRequestEvent.getRequest(baseURI, response.getBody().asString()));
+
         } else if (PUT != null) {
             System.out.println("Report PUT sendo executado...");
 
@@ -767,7 +768,7 @@ public class CITFrameworkRestAssured {
     }
 
     static Event DeleteRequest(String url) {
-        return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), "Status: " + result.log().status());
+        return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), "Status: " + HttpStatus.SC_OK);
     }
 
 }
