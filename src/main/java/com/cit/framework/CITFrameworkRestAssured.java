@@ -767,7 +767,7 @@ public class CITFrameworkRestAssured {
     }
 
     static Event DeleteRequest(String url) {
-        return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), "Status: " + response.then().log().status());
+        return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), "Status: " + result.log().status());
     }
 
 }
