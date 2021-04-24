@@ -741,7 +741,7 @@ public class CITFrameworkRestAssured {
             System.out.println("Report DELETE sendo executado...");
 
             BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
-            BradescoReporter.reportEvent(DeleteRequest(RestAssured.baseURI, response.getBody().asString()));
+            BradescoReporter.reportEvent(DeleteRequest(RestAssured.baseURI));
 
         } else {
             System.out.println("Report POST sendo executado...");
@@ -762,12 +762,12 @@ public class CITFrameworkRestAssured {
     }
 
 
-    static Event PutRequest(String url, String bodyAsString, String response) throws BradescoException {
+    static Event PutRequest(String url, String bodyAsString, String response) {
         return new HttpRequestEvent(ReportStatus.OK, "PUT", url, Optional.of(bodyAsString), response);
     }
 
-    static Event DeleteRequest(String url, String response) throws BradescoException {
-        return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), "Status: " + HttpStatus.SC_OK);
+    static Event DeleteRequest(String url) {
+        return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), "Status: " + response.then().log().status());
     }
 
 }
