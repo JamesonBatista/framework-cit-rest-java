@@ -111,7 +111,7 @@ PostBodyEndpoint(body, "api/users/id").statusCode(201).body("users.id", Matchers
 ```
 package steps.Gets;
 
-import com.cit.framework.CITFrameworkRestAssured;
+import com.cit.framework.CITRestAssured;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 

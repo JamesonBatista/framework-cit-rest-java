@@ -22,7 +22,7 @@ import static io.restassured.RestAssured.*;
 import static util.FileProperties.GetProp;
 
 
-public class CITFrameworkRestAssured {
+public class CITRestAssured {
 
     static ValidatableResponse result;
     static Response response;
@@ -730,25 +730,25 @@ public class CITFrameworkRestAssured {
             System.out.println("Report GET sendo executado...");
 
             BradescoReporter.report(ReportStatus.PASSED, "GET executado, abaixo evidências:");
-            BradescoReporter.reportEvent(HttpRequestEvent.getRequest(baseURI, response.getBody().asString()));
+            BradescoReporter.reportEvent(HttpRequestEvent.getRequest(baseURI, response.asString()));
 
         } else if (PUT != null) {
             System.out.println("Report PUT sendo executado...");
 
             BradescoReporter.report(ReportStatus.PASSED, "PUT executado, abaixo evidências:");
-            BradescoReporter.reportEvent(PutRequest(RestAssured.baseURI, BODY, response.getBody().asString()));
+            BradescoReporter.reportEvent(PutRequest(baseURI, BODY, response.asString()));
 
         } else if (DELETE != null) {
             System.out.println("Report DELETE sendo executado...");
 
             BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
-            BradescoReporter.reportEvent(DeleteRequest(RestAssured.baseURI));
+            BradescoReporter.reportEvent(DeleteRequest(baseURI));
 
         } else {
             System.out.println("Report POST sendo executado...");
 
             BradescoReporter.report(ReportStatus.PASSED, "POST executado, abaixo evidências:");
-            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(baseURI, BODY, response.getBody().asString()));
+            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(baseURI, BODY, response.asString()));
         }
         System.out.println("Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***");
 
