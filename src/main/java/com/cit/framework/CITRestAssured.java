@@ -724,7 +724,7 @@ public class CITRestAssured {
 
     static void ReportBradesco() throws BradescoException, IOException {
 
-        System.out.println("----------------------------------------\n     Iniciando Report CI&T Bradesco\n----------------------------------------");
+        System.out.println("----------------------------------------\n     Iniciando Report CI&T Bradesco\n     " + baseURI + "\n----------------------------------------");
 
         if (BODY == null && DELETE == null && PUT == null) {
             System.out.println("Report GET sendo executado...");
