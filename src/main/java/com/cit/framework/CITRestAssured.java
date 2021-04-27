@@ -36,17 +36,29 @@ public class CITRestAssured {
 
 
     public void RestEnvironment(String Endpoint) throws IOException {
-        RestAssured.reset();
-        enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
-        baseURI = Constantes.selecionaAmbiente() + Endpoint;
-        RestAssured.useRelaxedHTTPSValidation();
+        try {
+            BradescoReporter.report(ReportStatus.OK, "Cenário Iniciado.");
+        } finally {
+            RestAssured.reset();
+            enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
+            baseURI = Constantes.selecionaAmbiente() + Endpoint;
+            RestAssured.useRelaxedHTTPSValidation();
+
+        }
+
     }
 
     public void RestEnvironment() throws IOException {
-        RestAssured.reset();
-        enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
-        baseURI = Constantes.selecionaAmbiente();
-        RestAssured.useRelaxedHTTPSValidation();
+        try {
+            BradescoReporter.report(ReportStatus.OK, "Cenário Iniciado.");
+
+        } finally {
+            RestAssured.reset();
+            enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
+            baseURI = Constantes.selecionaAmbiente();
+            RestAssured.useRelaxedHTTPSValidation();
+        }
+
     }
 
 

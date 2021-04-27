@@ -44,7 +44,7 @@ public interface Constantes {
 
     String PATH = "SCHEMA/";
 
-    public static String selecionaAmbiente() throws IOException {
+    static String selecionaAmbiente() throws IOException {
         EnvironmentProperties env = EnvironmentProperties.getGlobal();
         String environment = env.asString("environment", "tu");
         String url;
@@ -60,20 +60,18 @@ public interface Constantes {
             url = GetProp().getProperty("local");
         } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "prod")) {
             url = GetProp().getProperty("prod");
-        }else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env1")) {
+        } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env1")) {
             url = GetProp().getProperty("env1");
-        }else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env2")) {
+        } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env2")) {
             url = GetProp().getProperty("env2");
         } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env3")) {
             url = GetProp().getProperty("env3");
-        }else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env4")) {
+        } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env4")) {
             url = GetProp().getProperty("env4");
-        }
-
-        else {
+        } else {
             throw new BradescoRuntimeException("Ambiente desconhecido: " + environment);
         }
-        System.out.println("Ambiente selecionado: " + url + "(" + environment + ")");
+        System.out.println("Ambiente selecionado: " + url + "(" + GetProp().getProperty("default") + ")");
         return url;
     }
 }
