@@ -37,12 +37,12 @@ public class CITRestAssured {
 
     public void RestEnvironment(String Endpoint) throws IOException {
         try {
-            BradescoReporter.report(ReportStatus.OK, "Cenário Iniciado.");
-        } finally {
             RestAssured.reset();
             enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
             baseURI = Constantes.selecionaAmbiente() + Endpoint;
             RestAssured.useRelaxedHTTPSValidation();
+        } finally {
+
 
         }
 
@@ -50,13 +50,12 @@ public class CITRestAssured {
 
     public void RestEnvironment() throws IOException {
         try {
-            BradescoReporter.report(ReportStatus.OK, "Cenário Iniciado.");
-
-        } finally {
             RestAssured.reset();
             enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
             baseURI = Constantes.selecionaAmbiente();
             RestAssured.useRelaxedHTTPSValidation();
+        } finally {
+
         }
 
     }
@@ -76,10 +75,7 @@ public class CITRestAssured {
 
         } finally {
             ReportBradesco();
-
         }
-
-
     }
 
     public ValidatableResponse GetEndpoint(String Endpoint) throws IOException, BradescoException {
@@ -223,6 +219,23 @@ public class CITRestAssured {
 
     }
 
+    public ValidatableResponse Post() throws IOException, BradescoException {
+        BODY = "{}";
+        try {
+            result = given()
+                    .urlEncodingEnabled(false).log().all()
+                    .when()
+                    .post()
+                    .then()
+                    .log().status().log().body().assertThat();
+            response = result.extract().response();
+            return result;
+
+        } finally {
+            ReportBradesco();
+        }
+    }
+
     public ValidatableResponse PostBody(String body) throws IOException, BradescoException {
         BODY = body;
         try {
@@ -285,8 +298,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse PostParamHeaderBody(String body) throws IOException, BradescoException {
@@ -307,8 +318,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse PostParamBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
@@ -329,8 +338,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse PostParamBody(String body) throws IOException, BradescoException {
@@ -350,8 +357,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse PostHeaderBody(String body) throws IOException, BradescoException {
@@ -371,8 +376,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse PostHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
@@ -393,8 +396,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
 
@@ -415,8 +416,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse PutBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
@@ -437,8 +436,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse PutParamHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
@@ -461,8 +458,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse PutParamHeaderBody(String body) throws IOException, BradescoException {
@@ -484,8 +479,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse PutParamBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
@@ -507,8 +500,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse PutParamBody(String body) throws IOException, BradescoException {
@@ -529,8 +520,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse PutHeaderBody(String body) throws IOException, BradescoException {
@@ -551,8 +540,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse PutHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
@@ -574,8 +561,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse Delete() throws IOException, BradescoException {
@@ -592,8 +577,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse DeleteEndpoint(String Endpoint) throws IOException, BradescoException {
@@ -611,8 +594,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse DeleteParam() throws IOException, BradescoException {
@@ -630,8 +611,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse DeleteParamEndpoint(String Endpoint) throws IOException, BradescoException {
@@ -650,8 +629,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse DeleteParamHeader() throws IOException, BradescoException {
@@ -670,8 +647,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse DeleteHeader() throws IOException, BradescoException {
@@ -689,8 +664,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse DeleteHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
@@ -709,8 +682,6 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     public ValidatableResponse DeleteParamHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
@@ -730,37 +701,35 @@ public class CITRestAssured {
         } finally {
             ReportBradesco();
         }
-
-
     }
 
     static void ReportBradesco() throws BradescoException, IOException {
 
-        System.out.println("----------------------------------------\n     Iniciando Report CI&T Bradesco\n     " + baseURI + "\n----------------------------------------");
+        System.out.println("----------------------------------------\n     Iniciando Report CI&T Bradesco\n     ----------------------------------------");
 
         if (BODY == null && DELETE == null && PUT == null) {
             System.out.println("Report GET sendo executado...");
 
             BradescoReporter.report(ReportStatus.PASSED, "GET executado, abaixo evidências:");
-            BradescoReporter.reportEvent(HttpRequestEvent.getRequest(baseURI, response.asString()));
+            BradescoReporter.reportEvent(HttpRequestEvent.getRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest, response.asString()));
 
         } else if (PUT != null) {
             System.out.println("Report PUT sendo executado...");
 
             BradescoReporter.report(ReportStatus.PASSED, "PUT executado, abaixo evidências:");
-            BradescoReporter.reportEvent(PutRequest(baseURI, BODY, response.asString()));
+            BradescoReporter.reportEvent(PutRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest, BODY, response.asString()));
 
         } else if (DELETE != null) {
             System.out.println("Report DELETE sendo executado...");
 
             BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
-            BradescoReporter.reportEvent(DeleteRequest(baseURI));
+            BradescoReporter.reportEvent(DeleteRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest));
 
         } else {
             System.out.println("Report POST sendo executado...");
 
             BradescoReporter.report(ReportStatus.PASSED, "POST executado, abaixo evidências:");
-            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(baseURI, BODY, response.asString()));
+            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest, BODY, response.asString()));
         }
         System.out.println("Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***");
 
