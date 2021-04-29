@@ -762,6 +762,8 @@ public class CITRestAssured {
     }
 
     static void Finish() throws BradescoException, IOException {
+        System.out.println("-");
+        System.out.println("-");
 
         System.out.println("Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***");
 
