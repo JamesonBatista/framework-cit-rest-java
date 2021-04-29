@@ -17,4 +17,12 @@ public class Exclud {
             }
         }
     }
+
+    public static void ConsoleDesigner(String DELETE) {
+
+        System.out.println("*                                        *********************************                                    *");
+        System.out.println("*                                        ******* Iniciando Report ********                                    *");
+        System.out.println("*                                        ********* Bradesco CI&T *********                                    *");
+        System.out.println("*                                        ************" + DELETE + "***********                                    *");
+    }
 }
