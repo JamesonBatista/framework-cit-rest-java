@@ -74,7 +74,7 @@ public class CITRestAssured {
             return result;
 
         } finally {
-            ReportBradesco();
+            ReportBradescoGet();
         }
     }
 
@@ -92,7 +92,8 @@ public class CITRestAssured {
             return result;
 
         } finally {
-            ReportBradesco();
+            ReportBradescoGet();
+
         }
 
 
@@ -115,7 +116,7 @@ public class CITRestAssured {
             return result;
 
         } finally {
-            ReportBradesco();
+            ReportBradescoGet();
         }
 
 
@@ -135,7 +136,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoGet();
         }
 
 
@@ -155,7 +156,7 @@ public class CITRestAssured {
             return result;
 
         } finally {
-            ReportBradesco();
+            ReportBradescoGet();
         }
 
 
@@ -175,7 +176,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoGet();
+
         }
 
 
@@ -194,7 +196,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoGet();
+
         }
 
 
@@ -213,7 +216,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoGet();
+
         }
 
 
@@ -232,7 +236,8 @@ public class CITRestAssured {
             return result;
 
         } finally {
-            ReportBradesco();
+            ReportBradescoPost();
+
         }
     }
 
@@ -250,7 +255,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoPost();
         }
 
 
@@ -272,7 +277,8 @@ public class CITRestAssured {
             return result;
 
         } finally {
-            ReportBradesco();
+            ReportBradescoPost();
+
         }
 
 
@@ -296,7 +302,8 @@ public class CITRestAssured {
             return result;
 
         } finally {
-            ReportBradesco();
+            ReportBradescoPost();
+
         }
     }
 
@@ -316,7 +323,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoPost();
+
         }
     }
 
@@ -336,7 +344,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoPost();
+
         }
     }
 
@@ -355,7 +364,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoPost();
+
         }
     }
 
@@ -374,7 +384,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoPost();
+
         }
     }
 
@@ -394,7 +405,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoPost();
+
         }
     }
 
@@ -414,7 +426,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoPut();
         }
     }
 
@@ -434,7 +446,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoPut();
+
         }
     }
 
@@ -456,7 +469,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoPut();
+
         }
     }
 
@@ -477,7 +491,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoPut();
+
         }
     }
 
@@ -498,7 +513,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoPut();
+
         }
     }
 
@@ -518,7 +534,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoPut();
+
         }
     }
 
@@ -538,7 +555,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoPut();
+
         }
     }
 
@@ -559,7 +577,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoPut();
+
         }
     }
 
@@ -575,7 +594,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoDelete();
         }
     }
 
@@ -592,7 +611,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoDelete();
+
         }
     }
 
@@ -609,7 +629,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoDelete();
+
         }
     }
 
@@ -627,7 +648,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoDelete();
+
         }
     }
 
@@ -645,7 +667,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoDelete();
+
         }
     }
 
@@ -662,7 +685,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoDelete();
+
         }
     }
 
@@ -680,7 +704,8 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoDelete();
+
         }
     }
 
@@ -699,40 +724,43 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradesco();
+            ReportBradescoDelete();
+
         }
     }
 
-    static void ReportBradesco() throws BradescoException, IOException {
+    static void ReportBradescoGet() throws BradescoException, IOException {
+        System.out.println("----------------------------------------\n     Iniciando Report CI&T Bradesco GET\n----------------------------------------");
+        BradescoReporter.report(ReportStatus.PASSED, "GET executado, abaixo evidências:");
+        BradescoReporter.reportEvent(HttpRequestEvent.getRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest, response.asString()));
+        Finish();
+    }
 
-        System.out.println("----------------------------------------\n     Iniciando Report CI&T Bradesco\n----------------------------------------");
 
-        if (BODY == null && DELETE == null && PUT == null) {
-            System.out.println("Report GET sendo executado...");
+    static void ReportBradescoPost() throws BradescoException, IOException {
+        System.out.println("----------------------------------------\n     Iniciando Report CI&T Bradesco POST\n----------------------------------------");
+        BradescoReporter.report(ReportStatus.PASSED, "POST executado, abaixo evidências:");
+        BradescoReporter.reportEvent(HttpRequestEvent.postRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest, BODY, response.asString()));
+        Finish();
+    }
 
-            BradescoReporter.report(ReportStatus.PASSED, "GET executado, abaixo evidências:");
-            BradescoReporter.reportEvent(HttpRequestEvent.getRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest, response.asString()));
+    static void ReportBradescoPut() throws BradescoException, IOException {
+        System.out.println("----------------------------------------\n     Iniciando Report CI&T Bradesco PUT\n----------------------------------------");
+        BradescoReporter.report(ReportStatus.PASSED, "PUT executado, abaixo evidências:");
+        BradescoReporter.reportEvent(PutRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest, BODY, response.asString()));
+        Finish();
+    }
 
-        } else if (PUT != null) {
-            System.out.println("Report PUT sendo executado...");
+    static void ReportBradescoDelete() throws BradescoException, IOException {
+        System.out.println("----------------------------------------\n     Iniciando Report CI&T Bradesco DELETE\n----------------------------------------");
+        BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
+        BradescoReporter.reportEvent(DeleteRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest));
+        Finish();
+    }
 
-            BradescoReporter.report(ReportStatus.PASSED, "PUT executado, abaixo evidências:");
-            BradescoReporter.reportEvent(PutRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest, BODY, response.asString()));
+    static void Finish() throws BradescoException, IOException {
 
-        } else if (DELETE != null) {
-            System.out.println("Report DELETE sendo executado...");
-
-            BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
-            BradescoReporter.reportEvent(DeleteRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest));
-
-        } else {
-            System.out.println("Report POST sendo executado...");
-
-            BradescoReporter.report(ReportStatus.PASSED, "POST executado, abaixo evidências:");
-            BradescoReporter.reportEvent(HttpRequestEvent.postRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest, BODY, response.asString()));
-        }
         System.out.println("Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***");
-
 
         PARAM.clear();
         HEADERS.clear();
