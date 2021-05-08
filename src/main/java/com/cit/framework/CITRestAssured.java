@@ -413,7 +413,6 @@ public class CITRestAssured {
 
     public ValidatableResponse PutBody(String body) throws IOException, BradescoException {
         BODY = body;
-        PUT = "put";
         try {
             result = given()
                     .urlEncodingEnabled(false).log().all()
@@ -433,7 +432,6 @@ public class CITRestAssured {
     public ValidatableResponse PutBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
         BODY = body;
-        PUT = "put";
         try {
             result = given()
                     .urlEncodingEnabled(false).log().all()
@@ -454,7 +452,6 @@ public class CITRestAssured {
     public ValidatableResponse PutParamHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
         BODY = body;
-        PUT = "put";
         try {
             result = given()
                     .contentType(ContentType.JSON).log().all()
@@ -476,7 +473,6 @@ public class CITRestAssured {
 
     public ValidatableResponse PutParamHeaderBody(String body) throws IOException, BradescoException {
         BODY = body;
-        PUT = "put";
         try {
             result = given()
                     .contentType(ContentType.JSON).log().all()
@@ -499,7 +495,6 @@ public class CITRestAssured {
     public ValidatableResponse PutParamBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
         BODY = body;
-        PUT = "put";
         try {
             result = given()
                     .contentType(ContentType.JSON).log().all()
@@ -520,7 +515,6 @@ public class CITRestAssured {
 
     public ValidatableResponse PutParamBody(String body) throws IOException, BradescoException {
         BODY = body;
-        PUT = "put";
         try {
             result = given()
                     .contentType(ContentType.JSON).log().all()
@@ -541,7 +535,6 @@ public class CITRestAssured {
 
     public ValidatableResponse PutHeaderBody(String body) throws IOException, BradescoException {
         BODY = body;
-        PUT = "put";
         try {
             result = given()
                     .log().all().urlEncodingEnabled(false)
@@ -563,7 +556,6 @@ public class CITRestAssured {
     public ValidatableResponse PutHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
         BODY = body;
-        PUT = "put";
         try {
             result = given()
                     .log().all().urlEncodingEnabled(false)
@@ -583,7 +575,6 @@ public class CITRestAssured {
     }
 
     public ValidatableResponse Delete() throws IOException, BradescoException {
-        DELETE = "delete";
         try {
             result = given()
                     .log().all().urlEncodingEnabled(false)
@@ -600,7 +591,6 @@ public class CITRestAssured {
 
     public ValidatableResponse DeleteEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
-        DELETE = "delete";
         try {
             result = given()
                     .log().all().urlEncodingEnabled(false)
@@ -617,7 +607,6 @@ public class CITRestAssured {
     }
 
     public ValidatableResponse DeleteParam() throws IOException, BradescoException {
-        DELETE = "delete";
         try {
             result = given()
                     .log().all().urlEncodingEnabled(false)
@@ -636,7 +625,6 @@ public class CITRestAssured {
 
     public ValidatableResponse DeleteParamEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
-        DELETE = "delete";
         try {
             result = given()
                     .log().all().urlEncodingEnabled(false)
@@ -654,7 +642,6 @@ public class CITRestAssured {
     }
 
     public ValidatableResponse DeleteParamHeader() throws IOException, BradescoException {
-        DELETE = "delete";
         try {
             result = given()
                     .log().all().urlEncodingEnabled(false)
@@ -673,7 +660,6 @@ public class CITRestAssured {
     }
 
     public ValidatableResponse DeleteHeader() throws IOException, BradescoException {
-        DELETE = "delete";
         try {
             result = given()
                     .log().all().urlEncodingEnabled(false)
@@ -692,7 +678,6 @@ public class CITRestAssured {
 
     public ValidatableResponse DeleteHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
-        DELETE = "delete";
         try {
             result = given()
                     .log().all().urlEncodingEnabled(false)
@@ -711,7 +696,6 @@ public class CITRestAssured {
 
     public ValidatableResponse DeleteParamHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
-        DELETE = "delete";
         try {
             result = given()
                     .log().all().urlEncodingEnabled(false)
@@ -730,7 +714,7 @@ public class CITRestAssured {
     }
 
     static void ReportBradescoGet() throws BradescoException, IOException {
-        Exclud.ConsoleDesigner("GET");
+        Exclud.ConsoleDesigner("     GET   ");
         BradescoReporter.report(ReportStatus.PASSED, "GET executado, abaixo evidências:");
         BradescoReporter.reportEvent(HttpRequestEvent.getRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest, response.asString()));
         Finish();
@@ -738,23 +722,27 @@ public class CITRestAssured {
 
 
     static void ReportBradescoPost() throws BradescoException, IOException {
-        Exclud.ConsoleDesigner("POST");
+        Exclud.ConsoleDesigner("    POST   ");
 
         BradescoReporter.report(ReportStatus.PASSED, "POST executado, abaixo evidências:");
-        BradescoReporter.reportEvent(HttpRequestEvent.postRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest, BODY, response.asString()));
+        BradescoReporter.reportEvent(HttpRequestEvent.postRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest,
+                BODY ==null? "{Body POST está vazio, verifique seu método.}":BODY,
+                response.asString()));
         Finish();
     }
 
     static void ReportBradescoPut() throws BradescoException, IOException {
-        Exclud.ConsoleDesigner("PUT");
+        Exclud.ConsoleDesigner("    PUT   ");
 
         BradescoReporter.report(ReportStatus.PASSED, "PUT executado, abaixo evidências:");
-        BradescoReporter.reportEvent(PutRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest, BODY, response.asString()));
+        BradescoReporter.reportEvent(PutRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest,
+                BODY ==null? "{Body PUT está vazio, verifique seu método.}":BODY,
+                response.asString()));
         Finish();
     }
 
     static void ReportBradescoDelete() throws BradescoException, IOException {
-        Exclud.ConsoleDesigner("DELETE");
+        Exclud.ConsoleDesigner("    DELETE   ");
 
         BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
         BradescoReporter.reportEvent(DeleteRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest));
@@ -762,10 +750,9 @@ public class CITRestAssured {
     }
 
     static void Finish() throws BradescoException, IOException {
-        System.out.println("-");
-        System.out.println("-");
+        System.out.println("\n\n");
 
-        System.out.println("Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***");
+        System.out.println("Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***\n\n");
 
         PARAM.clear();
         HEADERS.clear();

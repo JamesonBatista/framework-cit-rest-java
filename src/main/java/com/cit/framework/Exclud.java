@@ -19,11 +19,11 @@ public class Exclud {
     }
 
     public static void ConsoleDesigner(String DELETE) {
-
+        System.out.println("\n\n");
         System.out.println("*                                        *********************************                                    *");
         System.out.println("*                                        ******* Iniciando Report ********                                    *");
         System.out.println("*                                        ********* Bradesco CI&T *********                                    *");
-        System.out.println("                                         ********** "+DELETE+" ***********                                    ");
+        System.out.println("                                         ********** " + DELETE + " ***********                                    ");
         System.out.println("*                                        *********************************                                    *");
 
     }
