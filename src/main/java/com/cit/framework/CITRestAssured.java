@@ -17,10 +17,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import static io.restassured.RestAssured.*;
 import static util.FileProperties.GetProp;
-
 
 public class CITRestAssured {
 
@@ -34,6 +34,7 @@ public class CITRestAssured {
     public static Map<String, Object> PARAM = new HashMap<>();
     public static Map<String, Object> HEADERS = new HashMap<>();
 
+    private static Logger LOGGER = Logger.getLogger("InfoLogging");
 
     public void RestEnvironment(String Endpoint) throws IOException {
         try {
@@ -43,6 +44,8 @@ public class CITRestAssured {
             RestAssured.useRelaxedHTTPSValidation();
         } finally {
 
+            LOGGER.info("Project for exclusive use of CI&T \n" +
+                    "             and User: " + System.getProperty("user.name"));
 
         }
 
@@ -55,6 +58,8 @@ public class CITRestAssured {
             baseURI = Constantes.selecionaAmbiente();
             RestAssured.useRelaxedHTTPSValidation();
         } finally {
+            LOGGER.info("Project for exclusive use of CI&T \n" +
+                    "             and User: " + System.getProperty("user.name"));
 
         }
 
@@ -227,6 +232,7 @@ public class CITRestAssured {
         BODY = "{}";
         try {
             result = given()
+                    .contentType(ContentType.JSON)
                     .urlEncodingEnabled(false).log().all()
                     .when()
                     .post()
@@ -714,7 +720,7 @@ public class CITRestAssured {
     }
 
     static void ReportBradescoGet() throws BradescoException, IOException {
-        Exclud.ConsoleDesigner("    GET  ");
+        Exclud.ConsoleDesigner("    GET   ");
         BradescoReporter.report(ReportStatus.PASSED, "GET executado, abaixo evidências:");
         BradescoReporter.reportEvent(HttpRequestEvent.getRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest, response.asString()));
         Finish();
@@ -742,7 +748,7 @@ public class CITRestAssured {
     }
 
     static void ReportBradescoDelete() throws BradescoException, IOException {
-        Exclud.ConsoleDesigner(" DELETE ");
+        Exclud.ConsoleDesigner(" DELETE   ");
 
         BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
         BradescoReporter.reportEvent(DeleteRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest));
