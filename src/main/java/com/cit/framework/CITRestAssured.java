@@ -714,7 +714,7 @@ public class CITRestAssured {
     }
 
     static void ReportBradescoGet() throws BradescoException, IOException {
-        Exclud.ConsoleDesigner("     GET   ");
+        Exclud.ConsoleDesigner("    GET  ");
         BradescoReporter.report(ReportStatus.PASSED, "GET executado, abaixo evidências:");
         BradescoReporter.reportEvent(HttpRequestEvent.getRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest, response.asString()));
         Finish();
@@ -722,7 +722,7 @@ public class CITRestAssured {
 
 
     static void ReportBradescoPost() throws BradescoException, IOException {
-        Exclud.ConsoleDesigner("    POST   ");
+        Exclud.ConsoleDesigner("   POST   ");
 
         BradescoReporter.report(ReportStatus.PASSED, "POST executado, abaixo evidências:");
         BradescoReporter.reportEvent(HttpRequestEvent.postRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest,
@@ -742,7 +742,7 @@ public class CITRestAssured {
     }
 
     static void ReportBradescoDelete() throws BradescoException, IOException {
-        Exclud.ConsoleDesigner("    DELETE   ");
+        Exclud.ConsoleDesigner(" DELETE ");
 
         BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
         BradescoReporter.reportEvent(DeleteRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest));
