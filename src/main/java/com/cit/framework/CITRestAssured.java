@@ -5,15 +5,38 @@ import com.bradesco.core.report.BradescoReporter;
 import com.bradesco.core.report.model.Event;
 import com.bradesco.core.report.model.HttpRequestEvent;
 import com.bradesco.core.sdk.enums.ReportStatus;
+import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton;
+import com.nimbusds.jose.jca.JCASupport;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.restassured.RestAssured;
+import io.restassured.config.RestAssuredConfig;
+import io.restassured.config.SSLConfig;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpStatus;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.springframework.util.ResourceUtils;
 import util.Constantes;
 
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -35,8 +58,10 @@ public class CITRestAssured {
     public static Map<String, Object> HEADERS = new HashMap<>();
 
     private static Logger LOGGER = Logger.getLogger("InfoLogging");
+    static ReportPrivateBradesco report;
 
     public void RestEnvironment(String Endpoint) throws IOException {
+
         try {
             RestAssured.reset();
             enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
@@ -79,7 +104,7 @@ public class CITRestAssured {
             return result;
 
         } finally {
-            ReportBradescoGet();
+            report.ReportBradescoGet();
         }
     }
 
@@ -97,7 +122,7 @@ public class CITRestAssured {
             return result;
 
         } finally {
-            ReportBradescoGet();
+            report.ReportBradescoGet();
 
         }
 
@@ -121,7 +146,7 @@ public class CITRestAssured {
             return result;
 
         } finally {
-            ReportBradescoGet();
+            report.ReportBradescoGet();
         }
 
 
@@ -141,7 +166,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoGet();
+            report.ReportBradescoGet();
         }
 
 
@@ -161,7 +186,7 @@ public class CITRestAssured {
             return result;
 
         } finally {
-            ReportBradescoGet();
+            report.ReportBradescoGet();
         }
 
 
@@ -181,7 +206,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoGet();
+            report.ReportBradescoGet();
 
         }
 
@@ -201,7 +226,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoGet();
+            report.ReportBradescoGet();
 
         }
 
@@ -221,7 +246,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoGet();
+            report.ReportBradescoGet();
 
         }
 
@@ -242,7 +267,7 @@ public class CITRestAssured {
             return result;
 
         } finally {
-            ReportBradescoPost();
+            report.ReportBradescoPost();
 
         }
     }
@@ -261,7 +286,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoPost();
+            report.ReportBradescoPost();
         }
 
 
@@ -283,7 +308,7 @@ public class CITRestAssured {
             return result;
 
         } finally {
-            ReportBradescoPost();
+            report.ReportBradescoPost();
 
         }
 
@@ -308,7 +333,7 @@ public class CITRestAssured {
             return result;
 
         } finally {
-            ReportBradescoPost();
+            report.ReportBradescoPost();
 
         }
     }
@@ -329,7 +354,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoPost();
+            report.ReportBradescoPost();
 
         }
     }
@@ -350,7 +375,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoPost();
+            report.ReportBradescoPost();
 
         }
     }
@@ -370,7 +395,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoPost();
+            report.ReportBradescoPost();
 
         }
     }
@@ -390,7 +415,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoPost();
+            report.ReportBradescoPost();
 
         }
     }
@@ -411,7 +436,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoPost();
+            report.ReportBradescoPost();
 
         }
     }
@@ -431,7 +456,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoPut();
+            report.ReportBradescoPut();
         }
     }
 
@@ -450,7 +475,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoPut();
+            report.ReportBradescoPut();
 
         }
     }
@@ -472,7 +497,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoPut();
+            report.ReportBradescoPut();
 
         }
     }
@@ -493,7 +518,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoPut();
+            report.ReportBradescoPut();
 
         }
     }
@@ -514,7 +539,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoPut();
+            report.ReportBradescoPut();
 
         }
     }
@@ -534,7 +559,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoPut();
+            report.ReportBradescoPut();
 
         }
     }
@@ -554,7 +579,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoPut();
+            report.ReportBradescoPut();
 
         }
     }
@@ -575,7 +600,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoPut();
+            report.ReportBradescoPut();
 
         }
     }
@@ -591,7 +616,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoDelete();
+            report.ReportBradescoDelete();
         }
     }
 
@@ -607,7 +632,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoDelete();
+            report.ReportBradescoDelete();
 
         }
     }
@@ -624,7 +649,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoDelete();
+            report.ReportBradescoDelete();
 
         }
     }
@@ -642,7 +667,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoDelete();
+            report.ReportBradescoDelete();
 
         }
     }
@@ -660,7 +685,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoDelete();
+            report.ReportBradescoDelete();
 
         }
     }
@@ -677,7 +702,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoDelete();
+            report.ReportBradescoDelete();
 
         }
     }
@@ -695,7 +720,7 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoDelete();
+            report.ReportBradescoDelete();
 
         }
     }
@@ -714,70 +739,85 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            ReportBradescoDelete();
+            report.ReportBradescoDelete();
 
         }
     }
 
-    static void ReportBradescoGet() throws BradescoException, IOException {
-        Exclud.ConsoleDesigner("    GET   ");
-        BradescoReporter.report(ReportStatus.PASSED, "GET executado, abaixo evidências:");
-        BradescoReporter.reportEvent(HttpRequestEvent.getRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest, response.asString()));
-        Finish();
+    public RequestSpecification CertificationSpec(String keyPathFormatP12, String keyPass,
+                                                  String trustPathFormatP12, String trustPass) throws Exception {
+
+        char[] keyStorePassword = keyPass.toCharArray();
+        KeyStore keyStore = loadKeyStore(keyPathFormatP12, keyStorePassword);
+        KeyManagerFactory keyFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+        keyFactory.init(keyStore, keyStorePassword);
+
+        char[] trustStorePassword = trustPass.toCharArray();
+        KeyStore trustStore = loadKeyStore(trustPathFormatP12, trustStorePassword);
+        TrustManagerFactory trustFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        trustFactory.init(trustStore);
+
+        SSLContext sslContext = SSLContext.getInstance("SSL");
+        sslContext.init(keyFactory.getKeyManagers(), trustFactory.getTrustManagers(), new SecureRandom());
+        SSLContext.setDefault(sslContext);
+
+        RestAssuredConfig config = RestAssured.config()
+                .sslConfig(new SSLConfig().sslSocketFactory(new SSLSocketFactory(sslContext)));
+
+        return RestAssured.given()
+                .config(config);
     }
 
-
-    static void ReportBradescoPost() throws BradescoException, IOException {
-        Exclud.ConsoleDesigner("   POST   ");
-
-        BradescoReporter.report(ReportStatus.PASSED, "POST executado, abaixo evidências:");
-        BradescoReporter.reportEvent(HttpRequestEvent.postRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest,
-                BODY ==null? "{Body POST está vazio, verifique seu método.}":BODY,
-                response.asString()));
-        Finish();
+    static KeyStore loadKeyStore(String file, char[] password) throws Exception {
+        KeyStore keyStore = KeyStore.getInstance("PKCS12");
+        File key = ResourceUtils.getFile(file);
+        InputStream in = new FileInputStream(key);
+        keyStore.load(in, password);
+        return keyStore;
     }
 
-    static void ReportBradescoPut() throws BradescoException, IOException {
-        Exclud.ConsoleDesigner("    PUT   ");
+    public String JwtPS256(Map<String, Object> header, String PathKeyPrivateFormatPEM, String payload) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 
-        BradescoReporter.report(ReportStatus.PASSED, "PUT executado, abaixo evidências:");
-        BradescoReporter.reportEvent(PutRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest,
-                BODY ==null? "{Body PUT está vazio, verifique seu método.}":BODY,
-                response.asString()));
-        Finish();
+        File file = new File(PathKeyPrivateFormatPEM);
+        String key = new String(Files.readAllBytes(file.toPath()), Charset.defaultCharset());
+        String privateKeyPEM = key
+                .replace("-----BEGIN PRIVATE KEY-----", "")
+                .replace("-----END PRIVATE KEY-----", "");
+        byte[] encoded = Base64.decodeBase64(privateKeyPEM);
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(encoded);
+        PrivateKey keypr = keyFactory.generatePrivate(keySpec);
+
+        try {
+            Security.addProvider(BouncyCastleProviderSingleton.getInstance());
+            JCASupport.isSupported(JWSAlgorithm.PS256);
+            SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.PS256;
+            return Jwts
+                    .builder()
+                    .setHeader(header)
+                    .setPayload(payload)
+                    .signWith(signatureAlgorithm, keypr)
+                    .compact();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to generate a JWT token. " + e.getMessage());
+        }
     }
 
-    static void ReportBradescoDelete() throws BradescoException, IOException {
-        Exclud.ConsoleDesigner(" DELETE   ");
+    public String JwtHS256(Map<String, Object> header, String secret, String payload) {
 
-        BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
-        BradescoReporter.reportEvent(DeleteRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest));
-        Finish();
+        try {
+            return Jwts
+                    .builder()
+                    .setHeaderParams(header)
+                    .setPayload(payload)
+                    .signWith(SignatureAlgorithm.HS256, secret.getBytes(StandardCharsets.UTF_8))
+                    .compact();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to generate a JWT token. " + e.getMessage());
+        }
     }
-
-    static void Finish() throws BradescoException, IOException {
-        System.out.println("\n\n");
-
-        System.out.println("Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***\n\n");
-
-        PARAM.clear();
-        HEADERS.clear();
-        result = null;
-        response = null;
-        BODY = null;
-        PUT = null;
-        DELETE = null;
-    }
-
-
-    static Event PutRequest(String url, String bodyAsString, String response) {
-        return new HttpRequestEvent(ReportStatus.OK, "PUT", url, Optional.of(bodyAsString), response);
-    }
-
-    static Event DeleteRequest(String url) {
-        return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), "Status: " + HttpStatus.SC_OK);
-    }
-
 }
 
 
