@@ -90,10 +90,6 @@ class ClassReport {
     }
 
     private static void Finish() throws BradescoException, IOException {
-        System.out.println("\n");
-
-        System.out.println("Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***\n\n");
-
         params.clear();
         headers.clear();
         report = null;

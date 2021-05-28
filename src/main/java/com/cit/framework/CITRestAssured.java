@@ -32,10 +32,12 @@ import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.cit.framework.ClassReport.ReportBradesco;
 import static io.restassured.RestAssured.*;
+import static util.FileProperties.GetProp;
 
 public class CITRestAssured {
 
@@ -68,16 +70,22 @@ public class CITRestAssured {
                 .log().all();
     }
 
-    public void InitEnvironment(String Endpoint) throws IOException {
+    public void InitEnvironment(String Endpoint) throws IOException, InterruptedException {
+        Exclud.ExcludReportBradesco();
         InitReport();
         RestAssured.reset();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         baseURI = Constantes.selecionaAmbiente();
         basePath = Endpoint;
         RestAssured.useRelaxedHTTPSValidation();
+        System.out.println("\n                                √  Ambiente selecionado: " + baseURI + " ** + " + GetProp().getProperty("default")
+                .toUpperCase(Locale.ROOT) + " **");
+        System.out.println("                                     Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***\n");
+
     }
 
-    public void InitEnvironment() throws IOException {
+    public void InitEnvironment() throws IOException, InterruptedException {
+        Exclud.ExcludReportBradesco();
         InitReport();
         RestAssured.reset();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);

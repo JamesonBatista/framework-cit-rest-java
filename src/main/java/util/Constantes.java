@@ -71,7 +71,6 @@ public interface Constantes {
         } else {
             throw new BradescoRuntimeException("\n                             Ambiente desconhecido: " + environment);
         }
-        System.out.println("\n                                  Ambiente selecionado: " + url + "(" + GetProp().getProperty("default") + ")");
         return url;
     }
 }
