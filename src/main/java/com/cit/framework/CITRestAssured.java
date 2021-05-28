@@ -1,10 +1,6 @@
 package com.cit.framework;
 
 import com.bradesco.core.exception.BradescoException;
-import com.bradesco.core.report.BradescoReporter;
-import com.bradesco.core.report.model.Event;
-import com.bradesco.core.report.model.HttpRequestEvent;
-import com.bradesco.core.sdk.enums.ReportStatus;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton;
 import com.nimbusds.jose.jca.JCASupport;
@@ -19,7 +15,6 @@ import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.http.HttpStatus;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.springframework.util.ResourceUtils;
 import util.Constantes;
@@ -39,11 +34,9 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 import static io.restassured.RestAssured.*;
-import static util.FileProperties.GetProp;
 
 public class CITRestAssured {
 
@@ -58,38 +51,36 @@ public class CITRestAssured {
     public static Map<String, Object> HEADERS = new HashMap<>();
 
     private static Logger LOGGER = Logger.getLogger("InfoLogging");
-    static ReportPrivateBradesco report;
+   public   ReportPrivateBradesco report;
 
     public void RestEnvironment(String Endpoint) throws IOException {
-
+        report = new ReportPrivateBradesco();
         try {
             RestAssured.reset();
             enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
             baseURI = Constantes.selecionaAmbiente() + Endpoint;
             RestAssured.useRelaxedHTTPSValidation();
         } finally {
-
+            System.out.println("\n");
             LOGGER.info("Project for exclusive use of CI&T \n" +
                     "             and User: " + System.getProperty("user.name"));
-
         }
-
     }
 
     public void RestEnvironment() throws IOException {
+        report = new ReportPrivateBradesco();
+
         try {
             RestAssured.reset();
             enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
             baseURI = Constantes.selecionaAmbiente();
             RestAssured.useRelaxedHTTPSValidation();
         } finally {
+            System.out.println("\n");
             LOGGER.info("Project for exclusive use of CI&T \n" +
                     "             and User: " + System.getProperty("user.name"));
-
         }
-
     }
-
 
     public ValidatableResponse Get() throws IOException, BradescoException {
         try {
@@ -99,10 +90,8 @@ public class CITRestAssured {
                     .get()
                     .then()
                     .log().status().log().body().assertThat();
-
             response = result.extract().response();
             return result;
-
         } finally {
             report.ReportBradescoGet();
         }
@@ -110,7 +99,6 @@ public class CITRestAssured {
 
     public ValidatableResponse GetEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
-
         try {
             result = given()
                     .urlEncodingEnabled(false).log().all()
@@ -120,18 +108,13 @@ public class CITRestAssured {
                     .log().status().log().body().assertThat();
             response = result.extract().response();
             return result;
-
         } finally {
             report.ReportBradescoGet();
-
         }
-
-
     }
 
     public ValidatableResponse GetParamHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
-
         try {
             result = given()
                     .urlEncodingEnabled(false)
@@ -144,12 +127,9 @@ public class CITRestAssured {
                     .log().status().log().body().assertThat();
             response = result.extract().response();
             return result;
-
         } finally {
             report.ReportBradescoGet();
         }
-
-
     }
 
     public ValidatableResponse GetParam() throws IOException, BradescoException {
@@ -162,14 +142,11 @@ public class CITRestAssured {
                     .get()
                     .then()
                     .log().status().log().body().assertThat();
-
             response = result.extract().response();
             return result;
         } finally {
             report.ReportBradescoGet();
         }
-
-
     }
 
     public ValidatableResponse GetParamEndpoint(String Endpoint) throws IOException, BradescoException {
@@ -184,12 +161,9 @@ public class CITRestAssured {
                     .log().status().log().body().assertThat();
             response = result.extract().response();
             return result;
-
         } finally {
             report.ReportBradescoGet();
         }
-
-
     }
 
     public ValidatableResponse GetParamHeader() throws IOException, BradescoException {
@@ -207,10 +181,7 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoGet();
-
         }
-
-
     }
 
     public ValidatableResponse GetHeader() throws IOException, BradescoException {
@@ -227,10 +198,7 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoGet();
-
         }
-
-
     }
 
     public ValidatableResponse GetHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
@@ -247,10 +215,7 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoGet();
-
         }
-
-
     }
 
     public ValidatableResponse Post() throws IOException, BradescoException {
@@ -268,7 +233,6 @@ public class CITRestAssured {
 
         } finally {
             report.ReportBradescoPost();
-
         }
     }
 
@@ -288,8 +252,6 @@ public class CITRestAssured {
         } finally {
             report.ReportBradescoPost();
         }
-
-
     }
 
     public ValidatableResponse PostBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
@@ -306,13 +268,9 @@ public class CITRestAssured {
                     .log().status().log().body().assertThat();
             response = result.extract().response();
             return result;
-
         } finally {
             report.ReportBradescoPost();
-
         }
-
-
     }
 
     public ValidatableResponse PostParamHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
@@ -331,10 +289,8 @@ public class CITRestAssured {
                     .log().status().log().body().assertThat();
             response = result.extract().response();
             return result;
-
         } finally {
             report.ReportBradescoPost();
-
         }
     }
 
@@ -355,7 +311,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoPost();
-
         }
     }
 
@@ -376,7 +331,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoPost();
-
         }
     }
 
@@ -396,7 +350,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoPost();
-
         }
     }
 
@@ -416,7 +369,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoPost();
-
         }
     }
 
@@ -437,10 +389,8 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoPost();
-
         }
     }
-
 
     public ValidatableResponse PutBody(String body) throws IOException, BradescoException {
         BODY = body;
@@ -476,7 +426,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoPut();
-
         }
     }
 
@@ -498,7 +447,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoPut();
-
         }
     }
 
@@ -519,7 +467,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoPut();
-
         }
     }
 
@@ -540,7 +487,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoPut();
-
         }
     }
 
@@ -560,7 +506,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoPut();
-
         }
     }
 
@@ -580,7 +525,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoPut();
-
         }
     }
 
@@ -601,7 +545,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoPut();
-
         }
     }
 
@@ -633,7 +576,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoDelete();
-
         }
     }
 
@@ -650,7 +592,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoDelete();
-
         }
     }
 
@@ -668,7 +609,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoDelete();
-
         }
     }
 
@@ -686,7 +626,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoDelete();
-
         }
     }
 
@@ -703,7 +642,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoDelete();
-
         }
     }
 
@@ -721,7 +659,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoDelete();
-
         }
     }
 
@@ -740,7 +677,6 @@ public class CITRestAssured {
             return result;
         } finally {
             report.ReportBradescoDelete();
-
         }
     }
 

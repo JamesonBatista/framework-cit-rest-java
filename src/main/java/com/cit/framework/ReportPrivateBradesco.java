@@ -14,6 +14,7 @@ import static io.restassured.RestAssured.baseURI;
 import static util.FileProperties.GetProp;
 
 class ReportPrivateBradesco extends CITRestAssured {
+
     public void ReportBradescoGet() throws BradescoException, IOException {
         Exclud.ConsoleDesigner("    GET   ");
         BradescoReporter.report(ReportStatus.PASSED, "GET executado, abaixo evidências:");
@@ -50,7 +51,7 @@ class ReportPrivateBradesco extends CITRestAssured {
     }
 
     public void Finish() throws BradescoException, IOException {
-        System.out.println("\n\n");
+        System.out.println("\n");
 
         System.out.println("Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***\n\n");
 
@@ -69,6 +70,7 @@ class ReportPrivateBradesco extends CITRestAssured {
     }
 
     static Event DeleteRequest(String url) {
-        return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), "Status: " + HttpStatus.SC_OK);
+        String status = response.then().log().status().toString();
+        return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), "Status: " + status);
     }
 }
