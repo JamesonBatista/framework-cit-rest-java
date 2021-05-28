@@ -33,8 +33,8 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
+import static com.cit.framework.ClassReport.ReportBradesco;
 import static io.restassured.RestAssured.*;
 
 public class CITRestAssured {
@@ -43,61 +43,51 @@ public class CITRestAssured {
     static Response response;
 
     static String BODY = null;
-    static String endpoint_Rest = "";
     static String PUT = null;
     static String DELETE = null;
-    public static Map<String, Object> PARAM = new HashMap<>();
-    public static Map<String, Object> HEADERS = new HashMap<>();
+    public static Map<String, Object> params = new HashMap<>();
+    public static Map<String, Object> headers = new HashMap<>();
 
-    private static Logger LOGGER = Logger.getLogger("InfoLogging");
-    public ReportPrivateBradesco report;
-
-    public static StringWriter requestWriter;
+    static StringWriter requestWriter;
     static PrintStream requestCapture;
 
-    static void initReport() {
+    static void InitReport() {
         requestWriter = new StringWriter();
         requestCapture = new PrintStream(new WriterOutputStream(requestWriter), true);
     }
 
-    static RequestSpecification GivenRest() {
-        return given().filter(new RequestLoggingFilter(requestCapture));
+    public RequestSpecification Given() {
+        return given().filter(new RequestLoggingFilter(requestCapture))
+                .urlEncodingEnabled(false).contentType(ContentType.JSON)
+                .log().all();
     }
 
-    public void RestEnvironment(String Endpoint) throws IOException {
-        report = new ReportPrivateBradesco();
-        initReport();
-        try {
-            RestAssured.reset();
-            enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
-            baseURI = Constantes.selecionaAmbiente() + Endpoint;
-            RestAssured.useRelaxedHTTPSValidation();
-        } finally {
-            System.out.println("\n");
-            LOGGER.info("Project for exclusive use of CI&T \n" +
-                    "             and User: " + System.getProperty("user.name"));
-        }
+    public RequestSpecification Given(ContentType type) {
+        return given().filter(new RequestLoggingFilter(requestCapture))
+                .urlEncodingEnabled(false).contentType(type)
+                .log().all();
     }
 
-    public void RestEnvironment() throws IOException {
-        report = new ReportPrivateBradesco();
-        initReport();
-        try {
-            RestAssured.reset();
-            enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
-            baseURI = Constantes.selecionaAmbiente();
-            RestAssured.useRelaxedHTTPSValidation();
-        } finally {
-            System.out.println("\n");
-            LOGGER.info("Project for exclusive use of CI&T \n" +
-                    "             and User: " + System.getProperty("user.name"));
-        }
+    public void InitEnvironment(String Endpoint) throws IOException {
+        InitReport();
+        RestAssured.reset();
+        enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
+        baseURI = Constantes.selecionaAmbiente();
+        basePath = Endpoint;
+        RestAssured.useRelaxedHTTPSValidation();
+    }
+
+    public void InitEnvironment() throws IOException {
+        InitReport();
+        RestAssured.reset();
+        enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
+        baseURI = Constantes.selecionaAmbiente();
+        RestAssured.useRelaxedHTTPSValidation();
     }
 
     public ValidatableResponse Get() throws IOException, BradescoException {
         try {
-            result = GivenRest()
-                    .urlEncodingEnabled(false).log().all()
+            result = Given()
                     .when()
                     .get()
                     .then()
@@ -105,15 +95,13 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoGet();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse GetEndpoint(String Endpoint) throws IOException, BradescoException {
-        endpoint_Rest = Endpoint;
         try {
-            result = GivenRest()
-                    .urlEncodingEnabled(false).log().all()
+            result = Given()
                     .when()
                     .get(Endpoint)
                     .then()
@@ -121,18 +109,15 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoGet();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse GetParamHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
-        endpoint_Rest = Endpoint;
         try {
-            result = given()
-                    .urlEncodingEnabled(false)
-                    .log().all()
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+            result = Given()
+                    .queryParams(params.toString() == "{}" ? null : params)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .when()
                     .get(Endpoint)
                     .then()
@@ -140,16 +125,14 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoGet();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse GetParam() throws IOException, BradescoException {
         try {
-            result = given()
-                    .urlEncodingEnabled(false)
-                    .log().all()
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+            result = Given()
+                    .queryParams(params.toString() == "{}" ? null : params)
                     .when()
                     .get()
                     .then()
@@ -157,16 +140,14 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoGet();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse GetParamEndpoint(String Endpoint) throws IOException, BradescoException {
-        endpoint_Rest = Endpoint;
         try {
-            result = given().log().all()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+            result = Given()
+                    .queryParams(params.toString() == "{}" ? null : params)
                     .when()
                     .get(Endpoint)
                     .then()
@@ -174,17 +155,15 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoGet();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse GetParamHeader() throws IOException, BradescoException {
         try {
-            result = given()
-                    .urlEncodingEnabled(false)
-                    .log().all()
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+            result = Given()
+                    .queryParams(params.toString() == "{}" ? null : params)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .when()
                     .get()
                     .then()
@@ -192,16 +171,14 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoGet();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse GetHeader() throws IOException, BradescoException {
         try {
-            result = given()
-                    .urlEncodingEnabled(false)
-                    .log().all()
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+            result = Given()
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .when()
                     .get()
                     .then()
@@ -209,16 +186,14 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoGet();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse GetHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
-        endpoint_Rest = Endpoint;
         try {
-            result = given().log().all()
-                    .urlEncodingEnabled(false)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+            result = Given()
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .when()
                     .get(Endpoint)
                     .then()
@@ -226,16 +201,14 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoGet();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse Post() throws IOException, BradescoException {
         BODY = "{}";
         try {
-            result = given()
-                    .contentType(ContentType.JSON)
-                    .urlEncodingEnabled(false).log().all()
+            result = Given()
                     .when()
                     .post()
                     .then()
@@ -244,16 +217,14 @@ public class CITRestAssured {
             return result;
 
         } finally {
-            report.ReportBradescoPost();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse PostBody(String body) throws IOException, BradescoException {
         BODY = body;
         try {
-            result = given()
-                    .urlEncodingEnabled(false).log().all()
-                    .contentType(ContentType.JSON)
+            result = Given()
                     .body(body)
                     .when()
                     .post()
@@ -262,17 +233,14 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoPost();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse PostBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
-        endpoint_Rest = Endpoint;
         BODY = body;
         try {
-            result = given()
-                    .urlEncodingEnabled(false).log().all()
-                    .contentType(ContentType.JSON)
+            result = Given()
                     .body(body)
                     .when()
                     .post(Endpoint)
@@ -281,19 +249,16 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoPost();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse PostParamHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
-        endpoint_Rest = Endpoint;
         BODY = body;
         try {
-            result = given()
-                    .contentType(ContentType.JSON).log().all()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+            result = Given()
+                    .queryParams(params.toString() == "{}" ? null : params)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .body(body)
                     .when()
                     .post(Endpoint)
@@ -302,18 +267,16 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoPost();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse PostParamHeaderBody(String body) throws IOException, BradescoException {
         BODY = body;
         try {
-            result = given()
-                    .contentType(ContentType.JSON).log().all()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+            result = Given()
+                    .queryParams(params.toString() == "{}" ? null : params)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .body(body)
                     .when()
                     .post()
@@ -322,18 +285,15 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoPost();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse PostParamBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
-        endpoint_Rest = Endpoint;
         BODY = body;
         try {
-            result = given()
-                    .contentType(ContentType.JSON).log().all()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+            result = Given()
+                    .queryParams(params.toString() == "{}" ? null : params)
                     .body(body)
                     .when()
                     .post(Endpoint)
@@ -342,17 +302,15 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoPost();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse PostParamBody(String body) throws IOException, BradescoException {
         BODY = body;
         try {
-            result = given()
-                    .contentType(ContentType.JSON).log().all()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+            result = Given()
+                    .queryParams(params.toString() == "{}" ? null : params)
                     .body(body)
                     .when()
                     .post()
@@ -361,17 +319,15 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoPost();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse PostHeaderBody(String body) throws IOException, BradescoException {
         BODY = body;
         try {
-            result = given()
-                    .log().all().urlEncodingEnabled(false)
-                    .contentType(ContentType.JSON)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+            result = Given()
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .body(body)
                     .when()
                     .post()
@@ -380,18 +336,15 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoPost();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse PostHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
-        endpoint_Rest = Endpoint;
         BODY = body;
         try {
-            result = given()
-                    .log().all().urlEncodingEnabled(false)
-                    .contentType(ContentType.JSON)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+            result = Given()
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .body(body)
                     .when()
                     .post(Endpoint)
@@ -400,16 +353,14 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoPost();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse PutBody(String body) throws IOException, BradescoException {
         BODY = body;
         try {
-            result = given()
-                    .urlEncodingEnabled(false).log().all()
-                    .contentType(ContentType.JSON)
+            result = Given()
                     .body(body)
                     .when()
                     .put()
@@ -418,17 +369,14 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoPut();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse PutBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
-        endpoint_Rest = Endpoint;
         BODY = body;
         try {
-            result = given()
-                    .urlEncodingEnabled(false).log().all()
-                    .contentType(ContentType.JSON)
+            result = Given()
                     .body(body)
                     .when()
                     .put(Endpoint)
@@ -437,19 +385,16 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoPut();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse PutParamHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
-        endpoint_Rest = Endpoint;
         BODY = body;
         try {
-            result = given()
-                    .contentType(ContentType.JSON).log().all()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+            result = Given()
+                    .queryParams(params.toString() == "{}" ? null : params)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .body(body)
                     .when()
                     .put(Endpoint)
@@ -458,18 +403,16 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoPut();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse PutParamHeaderBody(String body) throws IOException, BradescoException {
         BODY = body;
         try {
-            result = given()
-                    .contentType(ContentType.JSON).log().all()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+            result = Given()
+                    .queryParams(params.toString() == "{}" ? null : params)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .body(body)
                     .when()
                     .put()
@@ -478,18 +421,15 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoPut();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse PutParamBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
-        endpoint_Rest = Endpoint;
         BODY = body;
         try {
-            result = given()
-                    .contentType(ContentType.JSON).log().all()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+            result = Given()
+                    .queryParams(params.toString() == "{}" ? null : params)
                     .body(body)
                     .when()
                     .put(Endpoint)
@@ -498,17 +438,15 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoPut();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse PutParamBody(String body) throws IOException, BradescoException {
         BODY = body;
         try {
-            result = given()
-                    .contentType(ContentType.JSON).log().all()
-                    .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+            result = Given()
+                    .queryParams(params.toString() == "{}" ? null : params)
                     .body(body)
                     .when()
                     .put()
@@ -517,17 +455,15 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoPut();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse PutHeaderBody(String body) throws IOException, BradescoException {
         BODY = body;
         try {
-            result = given()
-                    .log().all().urlEncodingEnabled(false)
-                    .contentType(ContentType.JSON)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+            result = Given()
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .body(body)
                     .when()
                     .put()
@@ -536,18 +472,15 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoPut();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse PutHeaderBodyEndpoint(String body, String Endpoint) throws IOException, BradescoException {
-        endpoint_Rest = Endpoint;
         BODY = body;
         try {
-            result = given()
-                    .log().all().urlEncodingEnabled(false)
-                    .contentType(ContentType.JSON)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+            result = Given()
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .body(body)
                     .when()
                     .put(Endpoint)
@@ -556,132 +489,116 @@ public class CITRestAssured {
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoPut();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse Delete() throws IOException, BradescoException {
         try {
-            result = given()
-                    .log().all().urlEncodingEnabled(false)
-                    .contentType(ContentType.JSON)
+            result = Given()
                     .when().delete()
                     .then()
             ;
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoDelete();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse DeleteEndpoint(String Endpoint) throws IOException, BradescoException {
-        endpoint_Rest = Endpoint;
         try {
-            result = given()
-                    .log().all().urlEncodingEnabled(false)
-                    .contentType(ContentType.JSON)
+            result = Given()
                     .when().delete(Endpoint)
                     .then();
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoDelete();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse DeleteParam() throws IOException, BradescoException {
         try {
-            result = given()
-                    .log().all().urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .contentType(ContentType.JSON)
+            result = Given()
+                    .queryParams(params.toString() == "{}" ? null : params)
                     .when().delete()
                     .then();
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoDelete();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse DeleteParamEndpoint(String Endpoint) throws IOException, BradescoException {
-        endpoint_Rest = Endpoint;
         try {
-            result = given()
-                    .log().all().urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .contentType(ContentType.JSON)
+            result = Given()
+                    .queryParams(params.toString() == "{}" ? null : params)
                     .when().delete(Endpoint)
                     .then();
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoDelete();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse DeleteParamHeader() throws IOException, BradescoException {
         try {
-            result = given()
-                    .log().all().urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+            result = Given()
+                    .queryParams(params.toString() == "{}" ? null : params)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .contentType(ContentType.JSON)
                     .when().delete()
                     .then();
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoDelete();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse DeleteHeader() throws IOException, BradescoException {
         try {
-            result = given()
-                    .log().all().urlEncodingEnabled(false)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+            result = Given()
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .contentType(ContentType.JSON)
                     .when().delete()
                     .then();
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoDelete();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse DeleteHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
-        endpoint_Rest = Endpoint;
         try {
-            result = given()
-                    .log().all().urlEncodingEnabled(false)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+            result = Given()
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .contentType(ContentType.JSON)
                     .when().delete(Endpoint)
                     .then();
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoDelete();
+            ReportBradesco();
         }
     }
 
     public ValidatableResponse DeleteParamHeaderEndpoint(String Endpoint) throws IOException, BradescoException {
-        endpoint_Rest = Endpoint;
         try {
-            result = given()
-                    .log().all().urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+            result = Given()
+                    .queryParams(params.toString() == "{}" ? null : params)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .contentType(ContentType.JSON)
                     .when().delete(Endpoint)
                     .then();
             response = result.extract().response();
             return result;
         } finally {
-            report.ReportBradescoDelete();
+            ReportBradesco();
         }
     }
 
@@ -718,7 +635,9 @@ public class CITRestAssured {
     }
 
     public String JwtPS256(Map<String, Object> header, String PathKeyPrivateFormatPEM, String payload) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-
+        System.out.println("                                    *******************\n" +
+                "                                    Iniciando JWT PS256\n" +
+                "                                    *******************\n");
         File file = new File(PathKeyPrivateFormatPEM);
         String key = new String(Files.readAllBytes(file.toPath()), Charset.defaultCharset());
         String privateKeyPEM = key
@@ -746,7 +665,9 @@ public class CITRestAssured {
     }
 
     public String JwtHS256(Map<String, Object> header, String secret, String payload) {
-
+        System.out.println("                                    *******************\n" +
+                "                                    Iniciando JWT HS256\n" +
+                "                                    *******************\n");
         try {
             return Jwts
                     .builder()

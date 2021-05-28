@@ -69,9 +69,9 @@ public interface Constantes {
         } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env4")) {
             url = GetProp().getProperty("env4");
         } else {
-            throw new BradescoRuntimeException("Ambiente desconhecido: " + environment);
+            throw new BradescoRuntimeException("\n                             Ambiente desconhecido: " + environment);
         }
-        System.out.println("Ambiente selecionado: " + url + "(" + GetProp().getProperty("default") + ")");
+        System.out.println("\n                                  Ambiente selecionado: " + url + "(" + GetProp().getProperty("default") + ")");
         return url;
     }
 }
