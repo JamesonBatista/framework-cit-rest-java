@@ -92,9 +92,11 @@ _Simples, usando o step acima para efetuar validações é fácil_
      .body("support.url", Matchers.is("https://reqres.in/#support-heading"));
 ```
 <h4>E para extrair uma informação? Um valor?</h4>
+
 ```androiddatabinding
 String value = Get().extract().path("data.first_name");
         System.out.println("valor extraído é: " + value);
+        
 ```
 <h4>Em caso de um Post?</h4>
 _Nosso framework tem a cobertura dos possíveis posts_
@@ -118,7 +120,9 @@ E tantos outros. Basta olhar seu Postman e ver a necessidade.
 ```
 
 <h4>Em caso do meu post no Postman ter body, header, endpoint e param?</h4>
+
 _Use a mesma lógica do código abaixo para sua necessidade de acordo com o Postman_
+
 - No caso de ter um header e, ou param, você precisa chamar o params ou headers global, como abaixo.
 - headers e params serão enviados diretamente para seu método.
 - É obrigatório passar os valores, isso nos garante acertividade no método.
