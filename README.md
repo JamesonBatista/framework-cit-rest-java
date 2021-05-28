@@ -1,175 +1,184 @@
-#### A versão 3.0 é a versão sem o Report a 3.1 é com o Report
 
+<h1>Framework RestAssured CIT</h1>
 
->> Todas as funções da versão 3.0 estão na 3.1, única mudança é que a 3.1 usa o Report no final.
-> Caso não precise usar o Report, use a 3.0.
-```bazaar
-        <dependency>
-            <groupId>com.cit.framework</groupId>
-            <artifactId>framework-cit-rest-java</artifactId>
-            <version>3.0</version>
-        </dependency>
-```
+<blockquote>O uso do framework no Bradesco necessita de alguns arquivos para executar
+o framework CIT analisa se os arquivos existem no seu projeto, caso não, ele os cria.
+Ao final de cada método chamado o Report Bradesco é gerado automaticamente.
+</blockquote>
+<h6>Seu Postman serve de referência para seu código, no Postman você pode ter:<h6>
 
-# framework-cit-rest-java
+- get com header, parametros, endpoint, etc.
+- post com header, parametros, endpoint, body, etc.
+- put ....
+- delete ...
 
-*Para baixar o maven 3.1, necessário ter o arquivo settings.xml configurado, dentro de sua pasta .m2 .*
+<h4>Como iniciar meu GET POST PUT DELETE?</h4>
+<h6>Faremos validações no JSON de exemplo, no final do deste DOC</h6>
 
-*Se sua Chave não tiver acesso , solicite, do contrário o maven não baixará as dependências
-necessárias*
+_Abaixo temos um exemplo completo de como usar um simples GET_
 
-#### Para usar o Framework, basta extender o frame no seu step, Ex:
+- Extenda o framework na classe do seu STEP como abaixo:
+- Chame o métido InitEnvironmente(), nele você terá o start do RestAssured com todas as funcionalidades, dentro dele
+  passe o endpoint que você quer.
+- Get
+    - validar statusCode
+    - validar retorno do campo first_name no body
+```androiddatabinding
+public class GetUser extends CITRestAssured {
 
-> public class StepUser extends CITFrameworkRestAssured{}
+    @Given("^que seja feito GET na API \"([^\"]*)\"$")
+    public void queSejaFeitoGETNaAPI(String endpoint) throws Throwable {
 
-###### No seu step onde normalmente fica o **endpoint** você chama o *RestEnvironment*
-```
-    @Given("^que seja acessado o endpoint \"([^\"]*)\"$")
-    public void queSejaAcessadoOEndpoint(String endpoint) throws Throwable {
-        RestEnvironment(endpoint);
+        InitEnvironment(endpoint);
     }
 
-```
+    @Then("^faco get$")
+    public void facoGet() throws Throwable {
 
-*Caso você precise passar o endpoint no método chamado Ex:*
-```
-GetEndpoint("api/users/id").body("users.id", Matchers.is(10));
-```
-
-*Seu Given, onde normalmente fica o endpoint vindo da feature, ficaria dessa forma:*
-
-```
- @Given("^que seja acessado o endpoint \"([^\"]*)\"$")
-    public void queSejaAcessadoOEndpoint(String endpoint) throws Throwable {
-    
-        RestEnvironment();
-    }
-
- @Then("^for efetuado um get$")
-    public void forEfetuadoUmGet() throws Throwable {
-
-        GetEndpoint("api/users/id").body("users.id", Matchers.is(10));
-    }
-```
-
-**Você precisará ter na raiz do seu projeto uma pasta chamada environment**
-
-*Caso não tenha, crie uma pasta na raiz do projeto chamada environment e dentro um arquivo chamado data.properties,
-dentro dele estará os valores dos Ambientes, EX: tu=http://11111111111111111.*
-
-**crie e cole os valores abaixo**
-
-*copie apenas os valores abaixo*
-
-- tu=....
-- ti=.....
-- th=....
-- tu_local=.....
-- local=.....
-- prod=......
-- env1=.........
-- env2=.........
-- env3=.........
-- env4=.........
-- default=tu......
-
-o **default=tu** será a base, caso queira mudar de ambiente.
-
-Dentro do data.properties existe uma variável chamada **excludReport=logs** será o path de exclusão do seu Report. Caso
-queira mudar o local que é gerado o Report, dentro de test/resources existe (precisa existir) um arquivo chamado
-setup.properties, dentro dele você altera onde será gerado, seguida altere o **excludReport** para o local onde deixou
-no setup.properties
-
-Automaticamente será decidido entre GET e POST a criação do Report.
-
-###### Em caso de POST, **SEMPRE** passar o valor do body dentro do método chamado Ex:
-```
-PostHeaderBody(body).body("data.name", is("CIT"));
-```
-###### Headers e Params, use dessa forma no seu step PARAM.put("key", "value") OBS: nao precisa passar dentro do metodo Ex:
-
-```
-@When('usandoMetodoParaDarUmGet')
-public void usandoMetodoParaDarUmGet(){
-
-PARAM.put("key", "value");
-PostParamBody(body).statusCode(201).body("data.name", "default");
-
-HEADER.put("key", "value");
-GetHeader().statusCode(200).body("data.name", "default");
-
-PARAM.put("key", "value");
-HEADER.put("key", "value");
-GetParamHeader().statusCode(200).body("data.name", "default");
-
-}  
-```
-###### *Abaixo, alguns exemplos que podem ser usados:*
-
-```
-String value = Get().extract().path("data.name").toString();
-Assert.assertEquals(value, Matchers.is("default"));
-
-PARAM.put("key", "value");
-HEADER.put("key", "value");
-PostParamHeaderBodyEndpoint(body, "api/user/id").body("users.id", Matchers.is(10));
-
-Get().body("users.id", Matchers.is(10));
-
-GetEndpoint("api/users/id").body("users.id", Matchers.is(10));
-
-PostBodyEndpoint(body, "api/users/id").statusCode(201).body("users.id", Matchers.is(10));
-```
-### Aqui um Step completo de Exemplo
-```
-package steps.Gets;
-
-import com.cit.framework.CITFrameworkRestAssured;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-
-public class GetUser extends CITFrameworkRestAssured {
-
-
-    @Given("^que seja acessado o endpoint \"([^\"]*)\"$")
-    public void queSejaAcessadoOEndpoint(String endpoint) throws Throwable {
-        RestEnvironment(endpoint);
-    }
-
-    @Then("^for efetuado um get$")
-    public void forEfetuadoUmGet() throws Throwable {
-        String body = "{\"data\":\n" +
-                "{\"name\":\"CIT\"}\n" +
-                "}";
-          
-    HEADER.put("key","value");      
-    PostParamHeaderBody(body).statusCode(201).body("users.id", Matchers.is(10));
-
+        Get();
     }
 
 }
 ```
-## OU
-```
-public class GetUser extends CITFrameworkRestAssured {
 
+<h4>E no caso do endpoint precisar ser passado no get() post() delete() put() e não no InitEnvironment() ?</h4>
+_Simples, basta usar o exemplo abaixo, retire o endpoint do InitEnvironment()_
 
-    @Given("^que seja acessado o endpoint \"([^\"]*)\"$")
-    public void queSejaAcessadoOEndpoint() throws Throwable {
-        RestEnvironment();
+- Se seu get tiver essa condição, chame o GetEndpoint(); conforme abaixo:
+- E dentro dele passe o endpoint que você deseja.
+
+```androiddatabinding
+public class GetUser extends CITRestAssured {
+
+    @Given("^que seja feito GET na API \"([^\"]*)\"$")
+    public void queSejaFeitoGETNaAPI(String endpoint) throws Throwable {
+
+        InitEnvironment();
     }
 
-    @Then("^for efetuado um get$")
-    public void forEfetuadoUmGet() throws Throwable {
-        String body = "{\"data\":\n" +
-                "{\"name\":\"CIT\"}\n" +
-                "}";
-        PARAM.put("key","value");        
-        PostParamBodyEndpoint(body, "api/user/id").statusCode(201).......
+    @Then("^faco get$")
+    public void facoGet() throws Throwable {
 
+        GetEndpoint("users/7");
     }
 
 }
 ```
-> *Ao final de cada método chamado, o ReportBradesco será executado automaticamente*
-   
+
+<h4>Efetuando validações</h4>
+_Simples, usando o step acima para efetuar validações é fácil_
+
+- Depois do métido GetEndpoint() basta efetuar as validações como abaixo:
+
+```androiddatabinding
+   GetEndpoint("users/7")
+                .statusCode(200)
+        .body("data.first_name", Matchers.is("Michael"));
+        
+        GetEndpoint("users/7")
+                .statusCode(200)
+        .body("support.url", Matchers.is("https://reqres.in/#support-heading"));
+```
+
+- Caso seu endpoint esteja dentro do InitEnvironment(endpoint);
+
+```androiddatabinding
+ Get()
+      .statusCode(200)
+      .body("data.first_name", Matchers.is("Michael"));
+        
+ Get()
+     .statusCode(200)
+     .body("support.url", Matchers.is("https://reqres.in/#support-heading"));
+```
+<h4>E para extrair uma informação? Um valor?</h4>
+```androiddatabinding
+String value = Get().extract().path("data.first_name");
+        System.out.println("valor extraído é: " + value);
+```
+<h4>Em caso de um Post?</h4>
+_Nosso framework tem a cobertura dos possíveis posts_
+
+*Exemplos de métodos incluídos no framework:*
+- Post();
+- PostBody();
+- PostEndpoint();
+- PostHeader();
+- PostHeaderParam();
+
+E tantos outros. Basta olhar seu Postman e ver a necessidade.
+- Post
+    - validar statusCode
+    - validar retorno do body
+    - passando body que será enviado, TODO post precisa enviar um body.
+
+```androiddatabinding
+    String body = "{}";
+       PostBody(body).statusCode(201).body("data.first_name", Matchers.is("Michael"));
+```
+
+<h4>Em caso do meu post no Postman ter body, header, endpoint e param?</h4>
+_Use a mesma lógica do código abaixo para sua necessidade de acordo com o Postman_
+- No caso de ter um header e, ou param, você precisa chamar o params ou headers global, como abaixo.
+- headers e params serão enviados diretamente para seu método.
+- É obrigatório passar os valores, isso nos garante acertividade no método.
+```androiddatabinding
+        params.put("key", "value");
+        params.put("key2", "value2");
+        
+        headers.put("key", "value");
+        headers.put("key2", "value2");
+        
+        String body = "{}";
+       PostParamHeaderBodyEndpoint("users/7", body)
+       .body("data.first_name", Matchers.is("Michael"));
+```
+<h3>Use a mesma lógica de métodos acima para chamar o que você precisa, por exemplo:</h3>
+
+- Basta chama esse e outros métodos de acordo com a necessidade.
+```androiddatabinding
+        GetHeader();
+        GetParamHeader();
+        GetParamHeaderEndpoint();
+        GetParam();
+        
+        PostParamHeaderBodyEndpoint();
+        PostBodyEndpoint();
+        PostHeaderBody();
+        
+        PutBody();
+        PutBodyEndpoint();
+        PutHeaderBody();
+        
+        Delete();
+        DeleteEndpoint();
+        DeleteHeader();
+```
+
+<h4>Em caso de precisar ser feito um método Rest mais complexo?</h4>
+- Chame o método Given() depois disso basta usar o when().post() , when().get, etc.
+- Ao final do Given() será necessário chamar o método que cria o report, no Given() não é criado automaticamente
+```androiddatabinding
+Given().when().get();
+ou
+Given().formParam("key", "value")
+.formParam("key", "value").when().post();  
+
+ReportBradesco();
+```
+
+```cloudfoundry
+{
+    "data": {
+        "id": 7,
+        "email": "michael.lawson@reqres.in",
+        "first_name": "Michael",
+        "last_name": "Lawson",
+        "avatar": "https://reqres.in/img/faces/7-image.jpg"
+    },
+    "support": {
+        "url": "https://reqres.in/#support-heading",
+        "text": "To keep ReqRes free, contributions towards server costs are appreciated!"
+    }
+}
+```
