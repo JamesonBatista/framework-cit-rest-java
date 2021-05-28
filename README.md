@@ -1,5 +1,5 @@
+<h1 align="center"  color="#0000">Framework RestAssured CIT</h1>
 
-<h1>Framework RestAssured CIT</h1>
 
 <blockquote>O uso do framework no Bradesco necessita de alguns arquivos para executar
 o framework CIT analisa se os arquivos existem no seu projeto, caso não, ele os cria.
@@ -42,7 +42,7 @@ public class GetUser extends CITRestAssured {
 ```
 
 <h4>E no caso do endpoint precisar ser passado no get() post() delete() put() e não no InitEnvironment() ?</h4>
-_Simples, basta usar o exemplo abaixo, retire o endpoint do InitEnvironment()_
+*Simples, basta usar o exemplo abaixo, retire o endpoint do InitEnvironment()*
 
 - Se seu get tiver essa condição, chame o GetEndpoint(); conforme abaixo:
 - E dentro dele passe o endpoint que você deseja.
@@ -66,7 +66,7 @@ public class GetUser extends CITRestAssured {
 ```
 
 <h4>Efetuando validações</h4>
-_Simples, usando o step acima para efetuar validações é fácil_
+*Simples, usando o step acima para efetuar validações é fácil*
 
 - Depois do métido GetEndpoint() basta efetuar as validações como abaixo:
 
@@ -94,12 +94,13 @@ _Simples, usando o step acima para efetuar validações é fácil_
 <h4>E para extrair uma informação? Um valor?</h4>
 
 ```androiddatabinding
+
 String value = Get().extract().path("data.first_name");
         System.out.println("valor extraído é: " + value);
         
 ```
 <h4>Em caso de um Post?</h4>
-_Nosso framework tem a cobertura dos possíveis posts_
+*Nosso framework tem a cobertura dos possíveis posts*
 
 *Exemplos de métodos incluídos no framework:*
 - Post();
@@ -121,12 +122,13 @@ E tantos outros. Basta olhar seu Postman e ver a necessidade.
 
 <h4>Em caso do meu post no Postman ter body, header, endpoint e param?</h4>
 
-_Use a mesma lógica do código abaixo para sua necessidade de acordo com o Postman_
+*Use a mesma lógica do código abaixo para sua necessidade de acordo com o Postman*
 
 - No caso de ter um header e, ou param, você precisa chamar o params ou headers global, como abaixo.
 - headers e params serão enviados diretamente para seu método.
 - É obrigatório passar os valores, isso nos garante acertividade no método.
 ```androiddatabinding
+
         params.put("key", "value");
         params.put("key2", "value2");
         
@@ -136,11 +138,13 @@ _Use a mesma lógica do código abaixo para sua necessidade de acordo com o Post
         String body = "{}";
        PostParamHeaderBodyEndpoint("users/7", body)
        .body("data.first_name", Matchers.is("Michael"));
+       
 ```
 <h3>Use a mesma lógica de métodos acima para chamar o que você precisa, por exemplo:</h3>
 
 - Basta chama esse e outros métodos de acordo com a necessidade.
 ```androiddatabinding
+
         GetHeader();
         GetParamHeader();
         GetParamHeaderEndpoint();
@@ -157,18 +161,23 @@ _Use a mesma lógica do código abaixo para sua necessidade de acordo com o Post
         Delete();
         DeleteEndpoint();
         DeleteHeader();
+        
 ```
 
 <h4>Em caso de precisar ser feito um método Rest mais complexo?</h4>
+
 - Chame o método Given() depois disso basta usar o when().post() , when().get, etc.
 - Ao final do Given() será necessário chamar o método que cria o report, no Given() não é criado automaticamente
+
 ```androiddatabinding
+
 Given().when().get();
 ou
 Given().formParam("key", "value")
 .formParam("key", "value").when().post();  
 
 ReportBradesco();
+
 ```
 
 ```cloudfoundry
