@@ -71,7 +71,7 @@ class ReportPrivateBradesco extends CITRestAssured {
     }
 
     static Event DeleteRequest(String url) {
-        ValidatableResponse status = result.log().status();
+        String status = result.extract().statusLine();
         return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), "Status: " + status);
     }
 }

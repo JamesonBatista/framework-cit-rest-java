@@ -555,7 +555,7 @@ public class CITRestAssured {
                     .contentType(ContentType.JSON)
                     .when().delete()
                     .then()
-                    .log().status().log().body().assertThat();
+                    ;
             response = result.extract().response();
             return result;
         } finally {
@@ -570,8 +570,7 @@ public class CITRestAssured {
                     .log().all().urlEncodingEnabled(false)
                     .contentType(ContentType.JSON)
                     .when().delete(Endpoint)
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then();
             response = result.extract().response();
             return result;
         } finally {
@@ -586,8 +585,7 @@ public class CITRestAssured {
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
                     .contentType(ContentType.JSON)
                     .when().delete()
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then();
             response = result.extract().response();
             return result;
         } finally {
@@ -603,8 +601,7 @@ public class CITRestAssured {
                     .queryParams(PARAM.toString() == "{}" ? null : PARAM)
                     .contentType(ContentType.JSON)
                     .when().delete(Endpoint)
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then();
             response = result.extract().response();
             return result;
         } finally {
@@ -620,8 +617,7 @@ public class CITRestAssured {
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
                     .contentType(ContentType.JSON)
                     .when().delete()
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then();
             response = result.extract().response();
             return result;
         } finally {
@@ -636,8 +632,7 @@ public class CITRestAssured {
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
                     .contentType(ContentType.JSON)
                     .when().delete()
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then();
             response = result.extract().response();
             return result;
         } finally {
@@ -653,8 +648,7 @@ public class CITRestAssured {
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
                     .contentType(ContentType.JSON)
                     .when().delete(Endpoint)
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then();
             response = result.extract().response();
             return result;
         } finally {
@@ -671,8 +665,7 @@ public class CITRestAssured {
                     .headers(HEADERS.toString() == "{}" ? null : HEADERS)
                     .contentType(ContentType.JSON)
                     .when().delete(Endpoint)
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then();
             response = result.extract().response();
             return result;
         } finally {
