@@ -5,6 +5,7 @@ import com.bradesco.core.report.BradescoReporter;
 import com.bradesco.core.report.model.Event;
 import com.bradesco.core.report.model.HttpRequestEvent;
 import com.bradesco.core.sdk.enums.ReportStatus;
+import io.restassured.response.ValidatableResponse;
 import org.apache.http.HttpStatus;
 
 import java.io.IOException;
@@ -70,7 +71,7 @@ class ReportPrivateBradesco extends CITRestAssured {
     }
 
     static Event DeleteRequest(String url) {
-        String status = response.then().log().status().toString();
+        ValidatableResponse status = result.log().status();
         return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), "Status: " + status);
     }
 }
