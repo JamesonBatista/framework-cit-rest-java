@@ -32,7 +32,6 @@ public interface Constantes {
     /**
      * Ambientes DEV CI&T microserviços
      */
-
 //    String BASE_URL_CA = "http://52.224.147.14";
 //    String BASE_URL_PS = "http://40.76.156.91";
 
@@ -46,8 +45,7 @@ public interface Constantes {
 
     static String selecionaAmbiente() throws IOException {
 
-
-        String url = null;
+        String url = new String();
         if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "tu")) {
             url = GetProp().getProperty("tu");
         } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "ti")) {
@@ -72,6 +70,7 @@ public interface Constantes {
             System.out.println("Ambiente desconhecido: " + GetProp().getProperty("default"));
         }
         System.out.println("Ambiente selecionado: " + url + "  (** " + GetProp().getProperty("default") + " **)");
+
 
         return url;
     }
