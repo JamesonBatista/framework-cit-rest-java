@@ -2,15 +2,15 @@ package com.cit.framework;
 
 import com.bradesco.core.exception.BradescoException;
 
-import java.io.File;
 import java.io.IOException;
 
-public class Test extends CITRestAssured {
-    File file;
+import static com.cit.framework.Exclud.FilesSystem;
+
+ class Test extends CITRestAssured {
 
     @org.junit.Test
-    public void TestFrame() throws IOException, BradescoException, InterruptedException {
-
+     void TestFrame() throws IOException, BradescoException, InterruptedException {
+        FilesSystem();
 
         InitEnvironment("users/7");
         Get();

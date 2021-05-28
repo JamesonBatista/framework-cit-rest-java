@@ -1,54 +1,82 @@
 package com.cit.framework;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.nio.channels.FileChannel;
 
 import static util.FileProperties.GetProp;
-import static util.StringFilesSystem.*;
 
 public class Exclud {
     static File file;
+    static File dest;
+    static FileChannel sourceChannel = null;
+    static FileChannel destinationChannel = null;
 
 
     static void FilesSystem() throws IOException, InterruptedException {
         if (!new File("src/test/resources").exists()) {
             System.out.println("               AVISO:    A pasta -resources- não existe no projeto, estamos configurando...\n" +
                     "                            Assim que terminar execute o projeto novamente.");
+
             new File("src/test/resources").mkdir();
 
         }
-        file = new File("src/test/resources/setup.properties");
-        if (!file.exists()) {
+
+        if (!new File("src/test/resources/setup.properties").exists()) {
             System.out.println("              AVISO:  Arquivo setup.properties não existe no seu projeto, aguarde...\n" +
                     "                           Assim que terminar execute o projeto novamente.");
-            generateFilesSystem(setup);
+
+            file = new File("src/test/resources/fileSystem/setup.properties");
+            dest = new File("src/test/resources/setup.properties");
+            copyFiles(file, dest);
         }
 
-        file = new File("src/test/resources/leanft.properties");
-        if (!file.exists()) {
+        if (!new File("src/test/resources/leanft.properties").exists()) {
             System.out.println("              AVISO:  Arquivo leanft.properties não existe no seu projeto, aguarde...\n" +
                     "                           Assim que terminar execute o projeto novamente.");
-            generateFilesSystem(leanft);
+
+            file = new File("src/test/resources/fileSystem/leanft.properties");
+            dest = new File("src/test/resources/leanft.properties");
+            copyFiles(file, dest);
         }
 
         file = new File("environment/data.properties");
         if (!file.exists()) {
             System.out.println("              AVISO:  Arquivo environment/data.properties não existe no seu projeto, aguarde...\n" +
                     "                           OK, a pasta foi criada com os Ambientes do Sistema.");
+
             new File("environment").mkdir();
-            generateFilesSystem(dataProperties);
+            file = new File("src/test/resources/fileSystem/data.properties");
+            dest = new File("environment/data.properties");
+            copyFiles(file, dest);
+        }
+        if (!new File("src/test/resources/FrameworkCIT.md").exists()) {
+
+            file = new File("src/test/resources/fileSystem/FrameworkCIT.md");
+            dest = new File("src/test/resources/FrameworkCIT.md");
+            copyFiles(file, dest);
         }
     }
 
-    static void generateFilesSystem(String archive) throws IOException, InterruptedException {
-        FileWriter writer = new FileWriter(file);
-        PrintWriter printWriter = new PrintWriter(writer);
-        printWriter.printf(archive);
-        writer.close();
-    }
+    public static void copyFiles(File aqr, File destination) throws IOException {
 
+        if (!destination.exists()) {
+            try {
+                sourceChannel = new FileInputStream(aqr).getChannel();
+                destinationChannel = new FileOutputStream(destination).getChannel();
+                sourceChannel.transferTo(0, sourceChannel.size(),
+                        destinationChannel);
+            } finally {
+                if (sourceChannel != null && sourceChannel.isOpen())
+                    sourceChannel.close();
+                if (destinationChannel != null && destinationChannel.isOpen())
+                    destinationChannel.close();
+            }
+        }
+
+    }
 
     public static void ExcludReportBradesco() throws IOException, InterruptedException {
         FilesSystem();

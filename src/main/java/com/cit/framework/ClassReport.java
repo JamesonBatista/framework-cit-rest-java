@@ -12,7 +12,6 @@ import java.util.Optional;
 import java.util.Scanner;
 
 import static com.cit.framework.CITRestAssured.*;
-import static util.FileProperties.GetProp;
 
 class ClassReport {
     private static String report;

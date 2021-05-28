@@ -91,6 +91,10 @@ public class CITRestAssured {
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         baseURI = Constantes.selecionaAmbiente();
         RestAssured.useRelaxedHTTPSValidation();
+        System.out.println("\n                                √  Ambiente selecionado: " + baseURI + " ** + " + GetProp().getProperty("default")
+                .toUpperCase(Locale.ROOT) + " **");
+        System.out.println("                                     Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***\n");
+
     }
 
     public ValidatableResponse Get() throws IOException, BradescoException {
