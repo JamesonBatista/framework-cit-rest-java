@@ -10,11 +10,13 @@ import io.restassured.RestAssured;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.config.SSLConfig;
 import io.restassured.filter.log.LogDetail;
+import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.output.WriterOutputStream;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.springframework.util.ResourceUtils;
 import util.Constantes;
@@ -22,10 +24,7 @@ import util.Constantes;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -51,10 +50,23 @@ public class CITRestAssured {
     public static Map<String, Object> HEADERS = new HashMap<>();
 
     private static Logger LOGGER = Logger.getLogger("InfoLogging");
-   public   ReportPrivateBradesco report;
+    public ReportPrivateBradesco report;
+
+    public static StringWriter requestWriter;
+    static PrintStream requestCapture;
+
+    static void initReport() {
+        requestWriter = new StringWriter();
+        requestCapture = new PrintStream(new WriterOutputStream(requestWriter), true);
+    }
+
+    static RequestSpecification GivenRest() {
+        return given().filter(new RequestLoggingFilter(requestCapture));
+    }
 
     public void RestEnvironment(String Endpoint) throws IOException {
         report = new ReportPrivateBradesco();
+        initReport();
         try {
             RestAssured.reset();
             enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
@@ -69,7 +81,7 @@ public class CITRestAssured {
 
     public void RestEnvironment() throws IOException {
         report = new ReportPrivateBradesco();
-
+        initReport();
         try {
             RestAssured.reset();
             enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
@@ -84,7 +96,7 @@ public class CITRestAssured {
 
     public ValidatableResponse Get() throws IOException, BradescoException {
         try {
-            result = given()
+            result = GivenRest()
                     .urlEncodingEnabled(false).log().all()
                     .when()
                     .get()
@@ -100,7 +112,7 @@ public class CITRestAssured {
     public ValidatableResponse GetEndpoint(String Endpoint) throws IOException, BradescoException {
         endpoint_Rest = Endpoint;
         try {
-            result = given()
+            result = GivenRest()
                     .urlEncodingEnabled(false).log().all()
                     .when()
                     .get(Endpoint)
@@ -555,7 +567,7 @@ public class CITRestAssured {
                     .contentType(ContentType.JSON)
                     .when().delete()
                     .then()
-                    ;
+            ;
             response = result.extract().response();
             return result;
         } finally {

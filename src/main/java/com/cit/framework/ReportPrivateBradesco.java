@@ -5,21 +5,37 @@ import com.bradesco.core.report.BradescoReporter;
 import com.bradesco.core.report.model.Event;
 import com.bradesco.core.report.model.HttpRequestEvent;
 import com.bradesco.core.sdk.enums.ReportStatus;
-import io.restassured.response.ValidatableResponse;
-import org.apache.http.HttpStatus;
+import org.apache.commons.io.output.WriterOutputStream;
 
 import java.io.IOException;
+import java.io.PrintStream;
+import java.io.StringWriter;
 import java.util.Optional;
+import java.util.Scanner;
 
+import static com.cit.framework.CITRestAssured.*;
 import static io.restassured.RestAssured.baseURI;
 import static util.FileProperties.GetProp;
 
-class ReportPrivateBradesco extends CITRestAssured {
+class ReportPrivateBradesco {
+    static String URIFinal() {
+
+        String result = null;
+        Scanner sc = new Scanner(requestWriter.toString());
+        while (sc.hasNext()) {
+            result = sc.next();
+            if (result.contains("URI:")) {
+                result = sc.next();
+                break;
+            }
+        }
+        return result;
+    }
 
     public void ReportBradescoGet() throws BradescoException, IOException {
         Exclud.ConsoleDesigner("    GET   ");
         BradescoReporter.report(ReportStatus.PASSED, "GET executado, abaixo evidências:");
-        BradescoReporter.reportEvent(HttpRequestEvent.getRequest(endpoint_Rest == "" ? baseURI : baseURI + endpoint_Rest, response.asString()));
+        BradescoReporter.reportEvent(HttpRequestEvent.getRequest(URIFinal(), response.asString()));
         Finish();
     }
 
