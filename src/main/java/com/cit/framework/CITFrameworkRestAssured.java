@@ -18,8 +18,8 @@ public class CITFrameworkRestAssured {
     static String BODY = null;
     static String endpoint_Rest = "";
     static String PUT = null;
-    public static Map<String, Object> PARAM = new HashMap<>();
-    public static Map<String, Object> HEADERS = new HashMap<>();
+    public static Map<String, Object> params = new HashMap<>();
+    public static Map<String, Object> headers = new HashMap<>();
 
 
     public void RestEnvironment(String Endpoint) throws IOException {
@@ -53,7 +53,7 @@ public class CITFrameworkRestAssured {
 
     }
 
-    public ValidatableResponse GetEndpoint(String Endpoint) throws IOException{
+    public ValidatableResponse GetEndpoint(String Endpoint) throws IOException {
         endpoint_Rest = Endpoint;
 
         try {
@@ -78,8 +78,8 @@ public class CITFrameworkRestAssured {
             return given()
                     .urlEncodingEnabled(false)
                     .log().all()
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .queryParams(params.toString() == "{}" ? null : params)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .when()
                     .get(Endpoint)
                     .then()
@@ -92,12 +92,12 @@ public class CITFrameworkRestAssured {
 
     }
 
-    public ValidatableResponse GetParam() throws IOException{
+    public ValidatableResponse GetParam() throws IOException {
         try {
             return given()
                     .urlEncodingEnabled(false)
                     .log().all()
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .queryParams(params.toString() == "{}" ? null : params)
                     .when()
                     .get()
                     .then()
@@ -115,7 +115,7 @@ public class CITFrameworkRestAssured {
         try {
             return given().log().all()
                     .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .queryParams(params.toString() == "{}" ? null : params)
                     .when()
                     .get(Endpoint)
                     .then()
@@ -128,13 +128,13 @@ public class CITFrameworkRestAssured {
 
     }
 
-    public ValidatableResponse GetParamHeader() throws IOException{
+    public ValidatableResponse GetParamHeader() throws IOException {
         try {
             return given()
                     .urlEncodingEnabled(false)
                     .log().all()
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .queryParams(params.toString() == "{}" ? null : params)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .when()
                     .get()
                     .then()
@@ -146,12 +146,12 @@ public class CITFrameworkRestAssured {
 
     }
 
-    public ValidatableResponse GetHeader() throws IOException{
+    public ValidatableResponse GetHeader() throws IOException {
         try {
             return given()
                     .urlEncodingEnabled(false)
                     .log().all()
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .when()
                     .get()
                     .then()
@@ -162,12 +162,12 @@ public class CITFrameworkRestAssured {
 
     }
 
-    public ValidatableResponse GetHeaderEndpoint(String Endpoint) throws IOException{
+    public ValidatableResponse GetHeaderEndpoint(String Endpoint) throws IOException {
         endpoint_Rest = Endpoint;
         try {
             return given().log().all()
                     .urlEncodingEnabled(false)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .when()
                     .get(Endpoint)
                     .then()
@@ -214,15 +214,15 @@ public class CITFrameworkRestAssured {
 
     }
 
-    public ValidatableResponse PostParamHeaderBodyEndpoint(String body, String Endpoint) throws IOException{
+    public ValidatableResponse PostParamHeaderBodyEndpoint(String body, String Endpoint) throws IOException {
         endpoint_Rest = Endpoint;
         BODY = body;
         try {
             return given()
                     .contentType(ContentType.JSON).log().all()
                     .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .queryParams(params.toString() == "{}" ? null : params)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .body(body)
                     .when()
                     .post(Endpoint)
@@ -241,8 +241,8 @@ public class CITFrameworkRestAssured {
             return given()
                     .contentType(ContentType.JSON).log().all()
                     .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .queryParams(params.toString() == "{}" ? null : params)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .body(body)
                     .when()
                     .post()
@@ -261,7 +261,7 @@ public class CITFrameworkRestAssured {
             return given()
                     .contentType(ContentType.JSON).log().all()
                     .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .queryParams(params.toString() == "{}" ? null : params)
                     .body(body)
                     .when()
                     .post(Endpoint)
@@ -279,7 +279,7 @@ public class CITFrameworkRestAssured {
             return given()
                     .contentType(ContentType.JSON).log().all()
                     .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .queryParams(params.toString() == "{}" ? null : params)
                     .body(body)
                     .when()
                     .post()
@@ -297,7 +297,7 @@ public class CITFrameworkRestAssured {
             return given()
                     .log().all().urlEncodingEnabled(false)
                     .contentType(ContentType.JSON)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .body(body)
                     .when()
                     .post()
@@ -316,7 +316,7 @@ public class CITFrameworkRestAssured {
             return given()
                     .log().all().urlEncodingEnabled(false)
                     .contentType(ContentType.JSON)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .body(body)
                     .when()
                     .post(Endpoint)
@@ -347,7 +347,7 @@ public class CITFrameworkRestAssured {
 
     }
 
-    public ValidatableResponse PutBodyEndpoint(String body, String Endpoint) throws IOException{
+    public ValidatableResponse PutBodyEndpoint(String body, String Endpoint) throws IOException {
         endpoint_Rest = Endpoint;
         BODY = body;
         PUT = "put";
@@ -374,8 +374,8 @@ public class CITFrameworkRestAssured {
             return given()
                     .contentType(ContentType.JSON).log().all()
                     .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .queryParams(params.toString() == "{}" ? null : params)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .body(body)
                     .when()
                     .put(Endpoint)
@@ -394,8 +394,8 @@ public class CITFrameworkRestAssured {
             return given()
                     .contentType(ContentType.JSON).log().all()
                     .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .queryParams(params.toString() == "{}" ? null : params)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .body(body)
                     .when()
                     .put()
@@ -415,7 +415,7 @@ public class CITFrameworkRestAssured {
             return given()
                     .contentType(ContentType.JSON).log().all()
                     .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .queryParams(params.toString() == "{}" ? null : params)
                     .body(body)
                     .when()
                     .put(Endpoint)
@@ -427,14 +427,14 @@ public class CITFrameworkRestAssured {
 
     }
 
-    public ValidatableResponse PutParamBody(String body) throws IOException{
+    public ValidatableResponse PutParamBody(String body) throws IOException {
         BODY = body;
         PUT = "put";
         try {
             return given()
                     .contentType(ContentType.JSON).log().all()
                     .urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .queryParams(params.toString() == "{}" ? null : params)
                     .body(body)
                     .when()
                     .put()
@@ -446,14 +446,14 @@ public class CITFrameworkRestAssured {
 
     }
 
-    public ValidatableResponse PutHeaderBody(String body) throws IOException{
+    public ValidatableResponse PutHeaderBody(String body) throws IOException {
         BODY = body;
         PUT = "put";
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
                     .contentType(ContentType.JSON)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .body(body)
                     .when()
                     .put()
@@ -473,7 +473,7 @@ public class CITFrameworkRestAssured {
             return given()
                     .log().all().urlEncodingEnabled(false)
                     .contentType(ContentType.JSON)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .body(body)
                     .when()
                     .put(Endpoint)
@@ -514,11 +514,11 @@ public class CITFrameworkRestAssured {
 
     }
 
-    public ValidatableResponse DeleteParam() throws IOException{
+    public ValidatableResponse DeleteParam() throws IOException {
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .queryParams(params.toString() == "{}" ? null : params)
                     .contentType(ContentType.JSON)
                     .when().delete()
                     .then()
@@ -529,12 +529,12 @@ public class CITFrameworkRestAssured {
 
     }
 
-    public ValidatableResponse DeleteParamEndpoint(String Endpoint) throws IOException{
+    public ValidatableResponse DeleteParamEndpoint(String Endpoint) throws IOException {
         endpoint_Rest = Endpoint;
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
+                    .queryParams(params.toString() == "{}" ? null : params)
                     .contentType(ContentType.JSON)
                     .when().delete(Endpoint)
                     .then()
@@ -549,8 +549,8 @@ public class CITFrameworkRestAssured {
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .queryParams(params.toString() == "{}" ? null : params)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .contentType(ContentType.JSON)
                     .when().delete()
                     .then()
@@ -561,11 +561,11 @@ public class CITFrameworkRestAssured {
 
     }
 
-    public ValidatableResponse DeleteHeader() throws IOException{
+    public ValidatableResponse DeleteHeader() throws IOException {
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .contentType(ContentType.JSON)
                     .when().delete()
                     .then()
@@ -581,7 +581,7 @@ public class CITFrameworkRestAssured {
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .contentType(ContentType.JSON)
                     .when().delete(Endpoint)
                     .then()
@@ -592,13 +592,13 @@ public class CITFrameworkRestAssured {
 
     }
 
-    public ValidatableResponse DeleteParamHeaderEndpoint(String Endpoint) throws IOException{
+    public ValidatableResponse DeleteParamHeaderEndpoint(String Endpoint) throws IOException {
         endpoint_Rest = Endpoint;
         try {
             return given()
                     .log().all().urlEncodingEnabled(false)
-                    .queryParams(PARAM.toString() == "{}" ? null : PARAM)
-                    .headers(HEADERS.toString() == "{}" ? null : HEADERS)
+                    .queryParams(params.toString() == "{}" ? null : params)
+                    .headers(headers.toString() == "{}" ? null : headers)
                     .contentType(ContentType.JSON)
                     .when().delete(Endpoint)
                     .then()
