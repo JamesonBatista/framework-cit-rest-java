@@ -15,7 +15,7 @@ Ao final de cada método chamado o Report Bradesco é gerado automaticamente.
 <h4>Como iniciar meu GET POST PUT DELETE?</h4>
 <h6>Faremos validações no JSON de exemplo, no final do deste DOC</h6>
 
-_Abaixo temos um exemplo completo de como usar um simples GET_
+*Abaixo temos um exemplo completo de como usar um simples GET*
 
 - Extenda o framework na classe do seu STEP como abaixo:
 - Chame o métido InitEnvironmente(), nele você terá o start do RestAssured com todas as funcionalidades, dentro dele
@@ -66,6 +66,7 @@ public class GetUser extends CITRestAssured {
 ```
 
 <h4>Efetuando validações</h4>
+
 *Simples, usando o step acima para efetuar validações é fácil*
 
 - Depois do métido GetEndpoint() basta efetuar as validações como abaixo:
@@ -127,6 +128,7 @@ E tantos outros. Basta olhar seu Postman e ver a necessidade.
 - No caso de ter um header e, ou param, você precisa chamar o params ou headers global, como abaixo.
 - headers e params serão enviados diretamente para seu método.
 - É obrigatório passar os valores, isso nos garante acertividade no método.
+
 ```androiddatabinding
 
         params.put("key", "value");
@@ -140,9 +142,11 @@ E tantos outros. Basta olhar seu Postman e ver a necessidade.
        .body("data.first_name", Matchers.is("Michael"));
        
 ```
+
 <h3>Use a mesma lógica de métodos acima para chamar o que você precisa, por exemplo:</h3>
 
 - Basta chama esse e outros métodos de acordo com a necessidade.
+
 ```androiddatabinding
 
         GetHeader();
