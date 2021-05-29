@@ -71,7 +71,6 @@ public class CITRestAssured {
     }
 
     public void InitEnvironment(String Endpoint) throws IOException, InterruptedException {
-        Exclud.ExcludReportBradesco();
         InitReport();
         RestAssured.reset();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
@@ -85,7 +84,6 @@ public class CITRestAssured {
     }
 
     public void InitEnvironment() throws IOException, InterruptedException {
-        Exclud.ExcludReportBradesco();
         InitReport();
         RestAssured.reset();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
