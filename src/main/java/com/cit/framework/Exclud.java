@@ -1,19 +1,15 @@
 package com.cit.framework;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.channels.FileChannel;
 
 import static util.FileProperties.GetProp;
+import static util.TextSystemFiles.*;
 
 public class Exclud {
-    static File file;
-    static File dest;
-    static FileChannel sourceChannel = null;
-    static FileChannel destinationChannel = null;
 
+    static FileWriter file;
+    static PrintWriter print;
 
     static void FilesSystem() throws IOException, InterruptedException {
         if (!new File("src/test/resources").exists()) {
@@ -28,54 +24,37 @@ public class Exclud {
             System.out.println("              AVISO:  Arquivo setup.properties não existe no seu projeto, aguarde...\n" +
                     "                           Assim que terminar execute o projeto novamente.");
 
-            file = new File("src/test/resources/fileSystem/setup.properties");
-            dest = new File("src/test/resources/setup.properties");
-            copyFiles(file, dest);
+            file = new FileWriter("src/test/resources/setup.properties");
+            copyFiles(file, setup);
         }
 
         if (!new File("src/test/resources/leanft.properties").exists()) {
             System.out.println("              AVISO:  Arquivo leanft.properties não existe no seu projeto, aguarde...\n" +
                     "                           Assim que terminar execute o projeto novamente.");
 
-            file = new File("src/test/resources/fileSystem/leanft.properties");
-            dest = new File("src/test/resources/leanft.properties");
-            copyFiles(file, dest);
+            file = new FileWriter("src/test/resources/leanft.properties");
+            copyFiles(file, leanft);
         }
 
-        file = new File("environment/data.properties");
-        if (!file.exists()) {
+        if (!new File("environment/data.properties").exists()) {
             System.out.println("              AVISO:  Arquivo environment/data.properties não existe no seu projeto, aguarde...\n" +
                     "                           OK, a pasta foi criada com os Ambientes do Sistema.");
 
             new File("environment").mkdir();
-            file = new File("src/test/resources/fileSystem/data.properties");
-            dest = new File("environment/data.properties");
-            copyFiles(file, dest);
+            file = new FileWriter("environment/data.properties");
+            copyFiles(file, dataProperties);
         }
         if (!new File("src/test/resources/FrameworkCIT.md").exists()) {
 
-            file = new File("src/test/resources/fileSystem/FrameworkCIT.md");
-            dest = new File("src/test/resources/FrameworkCIT.md");
-            copyFiles(file, dest);
+            file = new FileWriter("src/test/resources/FrameworkCIT.md");
+            copyFiles(file, framework);
         }
     }
 
-    public static void copyFiles(File aqr, File destination) throws IOException {
-
-        if (!destination.exists()) {
-            try {
-                sourceChannel = new FileInputStream(aqr).getChannel();
-                destinationChannel = new FileOutputStream(destination).getChannel();
-                sourceChannel.transferTo(0, sourceChannel.size(),
-                        destinationChannel);
-            } finally {
-                if (sourceChannel != null && sourceChannel.isOpen())
-                    sourceChannel.close();
-                if (destinationChannel != null && destinationChannel.isOpen())
-                    destinationChannel.close();
-            }
-        }
-
+    public static void copyFiles(FileWriter file, String text) throws IOException {
+        print = new PrintWriter(file);
+        print.printf(text);
+        file.close();
     }
 
     public static void ExcludReportBradesco() throws IOException, InterruptedException {
