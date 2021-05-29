@@ -13,7 +13,10 @@ import static com.cit.framework.Exclud.FilesSystem;
         FilesSystem();
 
         InitEnvironment("users/7");
-        Get();
+//        Get();
+        Post();
+        PutBody("{}");
+        Delete();
     }
 
 

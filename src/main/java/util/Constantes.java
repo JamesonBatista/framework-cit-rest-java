@@ -19,7 +19,7 @@ public interface Constantes {
     /**
      * Ambiente TU Bradesco Gateway https://api.openbanking.tu.teste.internet
      */
-    //String BASE_URL_GATEWAY = "https://10.233.128.67:8443";
+//    String BASE_URL_GATEWAY = selecionaAmbiente();
 
     /**
      * Ambiente TH Gateway https://api.openbanking.prebanco.com.br:8443

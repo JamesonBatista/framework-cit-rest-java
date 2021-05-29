@@ -17,6 +17,7 @@ class ClassReport {
     private static String report;
 
     public static void ReportBradesco() throws IOException, BradescoException {
+//        InitReport();
         Scanner sc = new Scanner(requestWriter.toString());
 
         while (sc.hasNext()) {
@@ -24,20 +25,21 @@ class ClassReport {
             report = sc.next();
             if (report.contains("method:")) {
                 report = sc.next();
-            }
-            if (report.contains("GET")) {
-                GetReport();
-            } else if (report.contains("POST")) {
-                PostReport();
-            } else if (report.contains("DELETE")) {
-                DeleteReport();
-            } else if (report.contains("PUT")) {
-                PutReport();
-            } else {
-                throw new BradescoRuntimeException("\n                             Método RestAssured Desconhecido: " + report);
+                if (report.contains("GET")) {
+                    GetReport();
+                } else if (report.contains("POST")) {
+                    PostReport();
+                } else if (report.contains("DELETE")) {
+                    DeleteReport();
+                } else if (report.contains("PUT")) {
+                    PutReport();
+                } else {
+                    throw new BradescoRuntimeException("\n                             Método RestAssured Desconhecido: " + report);
+                }
             }
             break;
         }
+        sc.close();
     }
 
     private static String URIFinal() {

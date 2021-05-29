@@ -74,7 +74,13 @@ public class CITRestAssured {
         InitReport();
         RestAssured.reset();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
-        baseURI = Constantes.selecionaAmbiente() + Endpoint;
+        if (Endpoint.length > 0) {
+            for (String endpoint : Endpoint) {
+                baseURI = Constantes.selecionaAmbiente() + endpoint;
+            }
+        } else {
+            baseURI = Constantes.selecionaAmbiente();
+        }
         RestAssured.useRelaxedHTTPSValidation();
         System.out.println("\n                                √  Ambiente selecionado: " + baseURI + " ** + " + GetProp().getProperty("default")
                 .toUpperCase(Locale.ROOT) + " **");
