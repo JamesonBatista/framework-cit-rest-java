@@ -17,7 +17,6 @@ class ClassReport {
     private static String report;
 
     public static void ReportBradesco() throws IOException, BradescoException {
-//        InitReport();
         Scanner sc = new Scanner(requestWriter.toString());
 
         while (sc.hasNext()) {
