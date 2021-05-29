@@ -4,6 +4,19 @@
 o framework CIT analisa se os arquivos existem no seu projeto, caso não, ele os cria.
 Ao final de cada método chamado o Report Bradesco é gerado automaticamente.
 </blockquote>
+
+*Além disso dentro de sua classe de execucão dos testes Ex: RegresstionTest*
+
+Ele irá excluir seus reports antigos a cada execução
+
+```androiddatabinding
+public class RegressionTest {
+    @BeforeClass
+    public static void init() throws IOException, InterruptedException {
+        ExcludReportBradesco();
+    }
+}
+```
 <h6>Seu Postman serve de referência para seu código, no Postman você pode ter:<h6>
 
 - get com header, parametros, endpoint, etc.
