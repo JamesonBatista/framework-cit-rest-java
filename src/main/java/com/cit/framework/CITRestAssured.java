@@ -70,30 +70,29 @@ public class CITRestAssured {
                 .log().all();
     }
 
-    public void InitEnvironment(String Endpoint) throws IOException, InterruptedException {
+    public void InitEnvironment(String... Endpoint) throws IOException, InterruptedException {
         InitReport();
         RestAssured.reset();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
-        baseURI = Constantes.selecionaAmbiente();
-        basePath = Endpoint;
+        baseURI = Constantes.selecionaAmbiente() + Endpoint;
         RestAssured.useRelaxedHTTPSValidation();
         System.out.println("\n                                √  Ambiente selecionado: " + baseURI + " ** + " + GetProp().getProperty("default")
                 .toUpperCase(Locale.ROOT) + " **");
-        System.out.println("                                     Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***\n");
+        System.out.println("                                  √  Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***\n");
 
     }
-
-    public void InitEnvironment() throws IOException, InterruptedException {
-        InitReport();
-        RestAssured.reset();
-        enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
-        baseURI = Constantes.selecionaAmbiente();
-        RestAssured.useRelaxedHTTPSValidation();
-        System.out.println("\n                                √  Ambiente selecionado: " + baseURI + " ** + " + GetProp().getProperty("default")
-                .toUpperCase(Locale.ROOT) + " **");
-        System.out.println("                                     Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***\n");
-
-    }
+//
+//    public void InitEnvironment() throws IOException, InterruptedException {
+//        InitReport();
+//        RestAssured.reset();
+//        enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
+//        baseURI = Constantes.selecionaAmbiente();
+//        RestAssured.useRelaxedHTTPSValidation();
+//        System.out.println("\n                                √  Ambiente selecionado: " + baseURI + " ** + " + GetProp().getProperty("default")
+//                .toUpperCase(Locale.ROOT) + " **");
+//        System.out.println("                                  √  Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***\n");
+//
+//    }
 
     public ValidatableResponse Get() throws IOException, BradescoException {
         try {

@@ -34,6 +34,19 @@ public class TextSystemFiles {
             "o framework CIT analisa se os arquivos existem no seu projeto, caso não, ele os cria.\n" +
             "Ao final de cada método chamado o Report Bradesco é gerado automaticamente.\n" +
             "</blockquote>\n" +
+            "\n" +
+            "*Além disso dentro de sua classe de execucão dos testes Ex: RegresstionTest*\n" +
+            "\n" +
+            "Ele irá excluir seus reports antigos a cada execução\n" +
+            "\n" +
+            "```androiddatabinding\n" +
+            "public class RegressionTest {\n" +
+            "    @BeforeClass\n" +
+            "    public static void init() throws IOException, InterruptedException {\n" +
+            "        ExcludReportBradesco();\n" +
+            "    }\n" +
+            "}\n" +
+            "```\n" +
             "<h6>Seu Postman serve de referência para seu código, no Postman você pode ter:<h6>\n" +
             "\n" +
             "- get com header, parametros, endpoint, etc.\n" +
