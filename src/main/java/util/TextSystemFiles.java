@@ -4,7 +4,7 @@ public class TextSystemFiles {
 
     public static String setup = "startup.web.browser=CHROME\n" +
             "env.var.webdriver.chrome.driver=C:/Temp/chromedriver_win32/chromedriver.exe\n" +
-            "reporter.log_dir=target/logs/\n" +
+            "reporter.log_dir=target/logs\n" +
             "reporter.evidence_dir=target/screenshots/\n" +
             "reporter.formatter=pdfFormatter\n" +
             "reporter.fmt_export={date}-{testStatus}-{testId}\n" +

@@ -6,15 +6,15 @@ import java.io.IOException;
 
 import static com.cit.framework.Exclud.FilesSystem;
 
-class Test extends CITRestAssured {
+public class Test extends CITRestAssured {
 
     @org.junit.Test
-    void TestFrame() throws IOException, BradescoException, InterruptedException {
+    public void TestFrame() throws IOException, BradescoException, InterruptedException {
         FilesSystem();
 
         InitEnvironment("users/7");
-        Get();
-//        Post();
+//        Get();
+        PostBody("{}");
 //        PutBody("{}");
 //        Delete();
     }
