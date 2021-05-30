@@ -61,24 +61,27 @@ public class CITRestAssured {
     static void initReport(Boolean... logs) throws IOException, BradescoException {
         if (logs.length == 0) {
             ReportBradesco();
+        } else {
+            System.out.println("\n                                √  Report não solicitado.");
+
         }
     }
 
-    public RequestSpecification Given() {
+    private RequestSpecification Given() {
         InitReport();
-
         return given().filter(new RequestLoggingFilter(requestCapture))
                 .urlEncodingEnabled(false).contentType(ContentType.JSON)
                 .log().all();
     }
 
-    public RequestSpecification Given(ContentType type) {
+    public RequestSpecification GivenExternal(ContentType type) {
+        InitReport();
         return given().filter(new RequestLoggingFilter(requestCapture))
                 .urlEncodingEnabled(false).contentType(type)
                 .log().all();
     }
 
-    public void InitEnvironment(String... Endpoint) throws IOException, InterruptedException {
+    public void InitEnvironment(String... Endpoint) throws IOException {
         RestAssured.reset();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         if (Endpoint.length > 0) {
@@ -91,7 +94,6 @@ public class CITRestAssured {
         RestAssured.useRelaxedHTTPSValidation();
         System.out.println("\n                                √  Ambiente selecionado: " + baseURI + " ** + " + GetProp().getProperty("default")
                 .toUpperCase(Locale.ROOT) + " **");
-        System.out.println("                                  √  Report Bradesco gerado no path: *** " + GetProp().getProperty("excludReport") + " ***\n");
 
     }
 

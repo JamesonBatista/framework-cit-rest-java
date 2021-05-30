@@ -26,11 +26,11 @@ public class TextSystemFiles {
             "env3=\n" +
             "env4=https://3lkjfnsgalsfnagl\n" +
             "default= env2\n" +
-            "excludReport=target/logs/";
+            "excludReport=target/logs";
 
     public static String framework = "<h1>Framework RestAssured CIT</h1>\n" +
             "\n" +
-            "<blockquote>O uso do framework no Bradesco necessita de alguns arquivos para executar\n" +
+            "<blockquote>O uso do framework no Bradesco necessita de alguns arquivos para executar,\n" +
             "o framework CIT analisa se os arquivos existem no seu projeto, caso não, ele os cria.\n" +
             "Ao final de cada método chamado o Report Bradesco é gerado automaticamente.\n" +
             "</blockquote>\n" +
@@ -38,6 +38,17 @@ public class TextSystemFiles {
             "*Além disso dentro de sua classe de execucão dos testes Ex: RegresstionTest*\n" +
             "\n" +
             "Ele irá excluir seus reports antigos a cada execução\n" +
+            "\n" +
+            ">>Em caso de chamar métodos sem precisar usar o reportBradesco\n" +
+            ">\n" +
+            "> Basta apenas passar dentro do método como último parâmetro o **false**, exemplo:\n" +
+            "> \n" +
+            "```androiddatabinding\n" +
+            " GetEndpoint(\"users/7\", false);\n" +
+            " Get(false);\n" +
+            " PostHeader(false);\n" +
+            "\n" +
+            "```\n" +
             "\n" +
             "```androiddatabinding\n" +
             "public class RegressionTest {\n" +
@@ -62,9 +73,9 @@ public class TextSystemFiles {
             "- Extenda o framework na classe do seu STEP como abaixo:\n" +
             "- Chame o métido InitEnvironmente(), nele você terá o start do RestAssured com todas as funcionalidades, dentro dele\n" +
             "  passe o endpoint que você quer.\n" +
+            "  \n" +
             "- Get\n" +
-            "  - validar statusCode\n" +
-            "  - validar retorno do campo first_name no body\n" +
+            "\n" +
             "```androiddatabinding\n" +
             "public class GetUser extends CITRestAssured {\n" +
             "\n" +
@@ -110,7 +121,7 @@ public class TextSystemFiles {
             "<h4>Efetuando validações</h4>\n" +
             "_Simples, usando o step acima para efetuar validações é fácil_\n" +
             "\n" +
-            "- Depois do métido GetEndpoint() basta efetuar as validações como abaixo:\n" +
+            "- Depois do método GetEndpoint() basta efetuar as validações como abaixo:\n" +
             "\n" +
             "```androiddatabinding\n" +
             "   GetEndpoint(\"users/7\")\n" +
@@ -209,6 +220,149 @@ public class TextSystemFiles {
             "ReportBradesco();\n" +
             "```\n" +
             "\n" +
+            "\n" +
+            "<h4>Quais métodos temos?</h4>\n" +
+            "- Gets\n" +
+            "  - Get\n" +
+            "  - GetEndpoint\n" +
+            "  - GetParamHeaderEndpoint\n" +
+            "  - GetParam\n" +
+            "  - GetParamEndpoint\n" +
+            "  - GetParamHeader\n" +
+            "  - GetHeader\n" +
+            "  - GetHeaderEndpoint\n" +
+            "  \n" +
+            "- Posts\n" +
+            "    - Post\n" +
+            "  - PostBody\n" +
+            "  - PostBodyEndpoint\n" +
+            "  - PostParamHeaderBodyEndpoint\n" +
+            "  - PostParamHeaderBody\n" +
+            "  - PostParamBodyEndpoint\n" +
+            "  - PostParamBody\n" +
+            "  - PostHeaderBody\n" +
+            "  - PostHeaderBodyEndpoint\n" +
+            "  \n" +
+            "- Puts\n" +
+            "  - PutBody\n" +
+            "  - PutBodyEndpoint\n" +
+            "  - PutParamHeaderBodyEndpoint\n" +
+            "  - PutParamHeaderBody\n" +
+            "  - PutParamBodyEndpoint\n" +
+            "  - PutParamBody\n" +
+            "  - PutHeaderBody\n" +
+            "  - PutHeaderBodyEndpoint\n" +
+            "  \n" +
+            "- Deletes\n" +
+            "  - Delete\n" +
+            "  - DeleteEndpoint\n" +
+            "  - DeleteParam\n" +
+            "  - DeleteParamEndpoint\n" +
+            "  - DeleteParamHeader\n" +
+            "  - DeleteHeader\n" +
+            "  - DeleteHeaderEndpoint\n" +
+            "  - DeleteParamHeaderEndpoint\n" +
+            "  \n" +
+            "- Métodos diversos\n" +
+            "  - CertificationSpec\n" +
+            "  - JwtPS256\n" +
+            "  - JwtHS256\n" +
+            "  \n" +
+            "<h4>Método separado</h4>\n" +
+            "\n" +
+            "Existe um método chamado GivenExternal();\n" +
+            "\n" +
+            "Para o caso de, você precisar usar uma chamada diferente, com caracteristicas que os métodos\n" +
+            "existentes não atendam.\n" +
+            "Em métodos separados, é necessário usar o GivenExternal do framework para que ele use os dados no Report.\n" +
+            "\n" +
+            "Ao final, chame o ExternalReport(); para que seja gerado\n" +
+            "\n" +
+            "**E como usar?**\n" +
+            "*Simples!*\n" +
+            "\n" +
+            "- *_Apenas em caso de DELETES dentro do ExternalReporte(); precisa ficar vazio_*\n" +
+            "\n" +
+            "```androiddatabinding\n" +
+            "        Response res = GivenExternal(ContentType.JSON)\n" +
+            "                .when()\n" +
+            "                .get()\n" +
+            "                .then()([[Aqui poeria efetuar validações normalmente. Ex: then().body(\"path\"), is(\"CIT\")]\n" +
+            "                .extract().response();\n" +
+            "        ExternalReport(res);\n" +
+            "        \n" +
+            "        GivenExternal(ContentType.JSON)\n" +
+            "                .when()\n" +
+            "                .delete()\n" +
+            "                .then() ([[Aqui poeria efetuar validações normalmente. Ex: then().body(\"path\"), is(\"CIT\")]])'\n" +
+            "                .extract().response();\n" +
+            "       ExternalReport();\n" +
+            "```\n" +
+            "\n" +
+            "<h4>Etraindo valor do método GivenExternal</h4>\n" +
+            "```androiddatabinding\n" +
+            "\n" +
+            " ValidatableResponse res = GivenExternal(ContentType.JSON)\n" +
+            "                .when()\n" +
+            "                .get()\n" +
+            "                .then();\n" +
+            "        String value = res.extract().path(\"path que eu quero\");\n" +
+            "        \n" +
+            "        ## caso precise de report, use as lógicas já descrita abaixo.\n" +
+            "        ExternalReport(res.extract().response());\n" +
+            "```\n" +
+            "\n" +
+            "<h4>Quais dados usar no ExternalReport(); ?</h4>\n" +
+            "\n" +
+            "- Gets - Basta enviar o resultado da requisição. Como no exemplo acima.\n" +
+            "```androiddatabinding\n" +
+            "    ExternalReport(res);\n" +
+            "```\n" +
+            "- Posts - você precisa passar primeiro o Body que está sendo enviado, depois o resultado da requisição.\n" +
+            "\n" +
+            "```androiddatabinding\n" +
+            "String body = \"{body que será enviado}\";\n" +
+            "\n" +
+            "  Response res = GivenExternal(ContentType.JSON)\n" +
+            "                .body(body)\n" +
+            "                .when()\n" +
+            "                .post()\n" +
+            "                .then()([[Aqui poeria efetuar validações normalmente. Ex: then().body(\"path\"), is(\"CIT\")]\n" +
+            "                .extract().response();\n" +
+            "                \n" +
+            "             ExternalReport(body, res);\n" +
+            "                \n" +
+            "```\n" +
+            " - Puts - repetem a mesma lógica que o Post\n" +
+            "\n" +
+            "<h4>Como ficam métodos GivenExternal com headers e parâmetros? </h4>\n" +
+            "\n" +
+            "*Simples!*\n" +
+            "\n" +
+            " - Basta usa-los dessa forma:\n" +
+            "\n" +
+            "```androiddatabinding\n" +
+            "    Map<String, Object> param = new new HashMap<>();\n" +
+            "    param.put(\"key\", \"value\");\n" +
+            "        \n" +
+            "    Map<String, Object> header = new new HashMap<>(); \n" +
+            "    header.put(\"key\", \"value\");\n" +
+            "    \n" +
+            "    Response res = GivenExternal(ContentType.JSON)\n" +
+            "                .headers(header)\n" +
+            "                .queryParams(param)\n" +
+            "                .body(body)\n" +
+            "                .when()\n" +
+            "                .post()\n" +
+            "                .then()([[Aqui poeria efetuar validações normalmente. Ex: then().body(\"path\"), is(\"CIT\")]\n" +
+            "                .extract().response();\n" +
+            "                \n" +
+            "             ExternalReport(body, res);\n" +
+            "\n" +
+            "```\n" +
+            "*****\n" +
+            "\n" +
+            ">Abaixo, JSON usado para montar o Doc.\n" +
             "```cloudfoundry\n" +
             "{\n" +
             "    \"data\": {\n" +
