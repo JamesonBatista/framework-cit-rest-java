@@ -19,7 +19,7 @@ import static com.cit.framework.Exclud.FilesSystem;
 
         InitEnvironment("users/7");
         GivenExternal(ContentType.JSON)
-                .when().get();
+                .when().delete();
         ExternalReport();
     }
 

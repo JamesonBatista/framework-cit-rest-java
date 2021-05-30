@@ -70,11 +70,7 @@ public class ClassReport {
                     BradescoReporter.reportEvent(HttpRequestEvent.postRequest(URIFinal(),
                             body,
                             responses.asString()));
-                } else if (report.contains("DELETE")) {
-                    Exclud.ConsoleDesigner(" DELETE   ");
-                    BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
-                    BradescoReporter.reportEvent(DeleteRequest(URIFinal()));
-                } else if (report.contains("PUT")) {
+                }  else if (report.contains("PUT")) {
                     Exclud.ConsoleDesigner("    PUT   ");
                     BradescoReporter.report(ReportStatus.PASSED, "PUT executado, abaixo evidências:");
                     BradescoReporter.reportEvent(PutRequest(URIFinal(),
@@ -126,6 +122,10 @@ public class ClassReport {
                     throw new BradescoRuntimeException("\n\n O método " + metodo + " não poder usado pelo ExternalReport(); vazio.\n" +
                             " Olhe o DOC FrameworkCIT dentro " +
                             "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
+                }else{
+                    Exclud.ConsoleDesigner(" DELETE   ");
+                    BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
+                    BradescoReporter.reportEvent(DeleteRequest(URIFinal()));
                 }
                 break;
             }
@@ -199,7 +199,7 @@ public class ClassReport {
     }
 
     private static Event DeleteRequest(String url) {
-        String status = result.extract().statusLine();
+        String status = result == null? "OK": result.extract().statusLine();
         return new HttpRequestEvent(ReportStatus.OK, "DELETE", url, Optional.empty(), "Status: " + status);
     }
 }
