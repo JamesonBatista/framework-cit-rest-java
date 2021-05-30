@@ -9,13 +9,6 @@ Ao final de cada método chamado o Report Bradesco é gerado automaticamente.
 
 Ele irá excluir seus reports antigos a cada execução
 
->>Em caso de chamar métodos sem precisar usar o reportBradesco
->
-> Basta apenas passar dentro do método como último parâmetro o **false**, exemplo:
-> 
-> GetEndpoint("users/7", false);
-> Get(false);
-> PostHeader(false);
 
 ```androiddatabinding
 public class RegressionTest {
@@ -25,6 +18,16 @@ public class RegressionTest {
     }
 }
 ```
+
+>>Em caso de chamar métodos sem precisar usar o reportBradesco
+>
+> Basta apenas passar dentro do método como último parâmetro o **false**, exemplo:
+> 
+> GetEndpoint("users/7", false);
+> Get(false);
+> PostHeader(false);
+
+
 <h6>Seu Postman serve de referência para seu código, no Postman você pode ter:<h6>
 
 - get com header, parametros, endpoint, etc.
