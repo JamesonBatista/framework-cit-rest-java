@@ -45,22 +45,6 @@ public class ClassReport {
     private static void StartReportExternal(String body, Response responses) throws IOException, BradescoException {
         String metodo = null;
         sc = new Scanner(requestWriter.toString());
-        while (sc.hasNext()) {
-            sc.next();
-            report = sc.next();
-            if (report.contains("method:")) {
-                report = sc.next();
-                metodo = report;
-                System.out.println("response, metodo" + metodo + "\n" + responses.asString());
-                if (responses.asString().isEmpty() && !metodo.contains("DELETE")) {
-                    System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
-                    throw new BradescoRuntimeException("\n\n O método " + metodo + " não poder usado pelo ExternalReport(); vazio.\n" +
-                            " Olhe o DOC FrameworkCIT dentro " +
-                            "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
-                }
-                break;
-            }
-        }
 
         if (responses == null && !metodo.contains("DELETE")) {
 
@@ -129,8 +113,23 @@ public class ClassReport {
     }
 
     public static void ExternalReport() throws IOException, BradescoException {
-        result = given().when().delete().then();
-        StartReportExternal("", result.extract().response());
+        sc = new Scanner(requestWriter.toString());
+        String metodo = null;
+        while (sc.hasNext()) {
+            sc.next();
+            report = sc.next();
+            if (report.contains("method:")) {
+                report = sc.next();
+                metodo = report;
+                if (!metodo.contains("DELETE")) {
+                    System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
+                    throw new BradescoRuntimeException("\n\n O método " + metodo + " não poder usado pelo ExternalReport(); vazio.\n" +
+                            " Olhe o DOC FrameworkCIT dentro " +
+                            "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
+                }
+                break;
+            }
+        }
         Finish();
     }
 
