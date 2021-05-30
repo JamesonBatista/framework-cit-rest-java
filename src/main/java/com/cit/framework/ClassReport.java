@@ -15,7 +15,7 @@ import java.util.Scanner;
 import static com.cit.framework.CITRestAssured.*;
 import static io.restassured.RestAssured.given;
 
-class ClassReport {
+public class ClassReport {
     private static String report;
     static Scanner sc;
 

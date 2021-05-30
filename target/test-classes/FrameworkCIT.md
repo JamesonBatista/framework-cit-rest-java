@@ -28,6 +28,7 @@ public class RegressionTest {
     }
 }
 ```
+***
 <h6>Seu Postman serve de referência para seu código, no Postman você pode ter:<h6>
 
 - get com header, parametros, endpoint, etc.
@@ -63,7 +64,7 @@ public class GetUser extends CITRestAssured {
 
 }
 ```
-
+***
 <h4>E no caso do endpoint precisar ser passado no get() post() delete() put() e não no InitEnvironment() ?</h4>
 _Simples, basta usar o exemplo abaixo, retire o endpoint do InitEnvironment()_
 
@@ -87,7 +88,7 @@ public class GetUser extends CITRestAssured {
 
 }
 ```
-
+***
 <h4>Efetuando validações</h4>
 _Simples, usando o step acima para efetuar validações é fácil_
 
@@ -114,11 +115,13 @@ _Simples, usando o step acima para efetuar validações é fácil_
      .statusCode(200)
      .body("support.url", Matchers.is("https://reqres.in/#support-heading"));
 ```
+***
 <h4>E para extrair uma informação? Um valor?</h4>
 ```androiddatabinding
 String value = Get().extract().path("data.first_name");
         System.out.println("valor extraído é: " + value);
 ```
+***
 <h4>Em caso de um Post?</h4>
 _Nosso framework tem a cobertura dos possíveis posts_
 
@@ -139,7 +142,7 @@ E tantos outros. Basta olhar seu Postman e ver a necessidade.
     String body = "{}";
        PostBody(body).statusCode(201).body("data.first_name", Matchers.is("Michael"));
 ```
-
+***
 <h4>Em caso do meu post no Postman ter body, header, endpoint e param?</h4>
 _Use a mesma lógica do código abaixo para sua necessidade de acordo com o Postman_
 - No caso de ter um header e, ou param, você precisa chamar o params ou headers global, como abaixo.
@@ -156,7 +159,8 @@ _Use a mesma lógica do código abaixo para sua necessidade de acordo com o Post
        PostParamHeaderBodyEndpoint("users/7", body)
        .body("data.first_name", Matchers.is("Michael"));
 ```
-<h3>Use a mesma lógica de métodos acima para chamar o que você precisa, por exemplo:</h3>
+***
+<h4>Use a mesma lógica de métodos acima para chamar o que você precisa, por exemplo:</h4>
 
 - Basta chama esse e outros métodos de acordo com a necessidade.
 ```androiddatabinding
@@ -178,19 +182,7 @@ _Use a mesma lógica do código abaixo para sua necessidade de acordo com o Post
         DeleteHeader();
 ```
 
-<h4>Em caso de precisar ser feito um método Rest mais complexo?</h4>
-- Chame o método Given() depois disso basta usar o when().post() , when().get, etc.
-- Ao final do Given() será necessário chamar o método que cria o report, no Given() não é criado automaticamente
-```androiddatabinding
-Given().when().get();
-ou
-Given().formParam("key", "value")
-.formParam("key", "value").when().post();  
-
-ReportBradesco();
-```
-
-
+***
 <h4>Quais métodos temos?</h4>
 - Gets
   - Get
@@ -237,7 +229,7 @@ ReportBradesco();
   - CertificationSpec
   - JwtPS256
   - JwtHS256
-  
+***
 <h4>Método separado</h4>
 
 Existe um método chamado GivenExternal();
@@ -268,6 +260,7 @@ Ao final, chame o ExternalReport(); para que seja gerado
                 .extract().response();
        ExternalReport();
 ```
+***
 
 <h4>Etraindo valor do método GivenExternal</h4>
 ```androiddatabinding
@@ -281,7 +274,7 @@ Ao final, chame o ExternalReport(); para que seja gerado
         ## caso precise de report, use as lógicas já descrita abaixo.
         ExternalReport(res.extract().response());
 ```
-
+***
 <h4>Quais dados usar no ExternalReport(); ?</h4>
 
 - Gets - Basta enviar o resultado da requisição. Como no exemplo acima.
@@ -304,7 +297,7 @@ String body = "{body que será enviado}";
                 
 ```
  - Puts - repetem a mesma lógica que o Post
-
+***
 <h4>Como ficam métodos GivenExternal com headers e parâmetros? </h4>
 
 *Simples!*
