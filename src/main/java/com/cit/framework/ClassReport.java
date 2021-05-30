@@ -51,6 +51,7 @@ public class ClassReport {
             if (report.contains("method:")) {
                 report = sc.next();
                 metodo = report;
+                System.out.println("response, metodo" + metodo + "\n" + responses.asString());
                 if (responses.asString().isEmpty() && !metodo.contains("DELETE")) {
                     System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
                     throw new BradescoRuntimeException("\n\n O método " + metodo + " não poder usado pelo ExternalReport(); vazio.\n" +

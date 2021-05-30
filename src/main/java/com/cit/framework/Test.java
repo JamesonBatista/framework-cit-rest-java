@@ -18,14 +18,9 @@ import static com.cit.framework.Exclud.FilesSystem;
         FilesSystem();
 
         InitEnvironment("users/7");
-        Get();
-//        ValidatableResponse res = GivenExternal(ContentType.JSON)
-//                .when()
-//                .get()
-//                .then();
-//        ExternalReport(res.extract().response());
-//        PutBody("{}");
-//        Delete();
+        GivenExternal(ContentType.JSON)
+                .when().get();
+        ExternalReport();
     }
 
 
