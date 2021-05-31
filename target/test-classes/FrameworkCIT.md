@@ -279,7 +279,16 @@ Ao final, chame o ExternalReport(); para que seja gerado
 
 - Gets - Basta enviar o resultado da requisição. Como no exemplo acima.
 ```androiddatabinding
-    ExternalReport(res);
+
+    @Then("^faco get$")
+    public void facoGet() throws Throwable {
+        
+        ValidatableResponse res = GivenExternal(ContentType.JSON)
+                .when().get("users/7").then();
+
+        ExternalReport(res.extract().response());
+
+    }
 ```
 - Posts - você precisa passar primeiro o Body que está sendo enviado, depois o resultado da requisição.
 

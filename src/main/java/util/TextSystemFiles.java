@@ -58,6 +58,7 @@ public class TextSystemFiles {
             "    }\n" +
             "}\n" +
             "```\n" +
+            "***\n" +
             "<h6>Seu Postman serve de referência para seu código, no Postman você pode ter:<h6>\n" +
             "\n" +
             "- get com header, parametros, endpoint, etc.\n" +
@@ -93,7 +94,7 @@ public class TextSystemFiles {
             "\n" +
             "}\n" +
             "```\n" +
-            "\n" +
+            "***\n" +
             "<h4>E no caso do endpoint precisar ser passado no get() post() delete() put() e não no InitEnvironment() ?</h4>\n" +
             "_Simples, basta usar o exemplo abaixo, retire o endpoint do InitEnvironment()_\n" +
             "\n" +
@@ -117,7 +118,7 @@ public class TextSystemFiles {
             "\n" +
             "}\n" +
             "```\n" +
-            "\n" +
+            "***\n" +
             "<h4>Efetuando validações</h4>\n" +
             "_Simples, usando o step acima para efetuar validações é fácil_\n" +
             "\n" +
@@ -144,11 +145,13 @@ public class TextSystemFiles {
             "     .statusCode(200)\n" +
             "     .body(\"support.url\", Matchers.is(\"https://reqres.in/#support-heading\"));\n" +
             "```\n" +
+            "***\n" +
             "<h4>E para extrair uma informação? Um valor?</h4>\n" +
             "```androiddatabinding\n" +
             "String value = Get().extract().path(\"data.first_name\");\n" +
             "        System.out.println(\"valor extraído é: \" + value);\n" +
             "```\n" +
+            "***\n" +
             "<h4>Em caso de um Post?</h4>\n" +
             "_Nosso framework tem a cobertura dos possíveis posts_\n" +
             "\n" +
@@ -169,7 +172,7 @@ public class TextSystemFiles {
             "    String body = \"{}\";\n" +
             "       PostBody(body).statusCode(201).body(\"data.first_name\", Matchers.is(\"Michael\"));\n" +
             "```\n" +
-            "\n" +
+            "***\n" +
             "<h4>Em caso do meu post no Postman ter body, header, endpoint e param?</h4>\n" +
             "_Use a mesma lógica do código abaixo para sua necessidade de acordo com o Postman_\n" +
             "- No caso de ter um header e, ou param, você precisa chamar o params ou headers global, como abaixo.\n" +
@@ -186,7 +189,8 @@ public class TextSystemFiles {
             "       PostParamHeaderBodyEndpoint(\"users/7\", body)\n" +
             "       .body(\"data.first_name\", Matchers.is(\"Michael\"));\n" +
             "```\n" +
-            "<h3>Use a mesma lógica de métodos acima para chamar o que você precisa, por exemplo:</h3>\n" +
+            "***\n" +
+            "<h4>Use a mesma lógica de métodos acima para chamar o que você precisa, por exemplo:</h4>\n" +
             "\n" +
             "- Basta chama esse e outros métodos de acordo com a necessidade.\n" +
             "```androiddatabinding\n" +
@@ -208,19 +212,7 @@ public class TextSystemFiles {
             "        DeleteHeader();\n" +
             "```\n" +
             "\n" +
-            "<h4>Em caso de precisar ser feito um método Rest mais complexo?</h4>\n" +
-            "- Chame o método Given() depois disso basta usar o when().post() , when().get, etc.\n" +
-            "- Ao final do Given() será necessário chamar o método que cria o report, no Given() não é criado automaticamente\n" +
-            "```androiddatabinding\n" +
-            "Given().when().get();\n" +
-            "ou\n" +
-            "Given().formParam(\"key\", \"value\")\n" +
-            ".formParam(\"key\", \"value\").when().post();  \n" +
-            "\n" +
-            "ReportBradesco();\n" +
-            "```\n" +
-            "\n" +
-            "\n" +
+            "***\n" +
             "<h4>Quais métodos temos?</h4>\n" +
             "- Gets\n" +
             "  - Get\n" +
@@ -267,7 +259,7 @@ public class TextSystemFiles {
             "  - CertificationSpec\n" +
             "  - JwtPS256\n" +
             "  - JwtHS256\n" +
-            "  \n" +
+            "***\n" +
             "<h4>Método separado</h4>\n" +
             "\n" +
             "Existe um método chamado GivenExternal();\n" +
@@ -298,6 +290,7 @@ public class TextSystemFiles {
             "                .extract().response();\n" +
             "       ExternalReport();\n" +
             "```\n" +
+            "***\n" +
             "\n" +
             "<h4>Etraindo valor do método GivenExternal</h4>\n" +
             "```androiddatabinding\n" +
@@ -311,12 +304,21 @@ public class TextSystemFiles {
             "        ## caso precise de report, use as lógicas já descrita abaixo.\n" +
             "        ExternalReport(res.extract().response());\n" +
             "```\n" +
-            "\n" +
+            "***\n" +
             "<h4>Quais dados usar no ExternalReport(); ?</h4>\n" +
             "\n" +
             "- Gets - Basta enviar o resultado da requisição. Como no exemplo acima.\n" +
             "```androiddatabinding\n" +
-            "    ExternalReport(res);\n" +
+            "\n" +
+            "    @Then(\"^faco get$\")\n" +
+            "    public void facoGet() throws Throwable {\n" +
+            "        \n" +
+            "        ValidatableResponse res = GivenExternal(ContentType.JSON)\n" +
+            "                .when().get(\"users/7\").then();\n" +
+            "\n" +
+            "        ExternalReport(res.extract().response());\n" +
+            "\n" +
+            "    }\n" +
             "```\n" +
             "- Posts - você precisa passar primeiro o Body que está sendo enviado, depois o resultado da requisição.\n" +
             "\n" +
@@ -334,7 +336,7 @@ public class TextSystemFiles {
             "                \n" +
             "```\n" +
             " - Puts - repetem a mesma lógica que o Post\n" +
-            "\n" +
+            "***\n" +
             "<h4>Como ficam métodos GivenExternal com headers e parâmetros? </h4>\n" +
             "\n" +
             "*Simples!*\n" +

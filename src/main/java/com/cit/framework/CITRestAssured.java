@@ -43,7 +43,7 @@ public class CITRestAssured {
 
     static ValidatableResponse result;
     static Response response;
-
+    static Boolean initReport = false;
     static String BODY = null;
     static String PUT = null;
     static String DELETE = null;
@@ -68,6 +68,7 @@ public class CITRestAssured {
     }
 
     private RequestSpecification Given() {
+        initReport = true;
         InitReport();
         return given().filter(new RequestLoggingFilter(requestCapture))
                 .urlEncodingEnabled(false).contentType(ContentType.JSON)

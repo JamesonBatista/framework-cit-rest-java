@@ -15,7 +15,7 @@ import java.util.Scanner;
 import static com.cit.framework.CITRestAssured.*;
 import static io.restassured.RestAssured.given;
 
-public class ClassReport {
+public class ClassReport extends CITRestAssured{
     private static String report;
     static Scanner sc;
 
@@ -43,6 +43,13 @@ public class ClassReport {
     }
 
     private static void StartReportExternal(String body, Response responses) throws IOException, BradescoException {
+        if(initReport){
+            System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
+            throw new BradescoRuntimeException("\n\n O ExternalReport() só pode ser usado pelo GivenExternal\n" +
+                    " Olhe o DOC FrameworkCIT dentro " +
+                    "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
+        }
+
         String metodo = null;
         sc = new Scanner(requestWriter.toString());
 
@@ -109,6 +116,13 @@ public class ClassReport {
     }
 
     public static void ExternalReport() throws IOException, BradescoException {
+
+        if(initReport){
+            System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
+            throw new BradescoRuntimeException("\n\n O ExternalReport() só pode ser usado pelo GivenExternal\n" +
+                    " Olhe o DOC FrameworkCIT dentro " +
+                    "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
+        }
         sc = new Scanner(requestWriter.toString());
         String metodo = null;
         while (sc.hasNext()) {
