@@ -13,12 +13,11 @@ public class Exclud {
     static FileWriter file;
     static PrintWriter print;
 
-    static void FilesSystem() throws IOException, InterruptedException {
+    static void FilesSystem() throws IOException {
         search = new File("src/test/resources");
         if (!search.exists()) {
             AlertFiles(search);
             new File("src/test/resources").mkdir();
-
         }
         search = new File("src/test/resources/setup.properties");
         if (!search.exists()) {
@@ -58,7 +57,7 @@ public class Exclud {
         file.close();
     }
 
-    public static void ExcludReportBradesco() throws IOException, InterruptedException {
+    public static void ExcludReportBradesco() throws IOException {
         FilesSystem();
         // Método irá excluir todos os Reports antigos
         File folder = new File(GetProp().getProperty("excludReport"));

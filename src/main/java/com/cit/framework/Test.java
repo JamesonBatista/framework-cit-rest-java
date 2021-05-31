@@ -11,17 +11,17 @@ import static com.cit.framework.ClassReport.ExternalReport;
 import static com.cit.framework.ClassReport.ReportBradesco;
 import static com.cit.framework.Exclud.FilesSystem;
 
- class Test extends CITRestAssured {
+public class Test extends CITRestAssured {
 
     @org.junit.Test
-     void TestFrame() throws IOException, BradescoException, InterruptedException {
+    public void TestFrame() throws IOException, BradescoException, InterruptedException {
         FilesSystem();
 
         InitEnvironment("users/7");
-        GivenExternal(ContentType.JSON)
-                .when().get();
+        ValidatableResponse res = GivenExternal(ContentType.JSON)
+                .when().get().then().log().body();
 //        Get();
-        ExternalReport();
+        ExternalReport(res.extract().response());
     }
 
 
