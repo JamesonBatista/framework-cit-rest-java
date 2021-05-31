@@ -11,10 +11,10 @@ import static com.cit.framework.ClassReport.ExternalReport;
 import static com.cit.framework.ClassReport.ReportBradesco;
 import static com.cit.framework.Exclud.FilesSystem;
 
-public class Test extends CITRestAssured {
+class Test extends CITRestAssured {
 
     @org.junit.Test
-    public void TestFrame() throws IOException, BradescoException, InterruptedException {
+    void TestFrame() throws IOException, BradescoException, InterruptedException {
         FilesSystem();
 
         InitEnvironment("users/7");
