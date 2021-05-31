@@ -80,8 +80,8 @@ public class ClassReport extends CITRestAssured {
                 } else {
                     System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
 
-                    throw new BradescoRuntimeException("\n                             Método " + report + " não pode ser usado com o ExternalReport(response.extract().response()); preenchido,\n" +
-                            "                                                          Se for DELETE, por favor deixe o ExternalReport();  vazio. Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+                    throw new BradescoRuntimeException("\nMétodo " + report + " não pode ser usado com o ExternalReport(response.extract().response()); preenchido,\n" +
+                            "Se for DELETE, por favor deixe o ExternalReport();  vazio. Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
                 }
             }
             break;
