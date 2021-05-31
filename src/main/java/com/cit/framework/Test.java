@@ -18,10 +18,8 @@ public class Test extends CITRestAssured {
         FilesSystem();
 
         InitEnvironment("users/7");
-        ValidatableResponse res = GivenExternal(ContentType.JSON)
-                .when().get().then().log().body();
-//        Get();
-        ExternalReport(res.extract().response());
+        Get();
+        ExternalReport();
     }
 
 

@@ -81,7 +81,7 @@ public class ClassReport extends CITRestAssured {
                     System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
 
                     throw new BradescoRuntimeException("\nMétodo " + report + " não pode ser usado com o ExternalReport(response.extract().response()); preenchido,\n" +
-                            "Se for DELETE, por favor deixe o ExternalReport();  vazio. Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+                            "Por favor deixe o ExternalReport();  vazio. Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
                 }
             }
             break;
@@ -93,7 +93,6 @@ public class ClassReport extends CITRestAssured {
         sc = new Scanner(requestWriter.toString());
         if (response == null) {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
-
             System.out.println("                                                   URI: " + URIFinal());
             throw new BradescoRuntimeException("\nSeu Response está NULL, talvez você tenha batido no Endpoint errado\n" +
                     "Olhe dentro do data.properties, ou na sua Feature e verifique se o endpoint está correto, dúvidas olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
@@ -117,7 +116,7 @@ public class ClassReport extends CITRestAssured {
 
         if (initReport) {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
-            throw new BradescoRuntimeException("\n\n O ExternalReport() só pode ser usado pelo GivenExternal os métodos normal não precisa do ExternalReport()\n" +
+            throw new BradescoRuntimeException("\n\n O ExternalReport() só pode ser usado pelo GivenExternal os métodos normais não precisa do ExternalReport()\n" +
                     " Olhe o DOC FrameworkCIT dentro " +
                     "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
         }
