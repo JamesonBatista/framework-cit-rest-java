@@ -64,10 +64,12 @@ public class ClassReport extends CITRestAssured {
                     "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
         }
         if (response.asString().contains("<html lang=\"en\">")) {
-            throw new BradescoRuntimeException("\n\n Seu Response está NULL.\n");
-        } else {
-            result.log().body();
+            throw new BradescoRuntimeException("\n\n Seu Response está NULL, talvez você tenha batido no Endpoint errado\n" +
+                    "   Olhe dentro do data.properties, ou na sua Feature e verifique se o endpoint está correto.\n" +
+                    "   Ou, você não passou o parâmetro corretamente.\n" +
+                    "   Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         }
+
         if (response.asString().isEmpty() || response.asString().contains("{}")) {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
             System.out.println("                                                  Seu retorno do método " + ReturnMetodo() + " está vazio.  \n\n");
