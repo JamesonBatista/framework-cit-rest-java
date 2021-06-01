@@ -122,7 +122,6 @@ public class ClassReport extends CITRestAssured {
 
     public static void ExternalReport() throws IOException, BradescoException {
 
-
         if (initReport) {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
             throw new BradescoRuntimeException("\n\n O ExternalReport() só pode ser usado pelo GivenExternal os métodos normais não precisa do ExternalReport()\n" +
@@ -145,7 +144,7 @@ public class ClassReport extends CITRestAssured {
     }
 
 
-    private static String URIFinal() {
+    public static String URIFinal() {
         String result = null;
         Scanner sc = new Scanner(requestWriter.toString());
         while (sc.hasNext()) {

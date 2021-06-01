@@ -36,8 +36,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.cit.framework.ClassReport.ReportBradesco;
-import static com.cit.framework.ClassReport.ReturnMetodo;
+import static com.cit.framework.ClassReport.*;
 import static io.restassured.RestAssured.*;
 import static util.FileProperties.GetProp;
 
@@ -78,6 +77,8 @@ public class CITRestAssured {
 
     static void ValidationResponse() {
         if (result.extract().response().asString().contains("<html lang=\"en\">")) {
+            System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁");
+            System.out.println("                                                   URI: " + URIFinal());
             throw new BradescoRuntimeException("\n\n Seu Response está NULL.\n");
         } else {
             result.log().body();

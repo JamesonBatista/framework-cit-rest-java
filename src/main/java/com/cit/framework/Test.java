@@ -29,8 +29,8 @@ class Test extends CITRestAssured {
 //                .when().get("users/7").then();
 //        ExternalReport();
 //
-//        Get();
-//        ExternalReport();
+        Get();
+        ExternalReport();
     }
 
 
