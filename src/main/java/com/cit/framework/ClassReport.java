@@ -12,9 +12,6 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.Scanner;
 
-import static com.cit.framework.CITRestAssured.*;
-import static io.restassured.RestAssured.given;
-
 public class ClassReport extends CITRestAssured {
     private static String report;
     static Scanner sc;
@@ -79,14 +76,12 @@ public class ClassReport extends CITRestAssured {
                     PutReport();
                 } else {
                     System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
-
                     throw new BradescoRuntimeException("\nMétodo " + report + " não pode ser usado com o ExternalReport(response.extract().response()); preenchido,\n" +
                             "Por favor deixe o ExternalReport();  vazio. Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
                 }
             }
             break;
         }
-
     }
 
     public static void ReportBradesco() throws IOException, BradescoException {
@@ -109,13 +104,11 @@ public class ClassReport extends CITRestAssured {
     public static void ExternalReport(Response responses) throws IOException, BradescoException {
         StartReportExternal("", responses);
         Finish();
-
     }
 
     public static void ExternalReport() throws IOException, BradescoException {
-
         if (initReport) {
-            System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
+            System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
             throw new BradescoRuntimeException("\n\n O ExternalReport() só pode ser usado pelo GivenExternal os métodos normais não precisa do ExternalReport()\n" +
                     " Olhe o DOC FrameworkCIT dentro " +
                     "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
@@ -129,7 +122,7 @@ public class ClassReport extends CITRestAssured {
                 report = sc.next();
                 metodo = report;
                 if (!metodo.contains("DELETE")) {
-                    System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
+                    System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
                     throw new BradescoRuntimeException("\n\n O método " + metodo + " não poder usado pelo ExternalReport(); vazio.\n" +
                             " Olhe o DOC FrameworkCIT dentro " +
                             "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");

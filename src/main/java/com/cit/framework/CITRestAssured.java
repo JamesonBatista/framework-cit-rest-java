@@ -63,7 +63,6 @@ public class CITRestAssured {
             ReportBradesco();
         } else {
             System.out.println("\n                                √  Report não solicitado.");
-
         }
     }
 
