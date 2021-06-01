@@ -67,7 +67,7 @@ public class ClassReport extends CITRestAssured {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
             System.out.println("                                                  Seu retorno do método " + ReturnMetodo() + " está vazio.  \n\n");
         }
-        if (response == null && ReturnMetodo() == "DELETE") {
+        if (response == null && ReturnMetodo().contains("DELETE")) {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁");
             System.out.println("                                                   URI: " + URIFinal());
             throw new BradescoRuntimeException("\n\n Seu Response está NULL, talvez você tenha batido no Endpoint errado\n" +
@@ -75,12 +75,11 @@ public class ClassReport extends CITRestAssured {
                     "   Ou, você não passou o parâmetro corretamente.\n" +
                     "   Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         }
-
-        if (ReturnMetodo() == "GET") {
+        if (ReturnMetodo().contains("GET") ) {
             GetReport();
-        } else if (ReturnMetodo() == "POST") {
+        } else if (ReturnMetodo().contains("POST")) {
             PostReport();
-        } else if (ReturnMetodo() == "PUT") {
+        } else if (ReturnMetodo().contains("PUT")) {
             PutReport();
         } else {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
@@ -122,7 +121,7 @@ public class ClassReport extends CITRestAssured {
                     "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
         }
 
-        if (ReturnMetodo() != "DELETE") {
+        if (!ReturnMetodo().contains("DELETE")) {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
             throw new BradescoRuntimeException("\n\n O método " + ReturnMetodo() + " não poder usado pelo ExternalReport(); vazio.\n" +
                     " Olhe o DOC FrameworkCIT dentro " +
