@@ -14,9 +14,23 @@ import java.util.Scanner;
 
 public class ClassReport extends CITRestAssured {
     private static String report;
-    static Scanner sc;
+    private static Scanner sc;
+
+    static String ReturnMetodo() {
+        sc = new Scanner(requestWriter.toString());
+        while (sc.hasNext()) {
+            sc.next();
+            report = sc.next();
+            if (report.contains("method:")) {
+                report = sc.next();
+            }
+            break;
+        }
+        return report;
+    }
 
     private static void StartReport() throws IOException, BradescoException {
+        sc = new Scanner(requestWriter.toString());
         while (sc.hasNext()) {
             sc.next();
             report = sc.next();
@@ -42,20 +56,18 @@ public class ClassReport extends CITRestAssured {
     private static void StartReportExternal(String body, Response responses) throws IOException, BradescoException {
         response = responses;
         BODY = body;
+
         if (initReport) {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
             throw new BradescoRuntimeException("\n\n O ExternalReport() só pode ser usado pelo GivenExternal\n" +
                     " Olhe o DOC FrameworkCIT dentro " +
                     "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
         }
-        String metodo = null;
-        sc = new Scanner(requestWriter.toString());
         if (response.asString().isEmpty() || response.asString() == "{}") {
-            System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁");
-            System.out.println("                                                  Seu retorno do método " + metodo + " está vazio.  ");
+            System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
+            System.out.println("                                                  Seu retorno do método " + ReturnMetodo() + " está vazio.  \n\n");
         }
-        if (response == null && !metodo.contains("DELETE")) {
-
+        if (response == null && ReturnMetodo() == "DELETE") {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁");
             System.out.println("                                                   URI: " + URIFinal());
             throw new BradescoRuntimeException("\n\n Seu Response está NULL, talvez você tenha batido no Endpoint errado\n" +
@@ -63,37 +75,34 @@ public class ClassReport extends CITRestAssured {
                     "   Ou, você não passou o parâmetro corretamente.\n" +
                     "   Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         }
-        while (sc.hasNext()) {
-            sc.next();
-            report = sc.next();
-            if (report.contains("method:")) {
-                report = sc.next();
-                if (report.contains("GET")) {
-                    GetReport();
-                } else if (report.contains("POST")) {
-                    PostReport();
-                } else if (report.contains("PUT")) {
-                    PutReport();
-                } else {
-                    System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
-                    throw new BradescoRuntimeException("\nMétodo " + report + " não pode ser usado com o ExternalReport(response.extract().response()); preenchido,\n" +
-                            "Por favor deixe o ExternalReport();  vazio. Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
-                }
-            }
-            break;
+
+        if (ReturnMetodo() == "GET") {
+            GetReport();
+        } else if (ReturnMetodo() == "POST") {
+            PostReport();
+        } else if (ReturnMetodo() == "PUT") {
+            PutReport();
+        } else {
+            System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
+            throw new BradescoRuntimeException("\nMétodo " + report + " não pode ser usado com o ExternalReport(response.extract().response()); preenchido,\n" +
+                    "Por favor deixe o ExternalReport();  vazio. Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         }
     }
 
     public static void ReportBradesco() throws IOException, BradescoException {
-        sc = new Scanner(requestWriter.toString());
+        System.out.println("resgasga  " + response.asString());
+
         if (response == null) {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
             System.out.println("                                                   URI: " + URIFinal());
             throw new BradescoRuntimeException("\nSeu Response está NULL, talvez você tenha batido no Endpoint errado\n" +
-                    "Olhe dentro do data.properties, ou na sua Feature e verifique se o endpoint está correto, dúvidas olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+                    "Olhe dentro do data.properties, ou na sua Feature e verifique se o endpoint está correto.\n" +
+                    " dúvidas olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+        } else if (response.asString().isEmpty() || response.asString().contains("{}")) {
+            System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
+            System.out.println("                                                  Seu retorno do método " + ReturnMetodo() + " está vazio.  \n\n");
         }
         StartReport();
-        sc.close();
     }
 
     public static void ExternalReport(String body, Response responses) throws IOException, BradescoException {
@@ -113,27 +122,18 @@ public class ClassReport extends CITRestAssured {
                     " Olhe o DOC FrameworkCIT dentro " +
                     "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
         }
-        sc = new Scanner(requestWriter.toString());
-        String metodo = null;
-        while (sc.hasNext()) {
-            sc.next();
-            report = sc.next();
-            if (report.contains("method:")) {
-                report = sc.next();
-                metodo = report;
-                if (!metodo.contains("DELETE")) {
-                    System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
-                    throw new BradescoRuntimeException("\n\n O método " + metodo + " não poder usado pelo ExternalReport(); vazio.\n" +
-                            " Olhe o DOC FrameworkCIT dentro " +
-                            "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
-                } else {
-                    Exclud.ConsoleDesigner(" DELETE   ");
-                    BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
-                    BradescoReporter.reportEvent(DeleteRequest(URIFinal()));
-                }
-                break;
-            }
+
+        if (ReturnMetodo() != "DELETE") {
+            System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
+            throw new BradescoRuntimeException("\n\n O método " + ReturnMetodo() + " não poder usado pelo ExternalReport(); vazio.\n" +
+                    " Olhe o DOC FrameworkCIT dentro " +
+                    "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
+        } else {
+            Exclud.ConsoleDesigner(" DELETE   ");
+            BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
+            BradescoReporter.reportEvent(DeleteRequest(URIFinal()));
         }
+
         Finish();
     }
 
@@ -195,6 +195,7 @@ public class ClassReport extends CITRestAssured {
         BODY = null;
         PUT = null;
         DELETE = null;
+        sc.close();
     }
 
 
