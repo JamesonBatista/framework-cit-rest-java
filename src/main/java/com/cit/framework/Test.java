@@ -12,9 +12,10 @@ import static com.cit.framework.Exclud.FilesSystem;
  class Test extends CITRestAssured {
 
     @org.junit.Test
-      void TestFrame() throws IOException, BradescoException, InterruptedException {
+       void TestFrame() throws IOException, BradescoException, InterruptedException {
         FilesSystem();
         InitEnvironment("users/7");
+        Get();
 
 //        ValidatableResponse res = GivenExternal(ContentType.JSON)
 //                .when().get("users/7").then();

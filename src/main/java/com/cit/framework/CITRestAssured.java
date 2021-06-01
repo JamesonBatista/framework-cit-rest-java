@@ -1,6 +1,7 @@
 package com.cit.framework;
 
 import com.bradesco.core.exception.BradescoException;
+import com.bradesco.core.exception.BradescoRuntimeException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton;
 import com.nimbusds.jose.jca.JCASupport;
@@ -36,6 +37,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import static com.cit.framework.ClassReport.ReportBradesco;
+import static com.cit.framework.ClassReport.ReturnMetodo;
 import static io.restassured.RestAssured.*;
 import static util.FileProperties.GetProp;
 
@@ -74,6 +76,14 @@ public class CITRestAssured {
                 .log().all();
     }
 
+    static void ValidationResponse() {
+        if (result.extract().response().asString().contains("<html lang=\"en\">")) {
+            throw new BradescoRuntimeException("\n\n Seu Response está NULL.\n");
+        } else {
+            result.log().body();
+        }
+    }
+
     public RequestSpecification GivenExternal(ContentType type) {
         InitReport();
         return given().filter(new RequestLoggingFilter(requestCapture))
@@ -103,7 +113,8 @@ public class CITRestAssured {
                     .when()
                     .get()
                     .then()
-                    .log().status().log().body().assertThat();
+                    .assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -116,8 +127,8 @@ public class CITRestAssured {
             result = Given()
                     .when()
                     .get(Endpoint)
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -132,8 +143,8 @@ public class CITRestAssured {
                     .headers(headers.toString() == "{}" ? null : headers)
                     .when()
                     .get(Endpoint)
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -147,8 +158,8 @@ public class CITRestAssured {
                     .queryParams(params.toString() == "{}" ? null : params)
                     .when()
                     .get()
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -162,8 +173,8 @@ public class CITRestAssured {
                     .queryParams(params.toString() == "{}" ? null : params)
                     .when()
                     .get(Endpoint)
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -178,8 +189,8 @@ public class CITRestAssured {
                     .headers(headers.toString() == "{}" ? null : headers)
                     .when()
                     .get()
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -193,8 +204,8 @@ public class CITRestAssured {
                     .headers(headers.toString() == "{}" ? null : headers)
                     .when()
                     .get()
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -208,8 +219,8 @@ public class CITRestAssured {
                     .headers(headers.toString() == "{}" ? null : headers)
                     .when()
                     .get(Endpoint)
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -223,8 +234,8 @@ public class CITRestAssured {
             result = Given()
                     .when()
                     .post()
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -239,8 +250,8 @@ public class CITRestAssured {
                     .body(body)
                     .when()
                     .post()
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -255,8 +266,8 @@ public class CITRestAssured {
                     .body(body)
                     .when()
                     .post(Endpoint)
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -273,8 +284,8 @@ public class CITRestAssured {
                     .body(body)
                     .when()
                     .post(Endpoint)
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -291,8 +302,8 @@ public class CITRestAssured {
                     .body(body)
                     .when()
                     .post()
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -308,8 +319,8 @@ public class CITRestAssured {
                     .body(body)
                     .when()
                     .post(Endpoint)
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -325,8 +336,8 @@ public class CITRestAssured {
                     .body(body)
                     .when()
                     .post()
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -342,8 +353,8 @@ public class CITRestAssured {
                     .body(body)
                     .when()
                     .post()
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -359,8 +370,8 @@ public class CITRestAssured {
                     .body(body)
                     .when()
                     .post(Endpoint)
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -375,8 +386,8 @@ public class CITRestAssured {
                     .body(body)
                     .when()
                     .put()
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -391,8 +402,8 @@ public class CITRestAssured {
                     .body(body)
                     .when()
                     .put(Endpoint)
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -409,8 +420,8 @@ public class CITRestAssured {
                     .body(body)
                     .when()
                     .put(Endpoint)
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -427,8 +438,8 @@ public class CITRestAssured {
                     .body(body)
                     .when()
                     .put()
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -444,8 +455,8 @@ public class CITRestAssured {
                     .body(body)
                     .when()
                     .put(Endpoint)
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -461,8 +472,8 @@ public class CITRestAssured {
                     .body(body)
                     .when()
                     .put()
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -478,8 +489,8 @@ public class CITRestAssured {
                     .body(body)
                     .when()
                     .put()
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -495,8 +506,8 @@ public class CITRestAssured {
                     .body(body)
                     .when()
                     .put(Endpoint)
-                    .then()
-                    .log().status().log().body().assertThat();
+                    .then().assertThat();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -508,8 +519,8 @@ public class CITRestAssured {
         try {
             result = Given()
                     .when().delete()
-                    .then()
-            ;
+                    .then();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -522,6 +533,7 @@ public class CITRestAssured {
             result = Given()
                     .when().delete(Endpoint)
                     .then();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -535,6 +547,7 @@ public class CITRestAssured {
                     .queryParams(params.toString() == "{}" ? null : params)
                     .when().delete()
                     .then();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -548,6 +561,7 @@ public class CITRestAssured {
                     .queryParams(params.toString() == "{}" ? null : params)
                     .when().delete(Endpoint)
                     .then();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -563,6 +577,7 @@ public class CITRestAssured {
                     .contentType(ContentType.JSON)
                     .when().delete()
                     .then();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -577,6 +592,7 @@ public class CITRestAssured {
                     .contentType(ContentType.JSON)
                     .when().delete()
                     .then();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -591,6 +607,7 @@ public class CITRestAssured {
                     .contentType(ContentType.JSON)
                     .when().delete(Endpoint)
                     .then();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {
@@ -606,6 +623,7 @@ public class CITRestAssured {
                     .contentType(ContentType.JSON)
                     .when().delete(Endpoint)
                     .then();
+            ValidationResponse();
             response = result.extract().response();
             return result;
         } finally {

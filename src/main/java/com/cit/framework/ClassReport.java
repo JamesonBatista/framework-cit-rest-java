@@ -63,6 +63,11 @@ public class ClassReport extends CITRestAssured {
                     " Olhe o DOC FrameworkCIT dentro " +
                     "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
         }
+        if (response.asString().contains("<html lang=\"en\">")) {
+            throw new BradescoRuntimeException("\n\n Seu Response está NULL.\n");
+        } else {
+            result.log().body();
+        }
         if (response.asString().isEmpty() || response.asString().contains("{}")) {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
             System.out.println("                                                  Seu retorno do método " + ReturnMetodo() + " está vazio.  \n\n");
@@ -75,7 +80,7 @@ public class ClassReport extends CITRestAssured {
                     "   Ou, você não passou o parâmetro corretamente.\n" +
                     "   Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         }
-        if (ReturnMetodo().contains("GET") ) {
+        if (ReturnMetodo().contains("GET")) {
             GetReport();
         } else if (ReturnMetodo().contains("POST")) {
             PostReport();
@@ -114,6 +119,8 @@ public class ClassReport extends CITRestAssured {
     }
 
     public static void ExternalReport() throws IOException, BradescoException {
+
+
         if (initReport) {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
             throw new BradescoRuntimeException("\n\n O ExternalReport() só pode ser usado pelo GivenExternal os métodos normais não precisa do ExternalReport()\n" +
@@ -183,7 +190,6 @@ public class ClassReport extends CITRestAssured {
         BradescoReporter.reportEvent(DeleteRequest(URIFinal()));
         Finish();
     }
-
 
     private static void Finish() throws BradescoException, IOException {
         params.clear();
