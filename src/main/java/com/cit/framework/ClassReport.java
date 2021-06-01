@@ -63,7 +63,7 @@ public class ClassReport extends CITRestAssured {
                     " Olhe o DOC FrameworkCIT dentro " +
                     "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
         }
-        if (response.asString().isEmpty() || response.asString() == "{}") {
+        if (response.asString().isEmpty() || response.asString().contains("{}")) {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
             System.out.println("                                                  Seu retorno do método " + ReturnMetodo() + " está vazio.  \n\n");
         }
@@ -85,17 +85,16 @@ public class ClassReport extends CITRestAssured {
         } else {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
             throw new BradescoRuntimeException("\nMétodo " + report + " não pode ser usado com o ExternalReport(response.extract().response()); preenchido,\n" +
-                    "Por favor deixe o ExternalReport();  vazio. Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+                    "Por favor deixe o ExternalReport();  vazio.\n Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         }
     }
 
     public static void ReportBradesco() throws IOException, BradescoException {
-        System.out.println("resgasga  " + response.asString());
 
         if (response == null) {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
             System.out.println("                                                   URI: " + URIFinal());
-            throw new BradescoRuntimeException("\nSeu Response está NULL, talvez você tenha batido no Endpoint errado\n" +
+            throw new BradescoRuntimeException("\n\nSeu Response está NULL, talvez você tenha batido no Endpoint errado\n" +
                     "Olhe dentro do data.properties, ou na sua Feature e verifique se o endpoint está correto.\n" +
                     " dúvidas olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         } else if (response.asString().isEmpty() || response.asString().contains("{}")) {
