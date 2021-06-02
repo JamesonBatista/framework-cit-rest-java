@@ -59,11 +59,16 @@ public class ClassReport extends CITRestAssured {
 
         if (initReport) {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
+            System.out.println("                                                   URI: " + URIFinal());
+
             throw new BradescoRuntimeException("\n\n O ExternalReport() só pode ser usado pelo GivenExternal\n" +
                     " Olhe o DOC FrameworkCIT dentro " +
                     "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
         }
-        if (response.asString().contains("<html lang=\"en\">")) {
+        if (response.asString().contains("<html lang=\"en\">") || response == null) {
+            System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
+            System.out.println("                                                   URI: " + URIFinal());
+
             throw new BradescoRuntimeException("\n\n Seu Response está NULL, talvez você tenha batido no Endpoint errado\n" +
                     "   Olhe dentro do data.properties, ou na sua Feature e verifique se o endpoint está correto.\n" +
                     "   Ou, você não passou o parâmetro corretamente.\n" +
@@ -72,7 +77,7 @@ public class ClassReport extends CITRestAssured {
 
         if (response.asString().isEmpty() || response.asString().contains("{}")) {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
-            System.out.println("                                                  Seu retorno do método " + ReturnMetodo() + " está vazio.  \n\n");
+            System.out.println("                                               Seu retorno do método " + ReturnMetodo() + " está vazio.  \n\n");
         }
         if (response == null && ReturnMetodo().contains("DELETE")) {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁");
@@ -90,23 +95,13 @@ public class ClassReport extends CITRestAssured {
             PutReport();
         } else {
             System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
-            throw new BradescoRuntimeException("\nMétodo " + report + " não pode ser usado com o ExternalReport(response.extract().response()); preenchido,\n" +
-                    "Por favor deixe o ExternalReport();  vazio.\n Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+            throw new BradescoRuntimeException("\n\nMétodo " + report + " não pode ser usado com o ExternalReport(response.extract().response()); preenchido,\n" +
+                    "Por favor deixe o ExternalReport();  vazio.\nEm caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         }
     }
 
     public static void ReportBradesco() throws IOException, BradescoException {
 
-        if (response == null) {
-            System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
-            System.out.println("                                                   URI: " + URIFinal());
-            throw new BradescoRuntimeException("\n\nSeu Response está NULL, talvez você tenha batido no Endpoint errado\n" +
-                    "Olhe dentro do data.properties, ou na sua Feature e verifique se o endpoint está correto.\n" +
-                    " dúvidas olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
-        } else if (response.asString().isEmpty() || response.asString().contains("{}")) {
-            System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
-            System.out.println("                                                  Seu retorno do método " + ReturnMetodo() + " está vazio.  \n\n");
-        }
         StartReport();
     }
 

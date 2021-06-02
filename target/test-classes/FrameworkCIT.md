@@ -9,10 +9,11 @@ Ao final de cada método chamado o Report Bradesco é gerado automaticamente.
 
 Ele irá excluir seus reports antigos a cada execução
 
->>Em caso de chamar métodos sem precisar usar o reportBradesco
+> > Em caso de chamar métodos sem precisar usar o reportBradesco
 >
 > Basta apenas passar dentro do método como último parâmetro o **false**, exemplo:
-> 
+>
+
 ```androiddatabinding
  GetEndpoint("users/7", false);
  Get(false);
@@ -28,6 +29,7 @@ public class RegressionTest {
     }
 }
 ```
+
 ***
 <h6>Seu Postman serve de referência para seu código, no Postman você pode ter:<h6>
 
@@ -44,7 +46,7 @@ _Abaixo temos um exemplo completo de como usar um simples GET_
 - Extenda o framework na classe do seu STEP como abaixo:
 - Chame o métido InitEnvironmente(), nele você terá o start do RestAssured com todas as funcionalidades, dentro dele
   passe o endpoint que você quer.
-  
+
 - Get
 
 ```androiddatabinding
@@ -64,6 +66,7 @@ public class GetUser extends CITRestAssured {
 
 }
 ```
+
 ***
 <h4>E no caso do endpoint precisar ser passado no get() post() delete() put() e não no InitEnvironment() ?</h4>
 _Simples, basta usar o exemplo abaixo, retire o endpoint do InitEnvironment()_
@@ -88,6 +91,7 @@ public class GetUser extends CITRestAssured {
 
 }
 ```
+
 ***
 <h4>Efetuando validações</h4>
 _Simples, usando o step acima para efetuar validações é fácil_
@@ -115,39 +119,47 @@ _Simples, usando o step acima para efetuar validações é fácil_
      .statusCode(200)
      .body("support.url", Matchers.is("https://reqres.in/#support-heading"));
 ```
+
 ***
 <h4>E para extrair uma informação? Um valor?</h4>
+
 ```androiddatabinding
 String value = Get().extract().path("data.first_name");
         System.out.println("valor extraído é: " + value);
 ```
+
 ***
 <h4>Em caso de um Post?</h4>
 _Nosso framework tem a cobertura dos possíveis posts_
 
 *Exemplos de métodos incluídos no framework:*
+
 - Post();
 - PostBody();
 - PostEndpoint();
 - PostHeader();
 - PostHeaderParam();
- 
-E tantos outros. Basta olhar seu Postman e ver a necessidade. 
+
+E tantos outros. Basta olhar seu Postman e ver a necessidade.
+
 - Post
-  - validar statusCode
-  - validar retorno do body
-  - passando body que será enviado, TODO post precisa enviar um body.
-  
+    - validar statusCode
+    - validar retorno do body
+    - passando body que será enviado, TODO post precisa enviar um body.
+
 ```androiddatabinding
     String body = "{}";
        PostBody(body).statusCode(201).body("data.first_name", Matchers.is("Michael"));
 ```
+
 ***
 <h4>Em caso do meu post no Postman ter body, header, endpoint e param?</h4>
 _Use a mesma lógica do código abaixo para sua necessidade de acordo com o Postman_
+
 - No caso de ter um header e, ou param, você precisa chamar o params ou headers global, como abaixo.
-- headers e params serão enviados diretamente para seu método.  
+- headers e params serão enviados diretamente para seu método.
 - É obrigatório passar os valores, isso nos garante acertividade no método.
+
 ```androiddatabinding
         params.put("key", "value");
         params.put("key2", "value2");
@@ -159,10 +171,12 @@ _Use a mesma lógica do código abaixo para sua necessidade de acordo com o Post
        PostParamHeaderBodyEndpoint("users/7", body)
        .body("data.first_name", Matchers.is("Michael"));
 ```
+
 ***
 <h4>Use a mesma lógica de métodos acima para chamar o que você precisa, por exemplo:</h4>
 
 - Basta chama esse e outros métodos de acordo com a necessidade.
+
 ```androiddatabinding
         GetHeader();
         GetParamHeader();
@@ -184,59 +198,60 @@ _Use a mesma lógica do código abaixo para sua necessidade de acordo com o Post
 
 ***
 <h4>Quais métodos temos?</h4>
+
 - Gets
-  - Get
-  - GetEndpoint
-  - GetParamHeaderEndpoint
-  - GetParam
-  - GetParamEndpoint
-  - GetParamHeader
-  - GetHeader
-  - GetHeaderEndpoint
-  
+    - Get
+    - GetEndpoint
+    - GetParamHeaderEndpoint
+    - GetParam
+    - GetParamEndpoint
+    - GetParamHeader
+    - GetHeader
+    - GetHeaderEndpoint
+
 - Posts
     - Post
-  - PostBody
-  - PostBodyEndpoint
-  - PostParamHeaderBodyEndpoint
-  - PostParamHeaderBody
-  - PostParamBodyEndpoint
-  - PostParamBody
-  - PostHeaderBody
-  - PostHeaderBodyEndpoint
-  
+    - PostBody
+    - PostBodyEndpoint
+    - PostParamHeaderBodyEndpoint
+    - PostParamHeaderBody
+    - PostParamBodyEndpoint
+    - PostParamBody
+    - PostHeaderBody
+    - PostHeaderBodyEndpoint
+
 - Puts
-  - PutBody
-  - PutBodyEndpoint
-  - PutParamHeaderBodyEndpoint
-  - PutParamHeaderBody
-  - PutParamBodyEndpoint
-  - PutParamBody
-  - PutHeaderBody
-  - PutHeaderBodyEndpoint
-  
+    - PutBody
+    - PutBodyEndpoint
+    - PutParamHeaderBodyEndpoint
+    - PutParamHeaderBody
+    - PutParamBodyEndpoint
+    - PutParamBody
+    - PutHeaderBody
+    - PutHeaderBodyEndpoint
+
 - Deletes
-  - Delete
-  - DeleteEndpoint
-  - DeleteParam
-  - DeleteParamEndpoint
-  - DeleteParamHeader
-  - DeleteHeader
-  - DeleteHeaderEndpoint
-  - DeleteParamHeaderEndpoint
-  
+    - Delete
+    - DeleteEndpoint
+    - DeleteParam
+    - DeleteParamEndpoint
+    - DeleteParamHeader
+    - DeleteHeader
+    - DeleteHeaderEndpoint
+    - DeleteParamHeaderEndpoint
+
 - Métodos diversos
-  - CertificationSpec
-  - JwtPS256
-  - JwtHS256
+    - CertificationSpec
+    - JwtPS256
+    - JwtHS256
+
 ***
 <h4>Método separado</h4>
 
 Existe um método chamado GivenExternal();
 
-Para o caso de, você precisar usar uma chamada diferente, com caracteristicas que os métodos
-existentes não atendam.
-Em métodos separados, é necessário usar o GivenExternal do framework para que ele use os dados no Report.
+Para o caso de, você precisar usar uma chamada diferente, com caracteristicas que os métodos existentes não atendam. Em
+métodos separados, é necessário usar o GivenExternal do framework para que ele use os dados no Report.
 
 Ao final, chame o ExternalReport(); para que seja gerado
 
@@ -260,9 +275,11 @@ Ao final, chame o ExternalReport(); para que seja gerado
                 .extract().response();
        ExternalReport();
 ```
+
 ***
 
 <h4>Etraindo valor do método GivenExternal</h4>
+
 ```androiddatabinding
 
  ValidatableResponse res = GivenExternal(ContentType.JSON)
@@ -274,10 +291,12 @@ Ao final, chame o ExternalReport(); para que seja gerado
         ## caso precise de report, use as lógicas já descrita abaixo.
         ExternalReport(res.extract().response());
 ```
+
 ***
 <h4>Quais dados usar no ExternalReport(); ?</h4>
 
 - Gets - Basta enviar o resultado da requisição. Como no exemplo acima.
+
 ```androiddatabinding
 
     @Then("^faco get$")
@@ -290,6 +309,7 @@ Ao final, chame o ExternalReport(); para que seja gerado
 
     }
 ```
+
 - Posts - você precisa passar primeiro o Body que está sendo enviado, depois o resultado da requisição.
 
 ```androiddatabinding
@@ -305,13 +325,15 @@ String body = "{body que será enviado}";
              ExternalReport(body, res);
                 
 ```
- - Puts - repetem a mesma lógica que o Post
+
+- Puts - repetem a mesma lógica que o Post
+
 ***
 <h4>Como ficam métodos GivenExternal com headers e parâmetros? </h4>
 
 *Simples!*
 
- - Basta usa-los dessa forma:
+- Basta usa-los dessa forma:
 
 ```androiddatabinding
     Map<String, Object> param = new new HashMap<>();
@@ -332,9 +354,141 @@ String body = "{body que será enviado}";
              ExternalReport(body, res);
 
 ```
-*****
 
->Abaixo, JSON usado para montar o Doc.
+*****
+<h4>Vamos usar alguns exemplos:</h4>
+> Extrair valores: Em caso do método não precisar usar o report Bradesco,
+> use o **false** dentro do método. Você pode trocar o Get() por qualquer outro método.
+
+```androiddatabinding
+  String valorExtraido = Get().extract().path("data.first_name");
+        System.out.println("Valor extraído:  " + valorExtraido);
+```
+
+> Validar se no Response existe determinado Path, ou campo.
+
+```androiddatabinding
+   Get().statusCode(HttpStatus.SC_OK)
+                .body(containsString("first_name"));
+```
+
+> Comparar valores
+
+ ```androiddatabinding
+   Get().body("data.first_name", Matchers.is("Michael"));
+```
+
+> Extraindo 2 valores e comparando
+
+```androiddatabinding
+    ValidatableResponse root = Get();
+    
+    String value1 = root.extract().path("data.first_name");
+    
+    String value2 = root.extract().path("data.email");
+    
+    Assert.assertEquals(value1, value2);
+```
+
+> Caso você tenha um Array com vários objetos dentro, mas quer validar se em casa objeto exite um determinado campo.
+> Ou pegar o valor desse campo, com determinado valor, etc.
+> Usaremos o exemplo de JSON abaixo:
+
+*O método ValidationPathArrayListObjects() vai validar a existância dos campos(paths) que você precisa validar dentro de
+um Array de Objetos. OBS: no exemplo abaixo, foram passados 3 campos, mas você pode passar quantos achar necessário.*
+
+```androiddatabinding
+{
+    "page": 1,
+    "per_page": 6,
+    "total": 12,
+    "total_pages": 2,
+    "data": [
+        {
+            "id": 1,
+            "name": "cerulean",
+            "year": 2000,
+            "color": "#98B2D1",
+            "pantone_value": "15-4020"
+        },
+        {
+            "id": 2,
+            "name": "fuchsia rose",
+            "year": 2001,
+            "color": "#C74375",
+            "pantone_value": "17-2031"
+        }]
+
+        String valorDoCampoQueQueroPegar = "name";
+        List<T> extract = Get().extract().response().jsonPath().getList("data");
+       Object valor = ValidationPathArrayListObjects(extract, valorDoCampoQueQueroPegar, "id", "address");
+       
+       **OBS** : Caso seu Array retorne apenas um objeto e você queira validar existência e pegar o valor
+       basta passar ele conforme acima, caso não:
+       
+       Object valor = ValidationPathArrayListObjects(extract, "", "id", "address")
+        
+        
+        
+```
+
+> Em caso onde seu retorno não tem um RootPath como no exemplo acima é o **data**:
+
+```androiddatabinding
+[
+  {
+    "id": 1,
+    "name": "Leanne Graham",
+    "username": "Bret",
+    "email": "Sincere@april.biz",
+    "address": {
+      "street": "Kulas Light",
+      "suite": "Apt. 556",
+      "city": "Gwenborough",
+      "zipcode": "92998-3874",
+      "geo": {
+        "lat": "-37.3159",
+        "lng": "81.1496"
+      }
+    },
+    "phone": "1-770-736-8031 x56442",
+    "website": "hildegard.org",
+    "company": {
+      "name": "Romaguera-Crona",
+      "catchPhrase": "Multi-layered client-server neural-net",
+      "bs": "harness real-time e-markets"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Ervin Howell",
+    "username": "Antonette",
+    "email": "Shanna@melissa.tv",
+    "address": {
+      "street": "Victor Plains",
+      "suite": "Suite 879",
+      "city": "Wisokyburgh",
+      "zipcode": "90566-7771",
+      "geo": {
+        "lat": "-43.9509",
+        "lng": "-34.4618"
+      }
+    }]
+    
+        String valorDoCampoQueQueroPegar = "name";
+        List<T> extract = Get().extract().response().jsonPath().getList("$");
+       Object valor = ValidationPathArrayListObjects(extract, valorDoCampoQueQueroPegar, "id", "address");
+       
+       **OBS** : Caso seu Array retorne apenas um objeto e você queira validar existência e pegar o valor
+       basta passar ele conforme acima, caso não:
+       
+       Object valor = ValidationPathArrayListObjects(extract, "", "id", "address")
+        
+```
+
+***
+> Abaixo, JSON usado para montar o Doc.
+
 ```cloudfoundry
 {
     "data": {
