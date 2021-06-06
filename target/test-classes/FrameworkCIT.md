@@ -422,6 +422,15 @@ String body = "{body que será enviado}";
           Body().root("data")
         .object("id", "name")
         
+        OU
+        
+                Body()
+                .contains("page")
+                .and("per_pag")
+                .and("total")
+                .and("total_pages")
+                .root("data")
+                .object("id", "name", "color", "pantone_value");
         
         
 ```
