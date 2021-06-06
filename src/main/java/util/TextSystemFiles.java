@@ -271,14 +271,14 @@ public class TextSystemFiles {
             "    - DeleteParamHeaderEndpoint\n" +
             "\n" +
             "- Métodos diversos\n" +
-            "    - CertificationSpec\n" +
-            "    - JwtPS256\n" +
-            "    - JwtHS256\n" +
+            "    - CertificationSpec - Metodo que usar certificados\n" +
+            "    - JwtPS256 - Criar JWT PS256\n" +
+            "    - JwtHS256 - Criar JWT HS256\n" +
             "\n" +
             "***\n" +
             "<h4>Método separado</h4>\n" +
             "\n" +
-            "Existe um método chamado GivenExternal();\n" +
+            "> Existe um método chamado GivenExternal();\n" +
             "\n" +
             "Para o caso de, você precisar usar uma chamada diferente, com caracteristicas que os métodos existentes não atendam. Em\n" +
             "métodos separados, é necessário usar o GivenExternal do framework para que ele use os dados no Report.\n" +
@@ -402,10 +402,12 @@ public class TextSystemFiles {
             "                .body(containsString(\"first_name\"));\n" +
             "```\n" +
             "\n" +
-            "> Comparar valores\n" +
+            "> **Comparar valores:**\n" +
             "\n" +
             " ```androiddatabinding\n" +
+            " \n" +
             "   Get().body(\"data.first_name\", Matchers.is(\"Michael\"));\n" +
+            "   \n" +
             "```\n" +
             "\n" +
             "> Extraindo 2 valores e comparando\n" +
@@ -420,12 +422,8 @@ public class TextSystemFiles {
             "    Assert.assertEquals(value1, value2);\n" +
             "```\n" +
             "\n" +
-            "> Caso você tenha um Array com vários objetos dentro, mas quer validar se em casa objeto exite um determinado campo.\n" +
-            "> Ou pegar o valor desse campo, com determinado valor, etc.\n" +
-            "> Usaremos o exemplo de JSON abaixo:\n" +
-            "\n" +
-            "*O método ValidationPathArrayListObjects() vai validar a existância dos campos(paths) que você precisa validar dentro de\n" +
-            "um Array de Objetos. OBS: no exemplo abaixo, foram passados 3 campos, mas você pode passar quantos achar necessário.*\n" +
+            "*Use o Body() para efetuar valições de existências de campos, abaixo um exemplo de validação em alguns campos.*\n" +
+            "**Usando como o exemplo abaixo você está validando cada objeto dentro do array data.**\n" +
             "\n" +
             "```androiddatabinding\n" +
             "{\n" +
@@ -449,71 +447,81 @@ public class TextSystemFiles {
             "            \"pantone_value\": \"17-2031\"\n" +
             "        }]\n" +
             "\n" +
-            "        String valorDoCampoQueQueroPegar = \"name\";\n" +
-            "        List<T> extract = Get().extract().response().jsonPath().getList(\"data\");\n" +
-            "       Object valor = ValidationPathArrayListObjects(extract, valorDoCampoQueQueroPegar, \"id\", \"address\");\n" +
-            "       \n" +
-            "       **OBS** : Caso seu Array retorne apenas um objeto e você queira validar existência e pegar o valor\n" +
-            "       basta passar ele conforme acima, caso não:\n" +
-            "       \n" +
-            "       Object valor = ValidationPathArrayListObjects(extract, \"\", \"id\", \"address\")\n" +
+            "           Get();\n" +
+            "            \n" +
+            "          Body().root(\"data\")\n" +
+            "        .object(\"id\", \"name\")\n" +
             "        \n" +
             "        \n" +
             "        \n" +
             "```\n" +
             "\n" +
-            "> Em caso onde seu retorno não tem um RootPath como no exemplo acima é o **data**:\n" +
+            "> **Exemplo 2 - Agora usando um Array JSON**\n" +
+            "> *Quando sua validação for um Array JSON de objetos conforme abaixo, use conforme está o exemplo.*\n" +
             "\n" +
             "```androiddatabinding\n" +
             "[\n" +
-            "  {\n" +
-            "    \"id\": 1,\n" +
-            "    \"name\": \"Leanne Graham\",\n" +
-            "    \"username\": \"Bret\",\n" +
-            "    \"email\": \"Sincere@april.biz\",\n" +
-            "    \"address\": {\n" +
-            "      \"street\": \"Kulas Light\",\n" +
-            "      \"suite\": \"Apt. 556\",\n" +
-            "      \"city\": \"Gwenborough\",\n" +
-            "      \"zipcode\": \"92998-3874\",\n" +
-            "      \"geo\": {\n" +
-            "        \"lat\": \"-37.3159\",\n" +
-            "        \"lng\": \"81.1496\"\n" +
-            "      }\n" +
+            "    {\n" +
+            "        \"id\": 1,\n" +
+            "        \"name\": \"Leanne Graham\",\n" +
+            "        \"username\": \"Bret\",\n" +
+            "        \"email\": \"Sincere@april.biz\",\n" +
+            "        \"address\": {\n" +
+            "            \"street\": \"Kulas Light\",\n" +
+            "            \"suite\": \"Apt. 556\",\n" +
+            "            \"city\": \"Gwenborough\",\n" +
+            "            \"zipcode\": \"92998-3874\",\n" +
+            "            \"geo\": {\n" +
+            "                \"lat\": \"-37.3159\",\n" +
+            "                \"lng\": \"81.1496\"\n" +
+            "            }\n" +
+            "        },\n" +
+            "        \"phone\": \"1-770-736-8031 x56442\",\n" +
+            "        \"website\": \"hildegard.org\",\n" +
+            "        \"company\": {\n" +
+            "            \"name\": \"Romaguera-Crona\",\n" +
+            "            \"catchPhrase\": \"Multi-layered client-server neural-net\",\n" +
+            "            \"bs\": \"harness real-time e-markets\"\n" +
+            "        }\n" +
             "    },\n" +
-            "    \"phone\": \"1-770-736-8031 x56442\",\n" +
-            "    \"website\": \"hildegard.org\",\n" +
-            "    \"company\": {\n" +
-            "      \"name\": \"Romaguera-Crona\",\n" +
-            "      \"catchPhrase\": \"Multi-layered client-server neural-net\",\n" +
-            "      \"bs\": \"harness real-time e-markets\"\n" +
-            "    }\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"id\": 2,\n" +
-            "    \"name\": \"Ervin Howell\",\n" +
-            "    \"username\": \"Antonette\",\n" +
-            "    \"email\": \"Shanna@melissa.tv\",\n" +
-            "    \"address\": {\n" +
-            "      \"street\": \"Victor Plains\",\n" +
-            "      \"suite\": \"Suite 879\",\n" +
-            "      \"city\": \"Wisokyburgh\",\n" +
-            "      \"zipcode\": \"90566-7771\",\n" +
-            "      \"geo\": {\n" +
-            "        \"lat\": \"-43.9509\",\n" +
-            "        \"lng\": \"-34.4618\"\n" +
-            "      }\n" +
+            "    {\n" +
+            "        \"id\": 2,\n" +
+            "        \"name\": \"Ervin Howell\",\n" +
+            "        \"username\": \"Antonette\",\n" +
+            "        \"email\": \"Shanna@melissa.tv\",\n" +
+            "        \"address\": {\n" +
+            "            \"street\": \"Victor Plains\",\n" +
+            "            \"suite\": \"Suite 879\",\n" +
+            "            \"city\": \"Wisokyburgh\",\n" +
+            "            \"zipcode\": \"90566-7771\",\n" +
+            "            \"geo\": {\n" +
+            "                \"lat\": \"-43.9509\",\n" +
+            "                \"lng\": \"-34.4618\"\n" +
+            "            }\n" +
+            "        },\n" +
+            "        \"phone\": \"010-692-6593 x09125\",\n" +
+            "        \"website\": \"anastasia.net\",\n" +
+            "        \"company\": {\n" +
+            "            \"name\": \"Deckow-Crist\",\n" +
+            "            \"catchPhrase\": \"Proactive didactic contingency\",\n" +
+            "            \"bs\": \"synergize scalable supply-chains\"\n" +
+            "        }\n" +
             "    }]\n" +
+            "            Get();\n" +
             "    \n" +
-            "        String valorDoCampoQueQueroPegar = \"name\";\n" +
-            "        List<T> extract = Get().extract().response().jsonPath().getList(\"$\");\n" +
-            "       Object valor = ValidationPathArrayListObjects(extract, valorDoCampoQueQueroPegar, \"id\", \"address\");\n" +
-            "       \n" +
-            "       **OBS** : Caso seu Array retorne apenas um objeto e você queira validar existência e pegar o valor\n" +
-            "       basta passar ele conforme acima, caso não:\n" +
-            "       \n" +
-            "       Object valor = ValidationPathArrayListObjects(extract, \"\", \"id\", \"address\")\n" +
-            "        \n" +
+            "                Body()\n" +
+            "                .root(\"$\")\n" +
+            "                .object(\"id\", \"name\", \"email\", \"suite\");\n" +
+            "```\n" +
+            "\n" +
+            "**Se deseja apenas validar em todo JSON se os valores existem**\n" +
+            "\n" +
+            "```androiddatabinding\n" +
+            "\n" +
+            "        Body()\n" +
+            "              .contains(\"id\")\n" +
+            "        .and(\"name\")\n" +
+            "        .and(\"email\")\n" +
             "```\n" +
             "\n" +
             "***\n" +

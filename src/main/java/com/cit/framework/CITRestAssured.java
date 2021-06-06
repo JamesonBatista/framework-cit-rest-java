@@ -1,12 +1,10 @@
 package com.cit.framework;
 
-import com.bradesco.core.exception.BradescoAssertionException;
 import com.bradesco.core.exception.BradescoException;
-import com.bradesco.core.exception.BradescoRuntimeException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton;
 import com.nimbusds.jose.jca.JCASupport;
-import com.nimbusds.jose.shaded.json.JSONObject;
+import frameworkValidation.ReadCompleteJSONForValidation;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.restassured.RestAssured;
@@ -21,8 +19,8 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.output.WriterOutputStream;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.util.ResourceUtils;
+import util.AlertsMessages;
 import util.Constantes;
 
 import javax.net.ssl.KeyManagerFactory;
@@ -36,18 +34,18 @@ import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.cit.framework.ClassReport.*;
+import static com.cit.framework.ClassReport.ReportBradesco;
 import static io.restassured.RestAssured.*;
 import static util.FileProperties.GetProp;
 import static util.TextSystemFiles.textNull;
 
-public class CITRestAssured {
+public class CITRestAssured extends ReadCompleteJSONForValidation {
 
     static ValidatableResponse result;
+    public static ValidatableResponse readJson;
     static Response response;
     static Boolean initReport = false;
     static String BODY = null;
@@ -58,6 +56,8 @@ public class CITRestAssured {
 
     static StringWriter requestWriter;
     static PrintStream requestCapture;
+    private static AlertsMessages messages;
+
 
     static void InitReport() {
         requestWriter = new StringWriter();
@@ -74,14 +74,13 @@ public class CITRestAssured {
     }
 
     static void ValidationResponse() {
+        messages = new AlertsMessages();
         Response res = result.extract().response();
-        if (res.asString().isEmpty() || res.asString().contains("{}") || res == null || res.asString().contains(textNull)) {
-            System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
-            System.out.println("                                                   URI: " + URIFinal());
-            throw new BradescoRuntimeException("\n\n Seu Response está NULL, talvez você tenha batido no Endpoint errado\n" +
-                    "   Olhe dentro do environment/data.properties, ou na sua Feature e verifique se o endpoint está correto.\n" +
-                    "   Ou, você não passou o parâmetro corretamente.\n" +
-                    "   Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+        if (response.asString().isEmpty() || response.asString().contains("{}")) {
+            messages.AlertReturnIsEmpty();
+        }
+        if (res == null || res.asString().contains(textNull)) {
+            messages.ResponseNull();
         } else {
             result.log().body();
         }
@@ -127,6 +126,7 @@ public class CITRestAssured {
                     .then()
                     .assertThat();
             response = result.extract().response();
+            readJson = result;
             return result;
         } finally {
             initReport(log);
@@ -611,27 +611,6 @@ public class CITRestAssured {
         }
     }
 
-    public static Object ValidationPathArrayListObjects(List<T> array, String getValue, String... pathAssertExist) throws BradescoAssertionException {
-        JSONObject json;
-        Object value = null;
-        Object finalValue = new String();
-
-        for (Object list : array) {
-            json = new JSONObject((Map<String, ?>) list);
-            for (String listArray : pathAssertExist) {
-                value = json.get(listArray);
-                if (value == null) {
-                    throw new BradescoAssertionException("O valor 《《 " + listArray + " 》》 não existe na sua lista de Objetos.\n" +
-                            "Object error: " + json);
-                } else {
-                    if (getValue != "") {
-                        finalValue = json.get(getValue);
-                    }
-                }
-            }
-        }
-        return finalValue;
-    }
 
     public RequestSpecification CertificationSpec(String keyPathFormatP12, String keyPass,
                                                   String trustPathFormatP12, String trustPass) throws Exception {

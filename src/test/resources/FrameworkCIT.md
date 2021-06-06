@@ -241,14 +241,14 @@ _Use a mesma lógica do código abaixo para sua necessidade de acordo com o Post
     - DeleteParamHeaderEndpoint
 
 - Métodos diversos
-    - CertificationSpec
-    - JwtPS256
-    - JwtHS256
+    - CertificationSpec - Metodo que usar certificados
+    - JwtPS256 - Criar JWT PS256
+    - JwtHS256 - Criar JWT HS256
 
 ***
 <h4>Método separado</h4>
 
-Existe um método chamado GivenExternal();
+> Existe um método chamado GivenExternal();
 
 Para o caso de, você precisar usar uma chamada diferente, com caracteristicas que os métodos existentes não atendam. Em
 métodos separados, é necessário usar o GivenExternal do framework para que ele use os dados no Report.
@@ -372,10 +372,12 @@ String body = "{body que será enviado}";
                 .body(containsString("first_name"));
 ```
 
-> Comparar valores
+> **Comparar valores:**
 
  ```androiddatabinding
+ 
    Get().body("data.first_name", Matchers.is("Michael"));
+   
 ```
 
 > Extraindo 2 valores e comparando
@@ -390,12 +392,8 @@ String body = "{body que será enviado}";
     Assert.assertEquals(value1, value2);
 ```
 
-> Caso você tenha um Array com vários objetos dentro, mas quer validar se em casa objeto exite um determinado campo.
-> Ou pegar o valor desse campo, com determinado valor, etc.
-> Usaremos o exemplo de JSON abaixo:
-
-*O método ValidationPathArrayListObjects() vai validar a existância dos campos(paths) que você precisa validar dentro de
-um Array de Objetos. OBS: no exemplo abaixo, foram passados 3 campos, mas você pode passar quantos achar necessário.*
+*Use o Body() para efetuar valições de existências de campos, abaixo um exemplo de validação em alguns campos.*
+**Usando como o exemplo abaixo você está validando cada objeto dentro do array data.**
 
 ```androiddatabinding
 {
@@ -419,71 +417,81 @@ um Array de Objetos. OBS: no exemplo abaixo, foram passados 3 campos, mas você 
             "pantone_value": "17-2031"
         }]
 
-        String valorDoCampoQueQueroPegar = "name";
-        List<T> extract = Get().extract().response().jsonPath().getList("data");
-       Object valor = ValidationPathArrayListObjects(extract, valorDoCampoQueQueroPegar, "id", "address");
-       
-       **OBS** : Caso seu Array retorne apenas um objeto e você queira validar existência e pegar o valor
-       basta passar ele conforme acima, caso não:
-       
-       Object valor = ValidationPathArrayListObjects(extract, "", "id", "address")
+           Get();
+            
+          Body().root("data")
+        .object("id", "name")
         
         
         
 ```
 
-> Em caso onde seu retorno não tem um RootPath como no exemplo acima é o **data**:
+> **Exemplo 2 - Agora usando um Array JSON**
+> *Quando sua validação for um Array JSON de objetos conforme abaixo, use conforme está o exemplo.*
 
 ```androiddatabinding
 [
-  {
-    "id": 1,
-    "name": "Leanne Graham",
-    "username": "Bret",
-    "email": "Sincere@april.biz",
-    "address": {
-      "street": "Kulas Light",
-      "suite": "Apt. 556",
-      "city": "Gwenborough",
-      "zipcode": "92998-3874",
-      "geo": {
-        "lat": "-37.3159",
-        "lng": "81.1496"
-      }
+    {
+        "id": 1,
+        "name": "Leanne Graham",
+        "username": "Bret",
+        "email": "Sincere@april.biz",
+        "address": {
+            "street": "Kulas Light",
+            "suite": "Apt. 556",
+            "city": "Gwenborough",
+            "zipcode": "92998-3874",
+            "geo": {
+                "lat": "-37.3159",
+                "lng": "81.1496"
+            }
+        },
+        "phone": "1-770-736-8031 x56442",
+        "website": "hildegard.org",
+        "company": {
+            "name": "Romaguera-Crona",
+            "catchPhrase": "Multi-layered client-server neural-net",
+            "bs": "harness real-time e-markets"
+        }
     },
-    "phone": "1-770-736-8031 x56442",
-    "website": "hildegard.org",
-    "company": {
-      "name": "Romaguera-Crona",
-      "catchPhrase": "Multi-layered client-server neural-net",
-      "bs": "harness real-time e-markets"
-    }
-  },
-  {
-    "id": 2,
-    "name": "Ervin Howell",
-    "username": "Antonette",
-    "email": "Shanna@melissa.tv",
-    "address": {
-      "street": "Victor Plains",
-      "suite": "Suite 879",
-      "city": "Wisokyburgh",
-      "zipcode": "90566-7771",
-      "geo": {
-        "lat": "-43.9509",
-        "lng": "-34.4618"
-      }
+    {
+        "id": 2,
+        "name": "Ervin Howell",
+        "username": "Antonette",
+        "email": "Shanna@melissa.tv",
+        "address": {
+            "street": "Victor Plains",
+            "suite": "Suite 879",
+            "city": "Wisokyburgh",
+            "zipcode": "90566-7771",
+            "geo": {
+                "lat": "-43.9509",
+                "lng": "-34.4618"
+            }
+        },
+        "phone": "010-692-6593 x09125",
+        "website": "anastasia.net",
+        "company": {
+            "name": "Deckow-Crist",
+            "catchPhrase": "Proactive didactic contingency",
+            "bs": "synergize scalable supply-chains"
+        }
     }]
+            Get();
     
-        String valorDoCampoQueQueroPegar = "name";
-        List<T> extract = Get().extract().response().jsonPath().getList("$");
-       Object valor = ValidationPathArrayListObjects(extract, valorDoCampoQueQueroPegar, "id", "address");
-       
-       **OBS** : Caso seu Array retorne apenas um objeto e você queira validar existência e pegar o valor
-       basta passar ele conforme acima, caso não:
-       
-       Object valor = ValidationPathArrayListObjects(extract, "", "id", "address")
-        
+                Body()
+                .root("$")
+                .object("id", "name", "email", "suite");
+```
+
+**Se deseja apenas validar em todo JSON se os valores existem**
+
+```androiddatabinding
+
+        Body()
+              .contains("id")
+        .and("name")
+        .and("email")
 ```
 
 ***
