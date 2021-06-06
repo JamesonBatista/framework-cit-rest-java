@@ -3,18 +3,21 @@ package com.cit.framework;
 import static com.cit.framework.ClassReport.ExternalReport;
 import static com.cit.framework.Exclud.FilesSystem;
 
- class Test extends CITRestAssured {
+public class Test extends CITRestAssured {
 
     @org.junit.Test
-     void TestFrame() throws Exception {
+    public void TestFrame() throws Exception {
         FilesSystem();
-        InitEnvironment();
+        InitEnvironment("unknown");
         Get();
 
-//        Body()
-//              .contains("id")
-//        .and("name")
-//        .and("email")
+        Body()
+                .contains("page")
+                .and("per_pag")
+                .and("total")
+                .and("total_pages")
+                .root("data")
+                .object("id", "name", "color", "pantone_value");
 //
         ;
 //        String valorDoCampoQueQueroPegar = "name";

@@ -452,6 +452,15 @@ public class TextSystemFiles {
             "          Body().root(\"data\")\n" +
             "        .object(\"id\", \"name\")\n" +
             "        \n" +
+            "        OU\n" +
+            "        \n" +
+            "                Body()\n" +
+            "                .contains(\"page\")\n" +
+            "                .and(\"per_pag\")\n" +
+            "                .and(\"total\")\n" +
+            "                .and(\"total_pages\")\n" +
+            "                .root(\"data\")\n" +
+            "                .object(\"id\", \"name\", \"color\", \"pantone_value\");\n" +
             "        \n" +
             "        \n" +
             "```\n" +

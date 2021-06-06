@@ -4,7 +4,7 @@ import com.bradesco.core.exception.BradescoException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton;
 import com.nimbusds.jose.jca.JCASupport;
-import frameworkValidation.ReadCompleteJSONForValidation;
+import jsonvalidation.ReadCompleteJSONForValidation;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.restassured.RestAssured;

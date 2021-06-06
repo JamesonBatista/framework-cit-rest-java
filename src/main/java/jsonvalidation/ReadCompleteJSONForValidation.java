@@ -1,4 +1,4 @@
-package frameworkValidation;
+package jsonvalidation;
 
 
 import com.bradesco.core.exception.BradescoAssertionException;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 import static com.cit.framework.CITRestAssured.readJson;
 
-public class ReadCompleteJSONForValidation<T, R> extends ResponseBodyValidationPath{
+public class ReadCompleteJSONForValidation<T, R> {
     public static String JSON_;
     public static String pathRoot_;
 
@@ -60,6 +60,26 @@ public class ReadCompleteJSONForValidation<T, R> extends ResponseBodyValidationP
             }
         }
 
+        return this;
+    }
+
+    public ReadCompleteJSONForValidation<T, R> and(String key) throws BradescoAssertionException {
+        Boolean verify = false;
+        String retorno = new Gson().toJson(JSON_);
+        String rep = retorno.replaceAll(":", "");
+        String repla = rep.replaceAll("[\\\\(\\\\)\\\\[\\\\]\\\\{\\\\}]", "");
+        String replac = repla.replaceAll(",", "");
+        String asp = replac.replaceAll("\"", " ");
+        String[] arrayValores = asp.split(" ");
+        for (String s : arrayValores) {
+            if (s.equalsIgnoreCase(key)) {
+                verify = true;
+                break;
+            }
+        }
+        if (!verify) {
+            throw new BradescoAssertionException("\n\nO valor 《《 " + key + " 》》 não foi encontrado no seu JSON");
+        }
         return this;
     }
 }
