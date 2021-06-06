@@ -3,21 +3,34 @@ package com.cit.framework;
 import static com.cit.framework.ClassReport.ExternalReport;
 import static com.cit.framework.Exclud.FilesSystem;
 
-class Test extends CITRestAssured {
+ class Test extends CITRestAssured {
 
     @org.junit.Test
-    void TestFrame() throws Exception {
+     void TestFrame() throws Exception {
         FilesSystem();
-        InitEnvironment("unknown");
+        InitEnvironment("users/7");
         Get();
 
         Body()
-                .contains("page")
-                .and("per_pag")
-                .and("total")
-                .and("total_pages")
-                .root("data")
-                .object("id", "name", "color", "pantone_value");
+                .contains("data");
+
+        String body = "{\n" +
+                "    \"treinamento\":{\n" +
+                "        \"Primeiro\": \"Fabricio\",\n" +
+                "        \"Segundo\": \"Lucas\",\n" +
+                "        \"Terceiro\": \"Debora\",\n" +
+                "        \"Quarto\": \"Bruno\"\n" +
+                "    }\n" +
+                "}";
+
+        PostBody(body);
+        Body()
+                .contains("treinamento")
+                .and("Primeiro")
+                .and("Fabricio")
+        ;
+
+
 //
         ;
 //        String valorDoCampoQueQueroPegar = "name";

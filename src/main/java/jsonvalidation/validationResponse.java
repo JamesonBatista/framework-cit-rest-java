@@ -10,16 +10,16 @@ import java.util.Map;
 
 import static com.cit.framework.CITRestAssured.readJson;
 
-public class ReadCompleteJSONForValidation<T, R> {
+public class validationResponse<T, R> {
     public static String JSON_;
     public static String pathRoot_;
 
 
-    public ReadCompleteJSONForValidation Body() {
+    public validationResponse Body() {
         return this;
     }
 
-    public ReadCompleteJSONForValidation<T, R> contains(String key) throws BradescoAssertionException {
+    public validationResponse<T, R> contains(String key) throws BradescoAssertionException {
         Boolean verify = false;
         JSON_ = readJson.extract().response().asString();
         String retorno = new Gson().toJson(JSON_);
@@ -40,12 +40,12 @@ public class ReadCompleteJSONForValidation<T, R> {
         return this;
     }
 
-    public ReadCompleteJSONForValidation<T, R> root(String root) {
+    public validationResponse<T, R> root(String root) {
         pathRoot_ = root;
         return this;
     }
 
-    public ReadCompleteJSONForValidation<T, R> object(String... path) throws BradescoAssertionException {
+    public validationResponse<T, R> object(String... path) throws BradescoAssertionException {
         List<T> list = readJson.extract().jsonPath().getList(pathRoot_);
         JSONObject json;
         Boolean value;
@@ -63,7 +63,7 @@ public class ReadCompleteJSONForValidation<T, R> {
         return this;
     }
 
-    public ReadCompleteJSONForValidation<T, R> and(String key) throws BradescoAssertionException {
+    public validationResponse<T, R> and(String key) throws BradescoAssertionException {
         Boolean verify = false;
         String retorno = new Gson().toJson(JSON_);
         String rep = retorno.replaceAll(":", "");

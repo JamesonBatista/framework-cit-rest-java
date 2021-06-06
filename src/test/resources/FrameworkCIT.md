@@ -393,7 +393,10 @@ String body = "{body que será enviado}";
 ```
 
 *Use o Body() para efetuar valições de existências de campos, abaixo um exemplo de validação em alguns campos.*
+
 **Usando como o exemplo abaixo você está validando cada objeto dentro do array data.**
+
+**Obs:  O método GivenExternal() não deve ser usado pelo método Body()**
 
 ```androiddatabinding
 {
@@ -488,7 +491,7 @@ String body = "{body que será enviado}";
     }]
             Get();
     
-                Body()
+            Body()
                 .root("$")
                 .object("id", "name", "email", "suite");
 ```
@@ -499,8 +502,8 @@ String body = "{body que será enviado}";
 
         Body()
               .contains("id")
-        .and("name")
-        .and("email")
+              .and("name")
+              .and("email")
 ```
 
 ***

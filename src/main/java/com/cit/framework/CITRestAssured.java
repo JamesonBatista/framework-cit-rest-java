@@ -4,7 +4,7 @@ import com.bradesco.core.exception.BradescoException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton;
 import com.nimbusds.jose.jca.JCASupport;
-import jsonvalidation.ReadCompleteJSONForValidation;
+import jsonvalidation.validationResponse;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.restassured.RestAssured;
@@ -42,7 +42,7 @@ import static io.restassured.RestAssured.*;
 import static util.FileProperties.GetProp;
 import static util.TextSystemFiles.textNull;
 
-public class CITRestAssured extends ReadCompleteJSONForValidation {
+public class CITRestAssured extends validationResponse {
 
     static ValidatableResponse result;
     public static ValidatableResponse readJson;
@@ -65,6 +65,7 @@ public class CITRestAssured extends ReadCompleteJSONForValidation {
     }
 
     static void initReport(Boolean... logs) throws IOException, BradescoException {
+        readJson = result;
         ValidationResponse();
         if (logs.length == 0) {
             ReportBradesco();
@@ -126,7 +127,6 @@ public class CITRestAssured extends ReadCompleteJSONForValidation {
                     .then()
                     .assertThat();
             response = result.extract().response();
-            readJson = result;
             return result;
         } finally {
             initReport(log);

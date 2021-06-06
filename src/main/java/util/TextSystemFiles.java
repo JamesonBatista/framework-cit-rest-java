@@ -423,7 +423,10 @@ public class TextSystemFiles {
             "```\n" +
             "\n" +
             "*Use o Body() para efetuar valições de existências de campos, abaixo um exemplo de validação em alguns campos.*\n" +
+            "\n" +
             "**Usando como o exemplo abaixo você está validando cada objeto dentro do array data.**\n" +
+            "\n" +
+            "**Obs:  O método GivenExternal() não deve ser usado pelo método Body()**\n" +
             "\n" +
             "```androiddatabinding\n" +
             "{\n" +
@@ -518,7 +521,7 @@ public class TextSystemFiles {
             "    }]\n" +
             "            Get();\n" +
             "    \n" +
-            "                Body()\n" +
+            "            Body()\n" +
             "                .root(\"$\")\n" +
             "                .object(\"id\", \"name\", \"email\", \"suite\");\n" +
             "```\n" +
@@ -529,8 +532,8 @@ public class TextSystemFiles {
             "\n" +
             "        Body()\n" +
             "              .contains(\"id\")\n" +
-            "        .and(\"name\")\n" +
-            "        .and(\"email\")\n" +
+            "              .and(\"name\")\n" +
+            "              .and(\"email\")\n" +
             "```\n" +
             "\n" +
             "***\n" +
