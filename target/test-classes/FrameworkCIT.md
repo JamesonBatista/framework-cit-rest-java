@@ -491,7 +491,7 @@ String body = "{body que será enviado}";
     }]
             Get();
     
-                Body()
+            Body()
                 .root("$")
                 .object("id", "name", "email", "suite");
 ```
@@ -502,8 +502,8 @@ String body = "{body que será enviado}";
 
         Body()
               .contains("id")
-        .and("name")
-        .and("email")
+              .and("name")
+              .and("email")
 ```
 
 ***

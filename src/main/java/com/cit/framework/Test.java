@@ -3,32 +3,39 @@ package com.cit.framework;
 import static com.cit.framework.ClassReport.ExternalReport;
 import static com.cit.framework.Exclud.FilesSystem;
 
- class Test extends CITRestAssured {
+class Test extends CITRestAssured {
 
     @org.junit.Test
-     void TestFrame() throws Exception {
+    void TestFrame() throws Exception {
         FilesSystem();
-        InitEnvironment("users/7");
+        InitEnvironment("unknown");
         Get();
 
-        Body()
-                .contains("data");
 
-        String body = "{\n" +
-                "    \"treinamento\":{\n" +
-                "        \"Primeiro\": \"Fabricio\",\n" +
-                "        \"Segundo\": \"Lucas\",\n" +
-                "        \"Terceiro\": \"Debora\",\n" +
-                "        \"Quarto\": \"Bruno\"\n" +
-                "    }\n" +
-                "}";
-
-        PostBody(body);
-        Body()
-                .contains("treinamento")
-                .and("Primeiro")
-                .and("Fabricio")
-        ;
+        Body().root("data").object("id")
+                .contains("true red");
+//                .contains("page")
+//                .and("per_page")
+//                .and("total")
+//                .and("total_pages")
+//                .root("data")
+//                .object("id", "name", "color", "pantone_value");
+//
+//        String body = "{\n" +
+//                "    \"treinamento\":{\n" +
+//                "        \"Primeiro\": \"Fabricio\",\n" +
+//                "        \"Segundo\": \"Lucas\",\n" +
+//                "        \"Terceiro\": \"Debora\",\n" +
+//                "        \"Quarto\": \"Bruno\"\n" +
+//                "    }\n" +
+//                "}";
+//        InitEnvironment("users/7");
+//        PostBody(body);
+//        Body()
+//                .contains("treinamento")
+//                .and("Primeiro")
+//                .and("Fabricio")
+//        ;
 
 
 //
