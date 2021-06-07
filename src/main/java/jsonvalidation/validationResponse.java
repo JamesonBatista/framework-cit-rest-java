@@ -21,7 +21,6 @@ public class validationResponse {
 
     public validationResponse Body() {
         bodyStart = true;
-
         return this;
     }
 

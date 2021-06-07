@@ -24,7 +24,7 @@
         <dependency>
             <groupId>br.com.bradesco.gccs.automacao</groupId>
             <artifactId>gccs-lib-framework-automacao</artifactId>
-            <version>1.13.0</version>
+            <version>1.20.0</version>
         </dependency>
 
         <dependency>
