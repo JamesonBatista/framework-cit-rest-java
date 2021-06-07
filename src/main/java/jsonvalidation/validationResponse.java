@@ -47,7 +47,6 @@ public class validationResponse {
             andStart = true;
             Boolean verify = false;
             for (String s : ReplaceJson()) {
-                System.out.println(s);
                 if (s.equalsIgnoreCase(key)) {
                     verify = true;
                     break;
@@ -60,16 +59,24 @@ public class validationResponse {
         return this;
     }
 
-    public validationResponse root(String root) throws BradescoAssertionException {
+    public validationResponse root(String... root) throws BradescoAssertionException {
         if (!bodyStart) {
             throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
                     "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         } else {
-            rootStart = true;
-            pathRoot_ = root;
-            list = readJson.extract().jsonPath().getList(pathRoot_ == "" ? "$" : pathRoot_);
+            if (root.length > 0) {
+                System.out.println("ROOT MAIOR");
+                for (String rootpath : root) {
+                    rootStart = true;
+                    pathRoot_ = rootpath;
+                    list = readJson.extract().jsonPath().getList(pathRoot_ == "" ? "$" : pathRoot_);
+                }
+            } else {
+                rootStart = true;
+                pathRoot_ = "$";
+                list = readJson.extract().jsonPath().getList(pathRoot_);
+            }
         }
-
         return this;
     }
 
@@ -82,15 +89,20 @@ public class validationResponse {
             throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body().root('data') seguido do root().object()...\n" +
                     "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         } else {
-            for (Object l : list) {
-                json = new JSONObject((Map<String, ?>) l);
-                for (String listArray : path) {
-                    value = json.has(listArray);
-                    if (!value) {
-                        throw new BradescoAssertionException("\n\nO valor 《《 " + listArray + " 》》 não existe na sua lista de Objetos.\n" +
-                                "Object error: " + json);
+            if (path.length > 0) {
+                for (Object l : list) {
+                    json = new JSONObject((Map<String, ?>) l);
+                    for (String listArray : path) {
+                        value = json.has(listArray);
+                        if (!value) {
+                            throw new BradescoAssertionException("\n\nO valor 《《 " + listArray + " 》》 não existe na sua lista de Objetos.\n" +
+                                    "Object error: " + json);
+                        }
                     }
                 }
+            } else {
+                throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, o método object() precisa conter ao menos um campo do objeto a ser validado.\n" +
+                        "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
             }
         }
 

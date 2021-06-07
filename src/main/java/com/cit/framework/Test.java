@@ -3,17 +3,19 @@ package com.cit.framework;
 import static com.cit.framework.ClassReport.ExternalReport;
 import static com.cit.framework.Exclud.FilesSystem;
 
-class Test extends CITRestAssured {
+public class Test extends CITRestAssured {
 
     @org.junit.Test
-    void TestFrame() throws Exception {
+    public void TestFrame() throws Exception {
         FilesSystem();
-        InitEnvironment("unknown");
+        InitEnvironment();
         Get();
 
 
-        Body().root("data").object("id")
-                .contains("true red");
+        Body()
+                .root().object("id")
+                .contains("name")
+                .and("company");
 //                .contains("page")
 //                .and("per_page")
 //                .and("total")
