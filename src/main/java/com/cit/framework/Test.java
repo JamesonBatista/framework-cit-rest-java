@@ -11,13 +11,10 @@ public class Test extends CITRestAssured {
     public void TestFrame() throws Exception {
         FilesSystem();
         InitEnvironment("users/7");
-//        Get();
 
-        ExternalContainsJSON = GivenExternal()
-                .when().get().then().log().body();
 
-        Body()
-                .contains("id", "data");
+        Get();
+        Body().contains("id", "data");
 
 
 //        ValidatableResponse res = GivenExternal(ContentType.JSON)
