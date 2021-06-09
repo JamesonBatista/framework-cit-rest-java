@@ -396,8 +396,6 @@ String body = "{body que será enviado}";
 
 **Usando como o exemplo abaixo você está validando cada objeto dentro do array data.**
 
-**Obs:  O método GivenExternal() não deve ser usado pelo método Body()**
-
 ```androiddatabinding
 {
     "page": 1,
@@ -428,10 +426,10 @@ String body = "{body que será enviado}";
         OU
         
                 Body()
-                .contains("page")
-                .and("per_pag")
-                .and("total")
-                .and("total_pages")
+                .contains("page",
+                "per_pag",
+                "total",
+                "total_pages",
                 .root("data")
                 .object("id", "name", "color", "pantone_value");
         
@@ -492,7 +490,7 @@ String body = "{body que será enviado}";
             Get();
     
             Body()
-                .root("$")
+                .root()
                 .object("id", "name", "email", "suite");
 ```
 
@@ -501,10 +499,21 @@ String body = "{body que será enviado}";
 ```androiddatabinding
 
         Body()
-              .contains("id")
-              .and("name")
-              .and("email")
+              .contains("id",
+              "name",
+              "email")
 ```
+
+> Para usar o Body() no GivenExternal() precisa fazer conforme exemplo abaixo:
+> 
+>Seguindo conforme nos exemplos acima de uso do Body() você efetuar as mesmas validações. 
+ ```androiddatabinding
+        ExternalContainsJSON = GivenExternal()
+                               .when().get().then().log().body();
+
+        Body().contains("id", "data");
+
+ ```
 
 ***
 > Abaixo, JSON usado para montar o Doc.

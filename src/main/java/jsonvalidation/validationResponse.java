@@ -9,14 +9,12 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.Map;
 
-import static com.cit.framework.CITRestAssured.readJson;
+import static com.cit.framework.CITRestAssured.*;
 
 public class validationResponse {
-    public static String JSON_;
-    public static String pathRoot_;
+    static String bodyValidation;
     List<T> list;
     Boolean bodyStart = false;
-    Boolean andStart = false;
     Boolean rootStart = false;
 
     public validationResponse Body() {
@@ -25,34 +23,26 @@ public class validationResponse {
     }
 
     static String[] ReplaceJson() {
-        JSON_ = readJson.extract().response().asString();
-        String retorno = new Gson().toJson(JSON_);
+        bodyValidation = ExternalContainsJSON.extract().response().asString();
+        String retorno = new Gson().toJson(bodyValidation);
         String[] stringFormat;
         String rep = retorno.replaceAll(":", "\n");
         String repla = rep.replaceAll("[\\\\(\\\\)\\\\[\\\\]\\\\{\\\\}]", "");
         String asp = repla.replaceAll("\"", "  ");
         String replac = asp.replaceAll(",", "  ");
+        String replacp = replac.replaceAll("=", "  ");
 
-
-        stringFormat = replac.split("  ");
+        stringFormat = replacp.split("  ");
         return stringFormat;
     }
 
-    public validationResponse contains(String key) throws BradescoAssertionException {
+    public validationResponse contains(String... keys) throws BradescoAssertionException {
         if (!bodyStart) {
             throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
                     "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         } else {
-            andStart = true;
-            Boolean verify = false;
-            for (String s : ReplaceJson()) {
-                if (s.equalsIgnoreCase(key)) {
-                    verify = true;
-                    break;
-                }
-            }
-            if (!verify) {
-                throw new BradescoAssertionException("\n\nO valor 《《 " + key + " 》》 não foi encontrado no seu JSON");
+            for (String list : keys) {
+                forValidation(list);
             }
         }
         return this;
@@ -63,17 +53,16 @@ public class validationResponse {
             throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
                     "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         } else {
-            if (root.length > 0) {
-                System.out.println("ROOT MAIOR");
-                for (String rootpath : root) {
-                    rootStart = true;
-                    pathRoot_ = rootpath;
-                    list = readJson.extract().jsonPath().getList(pathRoot_ == "" ? "$" : pathRoot_);
+            rootStart = true;
+            if (root.length == 1) {
+                for (String rootPath : root) {
+                    list = ExternalContainsJSON.extract().jsonPath().getList(rootPath);
                 }
+            } else if (root.length > 1) {
+                throw new BradescoAssertionException("\n\nSeu root() só pode conter apenas UM valor. Ex: root('data').\n" +
+                        "Porque o root é seu rootPath seu Array.");
             } else {
-                rootStart = true;
-                pathRoot_ = "$";
-                list = readJson.extract().jsonPath().getList(pathRoot_);
+                list = ExternalContainsJSON.extract().jsonPath().getList("$");
             }
         }
         return this;
@@ -85,7 +74,8 @@ public class validationResponse {
         if (!bodyStart) {
             throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...");
         } else if (!rootStart) {
-            throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body().root('data') seguido do root().object()...\n" +
+            throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método object() seguido do com o root...\n" +
+                    "Ex: Body().root('data').object('users', 'id', 'name')\n" +
                     "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         } else {
             if (path.length > 0) {
@@ -104,26 +94,20 @@ public class validationResponse {
                         "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
             }
         }
-
         return this;
     }
 
-    public validationResponse and(String key) throws BradescoAssertionException {
-        if (!bodyStart) {
-            throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...");
-        } else if (!andStart) {
-            throw new BradescoAssertionException("\n\nAo usar o and, inicie o Body().contains('id').and('name');");
-        } else {
-            Boolean verify = false;
-            for (String s : ReplaceJson()) {
-                if (s.equalsIgnoreCase(key)) {
-                    verify = true;
-                    break;
-                }
+    validationResponse forValidation(String key) throws BradescoAssertionException {
+
+        Boolean verify = false;
+        for (String s : ReplaceJson()) {
+            if (s.equalsIgnoreCase(key)) {
+                verify = true;
+                break;
             }
-            if (!verify) {
-                throw new BradescoAssertionException("\n\nO valor 《《 " + key + " 》》 não foi encontrado no seu JSON");
-            }
+        }
+        if (!verify) {
+            throw new BradescoAssertionException("\n\nO valor 《《 " + key + " 》》 não foi encontrado no seu JSON");
         }
         return this;
     }

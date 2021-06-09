@@ -45,7 +45,7 @@ import static util.TextSystemFiles.textNull;
 public class CITRestAssured extends validationResponse {
 
     static ValidatableResponse result;
-    public static ValidatableResponse readJson;
+    public static ValidatableResponse ExternalContainsJSON;
     static Response response;
     static Boolean initReport = false;
     static String BODY = null;
@@ -65,7 +65,7 @@ public class CITRestAssured extends validationResponse {
     }
 
     static void initReport(Boolean... logs) throws IOException, BradescoException {
-        readJson = result;
+        ExternalContainsJSON = result;
         ValidationResponse();
         if (logs.length == 0) {
             ReportBradesco();
@@ -96,10 +96,10 @@ public class CITRestAssured extends validationResponse {
                 .log().all();
     }
 
-    public RequestSpecification GivenExternal(ContentType type) {
+    public RequestSpecification GivenExternal() {
         InitReport();
         return given().filter(new RequestLoggingFilter(requestCapture))
-                .urlEncodingEnabled(false).contentType(type)
+                .urlEncodingEnabled(false).contentType(ContentType.JSON)
                 .log().all();
     }
 

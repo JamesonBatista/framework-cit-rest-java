@@ -426,8 +426,6 @@ public class TextSystemFiles {
             "\n" +
             "**Usando como o exemplo abaixo você está validando cada objeto dentro do array data.**\n" +
             "\n" +
-            "**Obs:  O método GivenExternal() não deve ser usado pelo método Body()**\n" +
-            "\n" +
             "```androiddatabinding\n" +
             "{\n" +
             "    \"page\": 1,\n" +
@@ -458,10 +456,10 @@ public class TextSystemFiles {
             "        OU\n" +
             "        \n" +
             "                Body()\n" +
-            "                .contains(\"page\")\n" +
-            "                .and(\"per_pag\")\n" +
-            "                .and(\"total\")\n" +
-            "                .and(\"total_pages\")\n" +
+            "                .contains(\"page\",\n" +
+            "                \"per_pag\",\n" +
+            "                \"total\",\n" +
+            "                \"total_pages\",\n" +
             "                .root(\"data\")\n" +
             "                .object(\"id\", \"name\", \"color\", \"pantone_value\");\n" +
             "        \n" +
@@ -522,7 +520,7 @@ public class TextSystemFiles {
             "            Get();\n" +
             "    \n" +
             "            Body()\n" +
-            "                .root(\"$\")\n" +
+            "                .root()\n" +
             "                .object(\"id\", \"name\", \"email\", \"suite\");\n" +
             "```\n" +
             "\n" +
@@ -531,10 +529,21 @@ public class TextSystemFiles {
             "```androiddatabinding\n" +
             "\n" +
             "        Body()\n" +
-            "              .contains(\"id\")\n" +
-            "              .and(\"name\")\n" +
-            "              .and(\"email\")\n" +
+            "              .contains(\"id\",\n" +
+            "              \"name\",\n" +
+            "              \"email\")\n" +
             "```\n" +
+            "\n" +
+            "> Para usar o Body() no GivenExternal() precisa fazer conforme exemplo abaixo:\n" +
+            "> \n" +
+            ">Seguindo conforme nos exemplos acima de uso do Body() você efetuar as mesmas validações. \n" +
+            " ```androiddatabinding\n" +
+            "        ExternalContainsJSON = GivenExternal()\n" +
+            "                               .when().get().then().log().body();\n" +
+            "\n" +
+            "        Body().contains(\"id\", \"data\");\n" +
+            "\n" +
+            " ```\n" +
             "\n" +
             "***\n" +
             "> Abaixo, JSON usado para montar o Doc.\n" +
