@@ -69,8 +69,6 @@ public interface Constantes {
         } else {
             System.out.println("Ambiente desconhecido: " + GetProp().getProperty("default"));
         }
-        System.out.println("Ambiente selecionado: " + url + "  (** " + GetProp().getProperty("default") + " **)");
-
 
         return url;
     }
