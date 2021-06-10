@@ -46,6 +46,7 @@ public class CITRestAssured extends validationResponse {
 
     static ValidatableResponse result;
     public static ValidatableResponse ExternalContainsJSON;
+    public static String StringGlobal;
     static Response response;
     static Boolean initReport = false;
     static String BODY = null;
