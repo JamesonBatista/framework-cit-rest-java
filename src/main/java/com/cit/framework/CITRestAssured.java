@@ -97,10 +97,10 @@ public class CITRestAssured extends validationResponse {
                 .log().all();
     }
 
-    public RequestSpecification GivenExternal() {
+    public RequestSpecification GivenExternal(ContentType type) {
         InitReport();
         return given().relaxedHTTPSValidation().filter(new RequestLoggingFilter(requestCapture))
-                .urlEncodingEnabled(false).contentType(ContentType.JSON)
+                .urlEncodingEnabled(false).contentType(type)
                 .log().all();
     }
 

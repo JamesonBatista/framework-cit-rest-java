@@ -16,7 +16,7 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 
  class FrameworkTest extends CITRestAssured {
     @BeforeClass
-     static void setup() throws IOException {
+    public static void setup() throws IOException {
         FilesSystem();
     }
 
@@ -40,12 +40,12 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
     @Test
     public void TestExternal() throws IOException, BradescoException {
         InitEnvironment("unknown");
-        ExternalContainsJSON = GivenExternal()
+        ExternalContainsJSON = GivenExternal(ContentType.JSON)
                 .when().get().then().log().body();
 
         Body().root("data").object("id", "name");
 
-        ValidatableResponse res = GivenExternal()
+        ValidatableResponse res = GivenExternal(ContentType.JSON)
                 .when().delete().then();
         ExternalReport();
 
