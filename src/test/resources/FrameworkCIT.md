@@ -119,7 +119,13 @@ _Simples, usando o step acima para efetuar validações é fácil_
      .statusCode(200)
      .body("support.url", Matchers.is("https://reqres.in/#support-heading"));
 ```
+***
+* Para efetuar testes de Contrato ou Schema.
+>>Pode ser com qualquer um dos métodos do framework.
+```androiddatabinding
+        Get().body(matchesJsonSchemaInClasspath("SCHEMA/jsontestado.json"));
 
+```
 ***
 <h4>E para extrair uma informação? Um valor?</h4>
 

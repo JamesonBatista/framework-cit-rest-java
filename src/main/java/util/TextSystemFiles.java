@@ -149,7 +149,13 @@ public class TextSystemFiles {
             "     .statusCode(200)\n" +
             "     .body(\"support.url\", Matchers.is(\"https://reqres.in/#support-heading\"));\n" +
             "```\n" +
+            "***\n" +
+            "* Para efetuar testes de Contrato ou Schema.\n" +
+            ">>Pode ser com qualquer um dos métodos do framework.\n" +
+            "```androiddatabinding\n" +
+            "        Get().body(matchesJsonSchemaInClasspath(\"SCHEMA/jsontestado.json\"));\n" +
             "\n" +
+            "```\n" +
             "***\n" +
             "<h4>E para extrair uma informação? Um valor?</h4>\n" +
             "\n" +

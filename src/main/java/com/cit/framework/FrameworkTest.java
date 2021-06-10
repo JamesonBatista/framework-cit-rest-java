@@ -12,10 +12,11 @@ import java.io.IOException;
 
 import static com.cit.framework.ClassReport.ExternalReport;
 import static com.cit.framework.Exclud.FilesSystem;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
-public class FrameworkTest extends CITRestAssured {
+ class FrameworkTest extends CITRestAssured {
     @BeforeClass
-    public static void setup() throws IOException {
+     static void setup() throws IOException {
         FilesSystem();
     }
 
@@ -31,7 +32,6 @@ public class FrameworkTest extends CITRestAssured {
     @Test
     public void TestUsers7() throws IOException, BradescoException {
         InitEnvironment("users/7");
-        Get();
         Body()
                 .contains("data", "id")
         ;
