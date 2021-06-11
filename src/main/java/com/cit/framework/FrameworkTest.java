@@ -1,10 +1,8 @@
 package com.cit.framework;
 
-import com.bradesco.core.exception.BradescoAssertionException;
 import com.bradesco.core.exception.BradescoException;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
-import jsonvalidation.validationResponse;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -12,7 +10,6 @@ import java.io.IOException;
 
 import static com.cit.framework.ClassReport.ExternalReport;
 import static com.cit.framework.Exclud.FilesSystem;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
  class FrameworkTest extends CITRestAssured {
     @BeforeClass
@@ -22,34 +19,34 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 
     @Test
     public void TestFrame() throws Exception {
-        InitEnvironment("unknown");
-
-        Get(false);
-        Body().contains("page").get("total").root("data").object("id", "name");
-
-    }
-
-    @Test
-    public void TestUsers7() throws IOException, BradescoException {
-        InitEnvironment("users/7");
-        Body()
-                .contains("data", "id")
-        ;
-    }
-
-    @Test
-    public void TestExternal() throws IOException, BradescoException {
-        InitEnvironment("unknown");
-        ExternalContainsJSON = GivenExternal(ContentType.JSON)
-                .when().get().then().log().body();
-
-        Body().root("data").object("id", "name");
-
-        ValidatableResponse res = GivenExternal(ContentType.JSON)
-                .when().delete().then();
-        ExternalReport();
+        Environment("prod");
+//
+//        Get(false);
+//        Body().contains("page").get("total").root("data").object("id", "name");
 
     }
+//
+//    @Test
+//    public void TestUsers7() throws IOException, BradescoException {
+//        InitEnvironment("users/7");
+//        Body()
+//                .contains("data", "id")
+//        ;
+//    }
+//
+//    @Test
+//    public void TestExternal() throws IOException, BradescoException {
+//        InitEnvironment("unknown");
+//        ExternalContainsJSON = GivenExternal(ContentType.JSON)
+//                .when().get().then().log().body();
+//
+//        Body().root("data").object("id", "name");
+//
+//        ValidatableResponse res = GivenExternal(ContentType.JSON)
+//                .when().delete().then();
+//        ExternalReport();
+//
+//    }
 
 //        Body()
 //                .root().contains("id").get("street");

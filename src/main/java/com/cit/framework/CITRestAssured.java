@@ -1,5 +1,6 @@
 package com.cit.framework;
 
+import com.bradesco.core.exception.BradescoAssertionException;
 import com.bradesco.core.exception.BradescoException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton;
@@ -104,18 +105,39 @@ public class CITRestAssured extends validationResponse {
                 .log().all();
     }
 
-    public void InitEnvironment(String... Endpoint) throws IOException {
+    public void InitEnvironment(String... Endpoint) throws IOException, BradescoAssertionException {
         RestAssured.reset();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
-        if (Endpoint.length > 0) {
+        if (Endpoint.length == 1) {
             for (String endpoint : Endpoint) {
                 baseURI = Constantes.selecionaAmbiente() + endpoint;
             }
+        } else if (Endpoint.length > 1) {
+            throw new BradescoAssertionException("\n\nO InitEnvironment não pode conter mais de 1 valor no Endpoint, use desta forma\n. " +
+                    "Ex: InitEnvironment('users/7'); ou  InitEnvironment(endpoint);");
         } else {
             baseURI = Constantes.selecionaAmbiente();
         }
         RestAssured.useRelaxedHTTPSValidation();
         System.out.println("\n                                √  Ambiente selecionado: " + baseURI + " ** + " + GetProp().getProperty("default")
+                .toUpperCase(Locale.ROOT) + " **");
+    }
+
+    public void Environment(String environment, String... Endpoint) throws IOException, BradescoAssertionException {
+        RestAssured.reset();
+        enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
+        if (Endpoint.length == 1) {
+            for (String endpoint : Endpoint) {
+                baseURI = GetProp().getProperty(environment) + endpoint;
+            }
+        } else if (Endpoint.length > 1) {
+            throw new BradescoAssertionException("\n\nO Environment não pode conter mais de 1 valor no Endpoint, use desta forma\n. " +
+                    "Ex: Environment('local', 'users/7'); ou  Environment('local', endpoint);");
+        } else {
+            baseURI = GetProp().getProperty(environment);
+        }
+        RestAssured.useRelaxedHTTPSValidation();
+        System.out.println("\n                                √  Ambiente selecionado: " + baseURI + " ** + " + environment
                 .toUpperCase(Locale.ROOT) + " **");
 
     }
