@@ -2,16 +2,26 @@ package com.cit.framework;
 
 import com.bradesco.core.exception.BradescoException;
 import io.restassured.http.ContentType;
+import io.restassured.http.Header;
 import io.restassured.response.ValidatableResponse;
+
+import static org.hamcrest.Matchers.*;
+
+import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static com.cit.framework.ClassReport.ExternalReport;
 import static com.cit.framework.Exclud.FilesSystem;
+import static io.restassured.RestAssured.expect;
 
- class FrameworkTest extends CITRestAssured {
+public class FrameworkTest extends CITRestAssured {
     @BeforeClass
     public static void setup() throws IOException {
         FilesSystem();
@@ -19,7 +29,12 @@ import static com.cit.framework.Exclud.FilesSystem;
 
     @Test
     public void TestFrame() throws Exception {
-        Environment("prod");
+//        InitEnvironment("abasfba");
+
+//        Delete(false);
+//        Assert.assertEquals(valor, Matchers.is(valor2));
+
+//        Body().root("form").contains("chamada");
 //
 //        Get(false);
 //        Body().contains("page").get("total").root("data").object("id", "name");
@@ -56,7 +71,6 @@ import static com.cit.framework.Exclud.FilesSystem;
 //        Body()
 //                .contains("id", "data")
 //                .get("avatar");
-
 
 
 //

@@ -7,12 +7,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.json.JSONObject;
 
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static com.cit.framework.CITRestAssured.*;
+import static com.cit.framework.CITRestAssured.ExternalContainsJSON;
+import static com.cit.framework.CITRestAssured.StringGlobal;
 
 public class validationResponse {
     static String bodyValidation;
@@ -30,9 +29,9 @@ public class validationResponse {
         bodyValidation = ExternalContainsJSON.extract().response().asString();
         String retorno = new Gson().toJson(bodyValidation);
         String[] stringFormat;
-        String rep = retorno.replaceAll(":", "");
-        String repla = rep.replaceAll("[\\\\(\\\\)\\\\[\\\\]\\\\{\\\\}]", "");
-        String asp = repla.replaceAll("\"", "  ");
+        String repla = retorno.replaceAll("[\\\\(\\\\)\\\\[\\\\]\\\\{\\\\}]", "");
+        String rep = repla.replaceAll(":", " ");
+        String asp = rep.replaceAll("\"", "  ");
         String replac = asp.replaceAll(",", "  ");
         String replacp = replac.replaceAll("=", "  ");
 
@@ -106,7 +105,7 @@ public class validationResponse {
 
         Boolean verify = false;
         for (String s : ReplaceJson()) {
-            if (s.equalsIgnoreCase(key)) {
+            if (s.trim().equalsIgnoreCase(key)) {
                 verify = true;
                 break;
             }

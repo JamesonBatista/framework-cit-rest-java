@@ -18,6 +18,7 @@ public class AlertsMessages extends ClassReport {
         throw new BradescoRuntimeException("\n\n Seu Response está NULL, talvez você tenha batido no Endpoint errado\n" +
                 "   Olhe dentro do environment/data.properties, ou na sua Feature e verifique se o endpoint está correto.\n" +
                 "   Ou, você não passou o parâmetro corretamente.\n" +
+                "   Ou, está com algum problema de conexão com a plataforma que execução." +
                 "   Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
     }
 
