@@ -168,4 +168,16 @@ public class validationResponse {
             return this;
         }
     }
+
+    public validationResponse root(String KeyObject, String path) throws BradescoAssertionException {
+        if (!bodyStart) {
+            throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
+                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+        } else {
+            JSONObject json = new JSONObject(response.asString());
+            json = json.getJSONObject(KeyObject);
+            json.getString(path);
+            return this;
+        }
+    }
 }

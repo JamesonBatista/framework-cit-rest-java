@@ -36,7 +36,7 @@ public class FrameworkTest extends CITRestAssured {
         Body().
         root("data")
         .object("id", "name")
-        .root("support", "url", "https://reqres.in/#support-heading");
+        .root("support", "url");
 
 
 //        Delete(false);

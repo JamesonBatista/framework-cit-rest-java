@@ -119,13 +119,18 @@ _Simples, usando o step acima para efetuar validações é fácil_
      .statusCode(200)
      .body("support.url", Matchers.is("https://reqres.in/#support-heading"));
 ```
+
 ***
+
 * Para efetuar testes de Contrato ou Schema.
->>Pode ser com qualquer um dos métodos do framework.
+
+> > Pode ser com qualquer um dos métodos do framework.
+
 ```androiddatabinding
         Get().body(matchesJsonSchemaInClasspath("SCHEMA/jsontestado.json"));
 
 ```
+
 ***
 <h4>E para extrair uma informação? Um valor?</h4>
 
@@ -510,9 +515,54 @@ String body = "{body que será enviado}";
               "email")
 ```
 
+> Abaixo outro exemplo, analisando o JSON por completo.
+
+```androiddatabinding
+{
+    "page": 1,
+    "per_page": 6,
+    "total": 12,
+    "total_pages": 2,
+    "data": [
+        {
+            "id": 1,
+            "name": "cerulean",
+            "year": 2000,
+            "color": "#98B2D1",
+            "pantone_value": "15-4020"
+        },
+        {
+            "id": 2,
+            "name": "fuchsia rose",
+            "year": 2001,
+            "color": "#C74375",
+            "pantone_value": "17-2031"
+        }
+    ],
+    "support": {
+        "url": "https://reqres.in/#support-heading",
+        "text": "To keep ReqRes free, contributions towards server costs are appreciated!"
+    }
+}
+
+ Body().contains("page", "per_page")
+        .root("data")
+        .object("id", "name")
+        .root(Keyobject "support", path "url", equals "https://reqres.in/#support-heading");
+        
+        No primeiro root, estamos avaliando os campos dentro do array de objetos.
+        No segundo, estamos entrando no objeto support, pegando o valor do campo URL
+        e comparando.
+        
+                *os nomes Keyobject, path, equals não devem ser digitados, são apenas referências.*
+                    .root("support", "url", "https://reqres.in/#support-heading");
+
+```
+
 > Para usar o Body() no GivenExternal() precisa fazer conforme exemplo abaixo:
-> 
->Seguindo conforme nos exemplos acima de uso do Body() você efetuar as mesmas validações. 
+>
+>Seguindo conforme nos exemplos acima de uso do Body() você efetuar as mesmas validações.
+
  ```androiddatabinding
         ExternalContainsJSON = GivenExternal()
                                .when().get().then().log().body();
