@@ -156,27 +156,28 @@ public class validationResponse {
         return this;
     }
 
-    public validationResponse root(String KeyObject, String path, String equals) throws BradescoAssertionException {
+    public validationResponse root(String KeyObject, String path, Object equals) throws BradescoAssertionException {
         if (!bodyStart) {
             throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
                     "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         } else {
             JSONObject json = new JSONObject(response.asString());
             json = json.getJSONObject(KeyObject);
-            System.out.println(json.getString(path));
-            Assert.assertThat(json.getString(path), Matchers.is(equals));
+            Assert.assertThat(json.get(path), Matchers.is(equals));
+            StringGlobal = json.get(path).toString();
             return this;
         }
     }
 
     public validationResponse root(String KeyObject, String path) throws BradescoAssertionException {
+        Object obj;
         if (!bodyStart) {
             throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
                     "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         } else {
             JSONObject json = new JSONObject(response.asString());
-            json = json.getJSONObject(KeyObject);
-            json.getString(path);
+            Object value = json.getJSONObject(KeyObject).get(path);
+
             return this;
         }
     }

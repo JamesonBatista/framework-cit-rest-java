@@ -29,14 +29,12 @@ public class FrameworkTest extends CITRestAssured {
 
     @Test
     public void TestFrame() throws Exception {
-        InitEnvironment("unknown");
+        InitEnvironment("users/7");
 
         Get();
 
-        Body().
-        root("data")
-        .object("id", "name")
-        .root("support", "url");
+        Body()
+                .root("data", "email");
 
 
 //        Delete(false);
