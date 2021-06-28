@@ -5,13 +5,14 @@ import com.bradesco.core.exception.BradescoAssertionException;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.formula.functions.T;
+import org.hamcrest.Matchers;
 import org.json.JSONObject;
+import org.junit.Assert;
 
 import java.util.List;
 import java.util.Map;
 
-import static com.cit.framework.CITRestAssured.ExternalContainsJSON;
-import static com.cit.framework.CITRestAssured.StringGlobal;
+import static com.cit.framework.CITRestAssured.*;
 
 public class validationResponse {
     static String bodyValidation;
@@ -30,7 +31,7 @@ public class validationResponse {
         String retorno = new Gson().toJson(bodyValidation);
         String[] stringFormat;
         String repla = retorno.replaceAll("[\\\\(\\\\)\\\\[\\\\]\\\\{\\\\}]", "");
-        String rep = repla.replaceAll(":", " ");
+        String rep = repla.replaceAll(":", "");
         String asp = rep.replaceAll("\"", "  ");
         String replac = asp.replaceAll(",", "  ");
         String replacp = replac.replaceAll("=", "  ");
@@ -120,17 +121,30 @@ public class validationResponse {
         Boolean verify = false;
         if (containsGet) {
             for (int i = 0; i < ReplaceJson().length; i++) {
-                if (ReplaceJson()[i].equalsIgnoreCase(key)) {
+
+                if (ReplaceJson()[i].trim().equalsIgnoreCase(key.trim())) {
                     verify = true;
                     innerLoop:
                     for (int x = i; x < ReplaceJson().length; x++) {
                         String delete = StringUtils.deleteWhitespace(ReplaceJson()[x]);
                         if (!delete.trim().equalsIgnoreCase(key) && !delete.trim().isEmpty()) {
                             StringGlobal = ReplaceJson()[x];
+                            if (ReplaceJson()[x].trim().equalsIgnoreCase("[") || ReplaceJson()[x].trim().equalsIgnoreCase("{")) {
+                                throw new BradescoAssertionException("\n\nO método get() não pode ser usado para extrair valor de um Array\n" +
+                                        "ex: data:[]\n" +
+                                        "ou Objeto,\n" +
+                                        "ex: data:{}\n" +
+                                        "apenas de campos.\n" +
+                                        "ex: name: CI&T ou id: 7 ou valor: 10000, etc." +
+                                        "\n\n");
+
+                            }
+                            System.out.println("\n\nValor do campo " + key.toUpperCase() + " é: " + StringGlobal);
                             break;
                         }
                     }
                 }
+
             }
         } else {
             throw new BradescoAssertionException("\n\nO método get() só pode ser usado depois do contains \nEx: Body().contains('id').get('id')");
@@ -140,5 +154,18 @@ public class validationResponse {
             throw new BradescoAssertionException("\n\nO valor 《《 " + key + " 》》 não foi encontrado no seu JSON");
         }
         return this;
+    }
+
+    public validationResponse root(String KeyObject, String path, String equals) throws BradescoAssertionException {
+        if (!bodyStart) {
+            throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
+                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+        } else {
+            JSONObject json = new JSONObject(response.asString());
+            json = json.getJSONObject(KeyObject);
+            System.out.println(json.getString(path));
+            Assert.assertThat(json.getString(path), Matchers.is(equals));
+            return this;
+        }
     }
 }

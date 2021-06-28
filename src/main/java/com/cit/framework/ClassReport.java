@@ -103,17 +103,17 @@ public class ClassReport extends CITRestAssured {
     public static void ExternalReport() throws IOException, BradescoException {
 
         if (initReport) {
-            System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
+            System.err.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
             throw new BradescoRuntimeException("\n\n O ExternalReport() só pode ser usado pelo GivenExternal os métodos normais não precisa do ExternalReport()\n" +
                     " Olhe o DOC FrameworkCIT dentro " +
-                    "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
+                    "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.\n\n");
         }
 
         if (!ReturnMetodo().contains("DELETE")) {
-            System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
+            System.err.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
             throw new BradescoRuntimeException("\n\n O método " + ReturnMetodo() + " não poder usado pelo ExternalReport(); vazio.\n" +
                     " Olhe o DOC FrameworkCIT dentro " +
-                    "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
+                    "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.\n\n");
         } else {
             Exclud.ConsoleDesigner(" DELETE   ");
             BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
@@ -176,7 +176,6 @@ public class ClassReport extends CITRestAssured {
         params.clear();
         headers.clear();
         report = null;
-        response = null;
         BODY = null;
         PUT = null;
         DELETE = null;

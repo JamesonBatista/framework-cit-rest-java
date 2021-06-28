@@ -149,13 +149,18 @@ public class TextSystemFiles {
             "     .statusCode(200)\n" +
             "     .body(\"support.url\", Matchers.is(\"https://reqres.in/#support-heading\"));\n" +
             "```\n" +
+            "\n" +
             "***\n" +
+            "\n" +
             "* Para efetuar testes de Contrato ou Schema.\n" +
-            ">>Pode ser com qualquer um dos métodos do framework.\n" +
+            "\n" +
+            "> > Pode ser com qualquer um dos métodos do framework.\n" +
+            "\n" +
             "```androiddatabinding\n" +
             "        Get().body(matchesJsonSchemaInClasspath(\"SCHEMA/jsontestado.json\"));\n" +
             "\n" +
             "```\n" +
+            "\n" +
             "***\n" +
             "<h4>E para extrair uma informação? Um valor?</h4>\n" +
             "\n" +
@@ -540,9 +545,54 @@ public class TextSystemFiles {
             "              \"email\")\n" +
             "```\n" +
             "\n" +
+            "> Abaixo outro exemplo, analisando o JSON por completo.\n" +
+            "\n" +
+            "```androiddatabinding\n" +
+            "{\n" +
+            "    \"page\": 1,\n" +
+            "    \"per_page\": 6,\n" +
+            "    \"total\": 12,\n" +
+            "    \"total_pages\": 2,\n" +
+            "    \"data\": [\n" +
+            "        {\n" +
+            "            \"id\": 1,\n" +
+            "            \"name\": \"cerulean\",\n" +
+            "            \"year\": 2000,\n" +
+            "            \"color\": \"#98B2D1\",\n" +
+            "            \"pantone_value\": \"15-4020\"\n" +
+            "        },\n" +
+            "        {\n" +
+            "            \"id\": 2,\n" +
+            "            \"name\": \"fuchsia rose\",\n" +
+            "            \"year\": 2001,\n" +
+            "            \"color\": \"#C74375\",\n" +
+            "            \"pantone_value\": \"17-2031\"\n" +
+            "        }\n" +
+            "    ],\n" +
+            "    \"support\": {\n" +
+            "        \"url\": \"https://reqres.in/#support-heading\",\n" +
+            "        \"text\": \"To keep ReqRes free, contributions towards server costs are appreciated!\"\n" +
+            "    }\n" +
+            "}\n" +
+            "\n" +
+            " Body().contains(\"page\", \"per_page\")\n" +
+            "        .root(\"data\")\n" +
+            "        .object(\"id\", \"name\")\n" +
+            "        .root(Keyobject \"support\", path \"url\", equals \"https://reqres.in/#support-heading\");\n" +
+            "        \n" +
+            "        No primeiro root, estamos avaliando os campos dentro do array de objetos.\n" +
+            "        No segundo, estamos entrando no objeto support, pegando o valor do campo URL\n" +
+            "        e comparando.\n" +
+            "        \n" +
+            "                *os nomes Keyobject, path, equals não devem ser digitados, são apenas referências.*\n" +
+            "                    .root(\"support\", \"url\", \"https://reqres.in/#support-heading\");\n" +
+            "\n" +
+            "```\n" +
+            "\n" +
             "> Para usar o Body() no GivenExternal() precisa fazer conforme exemplo abaixo:\n" +
-            "> \n" +
-            ">Seguindo conforme nos exemplos acima de uso do Body() você efetuar as mesmas validações. \n" +
+            ">\n" +
+            ">Seguindo conforme nos exemplos acima de uso do Body() você efetuar as mesmas validações.\n" +
+            "\n" +
             " ```androiddatabinding\n" +
             "        ExternalContainsJSON = GivenExternal()\n" +
             "                               .when().get().then().log().body();\n" +

@@ -9,25 +9,25 @@ public class AlertsMessages extends ClassReport {
         System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
         System.err.println("Seu retorno do método " + ReturnMetodo() + " está vazio.  \n" +
                 "Veja se está acessando o Endpoint correto abaixo:\n" +
-                "Endpoint: " + URIFinal());
+                "Endpoint: " + URIFinal() + "\n\n");
     }
 
     public void ResponseNull() {
-        System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
-        System.out.println("                                                   URI: " + URIFinal());
+        System.err.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
+        System.err.println("                                                   URI: " + URIFinal());
         throw new BradescoRuntimeException("\n\n Seu Response está NULL, talvez você tenha batido no Endpoint errado\n" +
                 "   Olhe dentro do environment/data.properties, ou na sua Feature e verifique se o endpoint está correto.\n" +
                 "   Ou, você não passou o parâmetro corretamente.\n" +
                 "   Ou, está com algum problema de conexão com a plataforma que execução." +
-                "   Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+                "   Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》\n\n");
     }
 
     public void ErroUseGivenExternal() {
-        System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
-        System.out.println("                                                   URI: " + URIFinal());
+        System.err.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
+        System.err.println("                                                   URI: " + URIFinal());
         throw new BradescoRuntimeException("\n\n O ExternalReport() só pode ser usado pelo GivenExternal\n" +
                 " Olhe o DOC FrameworkCIT dentro " +
-                "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.");
+                "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.\n\n");
     }
 
     public void SendPostOffBody() {
@@ -37,8 +37,8 @@ public class AlertsMessages extends ClassReport {
     }
 
     public void UseExportReportFill() {
-        System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
+        System.err.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
         throw new BradescoRuntimeException("\n\nMétodo DELETE não pode ser usado com o ExternalReport(response.extract().response()); preenchido,\n" +
-                "Por favor deixe o ExternalReport();  vazio.\nEm caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+                "Por favor deixe o ExternalReport();  vazio.\nEm caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》\n\n");
     }
 }

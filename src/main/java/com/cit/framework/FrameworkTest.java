@@ -29,7 +29,15 @@ public class FrameworkTest extends CITRestAssured {
 
     @Test
     public void TestFrame() throws Exception {
-//        InitEnvironment("abasfba");
+        InitEnvironment("unknown");
+
+        Get();
+
+        Body().
+        root("data")
+        .object("id", "name")
+        .root("support", "url", "https://reqres.in/#support-heading");
+
 
 //        Delete(false);
 //        Assert.assertEquals(valor, Matchers.is(valor2));

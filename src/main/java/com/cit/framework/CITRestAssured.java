@@ -49,7 +49,7 @@ public class CITRestAssured extends validationResponse {
     static ValidatableResponse result;
     public static ValidatableResponse ExternalContainsJSON;
     public static String StringGlobal;
-    static Response response;
+    public static Response response;
     static Boolean initReport = false;
     static String BODY = null;
     static String PUT = null;
@@ -83,7 +83,7 @@ public class CITRestAssured extends validationResponse {
     static void ValidationResponse() {
         messages = new AlertsMessages();
         Response res = result.extract().response();
-        if (response.asString().isEmpty() || response.asString().contains("{}")&& !ReturnMetodo().contains("DELETE")) {
+        if (response.asString().isEmpty() || response.asString().contains("{}") && !ReturnMetodo().contains("DELETE")) {
             messages.AlertReturnIsEmpty();
         }
         if (res == null || res.asString().contains(textNull)) {
@@ -99,7 +99,8 @@ public class CITRestAssured extends validationResponse {
         InitReport();
         return given().relaxedHTTPSValidation().filter(new RequestLoggingFilter(requestCapture))
                 .urlEncodingEnabled(false).contentType(ContentType.JSON)
-                .log().all();
+//                .log().all()
+                ;
     }
 
     public RequestSpecification GivenExternal(ContentType type) {
@@ -159,6 +160,7 @@ public class CITRestAssured extends validationResponse {
             initReport(log);
         }
     }
+
     public ValidatableResponse GetBody(String body, Boolean... log) throws IOException, BradescoException {
         try {
             result = Given()
@@ -186,7 +188,8 @@ public class CITRestAssured extends validationResponse {
             initReport(log);
         }
     }
-    public ValidatableResponse GetBodyEndpoint(String Endpoint,String body, Boolean... log) throws IOException, BradescoException {
+
+    public ValidatableResponse GetBodyEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
         try {
             result = Given()
                     .body(body)
@@ -199,6 +202,7 @@ public class CITRestAssured extends validationResponse {
             initReport(log);
         }
     }
+
     public ValidatableResponse GetParamHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         try {
             result = Given()
@@ -213,6 +217,7 @@ public class CITRestAssured extends validationResponse {
             initReport(log);
         }
     }
+
     public ValidatableResponse GetBodyParamHeaderEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
         try {
             result = Given()
@@ -242,6 +247,7 @@ public class CITRestAssured extends validationResponse {
             initReport(log);
         }
     }
+
     public ValidatableResponse GetBodyParam(String body, Boolean... log) throws IOException, BradescoException {
         try {
             result = Given()
@@ -270,7 +276,8 @@ public class CITRestAssured extends validationResponse {
             initReport(log);
         }
     }
-    public ValidatableResponse GetBodyParamEndpoint(String Endpoint,String body, Boolean... log) throws IOException, BradescoException {
+
+    public ValidatableResponse GetBodyParamEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
         try {
             result = Given()
                     .queryParams(params.toString() == "{}" ? null : params)
@@ -299,6 +306,7 @@ public class CITRestAssured extends validationResponse {
             initReport(log);
         }
     }
+
     public ValidatableResponse GetBodyParamHeader(String body, Boolean... log) throws IOException, BradescoException {
         try {
             result = Given()
@@ -328,6 +336,7 @@ public class CITRestAssured extends validationResponse {
             initReport(log);
         }
     }
+
     public ValidatableResponse GetBodyHeader(String body, Boolean... log) throws IOException, BradescoException {
         try {
             result = Given()
@@ -342,6 +351,7 @@ public class CITRestAssured extends validationResponse {
             initReport(log);
         }
     }
+
     public ValidatableResponse GetHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         try {
             result = Given()
@@ -355,7 +365,8 @@ public class CITRestAssured extends validationResponse {
             initReport(log);
         }
     }
-    public ValidatableResponse GetBodyHeaderEndpoint(String Endpoint,String body,  Boolean... log) throws IOException, BradescoException {
+
+    public ValidatableResponse GetBodyHeaderEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
         try {
             result = Given()
                     .headers(headers.toString() == "{}" ? null : headers)
