@@ -532,7 +532,9 @@ public class TextSystemFiles {
             "    \n" +
             "            Body()\n" +
             "                .root()\n" +
-            "                .object(\"id\", \"name\", \"email\", \"suite\");\n" +
+            "                .object(\"id\", \"name\", \"email\")\n" +
+            "                .newObject(\"address\", \"street\")\n" +
+            "                .newObject(\"address geo\", \"lat\", \"lng\");\n" +
             "```\n" +
             "\n" +
             "**Se deseja apenas validar em todo JSON se os valores existem**\n" +
@@ -578,7 +580,8 @@ public class TextSystemFiles {
             " Body().contains(\"page\", \"per_page\")\n" +
             "        .root(\"data\")\n" +
             "        .object(\"id\", \"name\")\n" +
-            "        .root(Keyobject \"support\", path \"url\", equals \"https://reqres.in/#support-heading\");\n" +
+            "        .root(Keyobject \"support\", path \"url\", equals \"https://reqres.in/#support-heading\")\n" +
+            "        .and(\"support\", \"text\", \"Olá estamos testando\" );\n" +
             "        \n" +
             "        No primeiro root, estamos avaliando os campos dentro do array de objetos.\n" +
             "        No segundo, estamos entrando no objeto support, pegando o valor do campo URL\n" +
@@ -602,9 +605,10 @@ public class TextSystemFiles {
             " ```\n" +
             "\n" +
             "***\n" +
-            "> Abaixo, JSON usado para montar o Doc.\n" +
             "\n" +
-            "```cloudfoundry\n" +
+            "> > Abaixo veja mais um exemplo usando o Body()\n" +
+            "\n" +
+            "```androiddatabinding\n" +
             "{\n" +
             "    \"data\": {\n" +
             "        \"id\": 7,\n" +
@@ -618,6 +622,12 @@ public class TextSystemFiles {
             "        \"text\": \"To keep ReqRes free, contributions towards server costs are appreciated!\"\n" +
             "    }\n" +
             "}\n" +
+            "        * Passando apenas 2 parâmetros no root, iremos verificar se o campo existe no JSON *\n" +
+            "         Body().root(\"data\", \"id\")\n" +
+            "            .and(\"support\", \"text\")\n" +
+            "            .and(\"support\", \"url\");\n" +
+            "    \n" +
+            "\n" +
             "```";
 
     public static String textNull = "<!DOCTYPE html>\n" +

@@ -503,7 +503,8 @@ String body = "{body que será enviado}";
             Body()
                 .root()
                 .object("id", "name", "email")
-                .newObject("address", "street");
+                .newObject("address", "street")
+                .newObject("address geo", "lat", "lng");
 ```
 
 **Se deseja apenas validar em todo JSON se os valores existem**
