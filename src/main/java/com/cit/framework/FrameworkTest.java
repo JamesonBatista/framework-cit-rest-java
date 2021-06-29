@@ -29,13 +29,18 @@ public class FrameworkTest extends CITRestAssured {
 
     @Test
     public void TestFrame() throws Exception {
-        InitEnvironment("users/7");
+        InitEnvironment();
 
         Get();
-
         Body()
-                .root("data", "id", 7)
-                .and("support", "text", "To keep ReqRes free, contributions towards server costs are appreciated!");
+                .root()
+        .object("id", "name")
+        .newObject("address", "street", "suite", "city")
+        .newObject("address geo", "lat", "lng");
+//
+//        Body()
+//                .root("data", "id", 7)
+//                .and("support", "text", "To keep ReqRes free, contributions towards server costs are appreciated!");
 
 
 //        Delete(false);

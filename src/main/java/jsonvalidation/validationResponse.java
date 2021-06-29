@@ -22,6 +22,7 @@ public class validationResponse {
     Boolean rootStart = false;
     Boolean andContinue = false;
     Boolean andContinueThree = false;
+    Boolean newObjectInit = false;
 
     public validationResponse Body() {
         bodyStart = true;
@@ -76,6 +77,7 @@ public class validationResponse {
     }
 
     public validationResponse object(String... path) throws BradescoAssertionException {
+        newObjectInit = true;
         JSONObject json;
         Boolean value;
         if (!bodyStart) {
@@ -101,6 +103,34 @@ public class validationResponse {
                         "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
             }
         }
+        return this;
+    }
+
+    public validationResponse newObject(String rootPath, String... path) throws BradescoAssertionException {
+        JSONObject json;
+        Boolean value = null;
+        if (newObjectInit) {
+            for (Object l : list) {
+                json = new JSONObject((Map<String, ?>) l);
+                String valuers = rootPath;
+                String[] arrayValuers = valuers.split(" ");
+                for (String s : arrayValuers) {
+                    json = json.getJSONObject(s);
+                }
+                for (String listObject : path) {
+                    value = json.has(listObject);
+                    if (!value) {
+                        throw new BradescoAssertionException("\n\nO valor 《《 " + listObject + " 》》 não existe na sua lista de Objetos.\n" +
+                                "Object error: " + json);
+                    }
+                }
+
+            }
+        } else {
+            throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, o método newObject() só pode ser usado após o método object().\n" +
+                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+        }
+
         return this;
     }
 
