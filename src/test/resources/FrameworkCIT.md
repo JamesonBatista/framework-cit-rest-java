@@ -548,7 +548,8 @@ String body = "{body que será enviado}";
  Body().contains("page", "per_page")
         .root("data")
         .object("id", "name")
-        .root(Keyobject "support", path "url", equals "https://reqres.in/#support-heading");
+        .root(Keyobject "support", path "url", equals "https://reqres.in/#support-heading")
+        .and("support", "text", "Olá estamos testando" );
         
         No primeiro root, estamos avaliando os campos dentro do array de objetos.
         No segundo, estamos entrando no objeto support, pegando o valor do campo URL
@@ -572,9 +573,10 @@ String body = "{body que será enviado}";
  ```
 
 ***
-> Abaixo, JSON usado para montar o Doc.
 
-```cloudfoundry
+> > Abaixo veja mais um exemplo usando o Body()
+
+```androiddatabinding
 {
     "data": {
         "id": 7,
@@ -588,4 +590,10 @@ String body = "{body que será enviado}";
         "text": "To keep ReqRes free, contributions towards server costs are appreciated!"
     }
 }
+        * Passando apenas 2 parâmetros no root, iremos verificar se o campo existe no JSON *
+         Body().root("data", "id")
+            .and("support", "text")
+            .and("support", "url");
+    
+
 ```

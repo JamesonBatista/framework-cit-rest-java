@@ -34,7 +34,8 @@ public class FrameworkTest extends CITRestAssured {
         Get();
 
         Body()
-                .root("data", "email");
+                .root("data", "id", 7)
+                .and("support", "text", "To keep ReqRes free, contributions towards server costs are appreciated!");
 
 
 //        Delete(false);

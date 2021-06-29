@@ -20,6 +20,8 @@ public class validationResponse {
     List<T> list;
     Boolean bodyStart = false;
     Boolean rootStart = false;
+    Boolean andContinue = false;
+    Boolean andContinueThree = false;
 
     public validationResponse Body() {
         bodyStart = true;
@@ -165,6 +167,7 @@ public class validationResponse {
             json = json.getJSONObject(KeyObject);
             Assert.assertThat(json.get(path), Matchers.is(equals));
             StringGlobal = json.get(path).toString();
+            andContinueThree = true;
             return this;
         }
     }
@@ -177,8 +180,31 @@ public class validationResponse {
         } else {
             JSONObject json = new JSONObject(response.asString());
             Object value = json.getJSONObject(KeyObject).get(path);
-
+            andContinue = true;
             return this;
         }
+    }
+
+    public validationResponse and(String KeyObject, String path) throws BradescoAssertionException {
+        if (andContinue) {
+            JSONObject json = new JSONObject(response.asString());
+            Object value = json.getJSONObject(KeyObject).get(path);
+        } else {
+            throw new BradescoAssertionException("\n\n O *** and ***  só pode ser usado após o root(String KeyObject, String path), que é o root com 2 parâmetros \n" +
+                    "olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+        }
+        return this;
+    }
+
+    public validationResponse and(String KeyObject, String path, Object equals) throws BradescoAssertionException {
+        if (andContinueThree) {
+            JSONObject json = new JSONObject(response.asString());
+            json = json.getJSONObject(KeyObject);
+            Assert.assertThat(json.get(path), Matchers.is(equals));
+        } else {
+            throw new BradescoAssertionException("\n\n O *** and ***  só pode ser usado após o root(String KeyObject, String path, String equals), que é o root com 3 parâmetros \n" +
+                    "olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+        }
+        return this;
     }
 }
