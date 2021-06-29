@@ -99,7 +99,7 @@ public class CITRestAssured extends validationResponse {
         InitReport();
         return given().relaxedHTTPSValidation().filter(new RequestLoggingFilter(requestCapture))
                 .urlEncodingEnabled(false).contentType(ContentType.JSON)
-//                .log().all()
+                .log().all()
                 ;
     }
 
