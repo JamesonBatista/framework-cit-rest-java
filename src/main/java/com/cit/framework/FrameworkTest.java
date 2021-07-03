@@ -1,25 +1,12 @@
 package com.cit.framework;
 
-import com.bradesco.core.exception.BradescoException;
-import io.restassured.http.ContentType;
-import io.restassured.http.Header;
-import io.restassured.response.ValidatableResponse;
-
-import static org.hamcrest.Matchers.*;
-
-import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import static com.cit.framework.ClassReport.ExternalReport;
 import static com.cit.framework.Exclud.FilesSystem;
-import static io.restassured.RestAssured.expect;
 
 public class FrameworkTest extends CITRestAssured {
     @BeforeClass
@@ -30,13 +17,18 @@ public class FrameworkTest extends CITRestAssured {
     @Test
     public void TestFrame() throws Exception {
         InitEnvironment();
+//
+//        double numer = 500;
+//        DecimalFormat twoPlaces = new DecimalFormat("0.00");
+//        System.out.println(twoPlaces.format(numer));
 
-        Get();
-        Body()
-                .root()
-        .object("id", "name")
-        .newObject("address", "street", "suite", "city")
-        .newObject("address geo", "lat", "lng");
+        Get(false);
+        Body().root("data", "id","Jam");
+//        Body()
+//                .root()
+//                .object("id", "name")
+//                .newObject("address", "street", "suite", "city")
+//                .newObject("address geo", "lat", "lng");
 //
 //        Body()
 //                .root("data", "id", 7)

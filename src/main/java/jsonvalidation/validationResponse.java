@@ -9,6 +9,7 @@ import org.hamcrest.Matchers;
 import org.json.JSONObject;
 import org.junit.Assert;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +43,7 @@ public class validationResponse {
         stringFormat = replacp.split("  ");
         return stringFormat;
     }
+
 
     public validationResponse contains(String... keys) throws BradescoAssertionException {
         if (!bodyStart) {
@@ -188,15 +190,25 @@ public class validationResponse {
         return this;
     }
 
-    public validationResponse root(String KeyObject, String path, Object equals) throws BradescoAssertionException {
+    public <T extends Object> validationResponse root(String KeyObject, String path, T equals) throws BradescoAssertionException {
+
+
+        BigDecimal bigDecimal = null;
         if (!bodyStart) {
             throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
                     "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         } else {
             JSONObject json = new JSONObject(response.asString());
             json = json.getJSONObject(KeyObject);
-            Assert.assertThat(json.get(path), Matchers.is(equals));
-            StringGlobal = json.get(path).toString();
+            System.out.println("Tipo do valor: " + json.get(path).getClass().getSimpleName());
+            if (json.get(path).getClass().getSimpleName().equalsIgnoreCase("BigDecimal")) {
+                String valueBig = json.get(path).toString();
+                bigDecimal = new BigDecimal(valueBig);
+                bigDecimal.doubleValue();
+            }
+
+            Assert.assertThat(bigDecimal == null ? json.get(path) : bigDecimal.doubleValue(), Matchers.is(equals));
+            StringGlobal = json.get(path);
             andContinueThree = true;
             return this;
         }
@@ -226,11 +238,19 @@ public class validationResponse {
         return this;
     }
 
-    public validationResponse and(String KeyObject, String path, Object equals) throws BradescoAssertionException {
+    public <T extends Object> validationResponse and(String KeyObject, String path, T equals) throws BradescoAssertionException {
+        BigDecimal bigDecimal = null;
+
         if (andContinueThree) {
             JSONObject json = new JSONObject(response.asString());
             json = json.getJSONObject(KeyObject);
-            Assert.assertThat(json.get(path), Matchers.is(equals));
+            if (json.get(path).getClass().getSimpleName().equalsIgnoreCase("BigDecimal")) {
+                String valueBig = json.get(path).toString();
+                bigDecimal = new BigDecimal(valueBig);
+                bigDecimal.doubleValue();
+            }
+
+            Assert.assertThat(bigDecimal == null ? json.get(path) : bigDecimal.doubleValue(), Matchers.is(equals));
         } else {
             throw new BradescoAssertionException("\n\n O *** and ***  só pode ser usado após o root(String KeyObject, String path, String equals), que é o root com 3 parâmetros \n" +
                     "olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
