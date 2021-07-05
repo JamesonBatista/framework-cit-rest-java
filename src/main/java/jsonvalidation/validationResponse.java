@@ -44,7 +44,6 @@ public class validationResponse {
         return stringFormat;
     }
 
-
     public validationResponse contains(String... keys) throws BradescoAssertionException {
         if (!bodyStart) {
             throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
@@ -69,13 +68,48 @@ public class validationResponse {
                     list = ExternalContainsJSON.extract().jsonPath().getList(rootPath);
                 }
             } else if (root.length > 1) {
-                throw new BradescoAssertionException("\n\nSeu root() só pode conter apenas UM valor. Ex: root('data').\n" +
-                        "Porque o root é seu rootPath seu Array.");
+                throw new BradescoAssertionException("\n\nSeu root() só pode conter apenas UM valor. Ex: root('data') ou root().\n" +
+                        "Porque o root é seu rootPath do seu Array.\n Olhe o DOC do Framework.");
             } else {
                 list = ExternalContainsJSON.extract().jsonPath().getList("$");
             }
         }
         return this;
+    }
+
+    public validationResponse root(String KeyObject, String path) throws BradescoAssertionException {
+        Object obj;
+        if (!bodyStart) {
+            throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
+                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+        } else {
+            JSONObject json = new JSONObject(response.asString());
+            Object value = json.getJSONObject(KeyObject).get(path);
+            andContinue = true;
+            return this;
+        }
+    }
+
+    public <T extends Object> validationResponse root(String KeyObject, String path, T equals) throws BradescoAssertionException {
+
+        BigDecimal bigDecimal = null;
+        if (!bodyStart) {
+            throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
+                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+        } else {
+            JSONObject json = new JSONObject(response.asString());
+            json = json.getJSONObject(KeyObject);
+            if (json.get(path).getClass().getSimpleName().equalsIgnoreCase("BigDecimal")) {
+                String valueBig = json.get(path).toString();
+                bigDecimal = new BigDecimal(valueBig);
+                bigDecimal.doubleValue();
+            }
+
+            Assert.assertThat(bigDecimal == null ? json.get(path) : bigDecimal.doubleValue(), Matchers.is(equals));
+            StringGlobal = json.get(path);
+            andContinueThree = true;
+            return this;
+        }
     }
 
     public validationResponse object(String... path) throws BradescoAssertionException {
@@ -136,21 +170,6 @@ public class validationResponse {
         return this;
     }
 
-    validationResponse forValidation(String key) throws BradescoAssertionException {
-
-        Boolean verify = false;
-        for (String s : ReplaceJson()) {
-            if (s.trim().equalsIgnoreCase(key)) {
-                verify = true;
-                break;
-            }
-        }
-        if (!verify) {
-            throw new BradescoAssertionException("\n\nO valor 《《 " + key + " 》》 não foi encontrado no seu JSON");
-        }
-        return this;
-    }
-
     public validationResponse get(String key) throws BradescoAssertionException {
         Boolean verify = false;
         if (containsGet) {
@@ -190,43 +209,6 @@ public class validationResponse {
         return this;
     }
 
-    public <T extends Object> validationResponse root(String KeyObject, String path, T equals) throws BradescoAssertionException {
-
-
-        BigDecimal bigDecimal = null;
-        if (!bodyStart) {
-            throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
-                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
-        } else {
-            JSONObject json = new JSONObject(response.asString());
-            json = json.getJSONObject(KeyObject);
-            System.out.println("Tipo do valor: " + json.get(path).getClass().getSimpleName());
-            if (json.get(path).getClass().getSimpleName().equalsIgnoreCase("BigDecimal")) {
-                String valueBig = json.get(path).toString();
-                bigDecimal = new BigDecimal(valueBig);
-                bigDecimal.doubleValue();
-            }
-
-            Assert.assertThat(bigDecimal == null ? json.get(path) : bigDecimal.doubleValue(), Matchers.is(equals));
-            StringGlobal = json.get(path);
-            andContinueThree = true;
-            return this;
-        }
-    }
-
-    public validationResponse root(String KeyObject, String path) throws BradescoAssertionException {
-        Object obj;
-        if (!bodyStart) {
-            throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
-                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
-        } else {
-            JSONObject json = new JSONObject(response.asString());
-            Object value = json.getJSONObject(KeyObject).get(path);
-            andContinue = true;
-            return this;
-        }
-    }
-
     public validationResponse and(String KeyObject, String path) throws BradescoAssertionException {
         if (andContinue) {
             JSONObject json = new JSONObject(response.asString());
@@ -257,4 +239,20 @@ public class validationResponse {
         }
         return this;
     }
+
+    validationResponse forValidation(String key) throws BradescoAssertionException {
+
+        Boolean verify = false;
+        for (String s : ReplaceJson()) {
+            if (s.trim().equalsIgnoreCase(key)) {
+                verify = true;
+                break;
+            }
+        }
+        if (!verify) {
+            throw new BradescoAssertionException("\n\nO valor 《《 " + key + " 》》 não foi encontrado no seu JSON");
+        }
+        return this;
+    }
+
 }

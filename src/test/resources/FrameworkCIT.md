@@ -1,5 +1,8 @@
 <h1>Framework RestAssured CIT</h1>
 
+>>Acesse  link driver com o JAR, vídeos de validações, etc.  
+<a href="https://drive.google.com/drive/folders/10cRqFVxSy7iGjh5mmsoEbF41x-lt9nQZ?usp=sharing">Acesse aqui</a>
+
 <blockquote>O uso do framework no Bradesco necessita de alguns arquivos para executar,
 o framework CIT analisa se os arquivos existem no seu projeto, caso não, ele os cria.
 Ao final de cada método chamado o Report Bradesco é gerado automaticamente.
@@ -330,7 +333,7 @@ String body = "{body que será enviado}";
                 .body(body)
                 .when()
                 .post()
-                .then()([[Aqui poeria efetuar validações normalmente. Ex: then().body("path"), is("CIT")]
+                .then()([[Aqui poderia efetuar validações normalmente. Ex: then().body("path"), is("CIT")]
                 .extract().response();
                 
              ExternalReport(body, res);
@@ -394,11 +397,11 @@ String body = "{body que será enviado}";
 > Extraindo 2 valores e comparando
 
 ```androiddatabinding
-    ValidatableResponse root = Get();
+    Get();
     
-    String value1 = root.extract().path("data.first_name");
+    String value1 = ResponseBody().extract().path("data.first_name");
     
-    String value2 = root.extract().path("data.email");
+    String value2 = ResponseBody().extract().path("data.email");
     
     Assert.assertEquals(value1, value2);
 ```

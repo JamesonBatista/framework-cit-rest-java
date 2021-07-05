@@ -46,7 +46,7 @@ import static util.TextSystemFiles.textNull;
 
 public class CITRestAssured extends validationResponse {
 
-    static ValidatableResponse result;
+    static ValidatableResponse result = null;
     public static ValidatableResponse ExternalContainsJSON;
     public static Object StringGlobal;
     public static Response response;
@@ -93,8 +93,15 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
+    public ValidatableResponse ResponseBody() throws BradescoAssertionException {
+        if (result == null)
+            throw new BradescoAssertionException("\n\nO ResponseBody precisa que algum método Get, Post, Delete, Put, seja iniciado.");
 
-    private RequestSpecification Given() {
+        return result;
+    }
+
+    private RequestSpecification Given() throws IOException {
+        Exclud.ExcludReportBradesco();
         initReport = true;
         InitReport();
         return given().relaxedHTTPSValidation().filter(new RequestLoggingFilter(requestCapture))
@@ -103,7 +110,8 @@ public class CITRestAssured extends validationResponse {
                 ;
     }
 
-    public RequestSpecification GivenExternal(ContentType type) {
+    public RequestSpecification GivenExternal(ContentType type) throws IOException {
+        Exclud.ExcludReportBradesco();
         InitReport();
         return given().filter(new RequestLoggingFilter(requestCapture))
                 .urlEncodingEnabled(false).contentType(type)

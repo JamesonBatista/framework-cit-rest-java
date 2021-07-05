@@ -1,29 +1,27 @@
 package com.cit.framework;
 
-import org.junit.BeforeClass;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
-import java.io.IOException;
-
-import static com.cit.framework.ClassReport.ExternalReport;
-import static com.cit.framework.Exclud.FilesSystem;
-
 public class FrameworkTest extends CITRestAssured {
-    @BeforeClass
-    public static void setup() throws IOException {
-        FilesSystem();
-    }
+
 
     @Test
     public void TestFrame() throws Exception {
         InitEnvironment();
-//
-//        double numer = 500;
-//        DecimalFormat twoPlaces = new DecimalFormat("0.00");
-//        System.out.println(twoPlaces.format(numer));
 
-        Get(false);
-        Body().root("data", "id","Jam");
+//        body(String path, Matcher<?> matcher, Object... additionalKeyMatcherPairs);
+
+       Get(false);
+
+//        .body("", Matchers.is(""));
+
+        ResponseBody().body("data.id", Matchers.is("Jam"));
+
+
+//        Body()
+////                .root("data", "id", "Jam")
+//                .root("container", "costumer");
 //        Body()
 //                .root()
 //                .object("id", "name")
