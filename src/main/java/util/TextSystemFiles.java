@@ -30,6 +30,9 @@ public class TextSystemFiles {
 
     public static String framework = "<h1>Framework RestAssured CIT</h1>\n" +
             "\n" +
+            ">>Acesse  link driver com o JAR, vídeos de validações, etc.  \n" +
+            "<a href=\"https://drive.google.com/drive/folders/10cRqFVxSy7iGjh5mmsoEbF41x-lt9nQZ?usp=sharing\">Acesse aqui</a>\n" +
+            "\n" +
             "<blockquote>O uso do framework no Bradesco necessita de alguns arquivos para executar,\n" +
             "o framework CIT analisa se os arquivos existem no seu projeto, caso não, ele os cria.\n" +
             "Ao final de cada método chamado o Report Bradesco é gerado automaticamente.\n" +
@@ -360,7 +363,7 @@ public class TextSystemFiles {
             "                .body(body)\n" +
             "                .when()\n" +
             "                .post()\n" +
-            "                .then()([[Aqui poeria efetuar validações normalmente. Ex: then().body(\"path\"), is(\"CIT\")]\n" +
+            "                .then()([[Aqui poderia efetuar validações normalmente. Ex: then().body(\"path\"), is(\"CIT\")]\n" +
             "                .extract().response();\n" +
             "                \n" +
             "             ExternalReport(body, res);\n" +
@@ -424,11 +427,11 @@ public class TextSystemFiles {
             "> Extraindo 2 valores e comparando\n" +
             "\n" +
             "```androiddatabinding\n" +
-            "    ValidatableResponse root = Get();\n" +
+            "    Get();\n" +
             "    \n" +
-            "    String value1 = root.extract().path(\"data.first_name\");\n" +
+            "    String value1 = ResponseBody().extract().path(\"data.first_name\");\n" +
             "    \n" +
-            "    String value2 = root.extract().path(\"data.email\");\n" +
+            "    String value2 = ResponseBody().extract().path(\"data.email\");\n" +
             "    \n" +
             "    Assert.assertEquals(value1, value2);\n" +
             "```\n" +
