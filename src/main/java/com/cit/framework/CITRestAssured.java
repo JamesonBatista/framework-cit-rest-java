@@ -69,6 +69,7 @@ public class CITRestAssured extends validationResponse {
 
     static void initReport(Boolean... logs) throws IOException, BradescoException {
         if (result == null) {
+            System.err.println("                                                 Seu retorno está NULL.");
             messages.ResponseNull();
         }
         ExternalContainsJSON = result;
@@ -108,6 +109,21 @@ public class CITRestAssured extends validationResponse {
                 .urlEncodingEnabled(false).contentType(ContentType.JSON)
                 .log().all()
                 ;
+    }
+
+    void CheckParams() throws BradescoAssertionException {
+        if (params.toString() == "{}")
+            throw new BradescoAssertionException("\n\nSeu método precisa do params.put('KEY', 'VALUE'), e está em branco\n" +
+                    "então será considerado como NULL.\n" +
+                    "Você precisa enviar um parâmetro ou mais de um, ou o método é inadequado.");
+    }
+
+    void CheckHeaders() throws BradescoAssertionException {
+        if (headers.toString() == "{}")
+            throw new BradescoAssertionException("\n\nSeu método precisa do headers.put('KEY', 'VALUE'), e está em branco\n" +
+                    "então será considerado como NULL.\n" +
+                    "Você precisa enviar um parâmetro ou mais de um, ou o método é inadequado.");
+
     }
 
     public RequestSpecification GivenExternal(ContentType type) throws IOException {
@@ -212,10 +228,12 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse GetParamHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+        CheckParams();
+        CheckHeaders();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .queryParams(params)
+                    .headers(headers)
                     .when()
                     .get(Endpoint)
                     .then().assertThat();
@@ -227,10 +245,12 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse GetBodyParamHeaderEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
+        CheckParams();
+        CheckHeaders();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .queryParams(params)
+                    .headers(headers)
                     .body(body)
                     .when()
                     .get(Endpoint)
@@ -243,9 +263,10 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse GetParam(Boolean... log) throws IOException, BradescoException {
+        CheckParams();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
+                    .queryParams(params)
                     .when()
                     .get()
                     .then().assertThat();
@@ -257,9 +278,10 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse GetBodyParam(String body, Boolean... log) throws IOException, BradescoException {
+        CheckParams();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
+                    .queryParams(params)
                     .body(body)
                     .when()
                     .get()
@@ -272,9 +294,11 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse GetParamEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+        CheckParams();
+
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
+                    .queryParams(params)
                     .when()
                     .get(Endpoint)
                     .then().assertThat();
@@ -286,9 +310,10 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse GetBodyParamEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
+        CheckParams();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
+                    .queryParams(params)
                     .body(body)
                     .when()
                     .get(Endpoint)
@@ -301,10 +326,12 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse GetParamHeader(Boolean... log) throws IOException, BradescoException {
+        CheckParams();
+        CheckHeaders();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .queryParams(params)
+                    .headers(headers)
                     .when()
                     .get()
                     .then().assertThat();
@@ -316,10 +343,12 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse GetBodyParamHeader(String body, Boolean... log) throws IOException, BradescoException {
+        CheckParams();
+        CheckHeaders();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .queryParams(params)
+                    .headers(headers)
                     .body(body)
                     .when()
                     .get()
@@ -332,9 +361,10 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse GetHeader(Boolean... log) throws IOException, BradescoException {
+        CheckHeaders();
         try {
             result = Given()
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .headers(headers)
                     .when()
                     .get()
                     .then().assertThat();
@@ -346,9 +376,10 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse GetBodyHeader(String body, Boolean... log) throws IOException, BradescoException {
+        CheckHeaders();
         try {
             result = Given()
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .headers(headers)
                     .body(body)
                     .when()
                     .get()
@@ -361,9 +392,10 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse GetHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+        CheckHeaders();
         try {
             result = Given()
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .headers(headers)
                     .when()
                     .get(Endpoint)
                     .then().assertThat();
@@ -375,9 +407,10 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse GetBodyHeaderEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
+        CheckHeaders();
         try {
             result = Given()
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .headers(headers)
                     .body(body)
                     .when()
                     .get(Endpoint)
@@ -435,10 +468,12 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PostParamHeaderBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
+        CheckParams();
+        CheckHeaders();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .queryParams(params)
+                    .headers(headers)
                     .body(body)
                     .when()
                     .post(Endpoint)
@@ -452,10 +487,12 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PostParamHeaderBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
+        CheckParams();
+        CheckHeaders();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .queryParams(params)
+                    .headers(headers)
                     .body(body)
                     .when()
                     .post()
@@ -469,9 +506,10 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PostParamBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
+        CheckParams();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
+                    .queryParams(params)
                     .body(body)
                     .when()
                     .post(Endpoint)
@@ -485,9 +523,10 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PostParamBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
+        CheckParams();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
+                    .queryParams(params)
                     .body(body)
                     .when()
                     .post()
@@ -501,9 +540,10 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PostHeaderBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
+        CheckHeaders();
         try {
             result = Given()
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .headers(headers)
                     .body(body)
                     .when()
                     .post()
@@ -517,9 +557,10 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PostHeaderBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
+        CheckHeaders();
         try {
             result = Given()
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .headers(headers)
                     .body(body)
                     .when()
                     .post(Endpoint)
@@ -548,10 +589,12 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PostParamHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
+        CheckParams();
+        CheckHeaders();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .queryParams(params)
+                    .headers(headers)
                     .when()
                     .post(Endpoint)
                     .then().assertThat();
@@ -564,10 +607,12 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PostParamHeader(Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
+        CheckParams();
+        CheckHeaders();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .queryParams(params)
+                    .headers(headers)
                     .when()
                     .post()
                     .then().assertThat();
@@ -580,9 +625,10 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PostParamEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
+        CheckParams();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
+                    .queryParams(params)
                     .when()
                     .post(Endpoint)
                     .then().assertThat();
@@ -595,9 +641,10 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PostParam(Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
+        CheckParams();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
+                    .queryParams(params)
                     .when()
                     .post()
                     .then().assertThat();
@@ -610,9 +657,10 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PostHeader(Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
+        CheckHeaders();
         try {
             result = Given()
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .headers(headers)
                     .when()
                     .post()
                     .then().assertThat();
@@ -625,9 +673,10 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PostHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
+        CheckHeaders();
         try {
             result = Given()
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .headers(headers)
                     .when()
                     .post(Endpoint)
                     .then().assertThat();
@@ -671,10 +720,12 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PutParamHeaderBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
+        CheckParams();
+        CheckHeaders();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .queryParams(params)
+                    .headers(headers)
                     .body(body)
                     .when()
                     .put(Endpoint)
@@ -688,10 +739,12 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PutParamHeaderBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
+        CheckParams();
+        CheckHeaders();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .queryParams(params)
+                    .headers(headers)
                     .body(body)
                     .when()
                     .put()
@@ -705,9 +758,10 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PutParamBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
+        CheckParams();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
+                    .queryParams(params)
                     .body(body)
                     .when()
                     .put(Endpoint)
@@ -721,9 +775,10 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PutParamBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
+        CheckParams();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
+                    .queryParams(params)
                     .body(body)
                     .when()
                     .put()
@@ -737,9 +792,10 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PutHeaderBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
+        CheckHeaders();
         try {
             result = Given()
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .headers(headers)
                     .body(body)
                     .when()
                     .put()
@@ -753,9 +809,10 @@ public class CITRestAssured extends validationResponse {
 
     public ValidatableResponse PutHeaderBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
+        CheckHeaders();
         try {
             result = Given()
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .headers(headers)
                     .body(body)
                     .when()
                     .put(Endpoint)
@@ -819,9 +876,10 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse DeleteParam(Boolean... log) throws IOException, BradescoException {
+        CheckParams();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
+                    .queryParams(params)
                     .when().delete()
                     .then();
             response = result.extract().response();
@@ -832,10 +890,11 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse DeleteBodyParam(String body, Boolean... log) throws IOException, BradescoException {
+        CheckParams();
         try {
             result = Given()
                     .body(body)
-                    .queryParams(params.toString() == "{}" ? null : params)
+                    .queryParams(params)
                     .when().delete()
                     .then();
             response = result.extract().response();
@@ -846,10 +905,11 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse DeleteBodyParamEndpoint(String endpoint, String body, Boolean... log) throws IOException, BradescoException {
+        CheckParams();
         try {
             result = Given()
                     .body(body)
-                    .queryParams(params.toString() == "{}" ? null : params)
+                    .queryParams(params)
                     .when().delete(endpoint)
                     .then();
             response = result.extract().response();
@@ -860,9 +920,10 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse DeleteParamEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+        CheckParams();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
+                    .queryParams(params)
                     .when().delete(Endpoint)
                     .then();
             response = result.extract().response();
@@ -873,10 +934,12 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse DeleteParamHeader(Boolean... log) throws IOException, BradescoException {
+        CheckParams();
+        CheckHeaders();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .queryParams(params)
+                    .headers(headers)
                     .contentType(ContentType.JSON)
                     .when().delete()
                     .then();
@@ -888,11 +951,13 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse DeleteBodyParamHeader(String body, Boolean... log) throws IOException, BradescoException {
+        CheckParams();
+        CheckHeaders();
         try {
             result = Given()
                     .body(body)
-                    .queryParams(params.toString() == "{}" ? null : params)
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .queryParams(params)
+                    .headers(headers)
                     .contentType(ContentType.JSON)
                     .when().delete()
                     .then();
@@ -904,11 +969,13 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse DeleteBodyParamHeaderEndpoint(String endpoint, String body, Boolean... log) throws IOException, BradescoException {
+        CheckParams();
+        CheckHeaders();
         try {
             result = Given()
                     .body(body)
-                    .queryParams(params.toString() == "{}" ? null : params)
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .queryParams(params)
+                    .headers(headers)
                     .contentType(ContentType.JSON)
                     .when().delete(endpoint)
                     .then();
@@ -920,9 +987,10 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse DeleteHeader(Boolean... log) throws IOException, BradescoException {
+        CheckHeaders();
         try {
             result = Given()
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .headers(headers)
                     .contentType(ContentType.JSON)
                     .when().delete()
                     .then();
@@ -934,10 +1002,11 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse DeleteBodyHeader(String body, Boolean... log) throws IOException, BradescoException {
+        CheckHeaders();
         try {
             result = Given()
                     .body(body)
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .headers(headers)
                     .contentType(ContentType.JSON)
                     .when().delete()
                     .then();
@@ -949,10 +1018,11 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse DeleteBodyHeaderEndpoint(String endpoint, String body, Boolean... log) throws IOException, BradescoException {
+        CheckHeaders();
         try {
             result = Given()
                     .body(body)
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .headers(headers)
                     .contentType(ContentType.JSON)
                     .when().delete(endpoint)
                     .then();
@@ -964,9 +1034,10 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse DeleteHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+        CheckHeaders();
         try {
             result = Given()
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .headers(headers)
                     .contentType(ContentType.JSON)
                     .when().delete(Endpoint)
                     .then();
@@ -978,10 +1049,12 @@ public class CITRestAssured extends validationResponse {
     }
 
     public ValidatableResponse DeleteParamHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+        CheckParams();
+        CheckHeaders();
         try {
             result = Given()
-                    .queryParams(params.toString() == "{}" ? null : params)
-                    .headers(headers.toString() == "{}" ? null : headers)
+                    .queryParams(params)
+                    .headers(headers)
                     .contentType(ContentType.JSON)
                     .when().delete(Endpoint)
                     .then();

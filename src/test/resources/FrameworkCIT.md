@@ -576,7 +576,173 @@ String body = "{body que será enviado}";
         Body().contains("id", "data");
 
  ```
+>>Vamos a mais um exemplo complexo de JSON e como validar usando o Framework
 
+```androiddatabinding
+{
+    "totalSumary": {
+        "cardsCount": 2,
+        "limitAmount": 0,
+        "usedAmount": 0,
+        "availableAmount": 0,
+        "percentileAmount": 0,
+        "usedAmountFlexible": 100000.0001
+    },
+    "bradesco": {
+        "consentId": "",
+        "authorisationServerId": "",
+        "brandName": "BRADESCO",
+        "brandId": "237",
+        "imageName": "bradesco",
+        "color": "D11E45",
+        "creditCards": [
+            {
+                "creditCardInfo": {
+                    "consentId": "",
+                    "authorisationServerId": "",
+                    "creditCardAccountId": "4532119999910005",
+                    "identificationNumber": "0000",
+                    "creditCardNetwork": "VISA",
+                    "status": "ACTIVE"
+                },
+                "limits": {
+                    "isFlexible": null,
+                    "purchaseAvailableAmount": null,
+                    "purchaseUsedAmount": null,
+                    "purchaseTotalAmount": null,
+                    "purchaseUsedPercentile": null,
+                    "withdrawAvailableAmount": null,
+                    "withdrawUsedAmount": null,
+                    "withdrawTotalAmount": null,
+                    "withdrawUsedPercentile": null,
+                    "auditory": null
+                },
+                "lastBill": null,
+                "bills": {
+                    "bills": [
+                        
+                    ],
+                    "auditory": null
+                },
+                "hasMessageErrors": 100.00,
+                "oldestUpdateDateTime": null
+            }
+        ]
+    },
+    "next": {
+        "consentId": "nextconsentid",
+        "authorisationServerId": "nextauthorisationserverid",
+        "brandName": null,
+        "brandId": null,
+        "imageName": "",
+        "color": "07FB4E",
+        "creditCards": [
+            {
+                "creditCardInfo": {
+                    "consentId": "nextconsentid",
+                    "authorisationServerId": "nextauthorisationserverid",
+                    "creditCardAccountId": "1020304051",
+                    "identificationNumber": "4454",
+                    "status": "ACTIVE"
+                },
+                "limits": {
+                    "isFlexible": true,
+                    "purchaseAvailableAmount": 0,
+                    "purchaseUsedAmount": 100000.0001,
+                    "purchaseTotalAmount": 0,
+                    "purchaseUsedPercentile": 0,
+                    "withdrawAvailableAmount": null,
+                    "withdrawUsedAmount": null,
+                    "withdrawTotalAmount": null,
+                    "withdrawUsedPercentile": null,
+                    "auditory": null
+                },
+                "lastBill": {
+                    "billId": "10",
+                    "billMonth": "2021-04-21",
+                    "dueDate": "2021-05-21",
+                    "billMinimumAmount": 1000.04,
+                    "billTotalAmount": 100000.04,
+                    "bestPurchaseDate": null,
+                    "billStatus": "PAGA",
+                    "automaticPayment": null
+                },
+                "bills": {
+                    "bills": [
+                        {
+                            "billId": "10",
+                            "billMonth": "2021-04-21",
+                            "dueDate": "2021-05-21",
+                            "billMinimumAmount": 1000.04,
+                            "billTotalAmount": 100000.04,
+                            "bestPurchaseDate": null,
+                            "billStatus": "PAGA",
+                            "automaticPayment": null
+                        }
+                    ],
+                    "auditory": "auditoryNext"
+                },
+                "hasMessageErrors": 100.124,
+                "oldestUpdateDateTime": null
+            }
+        ]
+    },
+    "others": [
+        
+    ],
+    "bradescoBlocked": {
+        "consentId": null,
+        "authorisationServerId": null,
+        "brandName": "Bradesco",
+        "brandId": null,
+        "imageName": "bradesco",
+        "color": "D11E45",
+        "creditCards": [
+            
+        ]
+    },
+    "categoryMonthsAvailables": [
+        {
+            "dateMonth": "2021-04-21",
+            "totalAmount": 100000.04,
+            "cards": [
+                {
+                    "internalBrand": "NEXT",
+                    "consentId": "nextconsentid",
+                    "authorisationServerId": "nextauthorisationserverid",
+                    "creditCardId": "1020304051",
+                    "cardNumber": "4454",
+                    "billId": "10",
+                    "dueDate": "2021-05-21"
+                }
+            ]
+        }
+    ],
+    "lastUpdateDateTime": "2021-07-06T11:46:22.227421Z",
+    "messages": [
+        
+    ]
+}
+
+
+        Get(false);
+
+        Body()
+                .root("totalSumary", "cardsCount", 2)
+                .root("bradesco", "brandName", "BRADESCO")
+                .objectForArray("next", "creditCards", "hasMessageErrors")
+                .newObjectForArray("bills", "bills", "billId")
+                .getObject("bills", "auditory", "auditoryNext")
+                .root("next", "consentId", "nextconsentid")
+                .getObject("creditCardInfo", "status", "ACTIVE")
+                .root("categoryMonthsAvailables")
+                .object("dateMonth")
+                .getString("totalAmount", 100000.04)
+                .newArray("cards", "authorisationServerId")
+                .get("totalAmount")
+                
+                O *get* ao final está pegando o valor do campo e transferindo o valor para o *StringGlobal*
+```
 ***
 
 > > Abaixo veja mais um exemplo usando o Body()

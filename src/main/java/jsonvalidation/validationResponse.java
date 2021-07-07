@@ -3,9 +3,11 @@ package jsonvalidation;
 
 import com.bradesco.core.exception.BradescoAssertionException;
 import com.google.gson.Gson;
+import cucumber.api.java.cs.A;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.hamcrest.Matchers;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
 
@@ -18,7 +20,7 @@ import static com.cit.framework.CITRestAssured.*;
 public class validationResponse {
     static String bodyValidation;
     static Boolean containsGet = false;
-    List<T> list;
+    List<T> list = null;
     Boolean bodyStart = false;
     Boolean rootStart = false;
     Boolean andContinue = false;
@@ -57,7 +59,10 @@ public class validationResponse {
         return this;
     }
 
+    Boolean rootInit = false;
+
     public validationResponse root(String... root) throws BradescoAssertionException {
+        rootInit = true;
         if (!bodyStart) {
             throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
                     "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
@@ -67,9 +72,6 @@ public class validationResponse {
                 for (String rootPath : root) {
                     list = ExternalContainsJSON.extract().jsonPath().getList(rootPath);
                 }
-            } else if (root.length > 1) {
-                throw new BradescoAssertionException("\n\nSeu root() só pode conter apenas UM valor. Ex: root('data') ou root().\n" +
-                        "Porque o root é seu rootPath do seu Array.\n Olhe o DOC do Framework.");
             } else {
                 list = ExternalContainsJSON.extract().jsonPath().getList("$");
             }
@@ -78,7 +80,7 @@ public class validationResponse {
     }
 
     public validationResponse root(String KeyObject, String path) throws BradescoAssertionException {
-        Object obj;
+
         if (!bodyStart) {
             throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
                     "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
@@ -99,7 +101,8 @@ public class validationResponse {
         } else {
             JSONObject json = new JSONObject(response.asString());
             json = json.getJSONObject(KeyObject);
-            if (json.get(path).getClass().getSimpleName().equalsIgnoreCase("BigDecimal")) {
+            if (json.get(path).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+                    json.get(path).getClass().getSimpleName().equalsIgnoreCase("Float")) {
                 String valueBig = json.get(path).toString();
                 bigDecimal = new BigDecimal(valueBig);
                 bigDecimal.doubleValue();
@@ -110,6 +113,38 @@ public class validationResponse {
             andContinueThree = true;
             return this;
         }
+    }
+
+    public <T extends Object> validationResponse newArray(String array, String... path) throws BradescoAssertionException {
+        if (rootInit) {
+            BigDecimal bigDecimal = null;
+            JSONObject json;
+            for (Object l : list) {
+                json = new JSONObject((Map<String, ?>) l);
+                JSONArray jsonArray = json.getJSONArray(array);
+                for (Object lista : jsonArray) {
+                    json = new JSONObject(lista.toString());
+                    if (path.length == 1) {
+                        for (String paths : path) {
+                            if (json.get(paths).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+                                    json.get(paths).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+                                String valueBig = json.get(paths).toString();
+                                bigDecimal = new BigDecimal(valueBig);
+                                bigDecimal.doubleValue();
+                            }
+                            StringGlobal = bigDecimal == null ? json.get(paths) : bigDecimal.doubleValue();
+                        }
+                    } else if (path.length > 1) {
+                        throw new BradescoAssertionException("\n\nSeu método pode apenas pegar o valor de um path Ex: newArray('data', 'id').\n" +
+                                "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+                    }
+                }
+            }
+        } else {
+            throw new BradescoAssertionException("\n\ngetString só pode ser usado com o root usando apenas um parâmetro Ex: root('data').\n" +
+                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+        }
+        return this;
     }
 
     public validationResponse object(String... path) throws BradescoAssertionException {
@@ -172,16 +207,22 @@ public class validationResponse {
 
     public validationResponse get(String key) throws BradescoAssertionException {
         Boolean verify = false;
+        containsGet = true;
         if (containsGet) {
             for (int i = 0; i < ReplaceJson().length; i++) {
-
                 if (ReplaceJson()[i].trim().equalsIgnoreCase(key.trim())) {
                     verify = true;
                     innerLoop:
                     for (int x = i; x < ReplaceJson().length; x++) {
                         String delete = StringUtils.deleteWhitespace(ReplaceJson()[x]);
                         if (!delete.trim().equalsIgnoreCase(key) && !delete.trim().isEmpty()) {
-                            StringGlobal = ReplaceJson()[x];
+                            if (ReplaceJson()[x].trim().getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+                                    ReplaceJson()[x].trim().getClass().getSimpleName().equalsIgnoreCase("Float")) {
+                                BigDecimal bigDecimal = new BigDecimal(ReplaceJson()[x].trim().toString());
+                                StringGlobal = bigDecimal.doubleValue();
+                            } else {
+                                StringGlobal = ReplaceJson()[x].trim();
+                            }
                             if (ReplaceJson()[x].trim().equalsIgnoreCase("[") || ReplaceJson()[x].trim().equalsIgnoreCase("{")) {
                                 throw new BradescoAssertionException("\n\nO método get() não pode ser usado para extrair valor de um Array\n" +
                                         "ex: data:[]\n" +
@@ -190,14 +231,11 @@ public class validationResponse {
                                         "apenas de campos.\n" +
                                         "ex: name: CI&T ou id: 7 ou valor: 10000, etc." +
                                         "\n\n");
-
                             }
-                            System.out.println("\n\nValor do campo " + key.toUpperCase() + " é: " + StringGlobal);
                             break;
                         }
                     }
                 }
-
             }
         } else {
             throw new BradescoAssertionException("\n\nO método get() só pode ser usado depois do contains \nEx: Body().contains('id').get('id')");
@@ -205,6 +243,27 @@ public class validationResponse {
         }
         if (!verify) {
             throw new BradescoAssertionException("\n\nO valor 《《 " + key + " 》》 não foi encontrado no seu JSON");
+        }
+        return this;
+    }
+
+    public <T extends Object> validationResponse getString(String path, T equals) throws BradescoAssertionException {
+        if (rootInit) {
+            JSONObject json = null;
+            BigDecimal bigDecimal = null;
+            for (Object l : list) {
+                json = new JSONObject((Map<String, ?>) l);
+                if (json.get(path).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+                        json.get(path).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+                    String valueBig = json.get(path).toString();
+                    bigDecimal = new BigDecimal(valueBig);
+                    bigDecimal.doubleValue();
+                }
+            }
+            Assert.assertThat(bigDecimal == null ? json.get(path) : bigDecimal.doubleValue(), Matchers.is(equals));
+        } else {
+            throw new BradescoAssertionException("\n\ngetString só pode ser usado com o root usando apenas um parâmetro Ex: root('data').\n" +
+                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         }
         return this;
     }
@@ -226,7 +285,8 @@ public class validationResponse {
         if (andContinueThree) {
             JSONObject json = new JSONObject(response.asString());
             json = json.getJSONObject(KeyObject);
-            if (json.get(path).getClass().getSimpleName().equalsIgnoreCase("BigDecimal")) {
+            if (json.get(path).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+                    json.get(path).getClass().getSimpleName().equalsIgnoreCase("Float")) {
                 String valueBig = json.get(path).toString();
                 bigDecimal = new BigDecimal(valueBig);
                 bigDecimal.doubleValue();
@@ -236,6 +296,89 @@ public class validationResponse {
         } else {
             throw new BradescoAssertionException("\n\n O *** and ***  só pode ser usado após o root(String KeyObject, String path, String equals), que é o root com 3 parâmetros \n" +
                     "olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+        }
+        return this;
+    }
+
+    static Object jsonObject;
+    Boolean BooleanobjectForArray = false;
+
+    public validationResponse objectForArray(String KeyObject, String Array, String... path) throws BradescoAssertionException {
+        BooleanobjectForArray = true;
+        JSONObject json = new JSONObject(response.asString());
+        JSONArray jsonArray = json.getJSONObject(KeyObject).getJSONArray(Array);
+        JSONObject object = null;
+        for (Object lista : jsonArray) {
+            object = new JSONObject(lista.toString());
+            jsonObject = object;
+        }
+        if (path.length == 1) {
+            for (String lista : path) {
+                if (object.get(lista).getClass().getSimpleName().equalsIgnoreCase("BigDecimal")) {
+                    BigDecimal bigDecimal = new BigDecimal(object.get(lista).toString());
+                    StringGlobal = bigDecimal.doubleValue();
+                }
+            }
+        } else if (path.length > 1) {
+            throw new BradescoAssertionException("\n\nSeu método pode apenas conter 3 campos KeyObject, Array e path.\n" +
+                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+        }
+        return this;
+    }
+
+    Object newObjectForArray;
+
+    public validationResponse newObjectForArray(String KeyObject, String Array, String... path) throws BradescoAssertionException {
+        if (BooleanobjectForArray) {
+            JSONObject json = new JSONObject(jsonObject.toString());
+            JSONArray jsonArray = json.getJSONObject(KeyObject).getJSONArray(Array);
+
+            JSONObject object = null;
+            for (Object lista : jsonArray) {
+                object = new JSONObject(lista.toString());
+                newObjectForArray = object;
+            }
+            BigDecimal bigDecimal;
+            if (path.length == 1) {
+                for (String objectPath : path) {
+
+                    if (object.get(objectPath).getClass().getSimpleName().equalsIgnoreCase("BigDecimal")) {
+                        String valueBig = StringGlobal.toString();
+                        bigDecimal = new BigDecimal(valueBig);
+                        StringGlobal = bigDecimal.doubleValue();
+                    } else {
+                        StringGlobal = object.get(objectPath);
+                    }
+                }
+            } else if (path.length > 1) {
+                throw new BradescoAssertionException("\n\nSeu método pode apenas conter 3 campos KeyObject, Array e path.\n" +
+                        "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+            }
+        } else {
+            throw new BradescoAssertionException("\n\nPara usar o newObjectForArray você precisa usar o objectForArray.\n" +
+                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+        }
+
+        return this;
+    }
+
+    public validationResponse getObject(String KeyObject, String path, String... equals) throws BradescoAssertionException {
+        JSONObject json = new JSONObject(list == null ? jsonObject.toString() : list.toString());
+        json = json.getJSONObject(KeyObject);
+        if (equals.length == 1) {
+            for (String lista : equals) {
+                if (json.get(path).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+                        json.get(path).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+                    BigDecimal bigDecimal = new BigDecimal(json.get(path).toString());
+                    StringGlobal = bigDecimal.doubleValue();
+                } else {
+                    StringGlobal = json.get(path);
+                }
+                Assert.assertThat(StringGlobal, Matchers.is(lista));
+            }
+        } else if (equals.length > 1) {
+            throw new BradescoAssertionException("\n\nSeu método pode apenas conter 3 campos KeyObject, path e equals.\n" +
+                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         }
         return this;
     }

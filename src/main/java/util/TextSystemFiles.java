@@ -606,7 +606,173 @@ public class TextSystemFiles {
             "        Body().contains(\"id\", \"data\");\n" +
             "\n" +
             " ```\n" +
+            ">>Vamos a mais um exemplo complexo de JSON e como validar usando o Framework\n" +
             "\n" +
+            "```androiddatabinding\n" +
+            "{\n" +
+            "    \"totalSumary\": {\n" +
+            "        \"cardsCount\": 2,\n" +
+            "        \"limitAmount\": 0,\n" +
+            "        \"usedAmount\": 0,\n" +
+            "        \"availableAmount\": 0,\n" +
+            "        \"percentileAmount\": 0,\n" +
+            "        \"usedAmountFlexible\": 100000.0001\n" +
+            "    },\n" +
+            "    \"bradesco\": {\n" +
+            "        \"consentId\": \"\",\n" +
+            "        \"authorisationServerId\": \"\",\n" +
+            "        \"brandName\": \"BRADESCO\",\n" +
+            "        \"brandId\": \"237\",\n" +
+            "        \"imageName\": \"bradesco\",\n" +
+            "        \"color\": \"D11E45\",\n" +
+            "        \"creditCards\": [\n" +
+            "            {\n" +
+            "                \"creditCardInfo\": {\n" +
+            "                    \"consentId\": \"\",\n" +
+            "                    \"authorisationServerId\": \"\",\n" +
+            "                    \"creditCardAccountId\": \"4532119999910005\",\n" +
+            "                    \"identificationNumber\": \"0000\",\n" +
+            "                    \"creditCardNetwork\": \"VISA\",\n" +
+            "                    \"status\": \"ACTIVE\"\n" +
+            "                },\n" +
+            "                \"limits\": {\n" +
+            "                    \"isFlexible\": null,\n" +
+            "                    \"purchaseAvailableAmount\": null,\n" +
+            "                    \"purchaseUsedAmount\": null,\n" +
+            "                    \"purchaseTotalAmount\": null,\n" +
+            "                    \"purchaseUsedPercentile\": null,\n" +
+            "                    \"withdrawAvailableAmount\": null,\n" +
+            "                    \"withdrawUsedAmount\": null,\n" +
+            "                    \"withdrawTotalAmount\": null,\n" +
+            "                    \"withdrawUsedPercentile\": null,\n" +
+            "                    \"auditory\": null\n" +
+            "                },\n" +
+            "                \"lastBill\": null,\n" +
+            "                \"bills\": {\n" +
+            "                    \"bills\": [\n" +
+            "                        \n" +
+            "                    ],\n" +
+            "                    \"auditory\": null\n" +
+            "                },\n" +
+            "                \"hasMessageErrors\": 100.00,\n" +
+            "                \"oldestUpdateDateTime\": null\n" +
+            "            }\n" +
+            "        ]\n" +
+            "    },\n" +
+            "    \"next\": {\n" +
+            "        \"consentId\": \"nextconsentid\",\n" +
+            "        \"authorisationServerId\": \"nextauthorisationserverid\",\n" +
+            "        \"brandName\": null,\n" +
+            "        \"brandId\": null,\n" +
+            "        \"imageName\": \"\",\n" +
+            "        \"color\": \"07FB4E\",\n" +
+            "        \"creditCards\": [\n" +
+            "            {\n" +
+            "                \"creditCardInfo\": {\n" +
+            "                    \"consentId\": \"nextconsentid\",\n" +
+            "                    \"authorisationServerId\": \"nextauthorisationserverid\",\n" +
+            "                    \"creditCardAccountId\": \"1020304051\",\n" +
+            "                    \"identificationNumber\": \"4454\",\n" +
+            "                    \"status\": \"ACTIVE\"\n" +
+            "                },\n" +
+            "                \"limits\": {\n" +
+            "                    \"isFlexible\": true,\n" +
+            "                    \"purchaseAvailableAmount\": 0,\n" +
+            "                    \"purchaseUsedAmount\": 100000.0001,\n" +
+            "                    \"purchaseTotalAmount\": 0,\n" +
+            "                    \"purchaseUsedPercentile\": 0,\n" +
+            "                    \"withdrawAvailableAmount\": null,\n" +
+            "                    \"withdrawUsedAmount\": null,\n" +
+            "                    \"withdrawTotalAmount\": null,\n" +
+            "                    \"withdrawUsedPercentile\": null,\n" +
+            "                    \"auditory\": null\n" +
+            "                },\n" +
+            "                \"lastBill\": {\n" +
+            "                    \"billId\": \"10\",\n" +
+            "                    \"billMonth\": \"2021-04-21\",\n" +
+            "                    \"dueDate\": \"2021-05-21\",\n" +
+            "                    \"billMinimumAmount\": 1000.04,\n" +
+            "                    \"billTotalAmount\": 100000.04,\n" +
+            "                    \"bestPurchaseDate\": null,\n" +
+            "                    \"billStatus\": \"PAGA\",\n" +
+            "                    \"automaticPayment\": null\n" +
+            "                },\n" +
+            "                \"bills\": {\n" +
+            "                    \"bills\": [\n" +
+            "                        {\n" +
+            "                            \"billId\": \"10\",\n" +
+            "                            \"billMonth\": \"2021-04-21\",\n" +
+            "                            \"dueDate\": \"2021-05-21\",\n" +
+            "                            \"billMinimumAmount\": 1000.04,\n" +
+            "                            \"billTotalAmount\": 100000.04,\n" +
+            "                            \"bestPurchaseDate\": null,\n" +
+            "                            \"billStatus\": \"PAGA\",\n" +
+            "                            \"automaticPayment\": null\n" +
+            "                        }\n" +
+            "                    ],\n" +
+            "                    \"auditory\": \"auditoryNext\"\n" +
+            "                },\n" +
+            "                \"hasMessageErrors\": 100.124,\n" +
+            "                \"oldestUpdateDateTime\": null\n" +
+            "            }\n" +
+            "        ]\n" +
+            "    },\n" +
+            "    \"others\": [\n" +
+            "        \n" +
+            "    ],\n" +
+            "    \"bradescoBlocked\": {\n" +
+            "        \"consentId\": null,\n" +
+            "        \"authorisationServerId\": null,\n" +
+            "        \"brandName\": \"Bradesco\",\n" +
+            "        \"brandId\": null,\n" +
+            "        \"imageName\": \"bradesco\",\n" +
+            "        \"color\": \"D11E45\",\n" +
+            "        \"creditCards\": [\n" +
+            "            \n" +
+            "        ]\n" +
+            "    },\n" +
+            "    \"categoryMonthsAvailables\": [\n" +
+            "        {\n" +
+            "            \"dateMonth\": \"2021-04-21\",\n" +
+            "            \"totalAmount\": 100000.04,\n" +
+            "            \"cards\": [\n" +
+            "                {\n" +
+            "                    \"internalBrand\": \"NEXT\",\n" +
+            "                    \"consentId\": \"nextconsentid\",\n" +
+            "                    \"authorisationServerId\": \"nextauthorisationserverid\",\n" +
+            "                    \"creditCardId\": \"1020304051\",\n" +
+            "                    \"cardNumber\": \"4454\",\n" +
+            "                    \"billId\": \"10\",\n" +
+            "                    \"dueDate\": \"2021-05-21\"\n" +
+            "                }\n" +
+            "            ]\n" +
+            "        }\n" +
+            "    ],\n" +
+            "    \"lastUpdateDateTime\": \"2021-07-06T11:46:22.227421Z\",\n" +
+            "    \"messages\": [\n" +
+            "        \n" +
+            "    ]\n" +
+            "}\n" +
+            "\n" +
+            "\n" +
+            "        Get(false);\n" +
+            "\n" +
+            "        Body()\n" +
+            "                .root(\"totalSumary\", \"cardsCount\", 2)\n" +
+            "                .root(\"bradesco\", \"brandName\", \"BRADESCO\")\n" +
+            "                .objectForArray(\"next\", \"creditCards\", \"hasMessageErrors\")\n" +
+            "                .newObjectForArray(\"bills\", \"bills\", \"billId\")\n" +
+            "                .getObject(\"bills\", \"auditory\", \"auditoryNext\")\n" +
+            "                .root(\"next\", \"consentId\", \"nextconsentid\")\n" +
+            "                .getObject(\"creditCardInfo\", \"status\", \"ACTIVE\")\n" +
+            "                .root(\"categoryMonthsAvailables\")\n" +
+            "                .object(\"dateMonth\")\n" +
+            "                .getString(\"totalAmount\", 100000.04)\n" +
+            "                .newArray(\"cards\", \"authorisationServerId\")\n" +
+            "                .get(\"totalAmount\")\n" +
+            "                \n" +
+            "                O *get* ao final está pegando o valor do campo e transferindo o valor para o *StringGlobal*\n" +
+            "```\n" +
             "***\n" +
             "\n" +
             "> > Abaixo veja mais um exemplo usando o Body()\n" +
