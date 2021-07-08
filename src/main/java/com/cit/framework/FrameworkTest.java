@@ -1,10 +1,6 @@
 package com.cit.framework;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Test;
-
-import java.math.BigDecimal;
 
 public class FrameworkTest extends CITRestAssured {
 
@@ -18,20 +14,28 @@ public class FrameworkTest extends CITRestAssured {
         Get(false);
 
         Body()
-                .root("totalSumary", "cardsCount", 2)
-                .root("bradesco", "brandName", "BRADESCO")
-                .objectForArray("next", "creditCards", "hasMessageErrors")
-                .newObjectForArray("bills", "bills", "billId")
-                .getObject("bills", "auditory", "auditoryNext")
-                .root("next", "consentId", "nextconsentid")
-                .getObject("creditCardInfo", "status", "ACTIVE")
-                .root("categoryMonthsAvailables")
-                .object("dateMonth")
-                .getString("totalAmount", 100000.04)
-                .newArray("cards", "authorisationServerId")
-                .get("totalAmount")
+//                .mapping("company name")
+                    .mapping("categoryMonthsAvailables > cards > internalBrand")
+//                .newMapping("creditCardNetwork")
+
         ;
-        System.out.println(StringGlobal);
+
+
+//        Body()
+//                .root("totalSumary", "cardsCount", 2)
+//                .root("bradesco", "brandName", "BRADESCO")
+//                .objectForArray("next", "creditCards", "hasMessageErrors")
+//                .newObjectForArray("bills", "bills", "billId")
+//                .getObject("bills", "auditory", "auditoryNext")
+//                .root("next", "consentId", "nextconsentid")
+//                .getObject("creditCardInfo", "status", "ACTIVE")
+//                .root("categoryMonthsAvailables")
+//                .object("dateMonth")
+//                .getString("totalAmount", 100000.04)
+//                .newArray("cards", "authorisationServerId")
+//                .get("totalAmount")
+//        ;
+//        System.out.println("Método: " + StringGlobal);
 
 
 //        Assert.assertThat(StringGlobal, Matchers.is(100000.04));

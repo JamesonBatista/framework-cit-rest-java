@@ -12,6 +12,8 @@ import org.json.JSONObject;
 import org.junit.Assert;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -378,6 +380,99 @@ public class validationResponse {
             }
         } else if (equals.length > 1) {
             throw new BradescoAssertionException("\n\nSeu método pode apenas conter 3 campos KeyObject, path e equals.\n" +
+                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+        }
+        return this;
+    }
+
+    JSONArray jsonArray;
+    JSONObject jsonObjectValidation = null;
+
+
+    public <T extends Object> validationResponse mapping(String key, T... equals) throws BradescoAssertionException {
+        if (bodyStart) {
+            if (response.asString().startsWith("[")) {
+                jsonArray = new JSONArray(response.asString());
+
+                for (Object list : jsonArray) {
+                    jsonObjectValidation = new JSONObject(list.toString());
+                }
+            } else {
+                jsonObjectValidation = new JSONObject(response.asString());
+            }
+            String[] arrayList = key.split(" > ");
+            T value = null;
+            for (String array : arrayList) {
+                array = array.trim();
+                boolean exist = jsonObjectValidation.has(array);
+
+                if (exist) {
+                    if (jsonObjectValidation.get(array) instanceof JSONObject) {
+                        jsonObjectValidation = jsonObjectValidation.getJSONObject(array);
+                        for (T lista : equals) {
+
+                            if (jsonObjectValidation.has(array)) {
+                                if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+                                        jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+                                    BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
+                                    Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(lista));
+                                } else {
+                                    Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(lista));
+                                }
+                            } else {
+                                throw new BradescoAssertionException("\n\nO path  " + array + "  não existe no seu JSON, ou o caminho está errado.");
+                            }
+                        }
+
+                    } else if (jsonObjectValidation.get(array) instanceof JSONArray) {
+                        jsonArray = jsonObjectValidation.getJSONArray(array);
+                        for (Object l : jsonArray) {
+                            jsonObjectValidation = new JSONObject(l.toString());
+                            if (equals.length == 1) {
+                                if (jsonObjectValidation.has(array)) {
+                                    for (T lista : equals) {
+                                        if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+                                                jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+                                            BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
+                                            Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(lista));
+                                        } else {
+                                            Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(lista));
+                                        }
+                                    }
+                                } else {
+                                    throw new BradescoAssertionException("\n\nO path  " + array + "  não existe no seu JSON, ou o caminho está errado.");
+                                }
+
+                            } else if (equals.length > 1) {
+                                throw new BradescoAssertionException("\n\nO método apenas permite 2 valores, o path e o comparativo EQUALS.");
+                            }
+                        }
+                    } else {
+                        if (equals.length == 1) {
+                            for (T lista : equals) {
+                                if (jsonObjectValidation.has(array))
+                                    if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+                                            jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+                                        BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
+                                        Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(lista));
+                                    } else {
+                                        Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(lista));
+                                    }
+                                else {
+                                    throw new BradescoAssertionException("\n\nO path  " + array + "  não existe no seu JSON, ou o caminho está errado.");
+                                }
+                            }
+                        } else if (equals.length > 1) {
+                            throw new BradescoAssertionException("\n\nO método apenas permite 2 valores, o path e o comparativo EQUALS.");
+                        }
+                    }
+                }else {
+                    throw new BradescoAssertionException("\n\nO path  " + array + "  não existe no seu JSON, ou o caminho está errado.");
+                }
+            }
+
+        } else {
+            throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
                     "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         }
         return this;
