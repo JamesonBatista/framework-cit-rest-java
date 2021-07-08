@@ -745,6 +745,29 @@ String body = "{body que será enviado}";
 ```
 ***
 
+>>Maneira ainda mais simples de validar um campo ou um valor é usando o **mapping**
+>>e passando o caminho da estrutura, usando o   * **>**  *  servirá como caminho para o path.
+>
+> OBS: Validar valores dentro de um Array não é possível, porque eles podem variar, mas, é possível validar se o campo existe.
+```androiddatabinding
+{
+    "data": {
+        "id": 7,
+        "email": "michael.lawson@reqres.in",
+        "first_name": "Michael",
+        "last_name": "Lawson",
+        "avatar": "https://reqres.in/img/faces/7-image.jpg"
+    },
+    "support": {
+        "url": "https://reqres.in/#support-heading",
+        "text": "To keep ReqRes free, contributions towards server costs are appreciated!"
+    }
+}
+        Body().mapping("data > id", 7)
+              .mapping("support > url", "https://reqres.in/#support-heading");
+
+```
+
 > > Abaixo veja mais um exemplo usando o Body()
 
 ```androiddatabinding

@@ -419,8 +419,6 @@ public class validationResponse {
                                 } else {
                                     Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(lista));
                                 }
-                            } else {
-                                throw new BradescoAssertionException("\n\nO path  " + array + "  não existe no seu JSON, ou o caminho está errado.");
                             }
                         }
 
@@ -439,8 +437,6 @@ public class validationResponse {
                                             Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(lista));
                                         }
                                     }
-                                } else {
-                                    throw new BradescoAssertionException("\n\nO path  " + array + "  não existe no seu JSON, ou o caminho está errado.");
                                 }
 
                             } else if (equals.length > 1) {
@@ -466,7 +462,7 @@ public class validationResponse {
                             throw new BradescoAssertionException("\n\nO método apenas permite 2 valores, o path e o comparativo EQUALS.");
                         }
                     }
-                }else {
+                } else {
                     throw new BradescoAssertionException("\n\nO path  " + array + "  não existe no seu JSON, ou o caminho está errado.");
                 }
             }

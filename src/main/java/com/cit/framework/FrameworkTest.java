@@ -14,9 +14,8 @@ public class FrameworkTest extends CITRestAssured {
         Get(false);
 
         Body()
-//                .mapping("company name")
-                    .mapping("categoryMonthsAvailables > cards > internalBrand")
-//                .newMapping("creditCardNetwork")
+                .mapping("totalSumary > cardsCount", 2)
+                .mapping("categoryMonthsAvailables > cards > internalBrand")
 
         ;
 

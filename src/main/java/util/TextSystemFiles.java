@@ -775,6 +775,29 @@ public class TextSystemFiles {
             "```\n" +
             "***\n" +
             "\n" +
+            ">>Maneira ainda mais simples de validar um campo ou um valor é usando o **mapping**\n" +
+            ">>e passando o caminho da estrutura, usando o   * **>**  *  servirá como caminho para o path.\n" +
+            ">\n" +
+            "> OBS: Validar valores dentro de um Array não é possível, porque eles podem variar, mas, é possível validar se o campo existe.\n" +
+            "```androiddatabinding\n" +
+            "{\n" +
+            "    \"data\": {\n" +
+            "        \"id\": 7,\n" +
+            "        \"email\": \"michael.lawson@reqres.in\",\n" +
+            "        \"first_name\": \"Michael\",\n" +
+            "        \"last_name\": \"Lawson\",\n" +
+            "        \"avatar\": \"https://reqres.in/img/faces/7-image.jpg\"\n" +
+            "    },\n" +
+            "    \"support\": {\n" +
+            "        \"url\": \"https://reqres.in/#support-heading\",\n" +
+            "        \"text\": \"To keep ReqRes free, contributions towards server costs are appreciated!\"\n" +
+            "    }\n" +
+            "}\n" +
+            "        Body().mapping(\"data > id\", 7)\n" +
+            "              .mapping(\"support > url\", \"https://reqres.in/#support-heading\");\n" +
+            "\n" +
+            "```\n" +
+            "\n" +
             "> > Abaixo veja mais um exemplo usando o Body()\n" +
             "\n" +
             "```androiddatabinding\n" +
