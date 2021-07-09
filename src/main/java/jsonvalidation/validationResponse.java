@@ -3,7 +3,6 @@ package jsonvalidation;
 
 import com.bradesco.core.exception.BradescoAssertionException;
 import com.google.gson.Gson;
-import cucumber.api.java.cs.A;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.hamcrest.Matchers;
@@ -12,7 +11,6 @@ import org.json.JSONObject;
 import org.junit.Assert;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -401,7 +399,7 @@ public class validationResponse {
                 jsonObjectValidation = new JSONObject(response.asString());
             }
             String[] arrayList = key.split(" > ");
-            T value = null;
+
             for (String array : arrayList) {
                 array = array.trim();
                 boolean exist = jsonObjectValidation.has(array);
@@ -471,6 +469,69 @@ public class validationResponse {
             throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
                     "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
         }
+        return this;
+    }
+
+    boolean pathRootInit = false;
+    JSONObject jsonPathRoot;
+    JSONArray arrayPathRoot;
+    Object jsonFinal;
+
+    public <T extends Object> validationResponse getArrayValue(String path, T equals) throws BradescoAssertionException {
+
+        if (pathRootInit) {
+
+        } else {
+            throw new BradescoAssertionException("\n\nO getObjectValue apenas pode ser usado com o pathRoot().");
+        }
+
+        return this;
+    }
+
+
+    public <T extends Object> validationResponse pathRoot(String pathRoot) throws BradescoAssertionException {
+        pathRootInit = true;
+        jsonPathRoot = new JSONObject(response.asString());
+        Iterator<?> keys;
+        String nextKeys;
+        boolean exists = jsonPathRoot.has(pathRoot);
+
+        if (bodyStart) {
+            if (!exists) {
+                keys = jsonPathRoot.keys();
+                while (keys.hasNext()) {
+                    nextKeys = (String) keys.next();
+                    try {
+                        if (jsonPathRoot.get(nextKeys) instanceof JSONObject) {
+                            if (!exists) {
+                                jsonPathRoot = jsonPathRoot.getJSONObject(nextKeys);
+                                pathRoot(pathRoot);
+                            }
+                        } else if (jsonPathRoot.get(nextKeys) instanceof JSONArray) {
+                            arrayPathRoot = jsonPathRoot.getJSONArray(nextKeys);
+                            for (int i = 0; i < arrayPathRoot.length(); i++) {
+                                String jsonarrayString = arrayPathRoot.get(i).toString();
+                                JSONObject innerJson = new JSONObject(jsonarrayString);
+
+                                if (!exists) {
+                                    jsonPathRoot = innerJson;
+                                    pathRoot(pathRoot);
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                    }
+                }
+            } else {
+                StringGlobal = jsonPathRoot.get(pathRoot);
+            }
+
+        } else {
+            throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
+                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+        }
+
         return this;
     }
 

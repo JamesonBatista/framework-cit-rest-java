@@ -1,6 +1,15 @@
 package com.cit.framework;
 
+import io.restassured.response.Response;
+import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.util.Map;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 
 public class FrameworkTest extends CITRestAssured {
 
@@ -13,11 +22,33 @@ public class FrameworkTest extends CITRestAssured {
 //        params.put("a", "s");
         Get(false);
 
-        Body()
-                .mapping("totalSumary > cardsCount", 2)
-                .mapping("categoryMonthsAvailables > cards > internalBrand")
+        ResponseBody().body("bradesco.brandName", Matchers.is("BRADESCO"),
+                "bradesco.creditCards.creditCardInfo[0].creditCardNetwork", is("VISA"));
 
-        ;
+        ResponseBody().body("bradesco.creditCards.bills[0].bills[0].billStatus", is("FECHADA"));
+
+        ResponseBody().body("others[0].creditCards.creditCardInfo[1].consentId", is("itauconsentid"));
+
+        ResponseBody().body("others[0].creditCards.bills[0].bills[0].billStatus", is("PAGA"));
+
+        ResponseBody().body("bradescoBlocked.creditCards.bills[0].auditory", is(nullValue()));
+
+        String response = ResponseBody().extract().response().path("categoryMonthsAvailables[0].totalAmount").toString();
+        BigDecimal bigDecimal = new BigDecimal(response);
+        Assert.assertThat(bigDecimal.doubleValue(), is(200000.08));
+
+        ResponseBody().body("categoryMonthsAvailables[0].cards.internalBrand[2]", is("BRADESCO"));
+
+        ResponseBody().body("categoryMonthsAvailables[0].cards.size()", is(3));
+//        Body()
+//                .pathRoot("bradescoBlocked")
+
+//        Map<String, ?> list= StringGlobal;
+
+
+//                .mapping("totalSumary > cardsCount", 2)
+//                .mapping("bradesco > imageName", "bradesco")
+//        ;
 
 
 //        Body()
@@ -34,7 +65,7 @@ public class FrameworkTest extends CITRestAssured {
 //                .newArray("cards", "authorisationServerId")
 //                .get("totalAmount")
 //        ;
-//        System.out.println("Método: " + StringGlobal);
+        System.out.println("Método: " + StringGlobal);
 
 
 //        Assert.assertThat(StringGlobal, Matchers.is(100000.04));
