@@ -765,8 +765,30 @@ String body = "{body que será enviado}";
 }
         Body().mapping("data > id", 7)
               .mapping("support > url", "https://reqres.in/#support-heading");
-
 ```
+>>Validações usando o RestAssured, neste link estará o JSON que foi validado <a href="http://demo0623716.mockable.io/">Acesse aqui</a>
+
+```androiddatabinding
+       ResponseBody().body("bradesco.brandName", Matchers.is("BRADESCO"),
+                "bradesco.creditCards.creditCardInfo[0].creditCardNetwork", is("VISA"));
+
+        ResponseBody().body("bradesco.creditCards.bills[0].bills[0].billStatus", is("FECHADA"));
+
+        ResponseBody().body("others[0].creditCards.creditCardInfo[1].consentId", is("itauconsentid"));
+
+        ResponseBody().body("others[0].creditCards.bills[0].bills[0].billStatus", is("PAGA"));
+
+        ResponseBody().body("bradescoBlocked.creditCards.bills[0].auditory", is(nullValue()));
+
+        String response = ResponseBody().extract().response().path("categoryMonthsAvailables[0].totalAmount").toString();
+        BigDecimal bigDecimal = new BigDecimal(response);
+        Assert.assertThat(bigDecimal.doubleValue(), is(200000.08));
+
+        ResponseBody().body("categoryMonthsAvailables[0].cards.internalBrand[2]", is("BRADESCO"));
+
+        ResponseBody().body("categoryMonthsAvailables[0].cards.size()", is(3));
+```
+
 
 > > Abaixo veja mais um exemplo usando o Body()
 
