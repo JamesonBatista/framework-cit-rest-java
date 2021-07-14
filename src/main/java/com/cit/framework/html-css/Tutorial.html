@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="stylesheet" href="doc/style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://ciandt.com/themes/custom/ciandt_theme/favicon.ico"
+          type="image/vnd.microsoft.icon">
+    <title>CIT Framework</title>
+</head>
+
+<body>
+<div>
+    <h1 style="text-align: center;">
+        <img src="https://ciandt.com/themes/custom/ciandt_theme/logo.svg" alt="logoCIT">
+        Configuração do Framework CI&T
+    </h1>
+</div>
+<hr>
+<p>&#x26A0;<b> Obs: Para baixar o framework CI&T você precisará ter chave M Bradesco.</b>
+    <br>
+    <br>
+</p>
+
+<ol>
+    <li>Primeiro vamos baixar o JAR <a
+            href="https://drive.google.com/drive/u/1/folders/10cRqFVxSy7iGjh5mmsoEbF41x-lt9nQZ">Aqui</a>
+        e coloca-lo dentro da pasta <b>src/java/resources/framework</b>
+    </li>
+    <br>
+    <li>Vamos importar as dependências para o arquivo <b>pom.xml</b>
+        que fica na raíz do seu projeto
+        <a href="doc/dependencias.text">Aqui </a>
+        , ao final faça build do seu projeto.
+    </li>
+    <br>
+    <li>
+        Configurando sua classe <b>RegresstionTest</b>
+        , conforme imagem abaixo, clique para expandir:
+        <p>
+            <a class="lightbox" href="#dog">
+                <img src="doc/regressiontest.png"/>
+            </a>
+        <div class="lightbox-target" id="dog">
+            <img src="doc/regressiontest.png" alt=""/>
+            <a class="lightbox-close" href="#"></a>
+        </div>
+
+        </p>
+    </li>
+
+    <li>Para efetuar validações usando o Framework CI&T aqui está uma lista com vídeos mostando passo a passo
+        <a href="https://drive.google.com/drive/u/1/folders/1JjX186HDmh6i-yPh_yCutPUIKJNLbh5g">VIDEOS</a>
+
+    </li>
+</ol>
+<p>
+<h2>Vamos efetuar validações de exemplo:</h2>
+</p>
+
+<p>Primeiro usando um JSON simples:</p>
+
+
+<pre>
+    <code>
+        {
+            "data": {
+              "id": 7,
+              "email": "michael.lawson@reqres.in",
+              "first_name": "Michael",
+              "last_name": "Lawson",
+              "avatar": "https://reqres.in/img/faces/7-image.jpg"
+            },
+            "support": {
+              "url": "https://reqres.in/#support-heading",
+              "text": "To keep ReqRes free, 
+              contributions towards server costs are appreciated!"
+            }
+          }
+    </code>
+
+    <code>
+        //Validação usando o Rest
+        Get(false)
+                .body("data.id", Matchers.is(7),
+                        "data.email", Matchers.is("michael.lawson@reqres.in"),
+                        "support.url", Matchers.is("https://reqres.in/#support-heading"));
+
+        //Validação usando o framework CI&T
+        Body()
+                .mapping("data > id", 7)
+                .mapping("data > email")
+                .mapping("data > first_name")
+                .mapping("support > text", "To keep ReqRes free, " +
+                        "contributions towards server costs are appreciated!");
+    </code>
+</pre>
+<br>
+<p>
+<h2>Um JSON com complexidades maiores:</h2></p>
+
+<pre>
+    <p>No JSON existem alguns Arrays, que retornam valores diferentes em campos iguals <br>
+usando o framework é possível informar quals possíveis valores a serem validados, como no exemplo abaixo: <br>
+<code style="color: blue;">
+Body().mapping("bradesco > creditCards > bills > bills > billStatus", "billStatus", "FECHADA", "PAGA")
+</code>
+    </p>
+
+    <a href="http://demo0623716.mockable.io/" style="color: black;">LINK do JSON</a>
+
+    <code>
+        //Validação usando o Framework
+        Body()
+                .mapping("totalSumary > cardsCount", 2)
+                .mapping("totalSumary > limitAmount",  0)
+                .mapping("bradesco > brandName")
+                .mapping("totalSumary > cardsCount", "cardsCount", 1, 2)
+                .mapping("bradesco > creditCards > creditCardInfo > creditCardNetwork")
+                .mapping("bradesco > creditCards > bills > bills > billStatus", "billStatus", "FECHADA", "PAGA")
+                .mapping("others > creditCards > creditCardInfo > consentId", "consentId", "itauconsentid", "bancodobrasil02consentid")
+                .mapping("others > creditCards > bills > bills > billStatus", "billStatus", "PAGA", "FECHADA")
+                .mapping("categoryMonthsAvailables > cards > internalBrand", "internalBrand", "OTHERS", "BRADESCO")
+                .mapping("categoryMonthsAvailables > totalAmount", "totalAmount", 200000.08);
+
+
+        //Validação usando o Rest
+        ResponseBody().body("bradesco.brandName", Matchers.is("BRADESCO"),
+                "bradesco.creditCards.creditCardInfo[0].creditCardNetwork", is("VISA"));
+        ResponseBody().body("bradesco.creditCards.bills[0].bills[0].billStatus", is("FECHADA"));
+        ResponseBody().body("others[0].creditCards.creditCardInfo[1].consentId", is("itauconsentid"));
+        ResponseBody().body("others[0].creditCards.bills[0].bills[0].billStatus", is("PAGA"));
+        ResponseBody().body("bradescoBlocked.creditCards.bills[0].auditory", is(nullValue()));
+        String response = ResponseBody().extract().response().path("categoryMonthsAvailables[0].totalAmount").toString();
+        BigDecimal bigDecimal = new BigDecimal(response);
+        Assert.assertThat(bigDecimal.doubleValue(), is(200000.08));
+        ResponseBody().body("categoryMonthsAvailables[0].cards.internalBrand[2]", is("BRADESCO"));
+        ResponseBody().body("categoryMonthsAvailables[0].cards.size()", is(3));
+    </code>
+</pre>
+<div class="video">
+    <div class="dvideo">
+        <p>Validando JSON com o RestAssured JSON complexo</p>
+        <iframe src="https://drive.google.com/file/d/1bM_dvYyxGxi3nuExWf1y38tGr2eAnPZ3/preview" width="340"
+                height="180" allow="autoplay" title="Validação usando o RestAssured"></iframe>
+    </div>
+
+    <div class="dvideo">
+        <p>Validando JSON simpes com o Framework usando uma das formas:</p>
+        <iframe src="https://drive.google.com/file/d/1huFJXvgozgXibs6L2BQA4w0bKFybT8hA/preview" width="340"
+                height="180" allow="autoplay"></iframe>
+    </div>
+
+    <div class="dvideo">
+        <p>Validando JSON complexo com o Framework usando uma da formas:</p>
+        <iframe src="https://drive.google.com/file/d/1k-MyHs2YNo2fUrLHZVZBYQdLontO4BF6/preview" width="340"
+                height="180" allow="autoplay"></iframe>
+    </div>
+
+    <div class="dvideo">
+        <p>Validando JSON Object usando o Framework:</p>
+        <iframe src="https://drive.google.com/file/d/1YwBI5MwYsAgWd8q3u3mtk9Y3vHj9cTse/preview" width="340"
+                height="180" allow="autoplay"></iframe>
+    </div>
+
+    <div class="dvideo">
+        <p>Validando JSON list usando o Framework</p>
+        <iframe src="https://drive.google.com/file/d/1JLEIqq4weHYmPtvjGkUSMsr_lFvoS1JE/preview" width="340"
+                height="180" allow="autoplay"></iframe>
+    </div>
+
+</div>
+</body>
+</html>

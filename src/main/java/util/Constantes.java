@@ -3,7 +3,6 @@ package util;
 import com.bradesco.core.configuration.EnvironmentProperties;
 import com.bradesco.core.exception.BradescoRuntimeException;
 import org.apache.commons.lang3.StringUtils;
-import util.FileProperties.*;
 
 import java.io.IOException;
 
