@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import static com.cit.framework.Exclud.FilesSystem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 
@@ -18,6 +19,7 @@ public class FrameworkTest extends CITRestAssured {
 
     @Test
     public void TestFrame() throws Exception {
+
 //        InitEnvironment("users/7");
 //        InitEnvironment();
         Environment("env2", "users/7");

@@ -997,4 +997,404 @@ public class TextSystemFiles {
             "        </script>\n" +
             "    </body>\n" +
             "</html>";
-}
+
+    public static String HTML_TUTORIAL="<!DOCTYPE html>\n" +
+            "<html lang=\"pt-br\">\n" +
+            "\n" +
+            "<head>\n" +
+            "    <meta charset=\"UTF-8\">\n" +
+            "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n" +
+            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+            "    <link rel=\"shortcut icon\" href=\"https://ciandt.com/themes/custom/ciandt_theme/favicon.ico\"\n" +
+            "          type=\"image/vnd.microsoft.icon\">\n" +
+            "    <title>CIT Framework</title>\n" +
+            "</head>\n" +
+            "\n" +
+            "<body>\n" +
+            "<div>\n" +
+            "    <h1 style=\"text-align: center;\">\n" +
+            "        <img src=\"https://ciandt.com/themes/custom/ciandt_theme/logo.svg\" alt=\"logoCIT\">\n" +
+            "        Configuração do Framework CI&T\n" +
+            "    </h1>\n" +
+            "</div>\n" +
+            "<hr>\n" +
+            "<p>&#x26A0;<b> Obs: Para baixar o framework CI&T você precisará ter chave M Bradesco.</b>\n" +
+            "    <br>\n" +
+            "    <br>\n" +
+            "</p>\n" +
+            "\n" +
+            "<ol>\n" +
+            "    <li>Primeiro vamos baixar o JAR <a\n" +
+            "            href=\"https://drive.google.com/drive/u/1/folders/10cRqFVxSy7iGjh5mmsoEbF41x-lt9nQZ\">Aqui</a>\n" +
+            "        e coloca-lo dentro da pasta <b>src/java/resources/framework</b>\n" +
+            "    </li>\n" +
+            "    <br>\n" +
+            "    <li>Vamos importar as dependências para o arquivo <b>pom.xml</b>\n" +
+            "        que fica na raíz do seu projeto\n" +
+            "        <a href=\"dependencias.text\">Aqui </a>\n" +
+            "        , ao final faça build do seu projeto.\n" +
+            "    </li>\n" +
+            "    <br>\n" +
+            "    <li>\n" +
+            "        Configurando sua classe <b>RegresstionTest</b>\n" +
+            "        , conforme imagem abaixo, clique para expandir:\n" +
+            "        <p>\n" +
+            "            <a class=\"lightbox\" href=\"#dog\">\n" +
+            "                <iframe src=\"https://drive.google.com/file/d/1YryXtNWC8UrAIu1NQtKBK1rTXnoyCzbF/preview\" width=\"640\" height=\"480\" allow=\"autoplay\"></iframe>\n" +
+            "            </a>\n" +
+            "        <div class=\"lightbox-target\" id=\"dog\">\n" +
+            "        <iframe src=\"https://drive.google.com/file/d/1YryXtNWC8UrAIu1NQtKBK1rTXnoyCzbF/preview\" width=\"640\" height=\"480\" allow=\"autoplay\"></iframe>\n" +
+            "            <a class=\"lightbox-close\" href=\"#\"></a>\n" +
+            "        </div>\n" +
+            "\n" +
+            "        </p>\n" +
+            "    </li>\n" +
+            "\n" +
+            "    <li>Para efetuar validações usando o Framework CI&T aqui está uma lista com vídeos mostando passo a passo\n" +
+            "        <a href=\"https://drive.google.com/drive/u/1/folders/1JjX186HDmh6i-yPh_yCutPUIKJNLbh5g\">VIDEOS</a>\n" +
+            "\n" +
+            "    </li>\n" +
+            "</ol>\n" +
+            "<p>\n" +
+            "<h2>Vamos efetuar validações de exemplo:</h2>\n" +
+            "</p>\n" +
+            "\n" +
+            "<p>Primeiro usando um JSON simples:</p>\n" +
+            "\n" +
+            "\n" +
+            "<pre>\n" +
+            "    <code>\n" +
+            "        {\n" +
+            "            \"data\": {\n" +
+            "              \"id\": 7,\n" +
+            "              \"email\": \"michael.lawson@reqres.in\",\n" +
+            "              \"first_name\": \"Michael\",\n" +
+            "              \"last_name\": \"Lawson\",\n" +
+            "              \"avatar\": \"https://reqres.in/img/faces/7-image.jpg\"\n" +
+            "            },\n" +
+            "            \"support\": {\n" +
+            "              \"url\": \"https://reqres.in/#support-heading\",\n" +
+            "              \"text\": \"To keep ReqRes free, \n" +
+            "              contributions towards server costs are appreciated!\"\n" +
+            "            }\n" +
+            "          }\n" +
+            "    </code>\n" +
+            "\n" +
+            "    <code>\n" +
+            "        //Validação usando o Rest\n" +
+            "        Get(false)\n" +
+            "                .body(\"data.id\", Matchers.is(7),\n" +
+            "                        \"data.email\", Matchers.is(\"michael.lawson@reqres.in\"),\n" +
+            "                        \"support.url\", Matchers.is(\"https://reqres.in/#support-heading\"));\n" +
+            "\n" +
+            "        //Validação usando o framework CI&T\n" +
+            "        Body()\n" +
+            "                .mapping(\"data > id\", 7)\n" +
+            "                .mapping(\"data > email\")\n" +
+            "                .mapping(\"data > first_name\")\n" +
+            "                .mapping(\"support > text\", \"To keep ReqRes free, \" +\n" +
+            "                        \"contributions towards server costs are appreciated!\");\n" +
+            "    </code>\n" +
+            "</pre>\n" +
+            "<br>\n" +
+            "<p>\n" +
+            "<h2>Um JSON com complexidades maiores:</h2></p>\n" +
+            "\n" +
+            "<pre>\n" +
+            "    <p>No JSON existem alguns Arrays, que retornam valores diferentes em campos iguals <br>\n" +
+            "usando o framework é possível informar quals possíveis valores a serem validados, como no exemplo abaixo: <br>\n" +
+            "<code style=\"color: blue;\">\n" +
+            "Body().mapping(\"bradesco > creditCards > bills > bills > billStatus\", \"billStatus\", \"FECHADA\", \"PAGA\")\n" +
+            "</code>\n" +
+            "    </p>\n" +
+            "\n" +
+            "    <a href=\"http://demo0623716.mockable.io/\" style=\"color: black;\">LINK do JSON</a>\n" +
+            "\n" +
+            "    <code>\n" +
+            "        //Validação usando o Framework\n" +
+            "        Body()\n" +
+            "                .mapping(\"totalSumary > cardsCount\", 2)\n" +
+            "                .mapping(\"totalSumary > limitAmount\",  0)\n" +
+            "                .mapping(\"bradesco > brandName\")\n" +
+            "                .mapping(\"totalSumary > cardsCount\", \"cardsCount\", 1, 2)\n" +
+            "                .mapping(\"bradesco > creditCards > creditCardInfo > creditCardNetwork\")\n" +
+            "                .mapping(\"bradesco > creditCards > bills > bills > billStatus\", \"billStatus\", \"FECHADA\", \"PAGA\")\n" +
+            "                .mapping(\"others > creditCards > creditCardInfo > consentId\", \"consentId\", \"itauconsentid\", \"bancodobrasil02consentid\")\n" +
+            "                .mapping(\"others > creditCards > bills > bills > billStatus\", \"billStatus\", \"PAGA\", \"FECHADA\")\n" +
+            "                .mapping(\"categoryMonthsAvailables > cards > internalBrand\", \"internalBrand\", \"OTHERS\", \"BRADESCO\")\n" +
+            "                .mapping(\"categoryMonthsAvailables > totalAmount\", \"totalAmount\", 200000.08);\n" +
+            "\n" +
+            "\n" +
+            "        //Validação usando o Rest\n" +
+            "        ResponseBody().body(\"bradesco.brandName\", Matchers.is(\"BRADESCO\"),\n" +
+            "                \"bradesco.creditCards.creditCardInfo[0].creditCardNetwork\", is(\"VISA\"));\n" +
+            "        ResponseBody().body(\"bradesco.creditCards.bills[0].bills[0].billStatus\", is(\"FECHADA\"));\n" +
+            "        ResponseBody().body(\"others[0].creditCards.creditCardInfo[1].consentId\", is(\"itauconsentid\"));\n" +
+            "        ResponseBody().body(\"others[0].creditCards.bills[0].bills[0].billStatus\", is(\"PAGA\"));\n" +
+            "        ResponseBody().body(\"bradescoBlocked.creditCards.bills[0].auditory\", is(nullValue()));\n" +
+            "        String response = ResponseBody().extract().response().path(\"categoryMonthsAvailables[0].totalAmount\").toString();\n" +
+            "        BigDecimal bigDecimal = new BigDecimal(response);\n" +
+            "        Assert.assertThat(bigDecimal.doubleValue(), is(200000.08));\n" +
+            "        ResponseBody().body(\"categoryMonthsAvailables[0].cards.internalBrand[2]\", is(\"BRADESCO\"));\n" +
+            "        ResponseBody().body(\"categoryMonthsAvailables[0].cards.size()\", is(3));\n" +
+            "    </code>\n" +
+            "</pre>\n" +
+            "<div class=\"video\">\n" +
+            "    <div class=\"dvideo\">\n" +
+            "        <p>Validando JSON com o RestAssured JSON complexo</p>\n" +
+            "        <iframe src=\"https://drive.google.com/file/d/1bM_dvYyxGxi3nuExWf1y38tGr2eAnPZ3/preview\" width=\"340\"\n" +
+            "                height=\"180\" allow=\"autoplay\" title=\"Validação usando o RestAssured\"></iframe>\n" +
+            "    </div>\n" +
+            "\n" +
+            "    <div class=\"dvideo\">\n" +
+            "        <p>Validando JSON simpes com o Framework usando uma das formas:</p>\n" +
+            "        <iframe src=\"https://drive.google.com/file/d/1huFJXvgozgXibs6L2BQA4w0bKFybT8hA/preview\" width=\"340\"\n" +
+            "                height=\"180\" allow=\"autoplay\"></iframe>\n" +
+            "    </div>\n" +
+            "\n" +
+            "    <div class=\"dvideo\">\n" +
+            "        <p>Validando JSON complexo com o Framework usando uma da formas:</p>\n" +
+            "        <iframe src=\"https://drive.google.com/file/d/1k-MyHs2YNo2fUrLHZVZBYQdLontO4BF6/preview\" width=\"340\"\n" +
+            "                height=\"180\" allow=\"autoplay\"></iframe>\n" +
+            "    </div>\n" +
+            "\n" +
+            "    <div class=\"dvideo\">\n" +
+            "        <p>Validando JSON Object usando o Framework:</p>\n" +
+            "        <iframe src=\"https://drive.google.com/file/d/1YwBI5MwYsAgWd8q3u3mtk9Y3vHj9cTse/preview\" width=\"340\"\n" +
+            "                height=\"180\" allow=\"autoplay\"></iframe>\n" +
+            "    </div>\n" +
+            "\n" +
+            "    <div class=\"dvideo\">\n" +
+            "        <p>Validando JSON list usando o Framework</p>\n" +
+            "        <iframe src=\"https://drive.google.com/file/d/1JLEIqq4weHYmPtvjGkUSMsr_lFvoS1JE/preview\" width=\"340\"\n" +
+            "                height=\"180\" allow=\"autoplay\"></iframe>\n" +
+            "    </div>\n" +
+            "\n" +
+            "</div>\n" +
+            "</body>\n" +
+            "</html>\n" +
+            "\n" +
+            "<style>\n" +
+            "    html {\n" +
+            "  height: 100% !important;\n" +
+            "  background-image: linear-gradient(\n" +
+            "    rgba(238, 143, 143, 0.911),\n" +
+            "    rgb(236, 236, 172)\n" +
+            "  );\n" +
+            "  background-attachment: fixed;\n" +
+            "  padding-bottom: 20px;\n" +
+            "}\n" +
+            "body {\n" +
+            "  width: 100%;\n" +
+            "  padding: 20px;\n" +
+            "  height: 100%;\n" +
+            "  bottom:20px;\n" +
+            "}\n" +
+            "pre {\n" +
+            "  list-style-type: none;\n" +
+            "  margin: 0;\n" +
+            "  padding: 0;\n" +
+            "  overflow: hidden;\n" +
+            "}\n" +
+            "code {\n" +
+            "  float: left;\n" +
+            "}\n" +
+            "\n" +
+            "b {\n" +
+            "  color: blue;\n" +
+            "}\n" +
+            "\n" +
+            "a {\n" +
+            "  color: #fff;\n" +
+            "}\n" +
+            "\n" +
+            "a.lightbox img {\n" +
+            "  height: 150px;\n" +
+            "  border: 3px solid white;\n" +
+            "  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);\n" +
+            "}\n" +
+            ".dvideo{\n" +
+            "    display: inline-block;\n" +
+            "    *display: inline;\n" +
+            "    zoom: 1;\n" +
+            "    vertical-align: top;\n" +
+            "    font-size: 12px;\n" +
+            "}\n" +
+            "/* Styles the lightbox, removes it from sight and adds the fade-in transition */\n" +
+            "\n" +
+            ".lightbox-target {\n" +
+            "  position: fixed;\n" +
+            "  top: -100%;\n" +
+            "  width: 70%;\n" +
+            "  background: rgba(0, 0, 0, 0.7);\n" +
+            "  width: 70%;\n" +
+            "  opacity: 0;\n" +
+            "  -webkit-transition: opacity 0.5s ease-in-out;\n" +
+            "  -moz-transition: opacity 0.5s ease-in-out;\n" +
+            "  -o-transition: opacity 0.5s ease-in-out;\n" +
+            "  transition: opacity 0.5s ease-in-out;\n" +
+            "  overflow: hidden;\n" +
+            "}\n" +
+            "\n" +
+            "/* Styles the lightbox image, centers it vertically and horizontally, adds the zoom-in transition and makes it responsive using a combination of margin and absolute positioning */\n" +
+            "\n" +
+            ".lightbox-target img {\n" +
+            "  margin: auto;\n" +
+            "  position: absolute;\n" +
+            "  top: 0;\n" +
+            "  left: 0;\n" +
+            "  right: 0;\n" +
+            "  bottom: 0;\n" +
+            "  max-height: 0%;\n" +
+            "  max-width: 0%;\n" +
+            "  border: 3px solid white;\n" +
+            "  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);\n" +
+            "  box-sizing: border-box;\n" +
+            "  -webkit-transition: 0.5s ease-in-out;\n" +
+            "  -moz-transition: 0.5s ease-in-out;\n" +
+            "  -o-transition: 0.5s ease-in-out;\n" +
+            "  transition: 0.5s ease-in-out;\n" +
+            "}\n" +
+            "\n" +
+            "/* Styles the close link, adds the slide down transition */\n" +
+            "\n" +
+            "a.lightbox-close {\n" +
+            "  display: block;\n" +
+            "  width: 50px;\n" +
+            "  height: 50px;\n" +
+            "  box-sizing: border-box;\n" +
+            "  background: white;\n" +
+            "  color: black;\n" +
+            "  text-decoration: none;\n" +
+            "  position: absolute;\n" +
+            "  top: -60px;\n" +
+            "  right: 0;\n" +
+            "  -webkit-transition: 0.5s ease-in-out;\n" +
+            "  -moz-transition: 0.5s ease-in-out;\n" +
+            "  -o-transition: 0.5s ease-in-out;\n" +
+            "  transition: 0.5s ease-in-out;\n" +
+            "}\n" +
+            "\n" +
+            "/* Provides part of the \"X\" to eliminate an image from the close link */\n" +
+            "\n" +
+            "a.lightbox-close:before {\n" +
+            "  content: \"\";\n" +
+            "  display: block;\n" +
+            "  height: 30px;\n" +
+            "  width: 1px;\n" +
+            "  background: black;\n" +
+            "  position: absolute;\n" +
+            "  left: 26px;\n" +
+            "  top: 10px;\n" +
+            "  -webkit-transform: rotate(45deg);\n" +
+            "  -moz-transform: rotate(45deg);\n" +
+            "  -o-transform: rotate(45deg);\n" +
+            "  transform: rotate(45deg);\n" +
+            "}\n" +
+            "\n" +
+            "/* Provides part of the \"X\" to eliminate an image from the close link */\n" +
+            "\n" +
+            "a.lightbox-close:after {\n" +
+            "  content: \"\";\n" +
+            "  display: block;\n" +
+            "  height: 30px;\n" +
+            "  width: 1px;\n" +
+            "  background: black;\n" +
+            "  position: absolute;\n" +
+            "  left: 26px;\n" +
+            "  top: 10px;\n" +
+            "  -webkit-transform: rotate(-45deg);\n" +
+            "  -moz-transform: rotate(-45deg);\n" +
+            "  -o-transform: rotate(-45deg);\n" +
+            "  transform: rotate(-45deg);\n" +
+            "}\n" +
+            "\n" +
+            "/* Uses the :target pseudo-class to perform the animations upon clicking the .lightbox-target anchor */\n" +
+            "\n" +
+            ".lightbox-target:target {\n" +
+            "  opacity: 1;\n" +
+            "  top: 0;\n" +
+            "  bottom: 0;\n" +
+            "  overflow: scroll;\n" +
+            "}\n" +
+            "\n" +
+            ".lightbox-target:target img {\n" +
+            "  max-height: 100%;\n" +
+            "  max-width: 100%;\n" +
+            "}\n" +
+            "\n" +
+            ".lightbox-target:target a.lightbox-close {\n" +
+            "  top: 0;\n" +
+            "}\n" +
+            "\n" +
+            "</style>";
+
+    public static String HTML_DEP="\n" +
+            "    <dependencies>\n" +
+            "        <dependency>\n" +
+            "            <groupId>com.cit.framework</groupId>\n" +
+            "            <artifactId>framework-cit-rest-java</artifactId>\n" +
+            "            <version>3.3</version>\n" +
+            "            <scope>system</scope>\n" +
+            "            <systemPath>${basedir}/src/test/resources/framework/framework-cit-rest-java-3.3.jar</systemPath>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "        <dependency>\n" +
+            "            <groupId>br.com.bradesco.gccs.automacao</groupId>\n" +
+            "            <artifactId>gccs-lib-framework-automacao</artifactId>\n" +
+            "            <version>1.20.0</version>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "        <dependency>\n" +
+            "            <groupId>io.rest-assured</groupId>\n" +
+            "            <artifactId>json-schema-validator</artifactId>\n" +
+            "            <version>4.3.3</version>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "        <dependency>\n" +
+            "            <groupId>io.rest-assured</groupId>\n" +
+            "            <artifactId>json-schema-validator</artifactId>\n" +
+            "            <version>4.3.3</version>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "        <dependency>\n" +
+            "            <groupId>io.rest-assured</groupId>\n" +
+            "            <artifactId>spring-mock-mvc</artifactId>\n" +
+            "            <version>4.3.3</version>\n" +
+            "            <scope>test</scope>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "        <dependency>\n" +
+            "            <groupId>io.rest-assured</groupId>\n" +
+            "            <artifactId>rest-assured</artifactId>\n" +
+            "            <version>4.3.3</version>\n" +
+            "            <scope>compile</scope>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "        <dependency>\n" +
+            "            <groupId>com.nimbusds</groupId>\n" +
+            "            <artifactId>nimbus-jose-jwt</artifactId>\n" +
+            "            <version>9.9.2</version>\n" +
+            "        </dependency>\n" +
+            "        <dependency>\n" +
+            "            <groupId>org.bouncycastle</groupId>\n" +
+            "            <artifactId>bcprov-jdk15on</artifactId>\n" +
+            "            <version>1.68</version>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "        <dependency>\n" +
+            "            <groupId>io.jsonwebtoken</groupId>\n" +
+            "            <artifactId>jjwt</artifactId>\n" +
+            "            <version>0.9.0</version>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "        <dependency>\n" +
+            "            <groupId>org.json</groupId>\n" +
+            "            <artifactId>json</artifactId>\n" +
+            "            <version>20210307</version>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "    </dependencies>\n" +
+            "\n";
+};
+

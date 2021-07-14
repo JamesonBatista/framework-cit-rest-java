@@ -4,6 +4,8 @@ import cucumber.api.java.cs.A;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static util.FileProperties.GetProp;
 import static util.TextSystemFiles.*;
@@ -43,7 +45,21 @@ public class Exclud {
             file = new FileWriter("src/test/resources/FrameworkCIT.md");
             copyFiles(file, framework);
         }
+        search = new File("src/test/resources/Tutorial");
+        if (!search.exists()) {
+            new File("src/test/resources/Tutorial").mkdir();
+            file = new FileWriter("src/test/resources/Tutorial/dependencias.text");
+            copyFiles(file, HTML_DEP);
+        }
+        search = new File("src/test/resources/Tutorial/Tutorial.html");
+        if (!search.exists()) {
+            File files = new File("src/test/resources/Tutorial/Tutorial.html");
+            BufferedWriter bw = new BufferedWriter(new FileWriter(files));
+            bw.write(HTML_TUTORIAL);
+            bw.close();
+        }
     }
+
 
     static void AlertFiles(File files) {
         System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
