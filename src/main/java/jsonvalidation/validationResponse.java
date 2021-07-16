@@ -540,12 +540,10 @@ public class validationResponse {
     JSONArray jsonArray;
     JSONObject jsonObjectValidation = null;
 
-
     public <T extends Object> validationResponse mapping(String key, T... equals) throws BradescoAssertionException {
         if (bodyStart) {
             if (response.asString().startsWith("[")) {
-                jsonArray = new JSONArray(response.asString());
-
+                System.out.println(jsonArray);
                 for (Object list : jsonArray) {
                     jsonObjectValidation = new JSONObject(list.toString());
                 }
@@ -553,12 +551,8 @@ public class validationResponse {
                 jsonObjectValidation = new JSONObject(response.asString());
             }
             String[] arrayList = key.split(" > ");
-            Iterator<String> iterator = Arrays.stream(arrayList).iterator();
-            String nextKeys = new String();
-            Object next;
             for (String array : arrayList) {
                 array = array.trim();
-                next = iterator.next();
                 boolean exist = jsonObjectValidation.has(array);
 
                 if (exist) {
@@ -577,7 +571,6 @@ public class validationResponse {
                                 }
                             }
                         }
-
                     } else if (jsonObjectValidation.get(array) instanceof JSONArray) {
                         jsonArray = jsonObjectValidation.getJSONArray(array);
 
@@ -595,7 +588,6 @@ public class validationResponse {
                                         }
                                     }
                                 }
-
                             } else if (equals.length > 1) {
                                 throw new BradescoAssertionException("\n\nO método apenas permite 2 valores, o path e o comparativo EQUALS.");
                             }
@@ -619,13 +611,11 @@ public class validationResponse {
                         } else if (equals.length > 1) {
                             throw new BradescoAssertionException("\n\nO método apenas permite 2 valores, o path e o comparativo EQUALS.");
                         }
-
                     }
                 } else {
                     throw new BradescoAssertionException("\n\nO path  [ " + array + " ]   não existe no seu JSON, ou o caminho está errado.");
                 }
             }
-
         } else {
             throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
                     "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
@@ -637,7 +627,6 @@ public class validationResponse {
         if (bodyStart) {
             if (response.asString().startsWith("[")) {
                 jsonArray = new JSONArray(response.asString());
-
                 for (Object list : jsonArray) {
                     jsonObjectValidation = new JSONObject(list.toString());
                 }
@@ -664,7 +653,6 @@ public class validationResponse {
                                     Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(equals));
                             }
                         }
-
                     } else if (jsonObjectValidation.get(array) instanceof JSONArray) {
                         jsonArray = jsonObjectValidation.getJSONArray(array);
 
@@ -678,7 +666,6 @@ public class validationResponse {
                                 } else {
                                     Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(equals));
                                 }
-
                             } else {
                                 if (jsonObjectValidation.has(path))
                                     if (jsonObjectValidation.get(path).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
@@ -696,21 +683,22 @@ public class validationResponse {
                             if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
                                     jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
                                 BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
-                                Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(equals));
+                                BigDecimal bigEquals = new BigDecimal(equals.toString());
+                                if (bigDecimal.doubleValue() != bigEquals.doubleValue()) {
+                                    throw new BradescoAssertionException("\n\nO valor " + equals + "  não foi encontrado no path " + path + "\nValor encontra: " + jsonObjectValidation.get(array));
+                                }
                             } else {
-                                Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(equals));
+                                if (!jsonObjectValidation.get(array).equals(equals))
+                                    throw new BradescoAssertionException("\n\nO valor " + equals + "  não foi encontrado no path " + path + "\nValor encontra: " + jsonObjectValidation.get(array));
                             }
                         else {
                             throw new BradescoAssertionException("\n\nO path  " + array + "  não existe no seu JSON, ou o caminho está errado.");
                         }
-
-
                     }
                 } else {
                     throw new BradescoAssertionException("\n\nO path  " + array + "  não existe no seu JSON, ou o caminho está errado.");
                 }
             }
-
         } else {
             throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
                     "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
@@ -850,7 +838,6 @@ public class validationResponse {
                                         if (bigDecimal.doubleValue() != equals2.doubleValue()) {
                                             if (bigDecimal.doubleValue() != equals3.doubleValue())
                                                 throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [" + equals1.doubleValue() + " ] [ " + equals2.doubleValue() + " ]  [" + equals3.doubleValue() + " ]\nValor encontrado no JSON:  " + jsonObjectValidation);
-
                                         }
                                     }
                                 } else {

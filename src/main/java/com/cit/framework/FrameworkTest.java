@@ -4,8 +4,10 @@ import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -22,13 +24,14 @@ public class FrameworkTest extends CITRestAssured {
 
 //        InitEnvironment("users/7");
 //        InitEnvironment();
-        Environment("env2", "users/7");
+        Environment("env3");
 //        body(String path, Matcher<?> matcher, Object... additionalKeyMatcherPairs);
 //        params.put("a", "s");
 
 
         //Validação usando o Rest
-        Get(false)
+        Get(false);
+
 //                .body("data.id", Matchers.is(7),
 //                        "data.email", Matchers.is("michael.lawson@reqres.in"),
 //                        "support.url", Matchers.is("https://reqres.in/#support-heading"));
@@ -45,19 +48,24 @@ public class FrameworkTest extends CITRestAssured {
 //        Body().get("categoryMonthsAvailables")
 //                .contains("brandName").get("brandName")
         ;
-
-        //Validação usando o Framework
 //        Body()
+//                .mapping("id", "id",1, 10)
+//
+//                ;
+//        Validação usando o Framework
+        Body()
 //                .mapping("totalSumary > cardsCount", 2)
 //                .mapping("totalSumary > limitAmount",  0)
 //                .mapping("bradesco > brandName")
 //                .mapping("totalSumary > cardsCount", "cardsCount", 1, 2)
 //                .mapping("bradesco > creditCards > creditCardInfo > creditCardNetwork")
-//                .mapping("bradesco > creditCards > bills > bills > billStatus", "billStatus", "FECHADA", "PAGA")
+                .mapping("bradesco > creditCards > bills > bills > billStatus", "billStatus", "FECHADA", "PAGA");
 //                .mapping("others > creditCards > creditCardInfo > consentId", "consentId", "itauconsentid", "bancodobrasil02consentid")
 //                .mapping("others > creditCards > bills > bills > billStatus", "billStatus", "PAGA", "FECHADA")
 //                .mapping("categoryMonthsAvailables > cards > internalBrand", "internalBrand", "OTHERS", "BRADESCO")
 //                .mapping("categoryMonthsAvailables > totalAmount", "totalAmount", 200000.08);
+
+
 //
 //        //Validação usando o Rest
 //        ResponseBody().body("bradesco.brandName", Matchers.is("BRADESCO"),
@@ -76,22 +84,10 @@ public class FrameworkTest extends CITRestAssured {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
 //       List<Object> response = ResponseBody().extract().jsonPath().getList("bradesco.creditCards.bills[0].bills[0].findAll");
 //        System.out.println(response);
 
 //        ResponseBody().body("bradesco.creditCards.bills[0].bills.billStatus", is("FECHADA"));
-
 
 
 //        Body()

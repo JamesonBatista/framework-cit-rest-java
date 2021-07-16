@@ -24,14 +24,6 @@ Ele irá excluir seus reports antigos a cada execução
 
 ```
 
-```androiddatabinding
-public class RegressionTest {
-    @BeforeClass
-    public static void init() throws IOException, InterruptedException {
-        ExcludReportBradesco();
-    }
-}
-```
 
 ***
 <h6>Seu Postman serve de referência para seu código, no Postman você pode ter:<h6>

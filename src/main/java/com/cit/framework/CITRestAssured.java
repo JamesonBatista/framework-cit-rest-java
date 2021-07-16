@@ -102,7 +102,7 @@ public class CITRestAssured extends validationResponse {
     }
 
     private RequestSpecification Given() throws IOException {
-        Exclud.ExcludReportBradesco();
+
         initReport = true;
         InitReport();
         return given().relaxedHTTPSValidation().filter(new RequestLoggingFilter(requestCapture))
@@ -135,6 +135,7 @@ public class CITRestAssured extends validationResponse {
     }
 
     public void InitEnvironment(String... Endpoint) throws IOException, BradescoAssertionException {
+        Exclud.ExcludReportBradesco();
         RestAssured.reset();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         if (Endpoint.length == 1) {
@@ -153,6 +154,7 @@ public class CITRestAssured extends validationResponse {
     }
 
     public void Environment(String environment, String... Endpoint) throws IOException, BradescoAssertionException {
+        Exclud.ExcludReportBradesco();
         RestAssured.reset();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         if (Endpoint.length == 1) {

@@ -40,11 +40,7 @@ public class Exclud {
             file = new FileWriter("environment/data.properties");
             copyFiles(file, dataProperties);
         }
-        search = new File("src/test/resources/FrameworkCIT.md");
-        if (!search.exists()) {
-            file = new FileWriter("src/test/resources/FrameworkCIT.md");
-            copyFiles(file, framework);
-        }
+
         search = new File("src/test/resources/Tutorial");
         if (!search.exists()) {
             new File("src/test/resources/Tutorial").mkdir();

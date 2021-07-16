@@ -1,26 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.cit.framework</groupId>
-    <artifactId>framework-cit-rest-java</artifactId>
-    <version>3.3</version>
-
-    <properties>
-        <maven.compiler.source>14</maven.compiler.source>
-        <maven.compiler.target>14</maven.compiler.target>
-    </properties>
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub JamesonBatista Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/JamesonBatista/framework-cit-rest-java</url>
-        </repository>
-    </distributionManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>com.cit.framework</groupId>
+            <artifactId>framework-cit-rest-java</artifactId>
+            <version>3.3</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/test/resources/framework/framework-cit-rest-java-3.3.jar</systemPath>
+        </dependency>
+
         <dependency>
             <groupId>br.com.bradesco.gccs.automacao</groupId>
             <artifactId>gccs-lib-framework-automacao</artifactId>
@@ -78,17 +65,3 @@
 
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-</project>

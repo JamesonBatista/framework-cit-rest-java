@@ -1031,7 +1031,7 @@ public class TextSystemFiles {
             "    <br>\n" +
             "    <li>Vamos importar as dependências para o arquivo <b>pom.xml</b>\n" +
             "        que fica na raíz do seu projeto\n" +
-            "        <a href=\"dependencias.text\">Aqui </a>\n" +
+            "        <a href=\"Tutorial/dependencias.text\">Aqui </a>\n" +
             "        , ao final faça build do seu projeto.\n" +
             "    </li>\n" +
             "    <br>\n" +
@@ -1040,12 +1040,10 @@ public class TextSystemFiles {
             "        , conforme imagem abaixo, clique para expandir:\n" +
             "        <p>\n" +
             "            <a class=\"lightbox\" href=\"#dog\">\n" +
-            "                <iframe src=\"https://drive.google.com/file/d/1YryXtNWC8UrAIu1NQtKBK1rTXnoyCzbF/preview\" width=\"640\" height=\"480\" allow=\"autoplay\"></iframe>\n" +
+            "                <a href=\"https://ibb.co/1LLYyhM\"><img src=\"https://i.ibb.co/L88Djbr/regressiontest.png\"\n" +
+            "                                                      alt=\"regressiontest\" border=\"0\"></a>\n" +
             "            </a>\n" +
-            "        <div class=\"lightbox-target\" id=\"dog\">\n" +
-            "        <iframe src=\"https://drive.google.com/file/d/1YryXtNWC8UrAIu1NQtKBK1rTXnoyCzbF/preview\" width=\"640\" height=\"480\" allow=\"autoplay\"></iframe>\n" +
-            "            <a class=\"lightbox-close\" href=\"#\"></a>\n" +
-            "        </div>\n" +
+            "            </div>\n" +
             "\n" +
             "        </p>\n" +
             "    </li>\n" +
@@ -1055,15 +1053,133 @@ public class TextSystemFiles {
             "\n" +
             "    </li>\n" +
             "</ol>\n" +
+            "<hr>\n" +
             "<p>\n" +
-            "<h2>Vamos efetuar validações de exemplo:</h2>\n" +
+            "    </h2>\n" +
             "</p>\n" +
             "\n" +
-            "<p>Primeiro usando um JSON simples:</p>\n" +
-            "\n" +
-            "\n" +
+            "<h2>Como iniciar o GET POST DELETE PUT?</h2>\n" +
+            "<ol>\n" +
+            "    <li>Extenda o framework na classe do seu STEP como abaixo:</li>\n" +
+            "    <li>Chame o método InitEnvironmente(), nele você terá o start do RestAssured com todas as funcionalidades, dentro dele passe o endpoint que você quer.</li>\n" +
+            "</ol>\n" +
             "<pre>\n" +
             "    <code>\n" +
+            "        public class GetUser extends CITRestAssured {\n" +
+            "\n" +
+            "            @Given(\"^que seja feito GET na API \\\"([^\\\"]*)\\\"$\")\n" +
+            "            public void queSejaFeitoGETNaAPI(String endpoint) throws Throwable {\n" +
+            "\n" +
+            "                InitEnvironment(endpoint);\n" +
+            "            }\n" +
+            "\n" +
+            "            @Then(\"^faco get$\")\n" +
+            "            public void facoGet() throws Throwable {\n" +
+            "\n" +
+            "                Get();\n" +
+            "            }\n" +
+            "        }\n" +
+            "    </code>\n" +
+            "</pre>\n" +
+            "<hr>\n" +
+            "<h2>E no caso do endpoint precisar ser passado no get() post() delete() put() e não no InitEnvironment()</h2>\n" +
+            "<pre><code>\n" +
+            "    public class GetUser extends CITRestAssured {\n" +
+            "\n" +
+            "        @Given(\"^que seja feito GET na API \\\"([^\\\"]*)\\\"$\")\n" +
+            "        public void queSejaFeitoGETNaAPI(String endpoint) throws Throwable {\n" +
+            "\n" +
+            "            InitEnvironment();\n" +
+            "        }\n" +
+            "        @Then(\"^faco get$\")\n" +
+            "        public void facoGet() throws Throwable {\n" +
+            "\n" +
+            "            GetEndpoint(\"users/7\");\n" +
+            "        }\n" +
+            "    }\n" +
+            "</code></pre>\n" +
+            "<hr>\n" +
+            "<h2>Método separado <b>GivenExternal();</b></h2>\n" +
+            "<p>Existe um método chamado GivenExternal();</p>\n" +
+            "<p>Para o caso de, você precisar usar uma chamada diferente, com caracteristicas que os métodos existentes não atendam.<br> Em métodos separados, é necessário usar o GivenExternal do framework para que ele use os dados no Report.</p>\n" +
+            "<p>Ao final, chame o ExternalReport(); para que seja gerado.</p>\n" +
+            "<p>Apenas em caso de <mark>DELETES</mark>  dentro do ExternalReporte(); precisa ficar vazio </p>\n" +
+            "<pre><code>\n" +
+            "    Response res = GivenExternal(ContentType.JSON)\n" +
+            "    .when()\n" +
+            "    .get()\n" +
+            "    .then()([[Aqui poeria efetuar validações normalmente. Ex: then().body(\"path\"), is(\"CIT\")]\n" +
+            "    .extract().response();\n" +
+            "ExternalReport(res);\n" +
+            "\n" +
+            "GivenExternal(ContentType.JSON)\n" +
+            "    .when()\n" +
+            "    .delete()\n" +
+            "    .then() ([[Aqui poeria efetuar validações normalmente. Ex: then().body(\"path\"), is(\"CIT\")]])'\n" +
+            "    .extract().response();\n" +
+            "ExternalReport();\n" +
+            "</code></pre>\n" +
+            "<p>Extraindo valor do GivenExternal();</p>\n" +
+            "<pre><code>\n" +
+            "    ValidatableResponse res = GivenExternal(ContentType.JSON)\n" +
+            "    .when()\n" +
+            "    .get()\n" +
+            "    .then();\n" +
+            "String value = res.extract().path(\"path que eu quero\");\n" +
+            "\n" +
+            "## caso precise de report, use as lógicas já descrita.\n" +
+            "ExternalReport(res.extract().response());\n" +
+            "</code></pre>\n" +
+            "<p>Quais dados usar no <b>ExternalReport()</b>?</p>\n" +
+            "<br>\n" +
+            "<p>Gets - Basta enviar o resultado da requisição. Como no exemplo acima.</p>\n" +
+            "<pre><code>\n" +
+            "    @Then(\"^faco get$\")\n" +
+            "    public void facoGet() throws Throwable {\n" +
+            "\n" +
+            "        ValidatableResponse res = GivenExternal(ContentType.JSON)\n" +
+            "                .when().get(\"users/7\").then();\n" +
+            "\n" +
+            "        ExternalReport(res.extract().response());\n" +
+            "    }\n" +
+            "</code></pre>\n" +
+            "<br>\n" +
+            "<p>Posts - você precisa passar primeiro o Body que está sendo enviado, depois o resultado da requisição.</p>\n" +
+            "<pre><code>\n" +
+            "    String body = \"{body que será enviado}\";\n" +
+            "\n" +
+            "  Response res = GivenExternal(ContentType.JSON)\n" +
+            "                .body(body)\n" +
+            "                .when()\n" +
+            "                .post()\n" +
+            "                .then()([[Aqui poderia efetuar validações normalmente. Ex: then().body(\"path\"), is(\"CIT\")]\n" +
+            "                .extract().response();\n" +
+            "             ExternalReport(body, res);\n" +
+            "</code></pre>\n" +
+            "<br>\n" +
+            "<h2>Como ficam métodos <b>ExternalReport()</b> com headers e parâmetros?</h2>\n" +
+            "<pre><code>\n" +
+            "    param.put(\"key\", \"value\");\n" +
+            "    Map<String, Object> header = new new HashMap<>();\n" +
+            "    header.put(\"key\", \"value\");\n" +
+            "\n" +
+            "    Response res = GivenExternal(ContentType.JSON)\n" +
+            "                .headers(header)\n" +
+            "                .queryParams(param)\n" +
+            "                .body(body)\n" +
+            "                .when()\n" +
+            "                .post()\n" +
+            "                .then()([[Aqui poeria efetuar validações normalmente. Ex: then().body(\"path\"), is(\"CIT\")]\n" +
+            "                .extract().response();\n" +
+            "             ExternalReport(body, res);\n" +
+            "</code></pre>\n" +
+            "\n" +
+            "<hr>\n" +
+            "<br>\n" +
+            "<h2>Vamos efetuar validações de exemplo, de preferência use o método <b>Body().mapping()</b> nas suas validações:</h2>\n" +
+            "    <p>Primeiro usando um JSON simples:</p>\n" +
+            "    <pre>\n" +
+            "    <code style=\"font-size:20px\">\n" +
             "        {\n" +
             "            \"data\": {\n" +
             "              \"id\": 7,\n" +
@@ -1074,13 +1190,13 @@ public class TextSystemFiles {
             "            },\n" +
             "            \"support\": {\n" +
             "              \"url\": \"https://reqres.in/#support-heading\",\n" +
-            "              \"text\": \"To keep ReqRes free, \n" +
+            "              \"text\": \"To keep ReqRes free,\n" +
             "              contributions towards server costs are appreciated!\"\n" +
             "            }\n" +
             "          }\n" +
             "    </code>\n" +
             "\n" +
-            "    <code>\n" +
+            "    <code style=\"font-size:20px\">\n" +
             "        //Validação usando o Rest\n" +
             "        Get(false)\n" +
             "                .body(\"data.id\", Matchers.is(7),\n" +
@@ -1096,21 +1212,48 @@ public class TextSystemFiles {
             "                        \"contributions towards server costs are appreciated!\");\n" +
             "    </code>\n" +
             "</pre>\n" +
-            "<br>\n" +
-            "<p>\n" +
-            "<h2>Um JSON com complexidades maiores:</h2></p>\n" +
+            "    <hr>\n" +
+            "    <br>\n" +
+            "    <p style=\"font-size:30px\">Método <b>CONTAINS</b>:</p>\n" +
+            "    <p style=\"font-size:25px\">O método <b>Body().contains()</b> é usado para validar existência de campos no seu\n" +
+            "        JSON<br>\n" +
+            "        independente de onde esses campos estejam. Usando o contains, você pode passar 1 ou mais campos.<br>\n" +
+            "        Obs: O contais NAO valida estrutura do JSON, não valida se o campo existe no determinado caminho<br>\n" +
+            "        valida apenas se existe no seu JSON. <br>\n" +
+            "        EX:\n" +
             "\n" +
-            "<pre>\n" +
-            "    <p>No JSON existem alguns Arrays, que retornam valores diferentes em campos iguals <br>\n" +
-            "usando o framework é possível informar quals possíveis valores a serem validados, como no exemplo abaixo: <br>\n" +
-            "<code style=\"color: blue;\">\n" +
-            "Body().mapping(\"bradesco > creditCards > bills > bills > billStatus\", \"billStatus\", \"FECHADA\", \"PAGA\")\n" +
-            "</code>\n" +
+            "    <pre style=\"font-size:25px\">\n" +
+            "    <code style=\"font-size:20px\">\n" +
+            "        Body().contains(\"id\");\n" +
+            "        Body().contains(\"id\", \"name\", \"lastname\");\n" +
+            "    </code>\n" +
+            "</pre>\n" +
             "    </p>\n" +
+            "    <p style=\"font-size:30px\">Método <b>GET</b>:</p>\n" +
+            "    <p style=\"font-size:25px\">\n" +
+            "        Método <b>Body().get()</b> vai encontrar em todo seu JSON o campo informado, não validando estrutura nem\n" +
+            "        caminho,\n" +
+            "        apenas o valor do Path informado.<br>\n" +
+            "        Método não valida paths dentro de Arrays, isso porque um array pode conter vários objetos com o campo informado\n" +
+            "        e\n" +
+            "        valores diferentes.<br>\n" +
+            "        Mas se o Array tiver apenas um campo com o nome informado, ele mostrará o falor no print, e colocará o valor na\n" +
+            "        variável global <b>StringGlobal</b><br>\n" +
+            "        EX:\n" +
             "\n" +
-            "    <a href=\"http://demo0623716.mockable.io/\" style=\"color: black;\">LINK do JSON</a>\n" +
-            "\n" +
-            "    <code>\n" +
+            "    </p>\n" +
+            "    <pre style=\"font-size:25px\">\n" +
+            "    <code style=\"font-size:20px\">\n" +
+            "        Body().get(\"id\");\n" +
+            "        Assert.assertThat(StringGlobal, Matchers.is(\"Framework de Automação\"));\n" +
+            "    </code>\n" +
+            "</pre>\n" +
+            "    <hr>\n" +
+            "    <h2>Um JSON com complexidades maiores:</h2>\n" +
+            "    <pre>\n" +
+            "    </p>\n" +
+            "        <a href=\"http://demo0623716.mockable.io/\" style=\"color: blue; font-size:16px\">LINK do JSON</a>\n" +
+            "    <code style=\"font-size:20px\">\n" +
             "        //Validação usando o Framework\n" +
             "        Body()\n" +
             "                .mapping(\"totalSumary > cardsCount\", 2)\n" +
@@ -1123,7 +1266,6 @@ public class TextSystemFiles {
             "                .mapping(\"others > creditCards > bills > bills > billStatus\", \"billStatus\", \"PAGA\", \"FECHADA\")\n" +
             "                .mapping(\"categoryMonthsAvailables > cards > internalBrand\", \"internalBrand\", \"OTHERS\", \"BRADESCO\")\n" +
             "                .mapping(\"categoryMonthsAvailables > totalAmount\", \"totalAmount\", 200000.08);\n" +
-            "\n" +
             "\n" +
             "        //Validação usando o Rest\n" +
             "        ResponseBody().body(\"bradesco.brandName\", Matchers.is(\"BRADESCO\"),\n" +
@@ -1139,262 +1281,240 @@ public class TextSystemFiles {
             "        ResponseBody().body(\"categoryMonthsAvailables[0].cards.size()\", is(3));\n" +
             "    </code>\n" +
             "</pre>\n" +
-            "<div class=\"video\">\n" +
-            "    <div class=\"dvideo\">\n" +
-            "        <p>Validando JSON com o RestAssured JSON complexo</p>\n" +
-            "        <iframe src=\"https://drive.google.com/file/d/1bM_dvYyxGxi3nuExWf1y38tGr2eAnPZ3/preview\" width=\"340\"\n" +
-            "                height=\"180\" allow=\"autoplay\" title=\"Validação usando o RestAssured\"></iframe>\n" +
+            "    <hr>\n" +
+            "    <p style=\"font-size:30px\">Detalhes do <b>mapping</b>:</p>\n" +
+            "    <p>\n" +
+            "        O método <b>Body.mapping()</b> vai auxiliar em TODA validação do JSON, seja comparar valores, ou certificar que\n" +
+            "        o\n" +
+            "        Path existe dentro do seu JSON.<br>\n" +
+            "    </p>\n" +
+            "    <pre>\n" +
+            "    <code>\n" +
+            "        Body().mapping(\"totalSumary > cardsCount\", 2);\n" +
+            "    </code>\n" +
+            "</pre>\n" +
+            "    <p>Nesta validação acima o \"totalSumary\" é um objeto dentro do JSON, que contém um path chamado \"cardsCount\"<br>\n" +
+            "        nele, estamos pegando o valor e comparando.<br>\n" +
+            "        O sinal de <b> > </b> representa a entrada dentro da KEY, seja ela Objeto ou Array.\n" +
+            "    </p>\n" +
+            "    <h2>Agora um exemplo com Array:</h2>\n" +
+            "    <pre>\n" +
+            "    <code>\n" +
+            "        Body().mapping(\"bradesco > creditCards > bills > bills > billStatus\", \"billStatus\", \"FECHADA\", \"PAGA\");\n" +
+            "    </code>\n" +
+            "</pre>\n" +
+            "    <p>\n" +
+            "        Aqui temos o objecto \"bradesco\", depois um array \"creditCards\", depois um objeto \"bills\" e outro array \"bills\" e\n" +
+            "        por\n" +
+            "        fim o campo \"billStatus\"<br>\n" +
+            "        Toda essa complexidade para encontrar o Array seria necessário usar o JSONObject e o JSONArray umas duas vezes,\n" +
+            "        isso\n" +
+            "        dentro de uns 4 FOR.<br>\n" +
+            "        Usando o <b>mapping</b>, apenas precisamos informar o caminho até o path, depois passamos o path para o get<br>\n" +
+            "        e nessa parte se torna mais interessante, temos dois valores diferentes, o framework vai buscar se existe um ou\n" +
+            "        outro.<br>\n" +
+            "        Como se trata de um Array o mesmo campo pode vir com valor diferente dependendo do objeto desse Array.<br>\n" +
+            "        Usando o mapping você pode até passar <b>4</b> valores diferentes.\n" +
+            "    </p>\n" +
+            "    <br>\n" +
+            "    <br>\n" +
+            "    <hr>\n" +
+            "    <h2>Vídeo usando o método <b>mapping</b></h2>\n" +
+            "    <div class=\"video\">\n" +
+            "        <div class=\"dvideo\">\n" +
+            "            <iframe src=\"https://drive.google.com/file/d/1YyVMM8XxXzYfeYpF11BAREwkGd0STBcb/preview\" width=\"340\"\n" +
+            "                    height=\"180\" allow=\"autoplay\"></iframe>\n" +
+            "        </div>\n" +
             "    </div>\n" +
+            "    <hr>\n" +
             "\n" +
-            "    <div class=\"dvideo\">\n" +
-            "        <p>Validando JSON simpes com o Framework usando uma das formas:</p>\n" +
-            "        <iframe src=\"https://drive.google.com/file/d/1huFJXvgozgXibs6L2BQA4w0bKFybT8hA/preview\" width=\"340\"\n" +
-            "                height=\"180\" allow=\"autoplay\"></iframe>\n" +
-            "    </div>\n" +
-            "\n" +
-            "    <div class=\"dvideo\">\n" +
-            "        <p>Validando JSON complexo com o Framework usando uma da formas:</p>\n" +
-            "        <iframe src=\"https://drive.google.com/file/d/1k-MyHs2YNo2fUrLHZVZBYQdLontO4BF6/preview\" width=\"340\"\n" +
-            "                height=\"180\" allow=\"autoplay\"></iframe>\n" +
-            "    </div>\n" +
-            "\n" +
-            "    <div class=\"dvideo\">\n" +
-            "        <p>Validando JSON Object usando o Framework:</p>\n" +
-            "        <iframe src=\"https://drive.google.com/file/d/1YwBI5MwYsAgWd8q3u3mtk9Y3vHj9cTse/preview\" width=\"340\"\n" +
-            "                height=\"180\" allow=\"autoplay\"></iframe>\n" +
-            "    </div>\n" +
-            "\n" +
-            "    <div class=\"dvideo\">\n" +
-            "        <p>Validando JSON list usando o Framework</p>\n" +
-            "        <iframe src=\"https://drive.google.com/file/d/1JLEIqq4weHYmPtvjGkUSMsr_lFvoS1JE/preview\" width=\"340\"\n" +
-            "                height=\"180\" allow=\"autoplay\"></iframe>\n" +
-            "    </div>\n" +
-            "\n" +
-            "</div>\n" +
             "</body>\n" +
+            "<br>\n" +
+            "<footer>\n" +
+            "\n" +
+            "</footer>\n" +
+            "\n" +
             "</html>\n" +
             "\n" +
             "<style>\n" +
+            "    footer {\n" +
+            "        margin-bottom: 40px\n" +
+            "    }\n" +
+            "\n" +
+            "    textvideo {\n" +
+            "        font-size: 20px\n" +
+            "    }\n" +
+            "\n" +
+            "    code {\n" +
+            "        font-size: 20px\n" +
+            "    }\n" +
+            "\n" +
+            "    p {\n" +
+            "        font-size: 25px\n" +
+            "    }\n" +
+            "\n" +
+            "    li {\n" +
+            "        font-size: 20px\n" +
+            "    }\n" +
+            "\n" +
             "    html {\n" +
-            "  height: 100% !important;\n" +
-            "  background-image: linear-gradient(\n" +
-            "    rgba(238, 143, 143, 0.911),\n" +
-            "    rgb(236, 236, 172)\n" +
-            "  );\n" +
-            "  background-attachment: fixed;\n" +
-            "  padding-bottom: 20px;\n" +
-            "}\n" +
-            "body {\n" +
-            "  width: 100%;\n" +
-            "  padding: 20px;\n" +
-            "  height: 100%;\n" +
-            "  bottom:20px;\n" +
-            "}\n" +
-            "pre {\n" +
-            "  list-style-type: none;\n" +
-            "  margin: 0;\n" +
-            "  padding: 0;\n" +
-            "  overflow: hidden;\n" +
-            "}\n" +
-            "code {\n" +
-            "  float: left;\n" +
-            "}\n" +
+            "        height: 100% !important;\n" +
+            "        background-image: linear-gradient(to left bottom, #ffffff, #faf8fb,\n" +
+            "         #f6f1f5, #f3e9ee, #f1e2e6, #e8d8da, #dfcdcf, #d6c3c3, #c5b4b4, #b5a5a5, #a59696, #958888);\n" +
+            "        background-attachment: fixed;\n" +
+            "        padding-bottom: 20px;\n" +
+            "        overflow-x: hidden;\n" +
+            "    }\n" +
             "\n" +
-            "b {\n" +
-            "  color: blue;\n" +
-            "}\n" +
+            "    body {\n" +
+            "        width: 100%;\n" +
+            "        padding: 20px;\n" +
+            "        height: 100%;\n" +
+            "        bottom: 20px;\n" +
             "\n" +
-            "a {\n" +
-            "  color: #fff;\n" +
-            "}\n" +
+            "    }\n" +
             "\n" +
-            "a.lightbox img {\n" +
-            "  height: 150px;\n" +
-            "  border: 3px solid white;\n" +
-            "  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);\n" +
-            "}\n" +
-            ".dvideo{\n" +
-            "    display: inline-block;\n" +
-            "    *display: inline;\n" +
-            "    zoom: 1;\n" +
-            "    vertical-align: top;\n" +
-            "    font-size: 12px;\n" +
-            "}\n" +
-            "/* Styles the lightbox, removes it from sight and adds the fade-in transition */\n" +
+            "    pre {\n" +
+            "        list-style-type: none;\n" +
+            "        margin: 0;\n" +
+            "        padding: 0;\n" +
+            "        overflow: hidden;\n" +
+            "    }\n" +
             "\n" +
-            ".lightbox-target {\n" +
-            "  position: fixed;\n" +
-            "  top: -100%;\n" +
-            "  width: 70%;\n" +
-            "  background: rgba(0, 0, 0, 0.7);\n" +
-            "  width: 70%;\n" +
-            "  opacity: 0;\n" +
-            "  -webkit-transition: opacity 0.5s ease-in-out;\n" +
-            "  -moz-transition: opacity 0.5s ease-in-out;\n" +
-            "  -o-transition: opacity 0.5s ease-in-out;\n" +
-            "  transition: opacity 0.5s ease-in-out;\n" +
-            "  overflow: hidden;\n" +
-            "}\n" +
+            "    code {\n" +
+            "        float: left;\n" +
+            "        opacity: 0.5;\n" +
+            "    }\n" +
             "\n" +
-            "/* Styles the lightbox image, centers it vertically and horizontally, adds the zoom-in transition and makes it responsive using a combination of margin and absolute positioning */\n" +
+            "    b {\n" +
+            "        color: blue;\n" +
+            "    }\n" +
             "\n" +
-            ".lightbox-target img {\n" +
-            "  margin: auto;\n" +
-            "  position: absolute;\n" +
-            "  top: 0;\n" +
-            "  left: 0;\n" +
-            "  right: 0;\n" +
-            "  bottom: 0;\n" +
-            "  max-height: 0%;\n" +
-            "  max-width: 0%;\n" +
-            "  border: 3px solid white;\n" +
-            "  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);\n" +
-            "  box-sizing: border-box;\n" +
-            "  -webkit-transition: 0.5s ease-in-out;\n" +
-            "  -moz-transition: 0.5s ease-in-out;\n" +
-            "  -o-transition: 0.5s ease-in-out;\n" +
-            "  transition: 0.5s ease-in-out;\n" +
-            "}\n" +
+            "    a {\n" +
+            "        color: #fff;\n" +
+            "    }\n" +
             "\n" +
-            "/* Styles the close link, adds the slide down transition */\n" +
+            "    a.lightbox img {\n" +
+            "        height: 150px;\n" +
+            "        border: 3px solid white;\n" +
+            "        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);\n" +
+            "    }\n" +
             "\n" +
-            "a.lightbox-close {\n" +
-            "  display: block;\n" +
-            "  width: 50px;\n" +
-            "  height: 50px;\n" +
-            "  box-sizing: border-box;\n" +
-            "  background: white;\n" +
-            "  color: black;\n" +
-            "  text-decoration: none;\n" +
-            "  position: absolute;\n" +
-            "  top: -60px;\n" +
-            "  right: 0;\n" +
-            "  -webkit-transition: 0.5s ease-in-out;\n" +
-            "  -moz-transition: 0.5s ease-in-out;\n" +
-            "  -o-transition: 0.5s ease-in-out;\n" +
-            "  transition: 0.5s ease-in-out;\n" +
-            "}\n" +
+            "    .dvideo {\n" +
+            "        display: inline-block;\n" +
+            "        *display: inline;\n" +
+            "        zoom: 1;\n" +
+            "        vertical-align: top;\n" +
+            "        font-size: 20px;\n" +
+            "        margin: 0px 0px 10px 10px\n" +
+            "    }\n" +
             "\n" +
-            "/* Provides part of the \"X\" to eliminate an image from the close link */\n" +
+            "    /* Styles the lightbox, removes it from sight and adds the fade-in transition */\n" +
             "\n" +
-            "a.lightbox-close:before {\n" +
-            "  content: \"\";\n" +
-            "  display: block;\n" +
-            "  height: 30px;\n" +
-            "  width: 1px;\n" +
-            "  background: black;\n" +
-            "  position: absolute;\n" +
-            "  left: 26px;\n" +
-            "  top: 10px;\n" +
-            "  -webkit-transform: rotate(45deg);\n" +
-            "  -moz-transform: rotate(45deg);\n" +
-            "  -o-transform: rotate(45deg);\n" +
-            "  transform: rotate(45deg);\n" +
-            "}\n" +
+            "    .lightbox-target {\n" +
+            "        position: fixed;\n" +
+            "        top: -100%;\n" +
+            "        width: 70%;\n" +
+            "        background: rgba(0, 0, 0, 0.7);\n" +
+            "        width: 70%;\n" +
+            "        opacity: 0;\n" +
+            "        -webkit-transition: opacity 0.5s ease-in-out;\n" +
+            "        -moz-transition: opacity 0.5s ease-in-out;\n" +
+            "        -o-transition: opacity 0.5s ease-in-out;\n" +
+            "        transition: opacity 0.5s ease-in-out;\n" +
+            "        overflow: hidden;\n" +
+            "    }\n" +
             "\n" +
-            "/* Provides part of the \"X\" to eliminate an image from the close link */\n" +
+            "    /* Styles the lightbox image, centers it vertically and horizontally, adds the zoom-in transition and makes it responsive using a combination of margin and absolute positioning */\n" +
             "\n" +
-            "a.lightbox-close:after {\n" +
-            "  content: \"\";\n" +
-            "  display: block;\n" +
-            "  height: 30px;\n" +
-            "  width: 1px;\n" +
-            "  background: black;\n" +
-            "  position: absolute;\n" +
-            "  left: 26px;\n" +
-            "  top: 10px;\n" +
-            "  -webkit-transform: rotate(-45deg);\n" +
-            "  -moz-transform: rotate(-45deg);\n" +
-            "  -o-transform: rotate(-45deg);\n" +
-            "  transform: rotate(-45deg);\n" +
-            "}\n" +
+            "    .lightbox-target img {\n" +
+            "        margin: auto;\n" +
+            "        position: absolute;\n" +
+            "        top: 0;\n" +
+            "        left: 0;\n" +
+            "        right: 0;\n" +
+            "        bottom: 0;\n" +
+            "        max-height: 0%;\n" +
+            "        max-width: 0%;\n" +
+            "        border: 3px solid white;\n" +
+            "        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);\n" +
+            "        box-sizing: border-box;\n" +
+            "        -webkit-transition: 0.5s ease-in-out;\n" +
+            "        -moz-transition: 0.5s ease-in-out;\n" +
+            "        -o-transition: 0.5s ease-in-out;\n" +
+            "        transition: 0.5s ease-in-out;\n" +
+            "    }\n" +
             "\n" +
-            "/* Uses the :target pseudo-class to perform the animations upon clicking the .lightbox-target anchor */\n" +
+            "    /* Styles the close link, adds the slide down transition */\n" +
             "\n" +
-            ".lightbox-target:target {\n" +
-            "  opacity: 1;\n" +
-            "  top: 0;\n" +
-            "  bottom: 0;\n" +
-            "  overflow: scroll;\n" +
-            "}\n" +
+            "    a.lightbox-close {\n" +
+            "        display: block;\n" +
+            "        width: 50px;\n" +
+            "        height: 50px;\n" +
+            "        box-sizing: border-box;\n" +
+            "        background: white;\n" +
+            "        color: black;\n" +
+            "        text-decoration: none;\n" +
+            "        position: absolute;\n" +
+            "        top: -60px;\n" +
+            "        right: 0;\n" +
+            "        -webkit-transition: 0.5s ease-in-out;\n" +
+            "        -moz-transition: 0.5s ease-in-out;\n" +
+            "        -o-transition: 0.5s ease-in-out;\n" +
+            "        transition: 0.5s ease-in-out;\n" +
+            "    }\n" +
             "\n" +
-            ".lightbox-target:target img {\n" +
-            "  max-height: 100%;\n" +
-            "  max-width: 100%;\n" +
-            "}\n" +
+            "    /* Provides part of the \"X\" to eliminate an image from the close link */\n" +
             "\n" +
-            ".lightbox-target:target a.lightbox-close {\n" +
-            "  top: 0;\n" +
-            "}\n" +
+            "    a.lightbox-close:before {\n" +
+            "        content: \"\";\n" +
+            "        display: block;\n" +
+            "        height: 30px;\n" +
+            "        width: 1px;\n" +
+            "        background: black;\n" +
+            "        position: absolute;\n" +
+            "        left: 26px;\n" +
+            "        top: 10px;\n" +
+            "        -webkit-transform: rotate(45deg);\n" +
+            "        -moz-transform: rotate(45deg);\n" +
+            "        -o-transform: rotate(45deg);\n" +
+            "        transform: rotate(45deg);\n" +
+            "    }\n" +
             "\n" +
+            "    /* Provides part of the \"X\" to eliminate an image from the close link */\n" +
+            "\n" +
+            "    a.lightbox-close:after {\n" +
+            "        content: \"\";\n" +
+            "        display: block;\n" +
+            "        height: 30px;\n" +
+            "        width: 1px;\n" +
+            "        background: black;\n" +
+            "        position: absolute;\n" +
+            "        left: 26px;\n" +
+            "        top: 10px;\n" +
+            "        -webkit-transform: rotate(-45deg);\n" +
+            "        -moz-transform: rotate(-45deg);\n" +
+            "        -o-transform: rotate(-45deg);\n" +
+            "        transform: rotate(-45deg);\n" +
+            "    }\n" +
+            "\n" +
+            "    /* Uses the :target pseudo-class to perform the animations upon clicking the .lightbox-target anchor */\n" +
+            "\n" +
+            "    .lightbox-target:target {\n" +
+            "        opacity: 1;\n" +
+            "        top: 0;\n" +
+            "        bottom: 0;\n" +
+            "        overflow: scroll;\n" +
+            "    }\n" +
+            "\n" +
+            "    .lightbox-target:target img {\n" +
+            "        max-height: 100%;\n" +
+            "        max-width: 100%;\n" +
+            "    }\n" +
+            "\n" +
+            "    .lightbox-target:target a.lightbox-close {\n" +
+            "        top: 0;\n" +
+            "    }\n" +
             "</style>";
-
-    public static String HTML_DEP="\n" +
-            "    <dependencies>\n" +
-            "        <dependency>\n" +
-            "            <groupId>com.cit.framework</groupId>\n" +
-            "            <artifactId>framework-cit-rest-java</artifactId>\n" +
-            "            <version>3.3</version>\n" +
-            "            <scope>system</scope>\n" +
-            "            <systemPath>${basedir}/src/test/resources/framework/framework-cit-rest-java-3.3.jar</systemPath>\n" +
-            "        </dependency>\n" +
-            "\n" +
-            "        <dependency>\n" +
-            "            <groupId>br.com.bradesco.gccs.automacao</groupId>\n" +
-            "            <artifactId>gccs-lib-framework-automacao</artifactId>\n" +
-            "            <version>1.20.0</version>\n" +
-            "        </dependency>\n" +
-            "\n" +
-            "        <dependency>\n" +
-            "            <groupId>io.rest-assured</groupId>\n" +
-            "            <artifactId>json-schema-validator</artifactId>\n" +
-            "            <version>4.3.3</version>\n" +
-            "        </dependency>\n" +
-            "\n" +
-            "        <dependency>\n" +
-            "            <groupId>io.rest-assured</groupId>\n" +
-            "            <artifactId>json-schema-validator</artifactId>\n" +
-            "            <version>4.3.3</version>\n" +
-            "        </dependency>\n" +
-            "\n" +
-            "        <dependency>\n" +
-            "            <groupId>io.rest-assured</groupId>\n" +
-            "            <artifactId>spring-mock-mvc</artifactId>\n" +
-            "            <version>4.3.3</version>\n" +
-            "            <scope>test</scope>\n" +
-            "        </dependency>\n" +
-            "\n" +
-            "        <dependency>\n" +
-            "            <groupId>io.rest-assured</groupId>\n" +
-            "            <artifactId>rest-assured</artifactId>\n" +
-            "            <version>4.3.3</version>\n" +
-            "            <scope>compile</scope>\n" +
-            "        </dependency>\n" +
-            "\n" +
-            "        <dependency>\n" +
-            "            <groupId>com.nimbusds</groupId>\n" +
-            "            <artifactId>nimbus-jose-jwt</artifactId>\n" +
-            "            <version>9.9.2</version>\n" +
-            "        </dependency>\n" +
-            "        <dependency>\n" +
-            "            <groupId>org.bouncycastle</groupId>\n" +
-            "            <artifactId>bcprov-jdk15on</artifactId>\n" +
-            "            <version>1.68</version>\n" +
-            "        </dependency>\n" +
-            "\n" +
-            "        <dependency>\n" +
-            "            <groupId>io.jsonwebtoken</groupId>\n" +
-            "            <artifactId>jjwt</artifactId>\n" +
-            "            <version>0.9.0</version>\n" +
-            "        </dependency>\n" +
-            "\n" +
-            "        <dependency>\n" +
-            "            <groupId>org.json</groupId>\n" +
-            "            <artifactId>json</artifactId>\n" +
-            "            <version>20210307</version>\n" +
-            "        </dependency>\n" +
-            "\n" +
-            "    </dependencies>\n" +
-            "\n";
 };
 
