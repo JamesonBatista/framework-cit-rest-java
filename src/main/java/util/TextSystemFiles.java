@@ -1516,5 +1516,73 @@ public class TextSystemFiles {
             "        top: 0;\n" +
             "    }\n" +
             "</style>";
+
+    public static String HTML_DEP="\n" +
+            "    <dependencies>\n" +
+            "        <dependency>\n" +
+            "            <groupId>com.cit.framework</groupId>\n" +
+            "            <artifactId>framework-cit-rest-java</artifactId>\n" +
+            "            <version>3.3</version>\n" +
+            "            <scope>system</scope>\n" +
+            "            <systemPath>${basedir}/src/test/resources/framework/framework-cit-rest-java-3.3.jar</systemPath>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "        <dependency>\n" +
+            "            <groupId>br.com.bradesco.gccs.automacao</groupId>\n" +
+            "            <artifactId>gccs-lib-framework-automacao</artifactId>\n" +
+            "            <version>1.20.0</version>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "        <dependency>\n" +
+            "            <groupId>io.rest-assured</groupId>\n" +
+            "            <artifactId>json-schema-validator</artifactId>\n" +
+            "            <version>4.3.3</version>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "        <dependency>\n" +
+            "            <groupId>io.rest-assured</groupId>\n" +
+            "            <artifactId>json-schema-validator</artifactId>\n" +
+            "            <version>4.3.3</version>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "        <dependency>\n" +
+            "            <groupId>io.rest-assured</groupId>\n" +
+            "            <artifactId>spring-mock-mvc</artifactId>\n" +
+            "            <version>4.3.3</version>\n" +
+            "            <scope>test</scope>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "        <dependency>\n" +
+            "            <groupId>io.rest-assured</groupId>\n" +
+            "            <artifactId>rest-assured</artifactId>\n" +
+            "            <version>4.3.3</version>\n" +
+            "            <scope>compile</scope>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "        <dependency>\n" +
+            "            <groupId>com.nimbusds</groupId>\n" +
+            "            <artifactId>nimbus-jose-jwt</artifactId>\n" +
+            "            <version>9.9.2</version>\n" +
+            "        </dependency>\n" +
+            "        <dependency>\n" +
+            "            <groupId>org.bouncycastle</groupId>\n" +
+            "            <artifactId>bcprov-jdk15on</artifactId>\n" +
+            "            <version>1.68</version>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "        <dependency>\n" +
+            "            <groupId>io.jsonwebtoken</groupId>\n" +
+            "            <artifactId>jjwt</artifactId>\n" +
+            "            <version>0.9.0</version>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "        <dependency>\n" +
+            "            <groupId>org.json</groupId>\n" +
+            "            <artifactId>json</artifactId>\n" +
+            "            <version>20210307</version>\n" +
+            "        </dependency>\n" +
+            "\n" +
+            "    </dependencies>\n" +
+            "\n";
 };
 
