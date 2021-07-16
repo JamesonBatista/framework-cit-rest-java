@@ -1031,7 +1031,7 @@ public class TextSystemFiles {
             "    <br>\n" +
             "    <li>Vamos importar as dependências para o arquivo <b>pom.xml</b>\n" +
             "        que fica na raíz do seu projeto\n" +
-            "        <a href=\"Tutorial/dependencias.text\">Aqui </a>\n" +
+            "        <a href=\"dependencias.text\">Aqui </a>\n" +
             "        , ao final faça build do seu projeto.\n" +
             "    </li>\n" +
             "    <br>\n" +
