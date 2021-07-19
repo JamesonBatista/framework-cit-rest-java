@@ -1,11 +1,6 @@
 package com.cit.framework;
 
-import cucumber.api.java.cs.A;
-
 import java.io.*;
-import java.nio.channels.FileChannel;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static util.FileProperties.GetProp;
 import static util.TextSystemFiles.*;
@@ -40,7 +35,6 @@ public class Exclud {
             file = new FileWriter("environment/data.properties");
             copyFiles(file, dataProperties);
         }
-
         search = new File("src/test/resources/Tutorial");
         if (!search.exists()) {
             new File("src/test/resources/Tutorial").mkdir();
@@ -54,8 +48,13 @@ public class Exclud {
             bw.write(HTML_TUTORIAL);
             bw.close();
         }
-    }
+        search = new File("src/test/resources/Tutorial/settings.xml");
+        if (!search.exists()) {
+            file = new FileWriter("src/test/resources/Tutorial/settings.xml");
+            copyFiles(file, settings_XML);
+        }
 
+    }
 
     static void AlertFiles(File files) {
         System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");

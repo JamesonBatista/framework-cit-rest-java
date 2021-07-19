@@ -1,0 +1,50 @@
+<settings>
+    <mirrors>
+        <mirror>
+            <id>central</id>
+            <mirrorOf>central</mirrorOf>
+            <name>Central Repository</name>
+            <url>https://nexusrepository.bradesco.com.br:8443/repository/centrodecertificacaodesistemas-maven-central/
+            </url>
+        </mirror>
+        <mirror>
+            <id>central-no-ssl</id>
+            <name>Central without ssl</name>
+            <url>http://repo.maven.apache.org/maven2</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+    </mirrors>
+    <servers>
+        <server>
+            <id>central</id>
+             <username>USER</username>
+             <password>SENHA</password>
+        </server>
+        <server>
+            <id>centrodecertificacaodesistemas</id>
+            <username>USER</username>
+            <password>SENHA</password>
+            <configuration>
+                <timeout>600000</timeout> <!-- 5 seconds -->
+            </configuration>
+        </server>
+    </servers>
+    <profiles>
+        <profile>
+            <id>properties</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <repository.base>https://nexusrepository.bradesco.com.br:8443/repository/
+                </repository.base>
+                <repository.maven.central>-maven-central/</repository.maven.central>
+                <repository.maven.snapshot>-maven-snapshot/
+                </repository.maven.snapshot>
+                <repository.maven.release>-maven-release/</repository.maven.release>
+                <repository_domain_name>centrodecertificacaodesistemas</repository_domain_name>
+                <bamboo_inject_dominio>centrodecertificacaodesistemas</bamboo_inject_dominio>
+            </properties>
+        </profile>
+    </profiles>
+</settings>  

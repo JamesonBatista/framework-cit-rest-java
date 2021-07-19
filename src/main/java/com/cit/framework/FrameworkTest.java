@@ -31,6 +31,9 @@ public class FrameworkTest extends CITRestAssured {
 
         //Validação usando o Rest
         Get(false);
+//        Body()
+//                .mapping("data > users > form > info > information > dataInfo > enterpriseInfo > enterpriseData > enterpriseBody >" +
+//                        " enterpriseBodyUser > enterPrime > enterPrime > enterRise > nameEnterprise", "CI&T");
 
 //                .body("data.id", Matchers.is(7),
 //                        "data.email", Matchers.is("michael.lawson@reqres.in"),
@@ -45,26 +48,29 @@ public class FrameworkTest extends CITRestAssured {
 //                        "contributions towards server costs are appreciated!");
 
 
-//        Body().get("categoryMonthsAvailables")
+//        Body()
 //                .contains("brandName").get("brandName")
-        ;
+//        ;
 //        Body()
 //                .mapping("id", "id",1, 10)
 //
 //                ;
 //        Validação usando o Framework
-        Body()
+//        Body()
 //                .mapping("totalSumary > cardsCount", 2)
-//                .mapping("totalSumary > limitAmount",  0)
+//                .mapping("totalSumary > limitAmount", 0)
 //                .mapping("bradesco > brandName")
 //                .mapping("totalSumary > cardsCount", "cardsCount", 1, 2)
-//                .mapping("bradesco > creditCards > creditCardInfo > creditCardNetwork")
-                .mapping("bradesco > creditCards > bills > bills > billStatus", "billStatus", "FECHADA", "PAGA");
+//                .mapping("bradesco > creditCards > creditCardInfo > creditCardNetwork", "VISA")
+//                .mapping("bradesco > creditCards > bills > bills > billStatus", "billStatus", "FECHADA", "PAGA")
+//                .mapping("bradesco > creditCards > bills > bills > automaticPayment", false)
+//                .mapping("others > creditCards > bills > bills > automaticPayment", false)
+//                .mapping("lastUpdateDateTime", "2021-07-06T11:46:22.227421Z")
 //                .mapping("others > creditCards > creditCardInfo > consentId", "consentId", "itauconsentid", "bancodobrasil02consentid")
 //                .mapping("others > creditCards > bills > bills > billStatus", "billStatus", "PAGA", "FECHADA")
 //                .mapping("categoryMonthsAvailables > cards > internalBrand", "internalBrand", "OTHERS", "BRADESCO")
 //                .mapping("categoryMonthsAvailables > totalAmount", "totalAmount", 200000.08);
-
+        ;
 
 //
 //        //Validação usando o Rest

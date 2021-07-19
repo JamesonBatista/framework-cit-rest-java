@@ -366,7 +366,6 @@ public class validationResponse {
                                 if (!StringGlobal.equals(equalsTo)) {
                                     if (!StringGlobal.equals(toEquals))
                                         throw new BradescoAssertionException("\n\nValor informado: [ " + equals + " ]  [ " + equalsTo + " ]  [ " + toEquals + " ]  \nValor encontrado: " + StringGlobal);
-
                                 }
                             }
                             System.out.println("Valor atribuído a StringGlobal: " + StringGlobal);
@@ -388,7 +387,6 @@ public class validationResponse {
             }
         } else {
             throw new BradescoAssertionException("\n\nO método get() só pode ser usado depois do contains \nEx: Body().contains('id').get('id')");
-
         }
         if (!verify) {
             throw new BradescoAssertionException("\n\nO valor 《《 " + key + " 》》 não foi encontrado no seu JSON");
@@ -396,7 +394,7 @@ public class validationResponse {
         if (ReplaceJson()[y].trim().startsWith("[") || ReplaceJson()[y].trim().startsWith("{")) {
 
         } else {
-            System.out.println("Caso precise fazer um Assert, use da seguinte forma:  Assert.assertThat(StringGlobal, Matchers.is('CI&T'))");
+            System.out.println("Caso precise fazer um Assert, use da seguinte forma:  Assert.assertThat(StringGlobal, Matchers.is('CI&T'))\n\nou Body().get('name', 'CI&T')");
         }
         return this;
     }

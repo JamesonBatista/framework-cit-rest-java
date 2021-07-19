@@ -18,21 +18,41 @@
     </h1>
 </div>
 <hr>
-<p>&#x26A0;<b> Obs: Para baixar o framework CI&T você precisará ter chave M Bradesco.</b>
+<p> &#x26A0;<b> Obs: Para baixar o framework CI&T você precisará ter chave M Bradesco.</b>
     <br>
     <br>
 </p>
 
 <ol>
-    <li>Primeiro vamos baixar o JAR <a
-            href="https://drive.google.com/drive/u/1/folders/10cRqFVxSy7iGjh5mmsoEbF41x-lt9nQZ">Aqui</a>
-        e coloca-lo dentro da pasta <b>src/java/resources/framework</b>
+    <li>Primeiro vamos baixar o JAR &nbsp;&nbsp;&nbsp;&nbsp;<a
+            href="https://drive.google.com/drive/u/1/folders/10cRqFVxSy7iGjh5mmsoEbF41x-lt9nQZ">Aqui</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        e coloca-lo dentro da pasta <b>src/test/java/resources/framework</b>
     </li>
     <br>
-    <li>Vamos importar as dependências para o arquivo <b>pom.xml</b>
-        que fica na raíz do seu projeto
+    <li>Crie um arquivo <b>settings.xml</b> dentro da sua pasta oculta <b>.m2</b> que fica dentro no seu usuário local
+    </li>
+    <br>
+    <li>Copie as configurações desse link, e altere os dois campos
+        <mark>USERNAME PASSWORD</mark>
+        com sua chaveM e senha.  &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="settings.xml">Aqui </a>
+
+    </li>
+    <br>
+    <li>Importe as dependências para o arquivo <b>pom.xml</b>
+        que fica na raíz do seu projeto.&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="dependencias.text">Aqui </a>
-        , ao final faça build do seu projeto.
+    </li>
+    <br>
+    <li>Dentro do seu <b>pom.xml</b> comente todas as dependências, deixando apenas a do Bradesco liberada para baixar.
+        <p>
+        <a href="https://ibb.co/9v6xF79"><img src="https://i.ibb.co/vBpN7Sx/Screen-Shot-2021-07-19-at-07-24-05.png"
+                                              alt="Screen-Shot-2021-07-19-at-07-24-05" border="0"></a>
+        </p>
+    </li>
+    <br>
+    <li> <mark>Conecte sua VPN </mark>
+        Faça o build do projeto para baixar a dependência Bradesco, assim que terminar, retire os comentários do pom.xml e refaça o build.
     </li>
     <br>
     <li>
@@ -43,14 +63,26 @@
                 <a href="https://ibb.co/1LLYyhM"><img src="https://i.ibb.co/L88Djbr/regressiontest.png"
                                                       alt="regressiontest" border="0"></a>
             </a>
-            </div>
+        </p>
+        </div>
+        <p>Na primeira execução, comente a linha do plugin, execute qualquer teste chamando o InitEnvironment();<br>
+            para que os arquivos <b>setup.properties e leanft.properties</b>
+            sejam criados automaticamente.
+        </p>
+        <p>Ex:</p>
 
+        <a href="https://ibb.co/yP9zV7X"><img src="https://i.ibb.co/RbFX7d9/Screen-Shot-2021-07-18-at-12-35-03.png"
+                                              alt="Screen-Shot-2021-07-18-at-12-35-03" border="0"></a>
         </p>
     </li>
 
-    <li>Para efetuar validações usando o Framework CI&T aqui está uma lista com vídeos mostando passo a passo
+    <li>Para efetuar validações usando o Framework CI&T aqui está uma lista com vídeos mostando passo a passo &nbsp;&nbsp;&nbsp;&nbsp;
         <a href="https://drive.google.com/drive/u/1/folders/1JjX186HDmh6i-yPh_yCutPUIKJNLbh5g">VIDEOS</a>
-
+    </li>
+    <br>
+    <li>Caso na raiz do seu projeto a pasta <b>environment/data.properties</b> não exista, ao executar o primeiro teste,
+        ela será criada.<br>
+        Dentro do data.properties estão seus ambientes.
     </li>
 </ol>
 <hr>
@@ -60,8 +92,10 @@
 
 <h2>Como iniciar o GET POST DELETE PUT?</h2>
 <ol>
-    <li>Extenda o framework na classe do seu STEP como abaixo:</li>
-    <li>Chame o método InitEnvironmente(), nele você terá o start do RestAssured com todas as funcionalidades, dentro dele passe o endpoint que você quer.</li>
+    <li>Estenda o framework na classe do seu STEP como abaixo:</li>
+    <li>Chame o método InitEnvironment(), nele você terá o start do RestAssured com todas as funcionalidades, dentro
+        dele passe o endpoint que você quer.
+    </li>
 </ol>
 <pre>
     <code>
@@ -81,7 +115,9 @@
         }
     </code>
 </pre>
+<br>
 <hr>
+<br>
 <h2>E no caso do endpoint precisar ser passado no get() post() delete() put() e não no InitEnvironment()</h2>
 <pre><code>
     public class GetUser extends CITRestAssured {
@@ -98,17 +134,50 @@
         }
     }
 </code></pre>
+<br>
 <hr>
+<br>
+<h1>Métodos com parâmetros</h1>
+<p>Para usar <b>headers</b> ou  <b>params</b> basta chamar a variável global, veja exemplo:</p>
+<pre><code>
+        public class GetUser extends CITRestAssured {
+
+        @Given("^que seja feito GET na API \"([^\"]*)\"$")
+        public void queSejaFeitoGETNaAPI(String endpoint) throws Throwable {
+
+            InitEnvironment();
+        }
+        @Then("^faco get$")
+        public void facoGet() throws Throwable {
+
+            params.put("key", "value");
+
+            GetParam("users/7");
+
+            headers.put("key", "value");
+
+            GetHeaders();
+        }
+    }
+</code></pre>
+<br>
+<hr>
+<br>
 <h2>Método separado <b>GivenExternal();</b></h2>
 <p>Existe um método chamado GivenExternal();</p>
-<p>Para o caso de, você precisar usar uma chamada diferente, com caracteristicas que os métodos existentes não atendam.<br> Em métodos separados, é necessário usar o GivenExternal do framework para que ele use os dados no Report.</p>
+<p>Para o caso de, você precisar usar uma chamada diferente, com características que os métodos existentes não
+    atendam.<br> Em métodos separados, é necessário usar o GivenExternal do framework para que ele use os dados no
+    Report.</p>
 <p>Ao final, chame o ExternalReport(); para que seja gerado.</p>
-<p>Apenas em caso de <mark>DELETES</mark>  dentro do ExternalReporte(); precisa ficar vazio </p>
+<p>Apenas em caso de
+    <mark>DELETES</mark>
+    dentro do ExternalReporte(); precisa ficar vazio
+</p>
 <pre><code>
     Response res = GivenExternal(ContentType.JSON)
     .when()
     .get()
-    .then()([[Aqui poeria efetuar validações normalmente. Ex: then().body("path"), is("CIT")]
+    .then()([[Aqui pode efetuar validações normalmente. Ex: then().body("path"), is("CIT")]
     .extract().response();
 ExternalReport(res);
 
@@ -152,13 +221,14 @@ ExternalReport(res.extract().response());
                 .body(body)
                 .when()
                 .post()
-                .then()([[Aqui poderia efetuar validações normalmente. Ex: then().body("path"), is("CIT")]
+                .then()([[Aqui pode efetuar validações normalmente. Ex: then().body("path"), is("CIT")]
                 .extract().response();
              ExternalReport(body, res);
 </code></pre>
 <br>
 <h2>Como ficam métodos <b>ExternalReport()</b> com headers e parâmetros?</h2>
 <pre><code>
+    Map<String, Object> param = new new HashMap<>();
     param.put("key", "value");
     Map<String, Object> header = new new HashMap<>();
     header.put("key", "value");
@@ -169,16 +239,16 @@ ExternalReport(res.extract().response());
                 .body(body)
                 .when()
                 .post()
-                .then()([[Aqui poeria efetuar validações normalmente. Ex: then().body("path"), is("CIT")]
+                .then()([[Aqui pode efetuar validações normalmente. Ex: then().body("path"), is("CIT")]
                 .extract().response();
              ExternalReport(body, res);
 </code></pre>
-
+<br>
 <hr>
 <br>
 <h2>Vamos efetuar validações de exemplo, de preferência use o método <b>Body().mapping()</b> nas suas validações:</h2>
-    <p>Primeiro usando um JSON simples:</p>
-    <pre>
+<p>Primeiro usando um JSON simples:</p>
+<pre>
     <code style="font-size:20px">
         {
             "data": {
@@ -212,47 +282,56 @@ ExternalReport(res.extract().response());
                         "contributions towards server costs are appreciated!");
     </code>
 </pre>
-    <hr>
-    <br>
-    <p style="font-size:30px">Método <b>CONTAINS</b>:</p>
-    <p style="font-size:25px">O método <b>Body().contains()</b> é usado para validar existência de campos no seu
-        JSON<br>
-        independente de onde esses campos estejam. Usando o contains, você pode passar 1 ou mais campos.<br>
-        Obs: O contais NAO valida estrutura do JSON, não valida se o campo existe no determinado caminho<br>
-        valida apenas se existe no seu JSON. <br>
-        EX:
+<br>
+<hr>
+<br>
+<p style="font-size:30px">Método <b>CONTAINS</b>:</p>
+<p style="font-size:25px">O método <b>Body().contains()</b> é usado para validar existência de campos no seu
+    JSON<br>
+    independente de onde esses campos estejam. Usando o contains, você pode passar 1 ou mais campos.<br>
+    Obs: O contais NAO valida estrutura do JSON, não valida se o campo existe no determinado caminho<br>
+    valida apenas se existe no seu JSON. <br>
+    EX:
 
-    <pre style="font-size:25px">
+<pre style="font-size:25px">
     <code style="font-size:20px">
         Body().contains("id");
         Body().contains("id", "name", "lastname");
     </code>
 </pre>
-    </p>
-    <p style="font-size:30px">Método <b>GET</b>:</p>
-    <p style="font-size:25px">
-        Método <b>Body().get()</b> vai encontrar em todo seu JSON o campo informado, não validando estrutura nem
-        caminho,
-        apenas o valor do Path informado.<br>
-        Método não valida paths dentro de Arrays, isso porque um array pode conter vários objetos com o campo informado
-        e
-        valores diferentes.<br>
-        Mas se o Array tiver apenas um campo com o nome informado, ele mostrará o falor no print, e colocará o valor na
-        variável global <b>StringGlobal</b><br>
-        EX:
+</p>
+<p style="font-size:30px">Método <b>GET</b>:</p>
+<p style="font-size:25px">
+    Método <b>Body().get()</b> vai encontrar em todo seu JSON o campo informado, não validando estrutura nem
+    caminho,
+    apenas o valor do Path informado.<br>
+    Método não valida paths dentro de Arrays, isso porque um array pode conter vários objetos com o campo informado
+    e
+    valores diferentes.<br>
+    Mas se o Array tiver apenas um campo com o nome informado, ele mostrará o falor no print, e colocará o valor na
+    variável global <b>StringGlobal</b><br>
+    EX:
 
-    </p>
-    <pre style="font-size:25px">
+</p>
+<pre style="font-size:25px">
     <code style="font-size:20px">
         Body().get("id");
         Assert.assertThat(StringGlobal, Matchers.is("Framework de Automação"));
     </code>
 </pre>
-    <hr>
-    <h2>Um JSON com complexidades maiores:</h2>
-    <pre>
+<p>Você também pode usar o get para efetuar validações com mais de um valor, com tanto que seja STRING.</p>
+<p>Ele irá validar se existe algum desses valores no campo *usedAmountFlexible*. Ex:</p>
+
+<pre><code>
+Body().get("usedAmountFlexible", "100000.0001n", "Automação", "Framework");
+</code></pre>
+<br>
+<hr>
+<br>
+<h2>Um JSON com complexidades maiores:</h2>
+<pre>
     </p>
-        <a href="http://demo0623716.mockable.io/" style="color: blue; font-size:16px">LINK do JSON</a>
+    <a href="http://demo0623716.mockable.io/" style="color: blue; font-size:16px">LINK do JSON</a>
     <code style="font-size:20px">
         //Validação usando o Framework
         Body()
@@ -267,67 +346,80 @@ ExternalReport(res.extract().response());
                 .mapping("categoryMonthsAvailables > cards > internalBrand", "internalBrand", "OTHERS", "BRADESCO")
                 .mapping("categoryMonthsAvailables > totalAmount", "totalAmount", 200000.08);
 
-        //Validação usando o Rest
+                //Validação usando o Rest
         ResponseBody().body("bradesco.brandName", Matchers.is("BRADESCO"),
-                "bradesco.creditCards.creditCardInfo[0].creditCardNetwork", is("VISA"));
-        ResponseBody().body("bradesco.creditCards.bills[0].bills[0].billStatus", is("FECHADA"));
-        ResponseBody().body("others[0].creditCards.creditCardInfo[1].consentId", is("itauconsentid"));
-        ResponseBody().body("others[0].creditCards.bills[0].bills[0].billStatus", is("PAGA"));
-        ResponseBody().body("bradescoBlocked.creditCards.bills[0].auditory", is(nullValue()));
-        String response = ResponseBody().extract().response().path("categoryMonthsAvailables[0].totalAmount").toString();
-        BigDecimal bigDecimal = new BigDecimal(response);
-        Assert.assertThat(bigDecimal.doubleValue(), is(200000.08));
-        ResponseBody().body("categoryMonthsAvailables[0].cards.internalBrand[2]", is("BRADESCO"));
-        ResponseBody().body("categoryMonthsAvailables[0].cards.size()", is(3));
+                        "bradesco.creditCards.creditCardInfo[0].creditCardNetwork", is("VISA"));
+                ResponseBody().body("bradesco.creditCards.bills[0].bills[0].billStatus", is("FECHADA"));
+                ResponseBody().body("others[0].creditCards.creditCardInfo[1].consentId", is("itauconsentid"));
+                ResponseBody().body("others[0].creditCards.bills[0].bills[0].billStatus", is("PAGA"));
+                ResponseBody().body("bradescoBlocked.creditCards.bills[0].auditory", is(nullValue()));
+                String response = ResponseBody().extract().response().path("categoryMonthsAvailables[0].totalAmount").toString();
+                BigDecimal bigDecimal = new BigDecimal(response);
+                Assert.assertThat(bigDecimal.doubleValue(), is(200000.08));
+                ResponseBody().body("categoryMonthsAvailables[0].cards.internalBrand[2]", is("BRADESCO"));
+                ResponseBody().body("categoryMonthsAvailables[0].cards.size()", is(3));
     </code>
 </pre>
-    <hr>
-    <p style="font-size:30px">Detalhes do <b>mapping</b>:</p>
-    <p>
-        O método <b>Body.mapping()</b> vai auxiliar em TODA validação do JSON, seja comparar valores, ou certificar que
-        o
-        Path existe dentro do seu JSON.<br>
-    </p>
-    <pre>
+<br>
+<hr>
+<br>
+<p style="font-size:30px">Detalhes do <b>mapping</b>:</p>
+<p>
+    O método <b>Body.mapping()</b> vai auxiliar em TODA validação do JSON, seja comparar valores, ou certificar que
+    o
+    Path existe dentro do seu JSON.<br>
+</p>
+<pre>
     <code>
         Body().mapping("totalSumary > cardsCount", 2);
     </code>
 </pre>
-    <p>Nesta validação acima o "totalSumary" é um objeto dentro do JSON, que contém um path chamado "cardsCount"<br>
-        nele, estamos pegando o valor e comparando.<br>
-        O sinal de <b> > </b> representa a entrada dentro da KEY, seja ela Objeto ou Array.
-    </p>
-    <h2>Agora um exemplo com Array:</h2>
-    <pre>
+<p>Nesta validação acima o "totalSumary" é um objeto dentro do JSON, que contém um path chamado "cardsCount"<br>
+    nele, estamos pegando o valor e comparando.<br>
+    O sinal de <b> > </b> representa a entrada dentro da KEY, seja ela Objeto ou Array.
+</p>
+<h2>Agora um exemplo com Array:</h2>
+<pre>
     <code>
         Body().mapping("bradesco > creditCards > bills > bills > billStatus", "billStatus", "FECHADA", "PAGA");
     </code>
 </pre>
-    <p>
-        Aqui temos o objecto "bradesco", depois um array "creditCards", depois um objeto "bills" e outro array "bills" e
-        por
-        fim o campo "billStatus"<br>
-        Toda essa complexidade para encontrar o Array seria necessário usar o JSONObject e o JSONArray umas duas vezes,
-        isso
-        dentro de uns 4 FOR.<br>
-        Usando o <b>mapping</b>, apenas precisamos informar o caminho até o path, depois passamos o path para o get<br>
-        e nessa parte se torna mais interessante, temos dois valores diferentes, o framework vai buscar se existe um ou
-        outro.<br>
-        Como se trata de um Array o mesmo campo pode vir com valor diferente dependendo do objeto desse Array.<br>
-        Usando o mapping você pode até passar <b>4</b> valores diferentes.
-    </p>
-    <br>
-    <br>
-    <hr>
-    <h2>Vídeo usando o método <b>mapping</b></h2>
-    <div class="video">
-        <div class="dvideo">
-            <iframe src="https://drive.google.com/file/d/1YyVMM8XxXzYfeYpF11BAREwkGd0STBcb/preview" width="340"
-                    height="180" allow="autoplay"></iframe>
-        </div>
+<p>
+    Aqui temos o objecto "bradesco", depois um array "creditCards", depois um objeto "bills" e outro array "bills" e
+    por
+    fim o campo "billStatus"<br>
+    Toda essa complexidade para encontrar o Array seria necessário usar o JSONObject e o JSONArray umas duas vezes,
+    isso
+    dentro de uns 4 FOR.<br>
+    Usando o <b>mapping</b>, apenas precisamos informar o caminho até o path, depois passamos o path para o get<br>
+    e nessa parte se torna mais interessante, temos dois valores diferentes, o framework vai buscar se existe um ou
+    outro.<br>
+    Como se trata de um Array o mesmo campo pode vir com valor diferente dependendo do objeto desse Array.<br>
+    Usando o mapping você pode até passar <b>4</b> valores diferentes.
+</p>
+<br>
+<hr>
+<br>
+<p>O quanto o <b>mapping</b> consegue ir com arrays e objetos?</p>
+<br>
+<a href="https://ibb.co/PMmh2g5"><img src="https://i.ibb.co/vhwPNkJ/Screen-Shot-2021-07-18-at-11-19-21.png"
+                                      alt="Screen-Shot-2021-07-18-at-11-19-21" border="0"></a>
+<pre><code>
+        Body()
+                .mapping("data > users > form > info > information > dataInfo > enterpriseInfo > enterpriseData > enterpriseBody >" +
+                        " enterpriseBodyUser > enterPrime > enterPrime > enterRise > nameEnterprise", "CI&T");
+</code></pre>
+<br>
+<hr>
+<br>
+<h2>Vídeo usando o método <b>mapping</b></h2>
+<div class="video">
+    <div class="dvideo">
+        <iframe src="https://drive.google.com/file/d/1YyVMM8XxXzYfeYpF11BAREwkGd0STBcb/preview" width="340"
+                height="180" allow="autoplay"></iframe>
     </div>
-    <hr>
-
+</div>
+<hr>
 </body>
 <br>
 <footer>
@@ -364,6 +456,8 @@ ExternalReport(res.extract().response());
         background-attachment: fixed;
         padding-bottom: 20px;
         overflow-x: hidden;
+        padding:20px;
+        margin-left:20px
     }
 
     body {
@@ -371,7 +465,6 @@ ExternalReport(res.extract().response());
         padding: 20px;
         height: 100%;
         bottom: 20px;
-
     }
 
     pre {
@@ -515,4 +608,16 @@ ExternalReport(res.extract().response());
     .lightbox-target:target a.lightbox-close {
         top: 0;
     }
+
+
+
+
+
+
+
+
+
+
+
+
 </style>
