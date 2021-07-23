@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://ciandt.com/themes/custom/ciandt_theme/favicon.ico"
+          type="image/vnd.microsoft.icon">
+    <title>CIT Framework</title>
+</head>
+
+<body>
+<div>
+    <h1 style="text-align: center;">
+        <img src="https://ciandt.com/themes/custom/ciandt_theme/logo.svg" alt="logoCIT">
+        Configuração do Framework CI&T
+    </h1>
+</div>
+<hr>
+<p> &#x26A0;<b> Obs: Para baixar o framework CI&T você precisará ter chave M Bradesco.</b>
+    <br>
+    <br>
+</p>
+
+<ol>
+    <li>Primeiro vamos baixar o JAR &nbsp;&nbsp;&nbsp;&nbsp;<a
+            href="https://drive.google.com/drive/u/1/folders/10cRqFVxSy7iGjh5mmsoEbF41x-lt9nQZ">Aqui</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        e coloca-lo dentro da pasta <b>src/test/java/resources/framework</b>
+    </li>
+    <br>
+    <li>Crie um arquivo <b>settings.xml</b> dentro da sua pasta oculta <b>.m2</b> que fica dentro no seu usuário local
+    </li>
+    <br>
+    <li>Copie as configurações desse link, e altere os dois campos
+        <mark>USERNAME PASSWORD</mark>
+        com sua chaveM e senha.  &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="settings.xml">Aqui </a>
+
+    </li>
+    <br>
+    <li>Importe as dependências para o arquivo <b>pom.xml</b>
+        que fica na raíz do seu projeto.&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="dependencias.text">Aqui </a>
+    </li>
+    <br>
+    <li>Dentro do seu <b>pom.xml</b> comente todas as dependências, deixando apenas a do Bradesco liberada para baixar.
+        <p>
+        <a href="https://ibb.co/9v6xF79"><img src="https://i.ibb.co/vBpN7Sx/Screen-Shot-2021-07-19-at-07-24-05.png"
+                                              alt="Screen-Shot-2021-07-19-at-07-24-05" border="0"></a>
+        </p>
+    </li>
+    <br>
+    <li> <mark>Conecte sua VPN </mark>
+        Faça o build do projeto para baixar a dependência Bradesco, assim que terminar, retire os comentários do pom.xml e refaça o build.
+    </li>
+    <br>
+    <li>
+        Configurando sua classe <b>RegresstionTest</b>
+        , conforme imagem abaixo, clique para expandir:
+        <p>
+            <a class="lightbox" href="#dog">
+                <a href="https://ibb.co/1LLYyhM"><img src="https://i.ibb.co/L88Djbr/regressiontest.png"
+                                                      alt="regressiontest" border="0"></a>
+            </a>
+        </p>
+        </div>
+        <p>Na primeira execução, comente a linha do plugin, execute qualquer teste chamando o InitEnvironment();<br>
+            para que os arquivos <b>setup.properties e leanft.properties</b>
+            sejam criados automaticamente.
+        </p>
+        <p>Ex:</p>
+
+        <a href="https://ibb.co/yP9zV7X"><img src="https://i.ibb.co/RbFX7d9/Screen-Shot-2021-07-18-at-12-35-03.png"
+                                              alt="Screen-Shot-2021-07-18-at-12-35-03" border="0"></a>
+        </p>
+    </li>
+
+    <li>Para efetuar validações usando o Framework CI&T aqui está uma lista com vídeos mostando passo a passo &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="https://drive.google.com/drive/u/1/folders/1JjX186HDmh6i-yPh_yCutPUIKJNLbh5g">VIDEOS</a>
+    </li>
+    <br>
+    <li>Caso na raiz do seu projeto a pasta <b>environment/data.properties</b> não exista, ao executar o primeiro teste,
+        ela será criada.<br>
+        Dentro do data.properties estão seus ambientes.
+    </li>
+</ol>
+<hr>
+<p>
+    </h2>
+</p>
+
+<h2>Como iniciar o GET POST DELETE PUT?</h2>
+<ol>
+    <li>Estenda o framework na classe do seu STEP como abaixo:</li>
+    <li>Chame o método InitEnvironment(), nele você terá o start do RestAssured com todas as funcionalidades, dentro
+        dele passe o endpoint que você quer.
+    </li>
+</ol>
+<pre>
+    <code>
+        public class GetUser extends CITRestAssured {
+
+            @Given("^que seja feito GET na API \"([^\"]*)\"$")
+            public void queSejaFeitoGETNaAPI(String endpoint) throws Throwable {
+
+                InitEnvironment(endpoint);
+            }
+
+            @Then("^faco get$")
+            public void facoGet() throws Throwable {
+
+                Get();
+            }
+        }
+    </code>
+</pre>
+<br>
+<hr>
+<br>
+<h2>E no caso do endpoint precisar ser passado no get() post() delete() put() e não no InitEnvironment()</h2>
+<pre><code>
+    public class GetUser extends CITRestAssured {
+
+        @Given("^que seja feito GET na API \"([^\"]*)\"$")
+        public void queSejaFeitoGETNaAPI(String endpoint) throws Throwable {
+
+            InitEnvironment();
+        }
+        @Then("^faco get$")
+        public void facoGet() throws Throwable {
+
+            GetEndpoint("users/7");
+        }
+    }
+</code></pre>
+<br>
+<hr>
+<br>
+<h1>Métodos com parâmetros</h1>
+<p>Para usar <b>headers</b> ou  <b>params</b> basta chamar a variável global, veja exemplo:</p>
+<pre><code>
+        public class GetUser extends CITRestAssured {
+
+        @Given("^que seja feito GET na API \"([^\"]*)\"$")
+        public void queSejaFeitoGETNaAPI(String endpoint) throws Throwable {
+
+            InitEnvironment();
+        }
+        @Then("^faco get$")
+        public void facoGet() throws Throwable {
+
+            params.put("key", "value");
+
+            GetParam("users/7");
+
+            headers.put("key", "value");
+
+            GetHeaders();
+        }
+    }
+</code></pre>
+<br>
+<hr>
+<br>
+<h2>Método separado <b>GivenExternal();</b></h2>
+<p>Existe um método chamado GivenExternal();</p>
+<p>Para o caso de, você precisar usar uma chamada diferente, com características que os métodos existentes não
+    atendam.<br> Em métodos separados, é necessário usar o GivenExternal do framework para que ele use os dados no
+    Report.</p>
+<p>Ao final, chame o ExternalReport(); para que seja gerado.</p>
+<p>Apenas em caso de
+    <mark>DELETES</mark>
+    dentro do ExternalReporte(); precisa ficar vazio
+</p>
+<pre><code>
+    Response res = GivenExternal(ContentType.JSON)
+    .when()
+    .get()
+    .then()([[Aqui pode efetuar validações normalmente. Ex: then().body("path"), is("CIT")]
+    .extract().response();
+ExternalReport(res);
+
+GivenExternal(ContentType.JSON)
+    .when()
+    .delete()
+    .then() ([[Aqui poeria efetuar validações normalmente. Ex: then().body("path"), is("CIT")]])'
+    .extract().response();
+ExternalReport();
+</code></pre>
+<p>Extraindo valor do GivenExternal();</p>
+<pre><code>
+    ValidatableResponse res = GivenExternal(ContentType.JSON)
+    .when()
+    .get()
+    .then();
+String value = res.extract().path("path que eu quero");
+
+## caso precise de report, use as lógicas já descrita.
+ExternalReport(res.extract().response());
+</code></pre>
+<p>Quais dados usar no <b>ExternalReport()</b>?</p>
+<br>
+<p>Gets - Basta enviar o resultado da requisição. Como no exemplo acima.</p>
+<pre><code>
+    @Then("^faco get$")
+    public void facoGet() throws Throwable {
+
+        ValidatableResponse res = GivenExternal(ContentType.JSON)
+                .when().get("users/7").then();
+
+        ExternalReport(res.extract().response());
+    }
+</code></pre>
+<br>
+<p>Posts - você precisa passar primeiro o Body que está sendo enviado, depois o resultado da requisição.</p>
+<pre><code>
+    String body = "{body que será enviado}";
+
+  Response res = GivenExternal(ContentType.JSON)
+                .body(body)
+                .when()
+                .post()
+                .then()([[Aqui pode efetuar validações normalmente. Ex: then().body("path"), is("CIT")]
+                .extract().response();
+             ExternalReport(body, res);
+</code></pre>
+<br>
+<h2>Como ficam métodos <b>ExternalReport()</b> com headers e parâmetros?</h2>
+<pre><code>
+    Map<String, Object> param = new new HashMap<>();
+    param.put("key", "value");
+    Map<String, Object> header = new new HashMap<>();
+    header.put("key", "value");
+
+    Response res = GivenExternal(ContentType.JSON)
+                .headers(header)
+                .queryParams(param)
+                .body(body)
+                .when()
+                .post()
+                .then()([[Aqui pode efetuar validações normalmente. Ex: then().body("path"), is("CIT")]
+                .extract().response();
+             ExternalReport(body, res);
+</code></pre>
+<br>
+<hr>
+<br>
+<h2>Vamos efetuar validações de exemplo, de preferência use o método <b>Body().mapping()</b> nas suas validações:</h2>
+<p>Primeiro usando um JSON simples:</p>
+<pre>
+    <code style="font-size:20px">
+        {
+            "data": {
+              "id": 7,
+              "email": "michael.lawson@reqres.in",
+              "first_name": "Michael",
+              "last_name": "Lawson",
+              "avatar": "https://reqres.in/img/faces/7-image.jpg"
+            },
+            "support": {
+              "url": "https://reqres.in/#support-heading",
+              "text": "To keep ReqRes free,
+              contributions towards server costs are appreciated!"
+            }
+          }
+    </code>
+
+    <code style="font-size:20px">
+        //Validação usando o Rest
+        Get(false)
+                .body("data.id", Matchers.is(7),
+                        "data.email", Matchers.is("michael.lawson@reqres.in"),
+                        "support.url", Matchers.is("https://reqres.in/#support-heading"));
+
+        //Validação usando o framework CI&T
+        Body()
+                .mapping("data > id", 7)
+                .mapping("data > email")
+                .mapping("data > first_name")
+                .mapping("support > text", "To keep ReqRes free, " +
+                        "contributions towards server costs are appreciated!");
+    </code>
+</pre>
+<br>
+<hr>
+<br>
+<p style="font-size:30px">Método <b>CONTAINS</b>:</p>
+<p style="font-size:25px">O método <b>Body().contains()</b> é usado para validar existência de campos no seu
+    JSON<br>
+    independente de onde esses campos estejam. Usando o contains, você pode passar 1 ou mais campos.<br>
+    Obs: O contais NAO valida estrutura do JSON, não valida se o campo existe no determinado caminho<br>
+    valida apenas se existe no seu JSON. <br>
+    EX:
+
+<pre style="font-size:25px">
+    <code style="font-size:20px">
+        Body().contains("id");
+        Body().contains("id", "name", "lastname");
+    </code>
+</pre>
+</p>
+<p style="font-size:30px">Método <b>GET</b>:</p>
+<p style="font-size:25px">
+    Método <b>Body().get()</b> vai encontrar em todo seu JSON o campo informado, não validando estrutura nem
+    caminho,
+    apenas o valor do Path informado.<br>
+    Método não valida paths dentro de Arrays, isso porque um array pode conter vários objetos com o campo informado
+    e
+    valores diferentes.<br>
+    Mas se o Array tiver apenas um campo com o nome informado, ele mostrará o falor no print, e colocará o valor na
+    variável global <b>StringGlobal</b><br>
+    EX:
+
+</p>
+<pre style="font-size:25px">
+    <code style="font-size:20px">
+        Body().get("id");
+        Assert.assertThat(StringGlobal, Matchers.is("Framework de Automação"));
+    </code>
+</pre>
+<p>Você também pode usar o get para efetuar validações com mais de um valor, com tanto que seja STRING.</p>
+<p>Ele irá validar se existe algum desses valores no campo *usedAmountFlexible*. Ex:</p>
+
+<pre><code>
+Body().get("usedAmountFlexible", "100000.0001n", "Automação", "Framework");
+</code></pre>
+<br>
+<hr>
+<br>
+<h2>Um JSON com complexidades maiores:</h2>
+<pre>
+    </p>
+    <a href="http://demo0623716.mockable.io/" style="color: blue; font-size:16px">LINK do JSON</a>
+    <code style="font-size:20px">
+        //Validação usando o Framework
+        Body()
+                .mapping("totalSumary > cardsCount", 2)
+                .mapping("totalSumary > limitAmount",  0)
+                .mapping("bradesco > brandName")
+                .mapping("totalSumary > cardsCount", "cardsCount", 1, 2)
+                .mapping("bradesco > creditCards > creditCardInfo > creditCardNetwork")
+                .mapping("bradesco > creditCards > bills > bills > billStatus", "billStatus", "FECHADA", "PAGA")
+                .mapping("others > creditCards > creditCardInfo > consentId", "consentId", "itauconsentid", "bancodobrasil02consentid")
+                .mapping("others > creditCards > bills > bills > billStatus", "billStatus", "PAGA", "FECHADA")
+                .mapping("categoryMonthsAvailables > cards > internalBrand", "internalBrand", "OTHERS", "BRADESCO")
+                .mapping("categoryMonthsAvailables > totalAmount", "totalAmount", 200000.08);
+
+                //Validação usando o Rest
+        ResponseBody().body("bradesco.brandName", Matchers.is("BRADESCO"),
+                        "bradesco.creditCards.creditCardInfo[0].creditCardNetwork", is("VISA"));
+                ResponseBody().body("bradesco.creditCards.bills[0].bills[0].billStatus", is("FECHADA"));
+                ResponseBody().body("others[0].creditCards.creditCardInfo[1].consentId", is("itauconsentid"));
+                ResponseBody().body("others[0].creditCards.bills[0].bills[0].billStatus", is("PAGA"));
+                ResponseBody().body("bradescoBlocked.creditCards.bills[0].auditory", is(nullValue()));
+                String response = ResponseBody().extract().response().path("categoryMonthsAvailables[0].totalAmount").toString();
+                BigDecimal bigDecimal = new BigDecimal(response);
+                Assert.assertThat(bigDecimal.doubleValue(), is(200000.08));
+                ResponseBody().body("categoryMonthsAvailables[0].cards.internalBrand[2]", is("BRADESCO"));
+                ResponseBody().body("categoryMonthsAvailables[0].cards.size()", is(3));
+    </code>
+</pre>
+<br>
+<hr>
+<br>
+<p style="font-size:30px">Detalhes do <b>mapping</b>:</p>
+<p>
+    O método <b>Body.mapping()</b> vai auxiliar em TODA validação do JSON, seja comparar valores, ou certificar que
+    o
+    Path existe dentro do seu JSON.<br>
+</p>
+<pre>
+    <code>
+        Body().mapping("totalSumary > cardsCount", 2);
+    </code>
+</pre>
+<p>Nesta validação acima o "totalSumary" é um objeto dentro do JSON, que contém um path chamado "cardsCount"<br>
+    nele, estamos pegando o valor e comparando.<br>
+    O sinal de <b> > </b> representa a entrada dentro da KEY, seja ela Objeto ou Array.
+</p>
+<h2>Agora um exemplo com Array:</h2>
+<pre>
+    <code>
+        Body().mapping("bradesco > creditCards > bills > bills > billStatus", "billStatus", "FECHADA", "PAGA");
+    </code>
+</pre>
+<p>
+    Aqui temos o objecto "bradesco", depois um array "creditCards", depois um objeto "bills" e outro array "bills" e
+    por
+    fim o campo "billStatus"<br>
+    Toda essa complexidade para encontrar o Array seria necessário usar o JSONObject e o JSONArray umas duas vezes,
+    isso
+    dentro de uns 4 FOR.<br>
+    Usando o <b>mapping</b>, apenas precisamos informar o caminho até o path, depois passamos o path para o get<br>
+    e nessa parte se torna mais interessante, temos dois valores diferentes, o framework vai buscar se existe um ou
+    outro.<br>
+    Como se trata de um Array o mesmo campo pode vir com valor diferente dependendo do objeto desse Array.<br>
+    Usando o mapping você pode até passar <b>4</b> valores diferentes.
+</p>
+<br>
+<hr>
+<br>
+<p>O quanto o <b>mapping</b> consegue ir com arrays e objetos?</p>
+<br>
+<a href="https://ibb.co/PMmh2g5"><img src="https://i.ibb.co/vhwPNkJ/Screen-Shot-2021-07-18-at-11-19-21.png"
+                                      alt="Screen-Shot-2021-07-18-at-11-19-21" border="0"></a>
+<pre><code>
+        Body()
+                .mapping("data > users > form > info > information > dataInfo > enterpriseInfo > enterpriseData > enterpriseBody >" +
+                        " enterpriseBodyUser > enterPrime > enterPrime > enterRise > nameEnterprise", "CI&T");
+</code></pre>
+<br>
+<hr>
+<br>
+<h2>Vídeo usando o método <b>mapping</b></h2>
+<div class="video">
+    <div class="dvideo">
+        <iframe src="https://drive.google.com/file/d/1YyVMM8XxXzYfeYpF11BAREwkGd0STBcb/preview" width="340"
+                height="180" allow="autoplay"></iframe>
+    </div>
+</div>
+<hr>
+</body>
+<br>
+<footer>
+
+</footer>
+
+</html>
+
+<style>
+    footer {
+        margin-bottom: 40px
+    }
+
+    textvideo {
+        font-size: 20px
+    }
+
+    code {
+        font-size: 20px
+    }
+
+    p {
+        font-size: 25px
+    }
+
+    li {
+        font-size: 20px
+    }
+
+    html {
+        height: 100% !important;
+        background-image: linear-gradient(to left bottom, #ffffff, #faf8fb,
+         #f6f1f5, #f3e9ee, #f1e2e6, #e8d8da, #dfcdcf, #d6c3c3, #c5b4b4, #b5a5a5, #a59696, #958888);
+        background-attachment: fixed;
+        padding-bottom: 20px;
+        overflow-x: hidden;
+        padding:20px;
+        margin-left:20px
+    }
+
+    body {
+        width: 100%;
+        padding: 20px;
+        height: 100%;
+        bottom: 20px;
+    }
+
+    pre {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    code {
+        float: left;
+        opacity: 0.5;
+    }
+
+    b {
+        color: blue;
+    }
+
+    a {
+        color: #fff;
+    }
+
+    a.lightbox img {
+        height: 150px;
+        border: 3px solid white;
+        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .dvideo {
+        display: inline-block;
+        *display: inline;
+        zoom: 1;
+        vertical-align: top;
+        font-size: 20px;
+        margin: 0px 0px 10px 10px
+    }
+
+    /* Styles the lightbox, removes it from sight and adds the fade-in transition */
+
+    .lightbox-target {
+        position: fixed;
+        top: -100%;
+        width: 70%;
+        background: rgba(0, 0, 0, 0.7);
+        width: 70%;
+        opacity: 0;
+        -webkit-transition: opacity 0.5s ease-in-out;
+        -moz-transition: opacity 0.5s ease-in-out;
+        -o-transition: opacity 0.5s ease-in-out;
+        transition: opacity 0.5s ease-in-out;
+        overflow: hidden;
+    }
+
+    /* Styles the lightbox image, centers it vertically and horizontally, adds the zoom-in transition and makes it responsive using a combination of margin and absolute positioning */
+
+    .lightbox-target img {
+        margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-height: 0%;
+        max-width: 0%;
+        border: 3px solid white;
+        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+        box-sizing: border-box;
+        -webkit-transition: 0.5s ease-in-out;
+        -moz-transition: 0.5s ease-in-out;
+        -o-transition: 0.5s ease-in-out;
+        transition: 0.5s ease-in-out;
+    }
+
+    /* Styles the close link, adds the slide down transition */
+
+    a.lightbox-close {
+        display: block;
+        width: 50px;
+        height: 50px;
+        box-sizing: border-box;
+        background: white;
+        color: black;
+        text-decoration: none;
+        position: absolute;
+        top: -60px;
+        right: 0;
+        -webkit-transition: 0.5s ease-in-out;
+        -moz-transition: 0.5s ease-in-out;
+        -o-transition: 0.5s ease-in-out;
+        transition: 0.5s ease-in-out;
+    }
+
+    /* Provides part of the "X" to eliminate an image from the close link */
+
+    a.lightbox-close:before {
+        content: "";
+        display: block;
+        height: 30px;
+        width: 1px;
+        background: black;
+        position: absolute;
+        left: 26px;
+        top: 10px;
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    /* Provides part of the "X" to eliminate an image from the close link */
+
+    a.lightbox-close:after {
+        content: "";
+        display: block;
+        height: 30px;
+        width: 1px;
+        background: black;
+        position: absolute;
+        left: 26px;
+        top: 10px;
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+    }
+
+    /* Uses the :target pseudo-class to perform the animations upon clicking the .lightbox-target anchor */
+
+    .lightbox-target:target {
+        opacity: 1;
+        top: 0;
+        bottom: 0;
+        overflow: scroll;
+    }
+
+    .lightbox-target:target img {
+        max-height: 100%;
+        max-width: 100%;
+    }
+
+    .lightbox-target:target a.lightbox-close {
+        top: 0;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+</style>
