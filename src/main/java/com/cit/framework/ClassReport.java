@@ -10,6 +10,10 @@ import io.restassured.response.Response;
 import util.AlertsMessages;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -20,7 +24,7 @@ public class ClassReport extends CITRestAssured {
     private static Scanner sc;
     private static AlertsMessages messages;
 
-    protected static String ReturnMetodo() {
+    protected static String ReturnMethod() {
         sc = new Scanner(requestWriter.toString());
         while (sc.hasNext()) {
             sc.next();
@@ -31,6 +35,14 @@ public class ClassReport extends CITRestAssured {
             break;
         }
         return report;
+    }
+
+    static String responseCreateDateTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime agora = LocalDateTime.now();
+        formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        String agoraFormatado = agora.format(formatter);
+        return agoraFormatado;
     }
 
     private static void StartReport() throws IOException, BradescoException {
@@ -57,6 +69,52 @@ public class ClassReport extends CITRestAssured {
 
     }
 
+    static String bodyNotSend() {
+        return "{\n" +
+                "  \"information_report\": \"Endpoint não envia nenhum body(corpo) para requisição\",\n" +
+                "  \"method\": \"" + ReturnMethod() + "\",\n" +
+                "  \"endpoint\": \"" + URIFinal() + "\",\n" +
+                "  \"date\": \"" + responseCreateDateTime() + "\"\n" +
+                "}";
+    }
+
+    public static String getParams() {
+        List<String> list = new ArrayList<>();
+        String result = null;
+        Scanner sc = new Scanner(requestWriter.toString());
+//        System.out.println(requestWriter.toString());
+        while (sc.hasNext()) {
+            result = sc.next();
+            if (result.equals("Form")) {
+                result = sc.next();
+                result = sc.next();
+
+                if (!result.trim().equals("<none>"))
+                    while (!result.trim().equals("Path")) {
+                        list.add("Form params: " + result + "\n");
+                        result = sc.next();
+                    }
+
+            } else if (result.equals("Headers:")) {
+                result = sc.next();
+
+                if (result.equals("Accept=*/*"))
+                    result = sc.next();
+
+                while (!result.equals("Cookies:") &&
+                        !result.equals("charset=ISO-8859-1") &&
+                        !result.equals("charset=UTF-8") &&
+                        !result.equals("Accept=*/*")) {
+                    list.add("Headers: " + result + "\n");
+                    result = sc.next();
+                }
+                break;
+            }
+        }
+        return list.toString();
+    }
+
+
     private static void StartReportExternal(String body, Response responses) throws IOException, BradescoException {
         response = responses;
         BODY = body;
@@ -69,16 +127,16 @@ public class ClassReport extends CITRestAssured {
             messages.ResponseNull();
         }
 
-        if (response.asString().isEmpty() || response.asString().contains("{}") && !ReturnMetodo().contains("DELETE")) {
+        if (response.asString().isEmpty() || response.asString().contains("{}") && !ReturnMethod().contains("DELETE")) {
             messages.AlertReturnIsEmpty();
         }
 
-        if (ReturnMetodo().contains("GET")) {
+        if (ReturnMethod().contains("GET")) {
             GetReport();
-        } else if (ReturnMetodo().contains("POST")) {
+        } else if (ReturnMethod().contains("POST")) {
             messages.SendPostOffBody();
             PostReport();
-        } else if (ReturnMetodo().contains("PUT")) {
+        } else if (ReturnMethod().contains("PUT")) {
             PutReport();
         } else {
             messages.UseExportReportFill();
@@ -109,9 +167,9 @@ public class ClassReport extends CITRestAssured {
                     "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.\n\n");
         }
 
-        if (!ReturnMetodo().contains("DELETE")) {
+        if (!ReturnMethod().contains("DELETE")) {
             System.err.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ ERROR: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
-            throw new BradescoRuntimeException("\n\n O método " + ReturnMetodo() + " não poder usado pelo ExternalReport(); vazio.\n" +
+            throw new BradescoRuntimeException("\n\n O método " + ReturnMethod() + " não poder usado pelo ExternalReport(); vazio.\n" +
                     " Olhe o DOC FrameworkCIT dentro " +
                     "da pasta 《《 src/test/resources/FrameworkCIT.md 》》 para entender como usar.\n\n");
         } else {
@@ -138,6 +196,13 @@ public class ClassReport extends CITRestAssured {
     }
 
     private static void GetReport() throws BradescoException, IOException {
+
+        BradescoReporter.report(ReportStatus.WARNING, "Abaixo informações sobre os Parâmetros enviados: \n");
+        String string = getParams().replaceAll("[\\[\\](){}]", "");
+        String virgula = string.replaceAll(",", "");
+        BradescoReporter.report(ReportStatus.OK, virgula);
+        BradescoReporter.report(ReportStatus.WARNING, "<--------------------------------------------------->");
+
         Exclud.ConsoleDesigner("    GET   ");
         BradescoReporter.report(ReportStatus.PASSED, "GET executado, abaixo evidências:");
         BradescoReporter.reportEvent(HttpRequestEvent.getRequest(URIFinal(), response.asString()));
@@ -145,6 +210,13 @@ public class ClassReport extends CITRestAssured {
     }
 
     private static void PostReport() throws BradescoException, IOException {
+
+        BradescoReporter.report(ReportStatus.WARNING, "Abaixo informações sobre os Parâmetros enviados: \n");
+        String string = getParams().replaceAll("[\\[\\](){}]", "");
+        String virgula = string.replaceAll(",", "");
+        BradescoReporter.report(ReportStatus.OK, virgula);
+        BradescoReporter.report(ReportStatus.WARNING, "");
+
         Exclud.ConsoleDesigner("   POST   ");
 
         BradescoReporter.report(ReportStatus.PASSED, "POST executado, abaixo evidências:");
@@ -155,6 +227,13 @@ public class ClassReport extends CITRestAssured {
     }
 
     private static void PutReport() throws BradescoException, IOException {
+
+        BradescoReporter.report(ReportStatus.WARNING, "Abaixo informações sobre os Parâmetros enviados: \n");
+        String string = getParams().replaceAll("[\\[\\](){}]", "");
+        String virgula = string.replaceAll(",", "");
+        BradescoReporter.report(ReportStatus.OK, virgula);
+        BradescoReporter.report(ReportStatus.WARNING, "");
+
         Exclud.ConsoleDesigner("    PUT   ");
 
         BradescoReporter.report(ReportStatus.PASSED, "PUT executado, abaixo evidências:");
@@ -165,6 +244,13 @@ public class ClassReport extends CITRestAssured {
     }
 
     private static void DeleteReport() throws BradescoException, IOException {
+
+        BradescoReporter.report(ReportStatus.WARNING, "Abaixo informações sobre os Parâmetros enviados: \n");
+        String string = getParams().replaceAll("[\\[\\](){}]", "");
+        String virgula = string.replaceAll(",", "");
+        BradescoReporter.report(ReportStatus.OK, virgula);
+        BradescoReporter.report(ReportStatus.WARNING, "");
+
         Exclud.ConsoleDesigner(" DELETE   ");
 
         BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
@@ -184,6 +270,8 @@ public class ClassReport extends CITRestAssured {
 
 
     private static Event PutRequest(String url, String bodyAsString, String response) {
+
+
         return new HttpRequestEvent(ReportStatus.OK, "PUT", url, Optional.of(bodyAsString), response);
     }
 

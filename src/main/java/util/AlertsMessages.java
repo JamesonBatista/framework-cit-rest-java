@@ -7,7 +7,7 @@ public class AlertsMessages extends ClassReport {
 
     public void AlertReturnIsEmpty() {
         System.out.println("                                                  ▁ ▂ ▃ ▄ ▅ ▆ ▇ AVISO: ▇ ▆ ▅ ▄ ▃ ▂ ▁\n");
-        System.err.println("Seu retorno do método " + ReturnMetodo() + " está vazio.  \n" +
+        System.err.println("Seu retorno do método " + ReturnMethod() + " está vazio.  \n" +
                 "Veja se está acessando o Endpoint correto abaixo:\n" +
                 "Endpoint: " + URIFinal() + "\n\n");
     }

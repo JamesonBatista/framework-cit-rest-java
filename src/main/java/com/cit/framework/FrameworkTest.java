@@ -1,18 +1,12 @@
 package com.cit.framework;
 
 import io.restassured.response.Response;
-import org.hamcrest.Matchers;
+import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.File;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
+import java.util.Iterator;
 
-import static com.cit.framework.Exclud.FilesSystem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 
@@ -31,6 +25,11 @@ public class FrameworkTest extends CITRestAssured {
 
         //Validação usando o Rest
         Get(false);
+//        Body().mapping("address > geo > state > planet", "Earth");
+
+//             .rootPath("users").body("[0].name", is("Margareth"));
+
+
 //        Body()
 //                .mapping("data > users > form > info > information > dataInfo > enterpriseInfo > enterpriseData > enterpriseBody >" +
 //                        " enterpriseBodyUser > enterPrime > enterPrime > enterRise > nameEnterprise", "CI&T");

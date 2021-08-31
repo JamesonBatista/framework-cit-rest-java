@@ -39,7 +39,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import static com.cit.framework.ClassReport.ReportBradesco;
-import static com.cit.framework.ClassReport.ReturnMetodo;
+import static com.cit.framework.ClassReport.ReturnMethod;
 import static io.restassured.RestAssured.*;
 import static util.FileProperties.GetProp;
 import static util.TextSystemFiles.textNull;
@@ -84,7 +84,7 @@ public class CITRestAssured extends validationResponse {
     static void ValidationResponse() {
         messages = new AlertsMessages();
         Response res = result.extract().response();
-        if (response.asString().isEmpty() || response.asString().contains("{}") && !ReturnMetodo().contains("DELETE")) {
+        if (response.asString().isEmpty() || response.asString().contains("{}") && !ReturnMethod().contains("DELETE")) {
             messages.AlertReturnIsEmpty();
         }
         if (res == null || res.asString().contains(textNull)) {
@@ -127,7 +127,6 @@ public class CITRestAssured extends validationResponse {
     }
 
     public RequestSpecification GivenExternal(ContentType type) throws IOException {
-        Exclud.ExcludReportBradesco();
         InitReport();
         return given().filter(new RequestLoggingFilter(requestCapture))
                 .urlEncodingEnabled(false).contentType(type)
