@@ -84,6 +84,7 @@ public class ClassReport extends CITRestAssured {
         Scanner sc = new Scanner(requestWriter.toString());
 //        System.out.println(requestWriter.toString());
         while (sc.hasNext()) {
+
             result = sc.next();
             if (result.equals("Form")) {
                 result = sc.next();
@@ -108,6 +109,15 @@ public class ClassReport extends CITRestAssured {
                     list.add("Headers: " + result + "\n");
                     result = sc.next();
                 }
+
+            } else if (result.equals("Query")) {
+                result = sc.next();
+                result = sc.next();
+                if (!result.equals("<none>"))
+                    while (!result.equals("Form")) {
+                        list.add("Query Params: " + result + "\n");
+                        result = sc.next();
+                    }
                 break;
             }
         }

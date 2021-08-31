@@ -24,7 +24,8 @@ public class FrameworkTest extends CITRestAssured {
 
 
         //Validação usando o Rest
-        Get(false);
+        params.put("validation", "validação");
+        GetParam();
 //        Body().mapping("address > geo > state > planet", "Earth");
 
 //             .rootPath("users").body("[0].name", is("Margareth"));
