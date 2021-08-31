@@ -6,7 +6,7 @@
 
     <groupId>com.cit.framework</groupId>
     <artifactId>framework-cit-rest-java</artifactId>
-    <version>3.4</version>
+    <version>3.3</version>
 
     <properties>
         <maven.compiler.source>14</maven.compiler.source>
@@ -80,6 +80,23 @@
 
     <build>
         <plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                </plugin>
+                ...
+            </plugins>
+        </pluginManagement>
+        <!-- To use the plugin goals in your POM or parent POM -->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.0.0-M1</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
