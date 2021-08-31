@@ -6,7 +6,7 @@
 
     <groupId>com.cit.framework</groupId>
     <artifactId>framework-cit-rest-java</artifactId>
-    <version>3.3</version>
+    <version>3.4</version>
 
     <properties>
         <maven.compiler.source>14</maven.compiler.source>
