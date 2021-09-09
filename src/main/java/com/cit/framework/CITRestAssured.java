@@ -126,10 +126,10 @@ public class CITRestAssured extends validationResponse {
 
     }
 
-    public RequestSpecification GivenExternal(ContentType type) throws IOException {
+    public RequestSpecification GivenExternal() throws IOException {
         InitReport();
         return given().filter(new RequestLoggingFilter(requestCapture))
-                .urlEncodingEnabled(false).contentType(type)
+                .urlEncodingEnabled(false)
                 .log().all();
     }
 

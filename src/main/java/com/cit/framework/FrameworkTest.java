@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.junit.Test;
 
 import java.util.Iterator;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -24,8 +25,13 @@ public class FrameworkTest extends CITRestAssured {
 
 
         //Validação usando o Rest
-        params.put("validation", "validação");
-        GetParam();
+//        params.put("validation", "validação");
+//        GetParam();
+        Get();
+//        Body().mapping("address > others");
+
+        Body().contains("AP401")
+
 //        Body().mapping("address > geo > state > planet", "Earth");
 
 //             .rootPath("users").body("[0].name", is("Margareth"));

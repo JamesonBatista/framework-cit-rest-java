@@ -1,0 +1,66 @@
+{
+  "users": [
+    {
+      "name": "Michael",
+      "last_name": "Jackson",
+      "age": 33,
+      "date_nasc": "10/07/1988"
+    },
+    {
+      "name": "Margareth",
+      "last_name": "Sall",
+      "age": 50,
+      "date_nasc": "10/12/1968"
+    }
+  ],
+  "address": {
+    "city": "São Paulo",
+    "street": "Avenida das Oliveiras",
+    "number": 99,
+    "UF": "SP",
+    "geo": [
+      {
+        "state": {
+          "lat": 4514.13515,
+          "long": 15132534,
+          "planet": [
+            "Earth"
+          ]
+        }
+      }
+    ],
+    "others": [
+      "AP401"
+    ]
+  },
+  "data": {
+    "brands": [
+      {
+        "name": "Aux",
+        "Lastname": "Isis",
+        "Amount": 10000.04
+      },
+      {
+        "name": "Aux1",
+        "Lastname": "Isis1",
+        "Amount": 10000.04
+      },
+      {
+        "name": "Aux2",
+        "Lastname": "Isis2",
+        "Amount": 10000.04
+      },
+      {
+        "name": "Aux3",
+        "Lastname": "Isis3",
+        "Amount": 5002.04
+      },
+      {
+        "name": "Aux4",
+        "Lastname": "Isis4",
+        "Amount": 5004.04
+      }
+    ]
+  },
+  "Content-Type": "application/json"
+}

@@ -1,5 +1,9 @@
+util/AlertsMessages.class
 util/TextSystemFiles.class
 com/cit/framework/Exclud.class
+com/cit/framework/FrameworkTest.class
+com/cit/framework/ClassReport.class
+jsonvalidation/validationResponse.class
 util/Constantes.class
 util/FileProperties.class
 com/cit/framework/CITRestAssured.class

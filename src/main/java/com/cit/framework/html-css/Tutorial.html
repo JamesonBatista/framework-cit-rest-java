@@ -34,7 +34,7 @@
     <br>
     <li>Copie as configurações desse link, e altere os dois campos
         <mark>USERNAME PASSWORD</mark>
-        com sua chaveM e senha.  &nbsp;&nbsp;&nbsp;&nbsp;
+        com sua chaveM e senha. &nbsp;&nbsp;&nbsp;&nbsp;
         <a href="settings.xml">Aqui </a>
 
     </li>
@@ -46,13 +46,15 @@
     <br>
     <li>Dentro do seu <b>pom.xml</b> comente todas as dependências, deixando apenas a do Bradesco liberada para baixar.
         <p>
-        <a href="https://ibb.co/9v6xF79"><img src="https://i.ibb.co/vBpN7Sx/Screen-Shot-2021-07-19-at-07-24-05.png"
-                                              alt="Screen-Shot-2021-07-19-at-07-24-05" border="0"></a>
+            <a href="https://ibb.co/9v6xF79"><img src="https://i.ibb.co/vBpN7Sx/Screen-Shot-2021-07-19-at-07-24-05.png"
+                                                  alt="Screen-Shot-2021-07-19-at-07-24-05" border="0"></a>
         </p>
     </li>
     <br>
-    <li> <mark>Conecte sua VPN </mark>
-        Faça o build do projeto para baixar a dependência Bradesco, assim que terminar, retire os comentários do pom.xml e refaça o build.
+    <li>
+        <mark>Conecte sua VPN</mark>
+        Faça o build do projeto para baixar a dependência Bradesco, assim que terminar, retire os comentários do pom.xml
+        e refaça o build.
     </li>
     <br>
     <li>
@@ -138,7 +140,7 @@
 <hr>
 <br>
 <h1>Métodos com parâmetros</h1>
-<p>Para usar <b>headers</b> ou  <b>params</b> basta chamar a variável global, veja exemplo:</p>
+<p>Para usar <b>headers</b> ou <b>params</b> basta chamar a variável global, veja exemplo:</p>
 <pre><code>
         public class GetUser extends CITRestAssured {
 
@@ -415,9 +417,49 @@ Body().get("usedAmountFlexible", "100000.0001n", "Automação", "Framework");
 <h2>Vídeo usando o método <b>mapping</b></h2>
 <div class="video">
     <div class="dvideo">
+        <label>Validando com Framework</label>
         <iframe src="https://drive.google.com/file/d/1YyVMM8XxXzYfeYpF11BAREwkGd0STBcb/preview" width="340"
                 height="180" allow="autoplay"></iframe>
     </div>
+    <div class="dvideo">
+        <label>Validando com RestAssured</label>
+        <iframe src="https://drive.google.com/file/d/1YyVMM8XxXzYfeYpF11BAREwkGd0STBcb/preview" width="340"
+                height="180" allow="autoplay"></iframe>
+    </div>
+</div>
+<hr>
+<br>
+<br>
+<div class="info">
+    <h2>Funcões do Framework</h2>
+    <ul>
+        <li>
+            <label><b>Body().get(key)</b></label>
+            <p>(Apenas Strings) Usando essa função irá retornar o valor do campo informado dentro get(), exemplo de uso:
+                <br>String value
+                = Body().get("name");</p>
+        </li>
+        <li>
+            <label><b>Body().get(String key, String equals)</b></label>
+            <p>(Apenas Strings) Usando essa função irá retornar o valor do campo informado dentro get(), e irá comprar
+                com o valor equals exemplo de uso: <br>String value
+                = Body().get("name", "Michael");</p>
+        </li>
+
+        <li>
+            <label><b>Body().get(String key, String equals, String equalsTo)</b></label>
+            <p>(Apenas Strings) Usando essa função irá retornar o valor do campo informado dentro get(), e irá comprar
+                com o valor equals, ou equalsTo exemplo de uso: <br>String value
+                = Body().get("name", "Michael", "Bernard");</p>
+        </li>
+
+        <li>
+            <label><b>Body().contains(value)</b></label>
+            <p>(Apenas Strings) Usando essa função irá validar se o valor passado existe dentro do JSON não importando o
+                caminho, e pode ser passado vários valores, exemplo de uso: <br>String value
+                = Body().contains("Michael", "name", "lastName", "cpf");</p>
+        </li>
+    </ul>
 </div>
 <hr>
 </body>
@@ -429,7 +471,23 @@ Body().get("usedAmountFlexible", "100000.0001n", "Automação", "Framework");
 </html>
 
 <style>
-    footer {
+.video{
+display: flex;
+margin-bottom: 32px;
+height: 250px;
+}
+.dvideo{
+  display: flex;
+  flex-direction: column;
+  margin-top:24px
+}
+
+label{
+font-size: 24px;
+margin-bottom:24px
+}
+
+    .info {
         margin-bottom: 40px
     }
 
@@ -493,14 +551,13 @@ Body().get("usedAmountFlexible", "100000.0001n", "Automação", "Framework");
         box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
     }
 
-    .dvideo {
-        display: inline-block;
-        *display: inline;
-        zoom: 1;
-        vertical-align: top;
-        font-size: 20px;
-        margin: 0px 0px 10px 10px
-    }
+<!--    .dvideo {-->
+<!--        display: inline-block;-->
+<!--        zoom: 1;-->
+<!--        vertical-align: top;-->
+<!--        font-size: 20px;-->
+<!--        margin: 0px 0px 10px 10px-->
+<!--    }-->
 
     /* Styles the lightbox, removes it from sight and adds the fade-in transition */
 
@@ -608,6 +665,8 @@ Body().get("usedAmountFlexible", "100000.0001n", "Automação", "Framework");
     .lightbox-target:target a.lightbox-close {
         top: 0;
     }
+
+
 
 
 

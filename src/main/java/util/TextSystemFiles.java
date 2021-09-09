@@ -1085,7 +1085,7 @@ public class TextSystemFiles {
             "    <br>\n" +
             "    <li>Copie as configurações desse link, e altere os dois campos\n" +
             "        <mark>USERNAME PASSWORD</mark>\n" +
-            "        com sua chaveM e senha.  &nbsp;&nbsp;&nbsp;&nbsp;\n" +
+            "        com sua chaveM e senha. &nbsp;&nbsp;&nbsp;&nbsp;\n" +
             "        <a href=\"settings.xml\">Aqui </a>\n" +
             "\n" +
             "    </li>\n" +
@@ -1097,13 +1097,15 @@ public class TextSystemFiles {
             "    <br>\n" +
             "    <li>Dentro do seu <b>pom.xml</b> comente todas as dependências, deixando apenas a do Bradesco liberada para baixar.\n" +
             "        <p>\n" +
-            "        <a href=\"https://ibb.co/9v6xF79\"><img src=\"https://i.ibb.co/vBpN7Sx/Screen-Shot-2021-07-19-at-07-24-05.png\"\n" +
-            "                                              alt=\"Screen-Shot-2021-07-19-at-07-24-05\" border=\"0\"></a>\n" +
+            "            <a href=\"https://ibb.co/9v6xF79\"><img src=\"https://i.ibb.co/vBpN7Sx/Screen-Shot-2021-07-19-at-07-24-05.png\"\n" +
+            "                                                  alt=\"Screen-Shot-2021-07-19-at-07-24-05\" border=\"0\"></a>\n" +
             "        </p>\n" +
             "    </li>\n" +
             "    <br>\n" +
-            "    <li> <mark>Conecte sua VPN </mark>\n" +
-            "        Faça o build do projeto para baixar a dependência Bradesco, assim que terminar, retire os comentários do pom.xml e refaça o build.\n" +
+            "    <li>\n" +
+            "        <mark>Conecte sua VPN</mark>\n" +
+            "        Faça o build do projeto para baixar a dependência Bradesco, assim que terminar, retire os comentários do pom.xml\n" +
+            "        e refaça o build.\n" +
             "    </li>\n" +
             "    <br>\n" +
             "    <li>\n" +
@@ -1189,7 +1191,7 @@ public class TextSystemFiles {
             "<hr>\n" +
             "<br>\n" +
             "<h1>Métodos com parâmetros</h1>\n" +
-            "<p>Para usar <b>headers</b> ou  <b>params</b> basta chamar a variável global, veja exemplo:</p>\n" +
+            "<p>Para usar <b>headers</b> ou <b>params</b> basta chamar a variável global, veja exemplo:</p>\n" +
             "<pre><code>\n" +
             "        public class GetUser extends CITRestAssured {\n" +
             "\n" +
@@ -1466,9 +1468,49 @@ public class TextSystemFiles {
             "<h2>Vídeo usando o método <b>mapping</b></h2>\n" +
             "<div class=\"video\">\n" +
             "    <div class=\"dvideo\">\n" +
+            "        <label>Validando com Framework</label>\n" +
             "        <iframe src=\"https://drive.google.com/file/d/1YyVMM8XxXzYfeYpF11BAREwkGd0STBcb/preview\" width=\"340\"\n" +
             "                height=\"180\" allow=\"autoplay\"></iframe>\n" +
             "    </div>\n" +
+            "    <div class=\"dvideo\">\n" +
+            "        <label>Validando com RestAssured</label>\n" +
+            "        <iframe src=\"https://drive.google.com/file/d/1YyVMM8XxXzYfeYpF11BAREwkGd0STBcb/preview\" width=\"340\"\n" +
+            "                height=\"180\" allow=\"autoplay\"></iframe>\n" +
+            "    </div>\n" +
+            "</div>\n" +
+            "<hr>\n" +
+            "<br>\n" +
+            "<br>\n" +
+            "<div class=\"info\">\n" +
+            "    <h2>Funcões do Framework</h2>\n" +
+            "    <ul>\n" +
+            "        <li>\n" +
+            "            <label><b>Body().get(key)</b></label>\n" +
+            "            <p>(Apenas Strings) Usando essa função irá retornar o valor do campo informado dentro get(), exemplo de uso:\n" +
+            "                <br>String value\n" +
+            "                = Body().get(\"name\");</p>\n" +
+            "        </li>\n" +
+            "        <li>\n" +
+            "            <label><b>Body().get(String key, String equals)</b></label>\n" +
+            "            <p>(Apenas Strings) Usando essa função irá retornar o valor do campo informado dentro get(), e irá comprar\n" +
+            "                com o valor equals exemplo de uso: <br>String value\n" +
+            "                = Body().get(\"name\", \"Michael\");</p>\n" +
+            "        </li>\n" +
+            "\n" +
+            "        <li>\n" +
+            "            <label><b>Body().get(String key, String equals, String equalsTo)</b></label>\n" +
+            "            <p>(Apenas Strings) Usando essa função irá retornar o valor do campo informado dentro get(), e irá comprar\n" +
+            "                com o valor equals, ou equalsTo exemplo de uso: <br>String value\n" +
+            "                = Body().get(\"name\", \"Michael\", \"Bernard\");</p>\n" +
+            "        </li>\n" +
+            "\n" +
+            "        <li>\n" +
+            "            <label><b>Body().contains(value)</b></label>\n" +
+            "            <p>(Apenas Strings) Usando essa função irá validar se o valor passado existe dentro do JSON não importando o\n" +
+            "                caminho, e pode ser passado vários valores, exemplo de uso: <br>String value\n" +
+            "                = Body().contains(\"Michael\", \"name\", \"lastName\", \"cpf\");</p>\n" +
+            "        </li>\n" +
+            "    </ul>\n" +
             "</div>\n" +
             "<hr>\n" +
             "</body>\n" +
@@ -1480,7 +1522,23 @@ public class TextSystemFiles {
             "</html>\n" +
             "\n" +
             "<style>\n" +
-            "    footer {\n" +
+            ".video{\n" +
+            "display: flex;\n" +
+            "margin-bottom: 32px;\n" +
+            "height: 250px;\n" +
+            "}\n" +
+            ".dvideo{\n" +
+            "  display: flex;\n" +
+            "  flex-direction: column;\n" +
+            "  margin-top:24px\n" +
+            "}\n" +
+            "\n" +
+            "label{\n" +
+            "font-size: 24px;\n" +
+            "margin-bottom:24px\n" +
+            "}\n" +
+            "\n" +
+            "    .info {\n" +
             "        margin-bottom: 40px\n" +
             "    }\n" +
             "\n" +
@@ -1544,14 +1602,13 @@ public class TextSystemFiles {
             "        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);\n" +
             "    }\n" +
             "\n" +
-            "    .dvideo {\n" +
-            "        display: inline-block;\n" +
-            "        *display: inline;\n" +
-            "        zoom: 1;\n" +
-            "        vertical-align: top;\n" +
-            "        font-size: 20px;\n" +
-            "        margin: 0px 0px 10px 10px\n" +
-            "    }\n" +
+            "<!--    .dvideo {-->\n" +
+            "<!--        display: inline-block;-->\n" +
+            "<!--        zoom: 1;-->\n" +
+            "<!--        vertical-align: top;-->\n" +
+            "<!--        font-size: 20px;-->\n" +
+            "<!--        margin: 0px 0px 10px 10px-->\n" +
+            "<!--    }-->\n" +
             "\n" +
             "    /* Styles the lightbox, removes it from sight and adds the fade-in transition */\n" +
             "\n" +
@@ -1659,17 +1716,6 @@ public class TextSystemFiles {
             "    .lightbox-target:target a.lightbox-close {\n" +
             "        top: 0;\n" +
             "    }\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
             "\n" +
             "</style>";
 
