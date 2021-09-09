@@ -1474,8 +1474,7 @@ public class TextSystemFiles {
             "    </div>\n" +
             "    <div class=\"dvideo\">\n" +
             "        <label>Validando com RestAssured</label>\n" +
-            "        <iframe src=\"https://drive.google.com/file/d/1YyVMM8XxXzYfeYpF11BAREwkGd0STBcb/preview\" width=\"340\"\n" +
-            "                height=\"180\" allow=\"autoplay\"></iframe>\n" +
+            "        <iframe src=\"https://drive.google.com/file/d/1bM_dvYyxGxi3nuExWf1y38tGr2eAnPZ3/preview\" width=\"340\" height=\"180\" allow=\"autoplay\"></iframe>\n" +
             "    </div>\n" +
             "</div>\n" +
             "<hr>\n" +
