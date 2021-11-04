@@ -18,8 +18,8 @@ public class FrameworkTest extends CITRestAssured {
     public void TestFrame() throws Exception {
 
 //        InitEnvironment("users/7");
-//        InitEnvironment();
-        Environment("env3");
+        InitEnvironment();
+//        Environment("env3");
 //        body(String path, Matcher<?> matcher, Object... additionalKeyMatcherPairs);
 //        params.put("a", "s");
 
@@ -30,7 +30,7 @@ public class FrameworkTest extends CITRestAssured {
         Get();
 //        Body().mapping("address > others");
 
-        Body().contains("AP401")
+//        Body().contains("AP401")
 
 //        Body().mapping("address > geo > state > planet", "Earth");
 
