@@ -134,7 +134,6 @@ public class CITRestAssured extends validationResponse {
     }
 
     public void InitEnvironment(String... Endpoint) throws IOException, BradescoAssertionException {
-        Exclud.ExcludReportBradesco();
         RestAssured.reset();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         if (Endpoint.length == 1) {
@@ -153,7 +152,6 @@ public class CITRestAssured extends validationResponse {
     }
 
     public void Environment(String environment, String... Endpoint) throws IOException, BradescoAssertionException {
-        Exclud.ExcludReportBradesco();
         RestAssured.reset();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         if (Endpoint.length == 1) {
