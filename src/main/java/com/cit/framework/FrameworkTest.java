@@ -17,8 +17,14 @@ public class FrameworkTest extends CITRestAssured {
     @Test
     public void TestFrame() throws Exception {
 
-//        InitEnvironment("users/7");
         InitEnvironment();
+//        InitEnvironment();
+        Get(false);
+
+        Body()
+                .mapping("data > brands","Amount",  5002.04, 251651)
+
+
 //        Environment("env3");
 //        body(String path, Matcher<?> matcher, Object... additionalKeyMatcherPairs);
 //        params.put("a", "s");
@@ -27,12 +33,17 @@ public class FrameworkTest extends CITRestAssured {
         //Validação usando o Rest
 //        params.put("validation", "validação");
 //        GetParam();
-        Get();
-//        Body().mapping("address > others");
+
+//                .array("users", "name", 0, "Michel", "Michae")
+//                .mapping("users > name", "Michael");
+
+//        JSONObject json = new JSONObject(response.asString());
+//        System.out.println(json.getJSONArray("users").getJSONObject(1).get("name"));
 
 //        Body().contains("AP401")
 
-//        Body().mapping("address > geo > state > planet", "Earth");
+//        Body()
+//        .mapping("address > geo > state > planet", "Earth");
 
 //             .rootPath("users").body("[0].name", is("Margareth"));
 

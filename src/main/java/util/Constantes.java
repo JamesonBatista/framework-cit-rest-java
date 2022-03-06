@@ -67,6 +67,16 @@ public interface Constantes {
             url = GetProp().getProperty("env3");
         } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env4")) {
             url = GetProp().getProperty("env4");
+        } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env5")) {
+            url = GetProp().getProperty("env5");
+        } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env6")) {
+            url = GetProp().getProperty("env6");
+        } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env7")) {
+            url = GetProp().getProperty("env7");
+        } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env8")) {
+            url = GetProp().getProperty("env8");
+        } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env9")) {
+            url = GetProp().getProperty("env9");
         } else {
             throw new BradescoRuntimeException("\n                             Ambiente desconhecido: " + environment);
         }

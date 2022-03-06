@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import org.junit.Assert;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -538,7 +537,38 @@ public class validationResponse {
     JSONArray jsonArray;
     JSONObject jsonObjectValidation = null;
 
-    public <T extends Object> validationResponse mapping(String key, T... equals) throws BradescoAssertionException {
+    public <T extends Object> validationResponse array(String array, String key, int index, T equals) {
+
+        jsonObjectValidation = new JSONObject(response.asString());
+        JSONArray arrayObject = new JSONArray();
+        arrayObject = jsonObjectValidation.getJSONArray(array);
+
+
+        if (arrayObject.getJSONObject(index).get(key).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+                arrayObject.getJSONObject(index).get(key).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+            BigDecimal bigDecimal = new BigDecimal(arrayObject.getJSONObject(index).get(key).toString());
+            Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(bigDecimal));
+        } else {
+            Assert.assertThat(arrayObject.getJSONObject(index).get(key), Matchers.is(equals.toString()));
+        }
+
+
+        return this;
+    }
+
+    public <T extends Object> validationResponse array(String array, String key, int index, T equals, T equalsTo) throws BradescoAssertionException {
+
+        jsonObjectValidation = new JSONObject(response.asString());
+        JSONArray arrayObject = new JSONArray();
+        jsonObjectValidation = jsonObjectValidation.getJSONArray(array).getJSONObject(index);
+
+        AssertJson(key, equals, equalsTo);
+
+
+        return this;
+    }
+
+    public <T extends Object> validationResponse mapping(String key) throws BradescoAssertionException {
         if (bodyStart) {
             if (response.asString().startsWith("[")) {
                 System.out.println(jsonArray);
@@ -557,57 +587,127 @@ public class validationResponse {
                     if (jsonObjectValidation.get(array) instanceof JSONObject) {
                         jsonObjectValidation = jsonObjectValidation.getJSONObject(array);
 
-                        for (T lista : equals) {
-                            if (jsonObjectValidation.has(array)) {
-                                if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
-                                        jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
-                                    BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
-                                    Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(lista));
-                                } else {
-                                    if (!jsonObjectValidation.has(array))
-                                        Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(lista));
-                                }
+//                        for (T lista : equals) {
+//                            if (jsonObjectValidation.has(array)) {
+//                                if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+//                                        jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+//                                    BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
+//                                    Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(lista));
+//                                } else {
+//                                    if (!jsonObjectValidation.has(array))
+//                                        Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(lista));
+//                                }
+//                            }
+//                        }
+                    } else if (jsonObjectValidation.get(array) instanceof JSONArray) {
+                        jsonArray = jsonObjectValidation.getJSONArray(array);
+
+                        for (Object l : jsonArray) {
+                            jsonObjectValidation = new JSONObject(l.toString());
+//                            if (equals.length == 1) {
+//                                if (jsonObjectValidation.has(array)) {
+//                                    for (T lista : equals) {
+//                                        if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+//                                                jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+//                                            BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
+//                                            Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(lista));
+//                                        } else {
+//                                            Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(lista));
+//                                        }
+//                                    }
+//                                }
+//                            } else if (equals.length > 1) {
+//                                throw new BradescoAssertionException("\n\nO método apenas permite 2 valores, o path e o comparativo EQUALS.");
+//                            }
+                        }
+                    } else {
+//                        if (equals.length == 1) {
+
+//                            for (T lista : equals) {
+//                                if (jsonObjectValidation.has(array))
+//                                    if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+//                                            jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+//                                        BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
+//                                        Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(lista));
+//                                    } else {
+//                                        Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(lista));
+//                                    }
+//                                else {
+//                                    throw new BradescoAssertionException("\n\nO path  [ " + array + " ]  não existe no seu JSON, ou o caminho está errado.");
+//                                }
+//                            }
+//                        } else if (equals.length > 1) {
+//                            throw new BradescoAssertionException("\n\nO método apenas permite 2 valores, o path e o comparativo EQUALS.");
+//                        }
+                    }
+                } else {
+                    throw new BradescoAssertionException("\n\nO path  [ " + array + " ]   não existe no seu JSON, ou o caminho está errado.\n\n" + jsonObjectValidation);
+                }
+            }
+        } else {
+            throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
+                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+        }
+        return this;
+    }
+
+    public <T extends Object> validationResponse mapping(String key, T equals) throws BradescoAssertionException {
+        if (bodyStart) {
+            if (response.asString().startsWith("[")) {
+                System.out.println(jsonArray);
+                for (Object list : jsonArray) {
+                    jsonObjectValidation = new JSONObject(list.toString());
+                }
+            } else {
+                jsonObjectValidation = new JSONObject(response.asString());
+            }
+            String[] arrayList = key.split(" > ");
+            for (String array : arrayList) {
+                array = array.trim();
+                boolean exist = jsonObjectValidation.has(array);
+
+                if (exist) {
+                    if (jsonObjectValidation.get(array) instanceof JSONObject) {
+                        jsonObjectValidation = jsonObjectValidation.getJSONObject(array);
+
+                        if (jsonObjectValidation.has(array)) {
+                            if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+                                    jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+                                BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
+                                Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(equals));
+                            } else {
+                                if (!jsonObjectValidation.has(array))
+                                    Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(equals));
                             }
+
                         }
                     } else if (jsonObjectValidation.get(array) instanceof JSONArray) {
                         jsonArray = jsonObjectValidation.getJSONArray(array);
 
                         for (Object l : jsonArray) {
                             jsonObjectValidation = new JSONObject(l.toString());
-                            if (equals.length == 1) {
-                                if (jsonObjectValidation.has(array)) {
-                                    for (T lista : equals) {
-                                        if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
-                                                jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
-                                            BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
-                                            Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(lista));
-                                        } else {
-                                            Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(lista));
-                                        }
-                                    }
+                            if (jsonObjectValidation.has(array)) {
+                                if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+                                        jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+                                    BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
+                                    Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(equals));
+                                } else {
+                                    Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(equals));
                                 }
-                            } else if (equals.length > 1) {
-                                throw new BradescoAssertionException("\n\nO método apenas permite 2 valores, o path e o comparativo EQUALS.");
                             }
                         }
                     } else {
-                        if (equals.length == 1) {
 
-                            for (T lista : equals) {
-                                if (jsonObjectValidation.has(array))
-                                    if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
-                                            jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
-                                        BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
-                                        Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(lista));
-                                    } else {
-                                        Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(lista));
-                                    }
-                                else {
-                                    throw new BradescoAssertionException("\n\nO path  [ " + array + " ]  não existe no seu JSON, ou o caminho está errado.");
-                                }
+                        if (jsonObjectValidation.has(array))
+                            if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+                                    jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+                                BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
+                                Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(equals));
+                            } else {
+                                Assert.assertThat(jsonObjectValidation.get(array), Matchers.is(equals));
                             }
-                        } else if (equals.length > 1) {
-                            throw new BradescoAssertionException("\n\nO método apenas permite 2 valores, o path e o comparativo EQUALS.");
+                        else {
+                            throw new BradescoAssertionException("\n\nO path  [ " + array + " ]  não existe no seu JSON, ou o caminho está errado.");
                         }
                     }
                 } else {
@@ -653,9 +753,11 @@ public class validationResponse {
                         }
                     } else if (jsonObjectValidation.get(array) instanceof JSONArray) {
                         jsonArray = jsonObjectValidation.getJSONArray(array);
+                        int countDown = 1;
 
                         for (Object l : jsonArray) {
                             jsonObjectValidation = new JSONObject(l.toString());
+
                             if (jsonObjectValidation.has(array)) {
                                 if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
                                         jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
@@ -666,13 +768,19 @@ public class validationResponse {
                                 }
                             } else {
                                 if (jsonObjectValidation.has(path))
-                                    if (jsonObjectValidation.get(path).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
-                                            jsonObjectValidation.get(path).getClass().getSimpleName().equalsIgnoreCase("Float")) {
-                                        BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(path).toString());
-                                        Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(equals));
-                                    } else {
-                                        Assert.assertThat(jsonObjectValidation.get(path), Matchers.is(equals));
-                                    }
+                                    AssertJsonNOne(path, equals);
+
+                                int valueArray = jsonArray.length() - countDown;
+                                countDown = countDown + 1;
+
+                                if (validation)
+                                    break;
+
+
+                                if (valueArray == 0 && !validation)
+                                    throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ]\nValor encontrado no JSON:  " + jsonArray);
+
+
                             }
                         }
                     } else {
@@ -704,6 +812,8 @@ public class validationResponse {
         return this;
     }
 
+    boolean validation = false;
+
     public <T extends Object> validationResponse mapping(String key, String path, T equals, T equalsTo) throws BradescoAssertionException {
         if (bodyStart) {
             if (response.asString().startsWith("[")) {
@@ -734,6 +844,7 @@ public class validationResponse {
                     } else if (jsonObjectValidation.get(array) instanceof JSONArray) {
                         jsonArray = jsonObjectValidation.getJSONArray(array);
 
+                        int countDown = 1;
                         for (Object l : jsonArray) {
                             jsonObjectValidation = new JSONObject(l.toString());
                             if (jsonObjectValidation.has(array)) {
@@ -748,11 +859,23 @@ public class validationResponse {
                                     }
                                 } else {
                                     if (jsonObjectValidation.has(path))
-                                        AssertJson(path, equals, equalsTo);
+                                        AssertJsonNO(path, equals, equalsTo);
                                 }
                             } else {
                                 if (jsonObjectValidation.has(path))
-                                    AssertJson(path, equals, equalsTo);
+                                    AssertJsonNO(path, equals, equalsTo);
+
+                                int valueArray = jsonArray.length() - countDown;
+                                countDown = countDown + 1;
+
+                                if (validation)
+                                    break;
+
+
+                                if (valueArray == 0 && !validation)
+                                    throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTo + " ]\nValor encontrado no JSON:  " + jsonArray);
+
+
                             }
                         }
                     } else {
@@ -773,6 +896,129 @@ public class validationResponse {
         }
         return this;
     }
+
+//    public <T extends Object> validationResponse mapping(String key, String path, T equals, T equalsTo, T equalsTos) throws BradescoAssertionException {
+//        if (bodyStart) {
+//            if (response.asString().startsWith("[")) {
+//                jsonArray = new JSONArray(response.asString());
+//
+//                for (Object list : jsonArray) {
+//                    jsonObjectValidation = new JSONObject(list.toString());
+//                }
+//            } else {
+//                jsonObjectValidation = new JSONObject(response.asString());
+//            }
+//            String[] arrayList = key.split(" > ");
+//            String nextKeys = new String();
+//            for (String array : arrayList) {
+//                array = array.trim();
+//                boolean exist = jsonObjectValidation.has(array);
+//
+//                if (exist) {
+//                    if (jsonObjectValidation.get(array) instanceof JSONObject) {
+//                        jsonObjectValidation = jsonObjectValidation.getJSONObject(array);
+//
+//                        if (jsonObjectValidation.has(array)) {
+//                            if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+//                                    jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+//                                BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
+//                                BigDecimal equals1 = new BigDecimal(equals.toString());
+//                                BigDecimal equals2 = new BigDecimal(equalsTo.toString());
+//                                BigDecimal equals3 = new BigDecimal(equalsTos.toString());
+//                                if (bigDecimal.doubleValue() != equals1.doubleValue()) {
+//                                    if (bigDecimal.doubleValue() != equals2.doubleValue()) {
+//                                        if (bigDecimal.doubleValue() != equals3.doubleValue())
+//                                            throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [" + equals1.doubleValue() + " ] [ " + equals2.doubleValue() + " ]  [" + equals3.doubleValue() + " ]\nValor encontrado no JSON:  " + jsonObjectValidation);
+//                                    }
+//                                }
+//                            } else {
+//                                if (!jsonObjectValidation.has(array))
+//                                    if (!jsonObjectValidation.get(path).equals(equals.toString())) {
+//                                        if (!jsonObjectValidation.get(path).equals(equalsTo)) {
+//                                            if (!jsonObjectValidation.get(path).equals(equalsTos))
+//                                                throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ]\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
+//                                                        "" + jsonObjectValidation);
+//                                        }
+//                                    }
+//                            }
+//                        }
+//
+//                    } else if (jsonObjectValidation.get(array) instanceof JSONArray) {
+//                        jsonArray = jsonObjectValidation.getJSONArray(array);
+//
+//                        for (Object l : jsonArray) {
+//                            jsonObjectValidation = new JSONObject(l.toString());
+//                            if (jsonObjectValidation.has(array)) {
+//                                if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+//                                        jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+//                                    BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
+//                                    BigDecimal equals1 = new BigDecimal(equals.toString());
+//                                    BigDecimal equals2 = new BigDecimal(equalsTo.toString());
+//                                    BigDecimal equals3 = new BigDecimal(equalsTos.toString());
+//                                    if (bigDecimal.doubleValue() != equals1.doubleValue()) {
+//                                        if (bigDecimal.doubleValue() != equals2.doubleValue()) {
+//                                            if (bigDecimal.doubleValue() != equals3.doubleValue())
+//                                                throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [" + equals1.doubleValue() + " ] [ " + equals2.doubleValue() + " ]  [" + equals3.doubleValue() + " ]\nValor encontrado no JSON:  " + jsonObjectValidation);
+//                                        }
+//                                    }
+//                                } else {
+//                                    if (jsonObjectValidation.has(path))
+//                                        if (!jsonObjectValidation.get(path).equals(equals.toString())) {
+//                                            if (!jsonObjectValidation.get(path).equals(equalsTo)) {
+//                                                if (!jsonObjectValidation.get(path).equals(equalsTos))
+//                                                    throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ]\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
+//                                                            "" + jsonObjectValidation);
+//                                            }
+//                                        }
+//                                }
+//
+//                            } else {
+//                                if (jsonObjectValidation.has(path))
+//                                    AssertJsonThree(path, equals, equalsTo, equalsTos);
+//                            }
+//                        }
+//                    } else {
+//                        if (jsonObjectValidation.has(array))
+//                            if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+//                                    jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+//                                BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
+//                                BigDecimal equals1 = new BigDecimal(equals.toString());
+//                                BigDecimal equals2 = new BigDecimal(equalsTo.toString());
+//                                BigDecimal equals3 = new BigDecimal(equalsTos.toString());
+//                                if (bigDecimal.doubleValue() != equals1.doubleValue()) {
+//                                    if (bigDecimal.doubleValue() != equals2.doubleValue()) {
+//                                        if (bigDecimal.doubleValue() != equals3.doubleValue())
+//                                            throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [" + equals1.doubleValue() + " ] [ " + equals2.doubleValue() + " ]  [" + equals3.doubleValue() + " ]\nValor encontrado no JSON:  " + jsonObjectValidation);
+//
+//                                    }
+//                                }
+//                            } else {
+//                                if (jsonObjectValidation.has(path))
+//                                    if (!jsonObjectValidation.get(path).equals(equals.toString())) {
+//                                        nextKeys = equalsTo.toString();
+//                                        if (!jsonObjectValidation.get(path).equals(equalsTo.toString())) {
+//                                            nextKeys = equalsTos.toString();
+//                                            if (!jsonObjectValidation.get(path).equals(equalsTos.toString()))
+//                                                throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + nextKeys + " ]\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
+//                                                        "" + jsonObjectValidation);
+//                                        }
+//                                    }
+//                            }
+//                        else {
+//                            throw new BradescoAssertionException("\n\nO path  [ " + array + " ]  não existe no seu JSON, ou o caminho está errado.");
+//                        }
+//                    }
+//                } else {
+//                    throw new BradescoAssertionException("\n\nO path  [ " + array + " ]  não existe no seu JSON, ou o caminho está errado.");
+//                }
+//            }
+//
+//        } else {
+//            throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
+//                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+//        }
+//        return this;
+//    }
 
     public <T extends Object> validationResponse mapping(String key, String path, T equals, T equalsTo, T equalsTos) throws BradescoAssertionException {
         if (bodyStart) {
@@ -795,6 +1041,9 @@ public class validationResponse {
                     if (jsonObjectValidation.get(array) instanceof JSONObject) {
                         jsonObjectValidation = jsonObjectValidation.getJSONObject(array);
 
+                        if (jsonObjectValidation.has(path))
+                            AssertJsonThree(path, equals, equalsTo, equalsTos);
+
                         if (jsonObjectValidation.has(array)) {
                             if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
                                     jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
@@ -809,22 +1058,37 @@ public class validationResponse {
                                     }
                                 }
                             } else {
-                                if (!jsonObjectValidation.has(array))
-                                    if (!jsonObjectValidation.get(path).equals(equals.toString())) {
-                                        if (!jsonObjectValidation.get(path).equals(equalsTo)) {
-                                            if (!jsonObjectValidation.get(path).equals(equalsTos))
-                                                throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ]\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
-                                                        "" + jsonObjectValidation);
-                                        }
-                                    }
+                                if (jsonObjectValidation.has(array))
+                                    AssertJsonThree(array, equals, equalsTo, equalsTos);
+//                                    if (!jsonObjectValidation.get(path).equals(equals.toString())) {
+//                                        if (!jsonObjectValidation.get(path).equals(equalsTo)) {
+//                                            if (!jsonObjectValidation.get(path).equals(equalsTos))
+//                                                throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ]\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
+//                                                        "" + jsonObjectValidation);
+//                                        }
+//                                    }
                             }
                         }
 
                     } else if (jsonObjectValidation.get(array) instanceof JSONArray) {
                         jsonArray = jsonObjectValidation.getJSONArray(array);
+                        boolean assertValue = false;
 
+                        int downValue = 1;
                         for (Object l : jsonArray) {
                             jsonObjectValidation = new JSONObject(l.toString());
+
+//                            if (jsonObjectValidation.get(array) instanceof JSONObject) {
+//                                jsonObjectValidation = jsonObjectValidation.getJSONObject(array);
+//                            } else if (jsonObjectValidation.get(array) instanceof JSONArray) {
+//
+//                            }
+
+//                            if (jsonObjectValidation.has(path) && jsonObjectValidation.get(path).equals(equals) ||
+//                                    jsonObjectValidation.get(path).equals(equalsTo) || jsonObjectValidation.get(path).equals(equalsTos)) {
+//                                assertValue = true;
+//                                break;
+//                            }
                             if (jsonObjectValidation.has(array)) {
                                 if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
                                         jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
@@ -840,18 +1104,29 @@ public class validationResponse {
                                     }
                                 } else {
                                     if (jsonObjectValidation.has(path))
-                                        if (!jsonObjectValidation.get(path).equals(equals.toString())) {
-                                            if (!jsonObjectValidation.get(path).equals(equalsTo)) {
-                                                if (!jsonObjectValidation.get(path).equals(equalsTos))
-                                                    throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ]\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
-                                                            "" + jsonObjectValidation);
-                                            }
-                                        }
+                                        AssertJsonThree(array, equals, equalsTo, equalsTos);
+
+//                                        if (!jsonObjectValidation.get(path).equals(equals.toString())) {
+//                                            if (!jsonObjectValidation.get(path).equals(equalsTo)) {
+//                                                if (!jsonObjectValidation.get(path).equals(equalsTos))
+//                                                    throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ]\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
+//                                                            "" + jsonObjectValidation);
+//                                            }
+//                                        }
                                 }
 
                             } else {
-                                if (jsonObjectValidation.has(path))
+
+                                if (jsonObjectValidation.has(path)) {
                                     AssertJsonThree(path, equals, equalsTo, equalsTos);
+                                    int valueArray = jsonArray.length() - downValue;
+                                    downValue = downValue + 1;
+
+                                    if (valueArray == 0 && !assertValue)
+                                        throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ]\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
+                                                "" + jsonArray);
+                                }
+
                             }
                         }
                     } else {
@@ -871,15 +1146,17 @@ public class validationResponse {
                                 }
                             } else {
                                 if (jsonObjectValidation.has(path))
-                                    if (!jsonObjectValidation.get(path).equals(equals.toString())) {
-                                        nextKeys = equalsTo.toString();
-                                        if (!jsonObjectValidation.get(path).equals(equalsTo.toString())) {
-                                            nextKeys = equalsTos.toString();
-                                            if (!jsonObjectValidation.get(path).equals(equalsTos.toString()))
-                                                throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + nextKeys + " ]\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
-                                                        "" + jsonObjectValidation);
-                                        }
-                                    }
+                                    AssertJsonThree(array, equals, equalsTo, equalsTos);
+
+//                                    if (!jsonObjectValidation.get(path).equals(equals.toString())) {
+//                                        nextKeys = equalsTo.toString();
+//                                        if (!jsonObjectValidation.get(path).equals(equalsTo.toString())) {
+//                                            nextKeys = equalsTos.toString();
+//                                            if (!jsonObjectValidation.get(path).equals(equalsTos.toString()))
+//                                                throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + nextKeys + " ]\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
+//                                                        "" + jsonObjectValidation);
+//                                        }
+//                                    }
                             }
                         else {
                             throw new BradescoAssertionException("\n\nO path  [ " + array + " ]  não existe no seu JSON, ou o caminho está errado.");
@@ -897,144 +1174,145 @@ public class validationResponse {
         return this;
     }
 
-    public <T extends Object> validationResponse mapping(String key, String path, T equals, T equalsTo, T equalsTos, T equalsToS) throws BradescoAssertionException {
-        if (bodyStart) {
-            if (response.asString().startsWith("[")) {
-                jsonArray = new JSONArray(response.asString());
 
-                for (Object list : jsonArray) {
-                    jsonObjectValidation = new JSONObject(list.toString());
-                }
-            } else {
-                jsonObjectValidation = new JSONObject(response.asString());
-            }
-            String[] arrayList = key.split(" > ");
-            String nextKeys = new String();
-            for (String array : arrayList) {
-                array = array.trim();
-                boolean exist = jsonObjectValidation.has(array);
-
-                if (exist) {
-                    if (jsonObjectValidation.get(array) instanceof JSONObject) {
-                        jsonObjectValidation = jsonObjectValidation.getJSONObject(array);
-
-                        if (jsonObjectValidation.has(array)) {
-                            if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
-                                    jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
-                                BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
-                                BigDecimal equals1 = new BigDecimal(equals.toString());
-                                BigDecimal equals2 = new BigDecimal(equalsTos.toString());
-                                BigDecimal equals3 = new BigDecimal(equalsTo.toString());
-                                BigDecimal equals4 = new BigDecimal(equalsToS.toString());
-                                if (bigDecimal.doubleValue() != equals1.doubleValue() &&
-                                        bigDecimal.doubleValue() != equals2.doubleValue() &&
-                                        bigDecimal.doubleValue() != equals3.doubleValue() &&
-                                        bigDecimal.doubleValue() != equals4.doubleValue()) {
-                                    throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ] [ " + equalsToS + " ]" +
-                                            "\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
-                                            "" + jsonObjectValidation);
-                                }
-                            } else {
-                                if (!jsonObjectValidation.has(array))
-                                    if (!jsonObjectValidation.get(path).equals(equals)) {
-                                        if (!jsonObjectValidation.get(path).equals(equalsTo)) {
-                                            if (!jsonObjectValidation.get(path).equals(equalsTos)) {
-                                                if (!jsonObjectValidation.get(path).equals(equalsToS))
-                                                    throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ] [ " + equalsToS + " ]" +
-                                                            "\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
-                                                            "" + jsonObjectValidation);
-                                            }
-                                        }
-                                    }
-                            }
-                        }
-
-                    } else if (jsonObjectValidation.get(array) instanceof JSONArray) {
-                        jsonArray = jsonObjectValidation.getJSONArray(array);
-
-                        for (Object l : jsonArray) {
-                            jsonObjectValidation = new JSONObject(l.toString());
-                            if (jsonObjectValidation.has(array)) {
-                                if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
-                                        jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
-                                    BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
-                                    BigDecimal equals1 = new BigDecimal(equals.toString());
-                                    BigDecimal equals2 = new BigDecimal(equalsTos.toString());
-                                    BigDecimal equals3 = new BigDecimal(equalsTo.toString());
-                                    BigDecimal equals4 = new BigDecimal(equalsToS.toString());
-                                    if (bigDecimal.doubleValue() != equals1.doubleValue() &&
-                                            bigDecimal.doubleValue() != equals2.doubleValue() &&
-                                            bigDecimal.doubleValue() != equals3.doubleValue() &&
-                                            bigDecimal.doubleValue() != equals4.doubleValue()) {
-                                        throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ] [ " + equalsToS + " ]" +
-                                                "\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
-                                                "" + jsonObjectValidation);
-                                    }
-                                } else {
-                                    if (!jsonObjectValidation.has(array))
-                                        if (!jsonObjectValidation.get(path).equals(equals)) {
-                                            if (!jsonObjectValidation.get(path).equals(equalsTo)) {
-                                                if (!jsonObjectValidation.get(path).equals(equalsTos)) {
-                                                    if (!jsonObjectValidation.get(path).equals(equalsToS))
-                                                        throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ] [ " + equalsToS + " ]" +
-                                                                "\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
-                                                                "" + jsonObjectValidation);
-                                                }
-                                            }
-                                        }
-                                }
-
-                            } else {
-                                if (jsonObjectValidation.has(path))
-                                    AssertJsonFour(path, equals, equalsTos, equalsTo, equalsToS);
-                            }
-                        }
-                    } else {
-
-                        if (jsonObjectValidation.has(array))
-                            if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
-                                    jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
-                                BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
-                                BigDecimal equals1 = new BigDecimal(equals.toString());
-                                BigDecimal equals2 = new BigDecimal(equalsTos.toString());
-                                BigDecimal equals3 = new BigDecimal(equalsTo.toString());
-                                BigDecimal equals4 = new BigDecimal(equalsToS.toString());
-                                if (bigDecimal.doubleValue() != equals1.doubleValue() &&
-                                        bigDecimal.doubleValue() != equals2.doubleValue() &&
-                                        bigDecimal.doubleValue() != equals3.doubleValue() &&
-                                        bigDecimal.doubleValue() != equals4.doubleValue()) {
-                                    throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ] [ " + equalsToS + " ]" +
-                                            "\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
-                                            "" + jsonObjectValidation);
-                                }
-                            } else {
-                                if (!jsonObjectValidation.has(array))
-                                    if (!jsonObjectValidation.get(path).equals(equals)) {
-                                        if (!jsonObjectValidation.get(path).equals(equalsTo)) {
-                                            if (!jsonObjectValidation.get(path).equals(equalsTos)) {
-                                                if (!jsonObjectValidation.get(path).equals(equalsToS))
-                                                    throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ] [ " + equalsToS + " ]" +
-                                                            "\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
-                                                            "" + jsonObjectValidation);
-                                            }
-                                        }
-                                    }
-                            }
-                        else {
-                            throw new BradescoAssertionException("\n\nO path  [ " + array + " ]  não existe no seu JSON, ou o caminho está errado.");
-                        }
-                    }
-                } else {
-                    throw new BradescoAssertionException("\n\nO path  [ " + array + " ]  não existe no seu JSON, ou o caminho está errado.");
-                }
-            }
-
-        } else {
-            throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
-                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
-        }
-        return this;
-    }
+//    public <T extends Object> validationResponse mapping(String key, String path, T equals, T equalsTo, T equalsTos, T equalsToS) throws BradescoAssertionException {
+//        if (bodyStart) {
+//            if (response.asString().startsWith("[")) {
+//                jsonArray = new JSONArray(response.asString());
+//
+//                for (Object list : jsonArray) {
+//                    jsonObjectValidation = new JSONObject(list.toString());
+//                }
+//            } else {
+//                jsonObjectValidation = new JSONObject(response.asString());
+//            }
+//            String[] arrayList = key.split(" > ");
+//            String nextKeys = new String();
+//            for (String array : arrayList) {
+//                array = array.trim();
+//                boolean exist = jsonObjectValidation.has(array);
+//
+//                if (exist) {
+//                    if (jsonObjectValidation.get(array) instanceof JSONObject) {
+//                        jsonObjectValidation = jsonObjectValidation.getJSONObject(array);
+//
+//                        if (jsonObjectValidation.has(array)) {
+//                            if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+//                                    jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+//                                BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
+//                                BigDecimal equals1 = new BigDecimal(equals.toString());
+//                                BigDecimal equals2 = new BigDecimal(equalsTos.toString());
+//                                BigDecimal equals3 = new BigDecimal(equalsTo.toString());
+//                                BigDecimal equals4 = new BigDecimal(equalsToS.toString());
+//                                if (bigDecimal.doubleValue() != equals1.doubleValue() &&
+//                                        bigDecimal.doubleValue() != equals2.doubleValue() &&
+//                                        bigDecimal.doubleValue() != equals3.doubleValue() &&
+//                                        bigDecimal.doubleValue() != equals4.doubleValue()) {
+//                                    throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ] [ " + equalsToS + " ]" +
+//                                            "\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
+//                                            "" + jsonObjectValidation);
+//                                }
+//                            } else {
+//                                if (!jsonObjectValidation.has(array))
+//                                    if (!jsonObjectValidation.get(path).equals(equals)) {
+//                                        if (!jsonObjectValidation.get(path).equals(equalsTo)) {
+//                                            if (!jsonObjectValidation.get(path).equals(equalsTos)) {
+//                                                if (!jsonObjectValidation.get(path).equals(equalsToS))
+//                                                    throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ] [ " + equalsToS + " ]" +
+//                                                            "\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
+//                                                            "" + jsonObjectValidation);
+//                                            }
+//                                        }
+//                                    }
+//                            }
+//                        }
+//
+//                    } else if (jsonObjectValidation.get(array) instanceof JSONArray) {
+//                        jsonArray = jsonObjectValidation.getJSONArray(array);
+//
+//                        for (Object l : jsonArray) {
+//                            jsonObjectValidation = new JSONObject(l.toString());
+//                            if (jsonObjectValidation.has(array)) {
+//                                if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+//                                        jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+//                                    BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
+//                                    BigDecimal equals1 = new BigDecimal(equals.toString());
+//                                    BigDecimal equals2 = new BigDecimal(equalsTos.toString());
+//                                    BigDecimal equals3 = new BigDecimal(equalsTo.toString());
+//                                    BigDecimal equals4 = new BigDecimal(equalsToS.toString());
+//                                    if (bigDecimal.doubleValue() != equals1.doubleValue() &&
+//                                            bigDecimal.doubleValue() != equals2.doubleValue() &&
+//                                            bigDecimal.doubleValue() != equals3.doubleValue() &&
+//                                            bigDecimal.doubleValue() != equals4.doubleValue()) {
+//                                        throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ] [ " + equalsToS + " ]" +
+//                                                "\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
+//                                                "" + jsonObjectValidation);
+//                                    }
+//                                } else {
+//                                    if (!jsonObjectValidation.has(array))
+//                                        if (!jsonObjectValidation.get(path).equals(equals)) {
+//                                            if (!jsonObjectValidation.get(path).equals(equalsTo)) {
+//                                                if (!jsonObjectValidation.get(path).equals(equalsTos)) {
+//                                                    if (!jsonObjectValidation.get(path).equals(equalsToS))
+//                                                        throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ] [ " + equalsToS + " ]" +
+//                                                                "\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
+//                                                                "" + jsonObjectValidation);
+//                                                }
+//                                            }
+//                                        }
+//                                }
+//
+//                            } else {
+//                                if (jsonObjectValidation.has(path))
+//                                    AssertJsonFour(path, equals, equalsTos, equalsTo, equalsToS);
+//                            }
+//                        }
+//                    } else {
+//
+//                        if (jsonObjectValidation.has(array))
+//                            if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+//                                    jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+//                                BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
+//                                BigDecimal equals1 = new BigDecimal(equals.toString());
+//                                BigDecimal equals2 = new BigDecimal(equalsTos.toString());
+//                                BigDecimal equals3 = new BigDecimal(equalsTo.toString());
+//                                BigDecimal equals4 = new BigDecimal(equalsToS.toString());
+//                                if (bigDecimal.doubleValue() != equals1.doubleValue() &&
+//                                        bigDecimal.doubleValue() != equals2.doubleValue() &&
+//                                        bigDecimal.doubleValue() != equals3.doubleValue() &&
+//                                        bigDecimal.doubleValue() != equals4.doubleValue()) {
+//                                    throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ] [ " + equalsToS + " ]" +
+//                                            "\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
+//                                            "" + jsonObjectValidation);
+//                                }
+//                            } else {
+//                                if (!jsonObjectValidation.has(array))
+//                                    if (!jsonObjectValidation.get(path).equals(equals)) {
+//                                        if (!jsonObjectValidation.get(path).equals(equalsTo)) {
+//                                            if (!jsonObjectValidation.get(path).equals(equalsTos)) {
+//                                                if (!jsonObjectValidation.get(path).equals(equalsToS))
+//                                                    throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ] [ " + equalsToS + " ]" +
+//                                                            "\nValor encontrado no JSON:  " + jsonObjectValidation.get(path) + "\n\nJSON error: " +
+//                                                            "" + jsonObjectValidation);
+//                                            }
+//                                        }
+//                                    }
+//                            }
+//                        else {
+//                            throw new BradescoAssertionException("\n\nO path  [ " + array + " ]  não existe no seu JSON, ou o caminho está errado.");
+//                        }
+//                    }
+//                } else {
+//                    throw new BradescoAssertionException("\n\nO path  [ " + array + " ]  não existe no seu JSON, ou o caminho está errado.");
+//                }
+//            }
+//
+//        } else {
+//            throw new BradescoAssertionException("\n\nErro ao iniciar validação JSON, por favor inicie usando o método Body()...\n" +
+//                    "Em caso de dúvidas, olhe o DOC 《《 src/test/resources/FrameworkCIT.md 》》");
+//        }
+//        return this;
+//    }
 
     boolean pathRootInit = false;
     JSONObject jsonPathRoot;
@@ -1110,7 +1388,59 @@ public class validationResponse {
 
     }
 
+    <T extends Object> void AssertJsonNO(String path, T equals, T equalsTo) throws BradescoAssertionException {
+        if (jsonObjectValidation.get(path).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+                jsonObjectValidation.get(path).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+            BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(path).toString());
+            BigDecimal bigEquals = new BigDecimal(equals.toString());
+            BigDecimal bigEqualsTo = new BigDecimal(equalsTo.toString());
+            if (bigDecimal.doubleValue() != bigEquals.doubleValue()) {
+                if (bigDecimal.doubleValue() != bigEqualsTo.doubleValue()) {
+                } else {
+                    validation = true;
+                }
+//                    throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + bigEquals.doubleValue() + " ] [ " + bigEqualsTo.doubleValue() + " ]\nValor encontrado no JSON:  " + jsonObjectValidation);
+            }
+        } else {
+            if (jsonObjectValidation.has(path))
+                if (!jsonObjectValidation.get(path).equals(equals)) {
+                    if (!jsonObjectValidation.get(path).equals(equalsTo)) {
+//                        throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTo + " ]\nValor encontrado no JSON:  " + jsonObjectValidation);
+                    } else {
+                        validation = true;
+                    }
+                }
+        }
+
+    }
+
+    <T extends Object> void AssertJsonNOne(String path, T equals) throws BradescoAssertionException {
+        if (jsonObjectValidation.get(path).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
+                jsonObjectValidation.get(path).getClass().getSimpleName().equalsIgnoreCase("Float")) {
+            BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(path).toString());
+            BigDecimal bigEquals = new BigDecimal(equals.toString());
+            if (bigDecimal.doubleValue() != bigEquals.doubleValue()) {
+
+            } else {
+                validation = true;
+            }
+//                    throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + bigEquals.doubleValue() + " ] [ " + bigEqualsTo.doubleValue() + " ]\nValor encontrado no JSON:  " + jsonObjectValidation);
+
+        } else {
+            if (jsonObjectValidation.has(path))
+                if (!jsonObjectValidation.get(path).equals(equals)) {
+//                        throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTo + " ]\nValor encontrado no JSON:  " + jsonObjectValidation);
+                } else {
+                    validation = true;
+                }
+
+        }
+
+    }
+
+
     <T extends Object> void AssertJsonThree(String array, T equals, T equalsTo, T equalsTos) throws BradescoAssertionException {
+        boolean value = false;
         if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
                 jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
             BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(array).toString());
@@ -1125,8 +1455,8 @@ public class validationResponse {
                 }
             }
         } else {
-            if (!jsonObjectValidation.has(array))
-                if (!jsonObjectValidation.get(array).equals(equals.toString())) {
+            if (jsonObjectValidation.has(array))
+                if (!jsonObjectValidation.get(array).equals(equals)) {
                     if (!jsonObjectValidation.get(array).equals(equalsTo)) {
                         if (!jsonObjectValidation.get(array).equals(equalsTos))
                             throw new BradescoAssertionException("\n\nO valor informado não foi encontrado:  [ " + equals + " ] [ " + equalsTos + " ] [ " + equalsTo + " ]\nValor encontrado no JSON:  " + jsonObjectValidation.get(array) + "\n\nJSON error: " +
@@ -1134,6 +1464,7 @@ public class validationResponse {
                     }
                 }
         }
+
     }
 
     <T extends Object> void AssertJsonFour(String path, T equals, T equalsTos, T equalsTo, T equalsToS) throws BradescoAssertionException {
@@ -1181,5 +1512,6 @@ public class validationResponse {
         }
         return this;
     }
+
 
 }
