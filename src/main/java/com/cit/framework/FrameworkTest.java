@@ -1,28 +1,34 @@
 package com.cit.framework;
 
-import io.restassured.response.Response;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import jsonvalidation.validationResponse;
 import org.junit.Test;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
+import static com.cit.framework.CITRestAssured.Get;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 
-public class FrameworkTest extends CITRestAssured {
+public class FrameworkTest {
 
 
     @Test
     public void TestFrame() throws Exception {
 
-        InitEnvironment();
 //        InitEnvironment();
-        Get(false);
+//        InitEnvironment();
+//        Environment("env5");
+////        params.put("jey", "56413");
+////        headers.put("token", "opijngaiopgniopnoprnh");
+////        GetParamHeader();
+//        Get();
+//
+//
+//        Body().contains("automaticPaymen");
 
-        Body()
-                .mapping("data > brands","Amount",  5002.04, 251651)
+//        Body()
+//                .mapping("data > brands","Amount",  5002.04, 251651)
 
 
 //        Environment("env3");

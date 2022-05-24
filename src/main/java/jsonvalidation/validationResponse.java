@@ -586,7 +586,8 @@ public class validationResponse {
                 if (exist) {
                     if (jsonObjectValidation.get(array) instanceof JSONObject) {
                         jsonObjectValidation = jsonObjectValidation.getJSONObject(array);
-
+//                        System.out.println(jsonObjectValidation);
+                        StringGlobal = jsonObjectValidation;
 //                        for (T lista : equals) {
 //                            if (jsonObjectValidation.has(array)) {
 //                                if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
@@ -604,6 +605,10 @@ public class validationResponse {
 
                         for (Object l : jsonArray) {
                             jsonObjectValidation = new JSONObject(l.toString());
+//                            System.out.println(jsonObjectValidation);
+                            StringGlobal = jsonObjectValidation;
+
+
 //                            if (equals.length == 1) {
 //                                if (jsonObjectValidation.has(array)) {
 //                                    for (T lista : equals) {

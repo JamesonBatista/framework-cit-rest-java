@@ -94,14 +94,14 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse ResponseBody() throws BradescoAssertionException {
+    public static ValidatableResponse ResponseBody() throws BradescoAssertionException {
         if (result == null)
             throw new BradescoAssertionException("\n\nO ResponseBody precisa que algum método Get, Post, Delete, Put, seja iniciado.");
 
         return result;
     }
 
-    private RequestSpecification Given() throws IOException {
+    private static RequestSpecification Given() throws IOException {
 
         initReport = true;
         InitReport();
@@ -111,21 +111,21 @@ public class CITRestAssured extends validationResponse {
                 ;
     }
 
-    void CheckParams() throws BradescoAssertionException {
+    static void CheckParams() throws BradescoAssertionException {
         if (params.toString() == "{}")
             throw new BradescoAssertionException("\n\nSeu método precisa do params.put('KEY', 'VALUE'), e está em branco\n" +
                     "então será considerado como NULL.\n" +
                     "Você precisa enviar um parâmetro ou mais de um, ou o método é inadequado.");
     }
 
-    void CheckFormParams() throws BradescoAssertionException {
+    static void CheckFormParams() throws BradescoAssertionException {
         if (params.toString() == "{}")
             throw new BradescoAssertionException("\n\nSeu método precisa do params.put('KEY', 'VALUE'), e está em branco\n" +
                     "então será considerado como NULL.\n" +
                     "Você precisa enviar um parâmetro ou mais de um, ou o método é inadequado.");
     }
 
-    void CheckHeaders() throws BradescoAssertionException {
+    static void CheckHeaders() throws BradescoAssertionException {
         if (headers.toString() == "{}")
             throw new BradescoAssertionException("\n\nSeu método precisa do headers.put('KEY', 'VALUE'), e está em branco\n" +
                     "então será considerado como NULL.\n" +
@@ -133,14 +133,14 @@ public class CITRestAssured extends validationResponse {
 
     }
 
-    public RequestSpecification GivenExternal() throws IOException {
+    public static RequestSpecification GivenExternal() throws IOException {
         InitReport();
         return given().filter(new RequestLoggingFilter(requestCapture))
                 .urlEncodingEnabled(false)
                 .log().all();
     }
 
-    public void InitEnvironment(String... Endpoint) throws IOException, BradescoAssertionException {
+    public static void InitEnvironment(String... Endpoint) throws IOException, BradescoAssertionException {
         RestAssured.reset();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         String env = new String();
@@ -160,7 +160,7 @@ public class CITRestAssured extends validationResponse {
                 + " **");
     }
 
-    public void Environment(String environment, String... Endpoint) throws IOException, BradescoAssertionException {
+    public static void Environment(String environment, String... Endpoint) throws IOException, BradescoAssertionException {
         RestAssured.reset();
         enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
         if (Endpoint.length == 1) {
@@ -179,7 +179,7 @@ public class CITRestAssured extends validationResponse {
 
     }
 
-    public ValidatableResponse Get(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse Get(Boolean... log) throws IOException, BradescoException {
         try {
             result = Given()
                     .when()
@@ -193,7 +193,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetBody(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetBody(String body, Boolean... log) throws IOException, BradescoException {
         try {
             result = Given()
                     .body(body)
@@ -208,7 +208,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         try {
             result = Given()
                     .when()
@@ -221,7 +221,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetBodyEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetBodyEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
         try {
             result = Given()
                     .body(body)
@@ -235,7 +235,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetParamHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetParamHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         CheckParams();
         CheckHeaders();
         try {
@@ -252,7 +252,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetFormParamHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetFormParamHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         CheckFormParams();
         CheckHeaders();
         try {
@@ -269,7 +269,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetBodyParamHeaderEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetBodyParamHeaderEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
         CheckParams();
         CheckHeaders();
         try {
@@ -287,7 +287,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetBodyFormParamHeaderEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetBodyFormParamHeaderEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
         CheckFormParams();
         CheckHeaders();
         try {
@@ -305,7 +305,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetParam(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetParam(Boolean... log) throws IOException, BradescoException {
         CheckParams();
         try {
             result = Given()
@@ -320,7 +320,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetFormParam(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetFormParam(Boolean... log) throws IOException, BradescoException {
         CheckFormParams();
         try {
             result = Given()
@@ -335,7 +335,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetBodyParam(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetBodyParam(String body, Boolean... log) throws IOException, BradescoException {
         CheckParams();
         try {
             result = Given()
@@ -351,7 +351,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetBodyFormParam(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetBodyFormParam(String body, Boolean... log) throws IOException, BradescoException {
         CheckFormParams();
         try {
             result = Given()
@@ -367,7 +367,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetParamEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetParamEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         CheckParams();
 
         try {
@@ -383,7 +383,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetFormParamEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetFormParamEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         CheckFormParams();
 
         try {
@@ -399,7 +399,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetBodyParamEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetBodyParamEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
         CheckParams();
         try {
             result = Given()
@@ -415,7 +415,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetBodyFormParamEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetBodyFormParamEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
         CheckFormParams();
         try {
             result = Given()
@@ -431,7 +431,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetParamHeader(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetParamHeader(Boolean... log) throws IOException, BradescoException {
         CheckParams();
         CheckHeaders();
         try {
@@ -449,7 +449,7 @@ public class CITRestAssured extends validationResponse {
     }
 
 
-    public ValidatableResponse GetFormParamHeader(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetFormParamHeader(Boolean... log) throws IOException, BradescoException {
         CheckFormParams();
         CheckHeaders();
         try {
@@ -466,7 +466,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetBodyParamHeader(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetBodyParamHeader(String body, Boolean... log) throws IOException, BradescoException {
         CheckParams();
         CheckHeaders();
         try {
@@ -484,7 +484,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetBodyFormParamHeader(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetBodyFormParamHeader(String body, Boolean... log) throws IOException, BradescoException {
         CheckFormParams();
         CheckHeaders();
         try {
@@ -502,7 +502,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetHeader(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetHeader(Boolean... log) throws IOException, BradescoException {
         CheckHeaders();
         try {
             result = Given()
@@ -517,7 +517,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetBodyHeader(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetBodyHeader(String body, Boolean... log) throws IOException, BradescoException {
         CheckHeaders();
         try {
             result = Given()
@@ -533,7 +533,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         CheckHeaders();
         try {
             result = Given()
@@ -548,7 +548,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse GetBodyHeaderEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse GetBodyHeaderEndpoint(String Endpoint, String body, Boolean... log) throws IOException, BradescoException {
         CheckHeaders();
         try {
             result = Given()
@@ -564,7 +564,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse Post(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse Post(Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
         try {
             result = Given()
@@ -578,7 +578,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostBody(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         try {
             result = Given()
@@ -593,7 +593,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         try {
             result = Given()
@@ -608,7 +608,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostParamHeaderBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostParamHeaderBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckParams();
         CheckHeaders();
@@ -627,7 +627,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostFormParamHeaderBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostFormParamHeaderBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckFormParams();
         CheckHeaders();
@@ -646,7 +646,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostParamHeaderBody(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostParamHeaderBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckParams();
         CheckHeaders();
@@ -665,7 +665,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostFormParamHeaderBody(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostFormParamHeaderBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckFormParams();
         CheckHeaders();
@@ -684,7 +684,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostParamBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostParamBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckParams();
         try {
@@ -701,7 +701,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostFormParamBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostFormParamBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckFormParams();
         try {
@@ -718,7 +718,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostParamBody(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostParamBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckParams();
         try {
@@ -735,7 +735,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostFormParamBody(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostFormParamBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckFormParams();
         try {
@@ -752,7 +752,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostHeaderBody(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostHeaderBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckHeaders();
         try {
@@ -769,7 +769,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostHeaderBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostHeaderBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckHeaders();
         try {
@@ -787,7 +787,7 @@ public class CITRestAssured extends validationResponse {
     }
 
 
-    public ValidatableResponse PostEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
         try {
             result = Given()
@@ -801,43 +801,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostParamHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
-        BODY = "POST SEM BODY ENVIADO";
-        CheckParams();
-        CheckHeaders();
-        try {
-            result = Given()
-                    .queryParams(params)
-                    .headers(headers)
-                    .when()
-                    .post(Endpoint)
-                    .then().assertThat();
-            response = result.extract().response();
-            return result;
-        } finally {
-            initReport(log);
-        }
-    }
-
-    public ValidatableResponse PostFormParamHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
-        BODY = "POST SEM BODY ENVIADO";
-        CheckFormParams();
-        CheckHeaders();
-        try {
-            result = Given()
-                    .formParams(params)
-                    .headers(headers)
-                    .when()
-                    .post(Endpoint)
-                    .then().assertThat();
-            response = result.extract().response();
-            return result;
-        } finally {
-            initReport(log);
-        }
-    }
-
-    public ValidatableResponse PostParamHeader(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostParamHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
         CheckParams();
         CheckHeaders();
@@ -846,6 +810,42 @@ public class CITRestAssured extends validationResponse {
                     .queryParams(params)
                     .headers(headers)
                     .when()
+                    .post(Endpoint)
+                    .then().assertThat();
+            response = result.extract().response();
+            return result;
+        } finally {
+            initReport(log);
+        }
+    }
+
+    public static ValidatableResponse PostFormParamHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+        BODY = "POST SEM BODY ENVIADO";
+        CheckFormParams();
+        CheckHeaders();
+        try {
+            result = Given()
+                    .formParams(params)
+                    .headers(headers)
+                    .when()
+                    .post(Endpoint)
+                    .then().assertThat();
+            response = result.extract().response();
+            return result;
+        } finally {
+            initReport(log);
+        }
+    }
+
+    public static ValidatableResponse PostParamHeader(Boolean... log) throws IOException, BradescoException {
+        BODY = "POST SEM BODY ENVIADO";
+        CheckParams();
+        CheckHeaders();
+        try {
+            result = Given()
+                    .queryParams(params)
+                    .headers(headers)
+                    .when()
                     .post()
                     .then().assertThat();
             response = result.extract().response();
@@ -855,7 +855,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostFormParamHeader(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostFormParamHeader(Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
         CheckFormParams();
         CheckHeaders();
@@ -873,7 +873,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostParamEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostParamEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
         CheckParams();
         try {
@@ -889,7 +889,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostFormParamEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostFormParamEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
         CheckFormParams();
         try {
@@ -906,7 +906,7 @@ public class CITRestAssured extends validationResponse {
     }
 
 
-    public ValidatableResponse PostParam(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostParam(Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
         CheckParams();
         try {
@@ -922,7 +922,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostFormParam(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostFormParam(Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
         CheckFormParams();
         try {
@@ -938,7 +938,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostHeader(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostHeader(Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
         CheckHeaders();
         try {
@@ -954,7 +954,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PostHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PostHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
         CheckHeaders();
         try {
@@ -971,7 +971,7 @@ public class CITRestAssured extends validationResponse {
     }
 
 
-    public ValidatableResponse PutBody(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PutBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         try {
             result = Given()
@@ -986,7 +986,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PutBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PutBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         try {
             result = Given()
@@ -1001,7 +1001,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PutParamHeaderBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PutParamHeaderBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckParams();
         CheckHeaders();
@@ -1020,7 +1020,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PutFormParamHeaderBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PutFormParamHeaderBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckFormParams();
         CheckHeaders();
@@ -1039,7 +1039,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PutParamHeaderBody(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PutParamHeaderBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckParams();
         CheckHeaders();
@@ -1058,7 +1058,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PutFormParamHeaderBody(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PutFormParamHeaderBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckFormParams();
         CheckHeaders();
@@ -1077,7 +1077,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PutParamBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PutParamBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckParams();
         try {
@@ -1094,7 +1094,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PutFormParamBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PutFormParamBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckFormParams();
         try {
@@ -1111,7 +1111,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PutParamBody(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PutParamBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckParams();
         try {
@@ -1128,7 +1128,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PutFormParamBody(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PutFormParamBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckFormParams();
         try {
@@ -1145,7 +1145,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PutHeaderBody(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PutHeaderBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckHeaders();
         try {
@@ -1162,7 +1162,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse PutHeaderBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse PutHeaderBodyEndpoint(String body, String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = body;
         CheckHeaders();
         try {
@@ -1179,8 +1179,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-
-    public ValidatableResponse Delete(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse Delete(Boolean... log) throws IOException, BradescoException {
         try {
             result = Given()
                     .when().delete()
@@ -1192,7 +1191,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteBody(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteBody(String body, Boolean... log) throws IOException, BradescoException {
         try {
             result = Given().contentType(ContentType.JSON)
                     .body(body)
@@ -1205,7 +1204,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteBodyEndpoint(String body, String endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteBodyEndpoint(String body, String endpoint, Boolean... log) throws IOException, BradescoException {
         try {
             result = Given().contentType(ContentType.JSON)
                     .body(body)
@@ -1218,7 +1217,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         try {
             result = Given()
                     .when().delete(Endpoint)
@@ -1230,7 +1229,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteParam(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteParam(Boolean... log) throws IOException, BradescoException {
         CheckParams();
         try {
             result = Given()
@@ -1244,7 +1243,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteFormParam(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteFormParam(Boolean... log) throws IOException, BradescoException {
         CheckFormParams();
         try {
             result = Given()
@@ -1258,7 +1257,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteBodyParam(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteBodyParam(String body, Boolean... log) throws IOException, BradescoException {
         CheckParams();
         try {
             result = Given()
@@ -1273,7 +1272,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteBodyFormParam(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteBodyFormParam(String body, Boolean... log) throws IOException, BradescoException {
         CheckFormParams();
         try {
             result = Given()
@@ -1288,7 +1287,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteBodyParamEndpoint(String endpoint, String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteBodyParamEndpoint(String endpoint, String body, Boolean... log) throws IOException, BradescoException {
         CheckParams();
         try {
             result = Given()
@@ -1303,7 +1302,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteBodyFormParamEndpoint(String endpoint, String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteBodyFormParamEndpoint(String endpoint, String body, Boolean... log) throws IOException, BradescoException {
         CheckParams();
         try {
             result = Given()
@@ -1318,7 +1317,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteParamEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteParamEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         CheckParams();
         try {
             result = Given()
@@ -1332,7 +1331,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteFormParamEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteFormParamEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         CheckParams();
         try {
             result = Given()
@@ -1346,7 +1345,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteParamHeader(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteParamHeader(Boolean... log) throws IOException, BradescoException {
         CheckParams();
         CheckHeaders();
         try {
@@ -1363,7 +1362,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteFormParamHeader(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteFormParamHeader(Boolean... log) throws IOException, BradescoException {
         CheckParams();
         CheckHeaders();
         try {
@@ -1380,7 +1379,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteBodyParamHeader(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteBodyParamHeader(String body, Boolean... log) throws IOException, BradescoException {
         CheckParams();
         CheckHeaders();
         try {
@@ -1398,7 +1397,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteBodyFormParamHeader(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteBodyFormParamHeader(String body, Boolean... log) throws IOException, BradescoException {
         CheckParams();
         CheckHeaders();
         try {
@@ -1416,7 +1415,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteBodyParamHeaderEndpoint(String endpoint, String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteBodyParamHeaderEndpoint(String endpoint, String body, Boolean... log) throws IOException, BradescoException {
         CheckParams();
         CheckHeaders();
         try {
@@ -1434,7 +1433,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteBodyFormParamHeaderEndpoint(String endpoint, String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteBodyFormParamHeaderEndpoint(String endpoint, String body, Boolean... log) throws IOException, BradescoException {
         CheckParams();
         CheckHeaders();
         try {
@@ -1452,7 +1451,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteHeader(Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteHeader(Boolean... log) throws IOException, BradescoException {
         CheckHeaders();
         try {
             result = Given()
@@ -1467,7 +1466,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteBodyHeader(String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteBodyHeader(String body, Boolean... log) throws IOException, BradescoException {
         CheckHeaders();
         try {
             result = Given()
@@ -1483,7 +1482,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteBodyHeaderEndpoint(String endpoint, String body, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteBodyHeaderEndpoint(String endpoint, String body, Boolean... log) throws IOException, BradescoException {
         CheckHeaders();
         try {
             result = Given()
@@ -1499,7 +1498,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         CheckHeaders();
         try {
             result = Given()
@@ -1514,7 +1513,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteParamHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteParamHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         CheckParams();
         CheckHeaders();
         try {
@@ -1531,7 +1530,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public ValidatableResponse DeleteFormParamHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
+    public static ValidatableResponse DeleteFormParamHeaderEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         CheckParams();
         CheckHeaders();
         try {
@@ -1548,7 +1547,7 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-    public RequestSpecification CertificationSpec(String keyPathFormatP12, String keyPass,
+    public static RequestSpecification CertificationSpec(String keyPathFormatP12, String keyPass,
                                                   String trustPathFormatP12, String trustPass) throws Exception {
 
         char[] keyStorePassword = keyPass.toCharArray();

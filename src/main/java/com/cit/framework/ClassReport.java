@@ -99,6 +99,7 @@ public class ClassReport extends CITRestAssured {
             } else if (result.equals("Headers:")) {
                 result = sc.next();
 
+
                 if (result.equals("Accept=*/*"))
                     result = sc.next();
 
@@ -115,12 +116,15 @@ public class ClassReport extends CITRestAssured {
                 result = sc.next();
                 if (!result.equals("<none>"))
                     while (!result.equals("Form")) {
-                        list.add("Query Params: " + result + "\n");
+                        list.add("Params: " + result + "\n");
                         result = sc.next();
                     }
+//                break;
+            } else if (result.equals("Body:")) {
                 break;
             }
         }
+        System.out.println(list);
         return list.toString();
     }
 
