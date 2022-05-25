@@ -124,7 +124,6 @@ public class ClassReport extends CITRestAssured {
                 break;
             }
         }
-        System.out.println(list);
         return list.toString();
     }
 

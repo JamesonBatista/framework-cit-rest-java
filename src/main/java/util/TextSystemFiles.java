@@ -1057,100 +1057,120 @@ public class TextSystemFiles {
             "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n" +
             "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
             "    <link rel=\"shortcut icon\" href=\"https://ciandt.com/themes/custom/ciandt_theme/favicon.ico\"\n" +
-            "          type=\"image/vnd.microsoft.icon\">\n" +
+            "        type=\"image/vnd.microsoft.icon\">\n" +
             "    <title>CIT Framework</title>\n" +
             "</head>\n" +
             "\n" +
             "<body>\n" +
-            "<div>\n" +
-            "    <h1 style=\"text-align: center;\">\n" +
-            "        <img src=\"https://ciandt.com/themes/custom/ciandt_theme/logo.svg\" alt=\"logoCIT\">\n" +
-            "        Configuração do Framework CI&T\n" +
-            "    </h1>\n" +
-            "</div>\n" +
-            "<hr>\n" +
-            "<p> &#x26A0;<b> Obs: Para baixar o framework CI&T você precisará ter chave M Bradesco.</b>\n" +
-            "    <br>\n" +
-            "    <br>\n" +
-            "</p>\n" +
+            "    <div>\n" +
+            "        <h1 style=\"text-align: center;\">\n" +
+            "            <img src=\"https://ciandt.com/themes/custom/ciandt_theme/logo.svg\" alt=\"logoCIT\">\n" +
+            "            Configuração do Framework CI&T\n" +
+            "        </h1>\n" +
+            "    </div>\n" +
+            "    <hr>\n" +
+            "    <p> &#x26A0;<b> Obs: Para baixar o framework CI&T você precisará ter chave M Bradesco.</b>\n" +
+            "        <br>\n" +
+            "        <br>\n" +
+            "    </p>\n" +
             "\n" +
-            "<ol>\n" +
-            "    <li>Primeiro vamos baixar o JAR &nbsp;&nbsp;&nbsp;&nbsp;<a\n" +
-            "            href=\"https://drive.google.com/drive/u/1/folders/10cRqFVxSy7iGjh5mmsoEbF41x-lt9nQZ\">Aqui</a>&nbsp;&nbsp;&nbsp;&nbsp;\n" +
-            "        e coloca-lo dentro da pasta <b>src/test/java/resources/framework</b>\n" +
-            "    </li>\n" +
-            "    <br>\n" +
-            "    <li>Crie um arquivo <b>settings.xml</b> dentro da sua pasta oculta <b>.m2</b> que fica dentro no seu usuário local\n" +
-            "    </li>\n" +
-            "    <br>\n" +
-            "    <li>Copie as configurações desse link, e altere os dois campos\n" +
-            "        <mark>USERNAME PASSWORD</mark>\n" +
-            "        com sua chaveM e senha. &nbsp;&nbsp;&nbsp;&nbsp;\n" +
-            "        <a href=\"settings.xml\">Aqui </a>\n" +
+            "    <ol>\n" +
+            "        <li>Primeiro vamos baixar o JAR &nbsp;&nbsp;&nbsp;&nbsp;<a\n" +
+            "                href=\"https://drive.google.com/drive/u/1/folders/10cRqFVxSy7iGjh5mmsoEbF41x-lt9nQZ\">Aqui</a>&nbsp;&nbsp;&nbsp;&nbsp;\n" +
+            "            e coloca-lo dentro da pasta <b>src/test/java/resources/framework</b>\n" +
+            "        </li>\n" +
+            "        <br>\n" +
+            "        <li>Crie um arquivo <b>settings.xml</b> dentro da sua pasta oculta <b>.m2</b> que fica dentro no seu usuário\n" +
+            "            local\n" +
+            "        </li>\n" +
+            "        <br>\n" +
+            "        <li>Copie as configurações desse link, e altere os dois campos\n" +
+            "            <mark>USERNAME PASSWORD</mark>\n" +
+            "            com sua chaveM e senha. &nbsp;&nbsp;&nbsp;&nbsp;\n" +
+            "            <a href=\"settings.xml\">Aqui </a>\n" +
             "\n" +
-            "    </li>\n" +
-            "    <br>\n" +
-            "    <li>Importe as dependências para o arquivo <b>pom.xml</b>\n" +
-            "        que fica na raíz do seu projeto.&nbsp;&nbsp;&nbsp;&nbsp;\n" +
-            "        <a href=\"dependencias.text\">Aqui </a>\n" +
-            "    </li>\n" +
-            "    <br>\n" +
-            "    <li>Dentro do seu <b>pom.xml</b> comente todas as dependências, deixando apenas a do Bradesco liberada para baixar.\n" +
-            "        <p>\n" +
-            "            <a href=\"https://ibb.co/9v6xF79\"><img src=\"https://i.ibb.co/vBpN7Sx/Screen-Shot-2021-07-19-at-07-24-05.png\"\n" +
-            "                                                  alt=\"Screen-Shot-2021-07-19-at-07-24-05\" border=\"0\"></a>\n" +
-            "        </p>\n" +
-            "    </li>\n" +
-            "    <br>\n" +
-            "    <li>\n" +
-            "        <mark>Conecte sua VPN</mark>\n" +
-            "        Faça o build do projeto para baixar a dependência Bradesco, assim que terminar, retire os comentários do pom.xml\n" +
-            "        e refaça o build.\n" +
-            "    </li>\n" +
-            "    <br>\n" +
-            "    <li>\n" +
-            "        Configurando sua classe <b>RegresstionTest</b>\n" +
-            "        , conforme imagem abaixo, clique para expandir:\n" +
-            "        <p>\n" +
-            "            <a class=\"lightbox\" href=\"#dog\">\n" +
-            "                <a href=\"https://ibb.co/1LLYyhM\"><img src=\"https://i.ibb.co/L88Djbr/regressiontest.png\"\n" +
-            "                                                      alt=\"regressiontest\" border=\"0\"></a>\n" +
-            "            </a>\n" +
-            "        </p>\n" +
-            "        </div>\n" +
-            "        <p>Na primeira execução, comente a linha do plugin, execute qualquer teste chamando o InitEnvironment();<br>\n" +
-            "            para que os arquivos <b>setup.properties e leanft.properties</b>\n" +
-            "            sejam criados automaticamente.\n" +
-            "        </p>\n" +
-            "        <p>Ex:</p>\n" +
+            "        </li>\n" +
+            "        <br>\n" +
+            "        <li>Importe as dependências para o arquivo <b>pom.xml</b>\n" +
+            "            que fica na raíz do seu projeto.&nbsp;&nbsp;&nbsp;&nbsp;\n" +
+            "            <a href=\"dependencias.text\">Aqui </a>\n" +
+            "        </li>\n" +
+            "        <br>\n" +
+            "        <li>Dentro do seu <b>pom.xml</b> comente todas as dependências, deixando apenas a do Bradesco liberada para\n" +
+            "            baixar.\n" +
+            "            <p>\n" +
+            "                <a href=\"https://imgbb.com/\"><img src=\"https://i.ibb.co/KwkdWPt/Screen-Shot-2022-05-24-at-05-24-03.png\"\n" +
+            "                        alt=\"Screen-Shot-2022-05-24-at-05-24-03\" border=\"0\"></a>\n" +
+            "            </p>\n" +
+            "        </li>\n" +
+            "        <br>\n" +
+            "        <li> <mark>Conecte sua VPN </mark>\n" +
+            "            Faça o build do projeto para baixar a dependência Bradesco, assim que terminar, retire os comentários do\n" +
+            "            pom.xml e refaça o build.\n" +
+            "        </li>\n" +
+            "        <br>\n" +
+            "        <li>Importe as dependências do Framework CIT para <b>pom.xml</b>\n" +
+            "            conforme passo 1:\n" +
+            "            <p>\n" +
+            "                <a href=\"https://ibb.co/MPHJYyR\"><img\n" +
+            "                        src=\"https://i.ibb.co/BTJYXHg/Screen-Shot-2022-05-24-at-05-24-09.png\"\n" +
+            "                        alt=\"Screen-Shot-2022-05-24-at-05-24-09\" border=\"0\"></a>\n" +
+            "            </p>\n" +
+            "        </li>\n" +
+            "        <br>\n" +
+            "        <li>\n" +
+            "            Configurando sua classe <b>RegresstionTest</b>\n" +
+            "            , conforme imagem abaixo, clique para expandir:\n" +
+            "            <p>\n" +
+            "                <a href=\"https://ibb.co/J3JL3tz\"><img\n" +
+            "                        src=\"https://i.ibb.co/g4K149D/Screen-Shot-2022-05-24-at-05-29-44.png\"\n" +
+            "                        alt=\"Screen-Shot-2022-05-24-at-05-29-44\" border=\"0\"></a>\n" +
+            "                </a>\n" +
+            "            </p>\n" +
+            "            </div>\n" +
+            "            <p>Na primeira execução, comente a linha do plugin, crie um método simples apenas para usar o BeforeClass\n" +
+            "                pela primeira vez<br>\n" +
+            "                para que os arquivos <b>setup.properties e leanft.properties</b>\n" +
+            "                sejam criados automaticamente.\n" +
+            "            </p>\n" +
+            "            <p>Ex:</p>\n" +
             "\n" +
-            "        <a href=\"https://ibb.co/yP9zV7X\"><img src=\"https://i.ibb.co/RbFX7d9/Screen-Shot-2021-07-18-at-12-35-03.png\"\n" +
-            "                                              alt=\"Screen-Shot-2021-07-18-at-12-35-03\" border=\"0\"></a>\n" +
-            "        </p>\n" +
-            "    </li>\n" +
+            "            <pre>\n" +
+            "                <code>\n" +
+            "                    @Test\n" +
+            "                    public void TesteInicial(){\n" +
+            "                        System.out.println(\"Iniciando BeforeClass\");\n" +
+            "                    }\n" +
+            "                </code>\n" +
+            "            </pre>\n" +
+            "            <br>\n" +
+            "            </p>\n" +
+            "        </li>\n" +
             "\n" +
-            "    <li>Para efetuar validações usando o Framework CI&T aqui está uma lista com vídeos mostando passo a passo &nbsp;&nbsp;&nbsp;&nbsp;\n" +
-            "        <a href=\"https://drive.google.com/drive/u/1/folders/1JjX186HDmh6i-yPh_yCutPUIKJNLbh5g\">VIDEOS</a>\n" +
-            "    </li>\n" +
-            "    <br>\n" +
-            "    <li>Caso na raiz do seu projeto a pasta <b>environment/data.properties</b> não exista, ao executar o primeiro teste,\n" +
-            "        ela será criada.<br>\n" +
-            "        Dentro do data.properties estão seus ambientes.\n" +
-            "    </li>\n" +
-            "</ol>\n" +
-            "<hr>\n" +
-            "<p>\n" +
-            "    </h2>\n" +
-            "</p>\n" +
+            "        <li>Para efetuar validações usando o Framework CI&T aqui está uma lista com vídeos mostando passo a passo\n" +
+            "            &nbsp;&nbsp;&nbsp;&nbsp;\n" +
+            "            <a href=\"https://drive.google.com/drive/u/1/folders/1JjX186HDmh6i-yPh_yCutPUIKJNLbh5g\">VIDEOS</a>\n" +
+            "        </li>\n" +
+            "        <br>\n" +
+            "        <li>Caso na raiz do seu projeto a pasta <b>environment/data.properties</b> não exista, ao executar o primeiro\n" +
+            "            teste,\n" +
+            "            ela será criada.<br>\n" +
+            "            Dentro do data.properties estão seus ambientes.\n" +
+            "        </li>\n" +
+            "    </ol>\n" +
+            "    <hr>\n" +
+            "    <p>\n" +
+            "        </h2>\n" +
+            "    </p>\n" +
             "\n" +
-            "<h2>Como iniciar o GET POST DELETE PUT?</h2>\n" +
-            "<ol>\n" +
-            "    <li>Estenda o framework na classe do seu STEP como abaixo:</li>\n" +
-            "    <li>Chame o método InitEnvironment(), nele você terá o start do RestAssured com todas as funcionalidades, dentro\n" +
-            "        dele passe o endpoint que você quer.\n" +
-            "    </li>\n" +
-            "</ol>\n" +
-            "<pre>\n" +
+            "    <h2>Como iniciar o GET POST DELETE PUT?</h2>\n" +
+            "    <ol>\n" +
+            "        <li>Estenda o framework na classe do seu STEP como abaixo:</li>\n" +
+            "        <li>Chame o método InitEnvironment(), nele você terá o start do RestAssured com todas as funcionalidades, dentro\n" +
+            "            dele passe o endpoint que você quer.\n" +
+            "        </li>\n" +
+            "    </ol>\n" +
+            "    <pre>\n" +
             "    <code>\n" +
             "        public class GetUser extends CITRestAssured {\n" +
             "\n" +
@@ -1168,11 +1188,11 @@ public class TextSystemFiles {
             "        }\n" +
             "    </code>\n" +
             "</pre>\n" +
-            "<br>\n" +
-            "<hr>\n" +
-            "<br>\n" +
-            "<h2>E no caso do endpoint precisar ser passado no get() post() delete() put() e não no InitEnvironment()</h2>\n" +
-            "<pre><code>\n" +
+            "    <br>\n" +
+            "    <hr>\n" +
+            "    <br>\n" +
+            "    <h2>E no caso do endpoint precisar ser passado no get() post() delete() put() e não no InitEnvironment()</h2>\n" +
+            "    <pre><code>\n" +
             "    public class GetUser extends CITRestAssured {\n" +
             "\n" +
             "        @Given(\"^que seja feito GET na API \\\"([^\\\"]*)\\\"$\")\n" +
@@ -1187,12 +1207,35 @@ public class TextSystemFiles {
             "        }\n" +
             "    }\n" +
             "</code></pre>\n" +
-            "<br>\n" +
-            "<hr>\n" +
-            "<br>\n" +
-            "<h1>Métodos com parâmetros</h1>\n" +
-            "<p>Para usar <b>headers</b> ou <b>params</b> basta chamar a variável global, veja exemplo:</p>\n" +
-            "<pre><code>\n" +
+            "    <br>\n" +
+            "    <hr>\n" +
+            "    <br>\n" +
+            "\n" +
+            "    <h2>Método <b>ResponseBody</b> extende do RestAssured e deve ser usado para validações em steps diferentes da\n" +
+            "        chamada, Ex;\n" +
+            "    </h2>\n" +
+            "    <pre><code>\n" +
+            "    public class GetUser extends CITRestAssured {\n" +
+            "\n" +
+            "        @Given(\"^que seja feito GET na API \\\"([^\\\"]*)\\\"$\")\n" +
+            "        public void queSejaFeitoGETNaAPI(String endpoint) throws Throwable {\n" +
+            "\n" +
+            "            InitEnvironment();\n" +
+            "            GetEndpoint(\"users/7\");\n" +
+            "        }\n" +
+            "        @Then(\"^faco get$\")\n" +
+            "        public void facoGet() throws Throwable {\n" +
+            "\n" +
+            "            ResponseBody().body(\"name\", is(\"CI&T\"));\n" +
+            "        }\n" +
+            "    }\n" +
+            "</code></pre>\n" +
+            "    <br>\n" +
+            "    <hr>\n" +
+            "    <br>\n" +
+            "    <h1>Métodos com parâmetros</h1>\n" +
+            "    <p>Para usar <b>headers</b> ou <b>params</b> basta chamar a variável global, veja exemplo:</p>\n" +
+            "    <pre><code>\n" +
             "        public class GetUser extends CITRestAssured {\n" +
             "\n" +
             "        @Given(\"^que seja feito GET na API \\\"([^\\\"]*)\\\"$\")\n" +
@@ -1213,20 +1256,20 @@ public class TextSystemFiles {
             "        }\n" +
             "    }\n" +
             "</code></pre>\n" +
-            "<br>\n" +
-            "<hr>\n" +
-            "<br>\n" +
-            "<h2>Método separado <b>GivenExternal();</b></h2>\n" +
-            "<p>Existe um método chamado GivenExternal();</p>\n" +
-            "<p>Para o caso de, você precisar usar uma chamada diferente, com características que os métodos existentes não\n" +
-            "    atendam.<br> Em métodos separados, é necessário usar o GivenExternal do framework para que ele use os dados no\n" +
-            "    Report.</p>\n" +
-            "<p>Ao final, chame o ExternalReport(); para que seja gerado.</p>\n" +
-            "<p>Apenas em caso de\n" +
-            "    <mark>DELETES</mark>\n" +
-            "    dentro do ExternalReporte(); precisa ficar vazio\n" +
-            "</p>\n" +
-            "<pre><code>\n" +
+            "    <br>\n" +
+            "    <hr>\n" +
+            "    <br>\n" +
+            "    <h2>Método separado <b>GivenExternal();</b></h2>\n" +
+            "    <p>Existe um método chamado GivenExternal();</p>\n" +
+            "    <p>Para o caso de, você precisar usar uma chamada diferente, com características que os métodos existentes não\n" +
+            "        atendam.<br> Em métodos separados, é necessário usar o GivenExternal do framework para que ele use os dados no\n" +
+            "        Report.</p>\n" +
+            "    <p>Ao final, chame o ExternalReport(); para que seja gerado.</p>\n" +
+            "    <p>Apenas em caso de\n" +
+            "        <mark>DELETES</mark>\n" +
+            "        dentro do ExternalReporte(); precisa ficar vazio\n" +
+            "    </p>\n" +
+            "    <pre><code>\n" +
             "    Response res = GivenExternal(ContentType.JSON)\n" +
             "    .when()\n" +
             "    .get()\n" +
@@ -1241,8 +1284,8 @@ public class TextSystemFiles {
             "    .extract().response();\n" +
             "ExternalReport();\n" +
             "</code></pre>\n" +
-            "<p>Extraindo valor do GivenExternal();</p>\n" +
-            "<pre><code>\n" +
+            "    <p>Extraindo valor do GivenExternal();</p>\n" +
+            "    <pre><code>\n" +
             "    ValidatableResponse res = GivenExternal(ContentType.JSON)\n" +
             "    .when()\n" +
             "    .get()\n" +
@@ -1252,10 +1295,10 @@ public class TextSystemFiles {
             "## caso precise de report, use as lógicas já descrita.\n" +
             "ExternalReport(res.extract().response());\n" +
             "</code></pre>\n" +
-            "<p>Quais dados usar no <b>ExternalReport()</b>?</p>\n" +
-            "<br>\n" +
-            "<p>Gets - Basta enviar o resultado da requisição. Como no exemplo acima.</p>\n" +
-            "<pre><code>\n" +
+            "    <p>Quais dados usar no <b>ExternalReport()</b>?</p>\n" +
+            "    <br>\n" +
+            "    <p>Gets - Basta enviar o resultado da requisição. Como no exemplo acima.</p>\n" +
+            "    <pre><code>\n" +
             "    @Then(\"^faco get$\")\n" +
             "    public void facoGet() throws Throwable {\n" +
             "\n" +
@@ -1265,9 +1308,9 @@ public class TextSystemFiles {
             "        ExternalReport(res.extract().response());\n" +
             "    }\n" +
             "</code></pre>\n" +
-            "<br>\n" +
-            "<p>Posts - você precisa passar primeiro o Body que está sendo enviado, depois o resultado da requisição.</p>\n" +
-            "<pre><code>\n" +
+            "    <br>\n" +
+            "    <p>Posts - você precisa passar primeiro o Body que está sendo enviado, depois o resultado da requisição.</p>\n" +
+            "    <pre><code>\n" +
             "    String body = \"{body que será enviado}\";\n" +
             "\n" +
             "  Response res = GivenExternal(ContentType.JSON)\n" +
@@ -1278,9 +1321,9 @@ public class TextSystemFiles {
             "                .extract().response();\n" +
             "             ExternalReport(body, res);\n" +
             "</code></pre>\n" +
-            "<br>\n" +
-            "<h2>Como ficam métodos <b>ExternalReport()</b> com headers e parâmetros?</h2>\n" +
-            "<pre><code>\n" +
+            "    <br>\n" +
+            "    <h2>Como ficam métodos <b>ExternalReport()</b> com headers e parâmetros?</h2>\n" +
+            "    <pre><code>\n" +
             "    Map<String, Object> param = new new HashMap<>();\n" +
             "    param.put(\"key\", \"value\");\n" +
             "    Map<String, Object> header = new new HashMap<>();\n" +
@@ -1296,12 +1339,13 @@ public class TextSystemFiles {
             "                .extract().response();\n" +
             "             ExternalReport(body, res);\n" +
             "</code></pre>\n" +
-            "<br>\n" +
-            "<hr>\n" +
-            "<br>\n" +
-            "<h2>Vamos efetuar validações de exemplo, de preferência use o método <b>Body().mapping()</b> nas suas validações:</h2>\n" +
-            "<p>Primeiro usando um JSON simples:</p>\n" +
-            "<pre>\n" +
+            "    <br>\n" +
+            "    <hr>\n" +
+            "    <br>\n" +
+            "    <h2>Vamos efetuar validações de exemplo, de preferência use o método <b>Body().mapping()</b> nas suas validações:\n" +
+            "    </h2>\n" +
+            "    <p>Primeiro usando um JSON simples:</p>\n" +
+            "    <pre>\n" +
             "    <code style=\"font-size:20px\">\n" +
             "        {\n" +
             "            \"data\": {\n" +
@@ -1335,54 +1379,54 @@ public class TextSystemFiles {
             "                        \"contributions towards server costs are appreciated!\");\n" +
             "    </code>\n" +
             "</pre>\n" +
-            "<br>\n" +
-            "<hr>\n" +
-            "<br>\n" +
-            "<p style=\"font-size:30px\">Método <b>CONTAINS</b>:</p>\n" +
-            "<p style=\"font-size:25px\">O método <b>Body().contains()</b> é usado para validar existência de campos no seu\n" +
-            "    JSON<br>\n" +
-            "    independente de onde esses campos estejam. Usando o contains, você pode passar 1 ou mais campos.<br>\n" +
-            "    Obs: O contais NAO valida estrutura do JSON, não valida se o campo existe no determinado caminho<br>\n" +
-            "    valida apenas se existe no seu JSON. <br>\n" +
-            "    EX:\n" +
+            "    <br>\n" +
+            "    <hr>\n" +
+            "    <br>\n" +
+            "    <p style=\"font-size:30px\">Método <b>CONTAINS</b>:</p>\n" +
+            "    <p style=\"font-size:25px\">O método <b>Body().contains()</b> é usado para validar existência de campos no seu\n" +
+            "        JSON<br>\n" +
+            "        independente de onde esses campos estejam. Usando o contains, você pode passar 1 ou mais campos.<br>\n" +
+            "        Obs: O contais NAO valida estrutura do JSON, não valida se o campo existe no determinado caminho<br>\n" +
+            "        valida apenas se existe no seu JSON. <br>\n" +
+            "        EX:\n" +
             "\n" +
-            "<pre style=\"font-size:25px\">\n" +
+            "    <pre style=\"font-size:25px\">\n" +
             "    <code style=\"font-size:20px\">\n" +
             "        Body().contains(\"id\");\n" +
             "        Body().contains(\"id\", \"name\", \"lastname\");\n" +
             "    </code>\n" +
             "</pre>\n" +
-            "</p>\n" +
-            "<p style=\"font-size:30px\">Método <b>GET</b>:</p>\n" +
-            "<p style=\"font-size:25px\">\n" +
-            "    Método <b>Body().get()</b> vai encontrar em todo seu JSON o campo informado, não validando estrutura nem\n" +
-            "    caminho,\n" +
-            "    apenas o valor do Path informado.<br>\n" +
-            "    Método não valida paths dentro de Arrays, isso porque um array pode conter vários objetos com o campo informado\n" +
-            "    e\n" +
-            "    valores diferentes.<br>\n" +
-            "    Mas se o Array tiver apenas um campo com o nome informado, ele mostrará o falor no print, e colocará o valor na\n" +
-            "    variável global <b>StringGlobal</b><br>\n" +
-            "    EX:\n" +
+            "    </p>\n" +
+            "    <p style=\"font-size:30px\">Método <b>GET</b>:</p>\n" +
+            "    <p style=\"font-size:25px\">\n" +
+            "        Método <b>Body().get()</b> vai encontrar em todo seu JSON o campo informado, não validando estrutura nem\n" +
+            "        caminho,\n" +
+            "        apenas o valor do Path informado.<br>\n" +
+            "        Método não valida paths dentro de Arrays, isso porque um array pode conter vários objetos com o campo informado\n" +
+            "        e\n" +
+            "        valores diferentes.<br>\n" +
+            "        Mas se o Array tiver apenas um campo com o nome informado, ele mostrará o falor no print, e colocará o valor na\n" +
+            "        variável global <b>StringGlobal</b><br>\n" +
+            "        EX:\n" +
             "\n" +
-            "</p>\n" +
-            "<pre style=\"font-size:25px\">\n" +
+            "    </p>\n" +
+            "    <pre style=\"font-size:25px\">\n" +
             "    <code style=\"font-size:20px\">\n" +
             "        Body().get(\"id\");\n" +
             "        Assert.assertThat(StringGlobal, Matchers.is(\"Framework de Automação\"));\n" +
             "    </code>\n" +
             "</pre>\n" +
-            "<p>Você também pode usar o get para efetuar validações com mais de um valor, com tanto que seja STRING.</p>\n" +
-            "<p>Ele irá validar se existe algum desses valores no campo *usedAmountFlexible*. Ex:</p>\n" +
+            "    <p>Você também pode usar o get para efetuar validações com mais de um valor, com tanto que seja STRING.</p>\n" +
+            "    <p>Ele irá validar se existe algum desses valores no campo *usedAmountFlexible*. Ex:</p>\n" +
             "\n" +
-            "<pre><code>\n" +
-            "Body().get(\"usedAmountFlexible\", \"100000.0001n\", \"Automação\", \"Framework\");\n" +
+            "    <pre><code>\n" +
+            "        Body().get(\"usedAmountFlexible\", \"100000.0001n\", \"Automação\", \"Framework\");\n" +
             "</code></pre>\n" +
-            "<br>\n" +
-            "<hr>\n" +
-            "<br>\n" +
-            "<h2>Um JSON com complexidades maiores:</h2>\n" +
-            "<pre>\n" +
+            "    <br>\n" +
+            "    <hr>\n" +
+            "    <br>\n" +
+            "    <h2>Um JSON com complexidades maiores:</h2>\n" +
+            "    <pre>\n" +
             "    </p>\n" +
             "    <a href=\"http://demo0623716.mockable.io/\" style=\"color: blue; font-size:16px\">LINK do JSON</a>\n" +
             "    <code style=\"font-size:20px\">\n" +
@@ -1413,105 +1457,94 @@ public class TextSystemFiles {
             "                ResponseBody().body(\"categoryMonthsAvailables[0].cards.size()\", is(3));\n" +
             "    </code>\n" +
             "</pre>\n" +
-            "<br>\n" +
-            "<hr>\n" +
-            "<br>\n" +
-            "<p style=\"font-size:30px\">Detalhes do <b>mapping</b>:</p>\n" +
-            "<p>\n" +
-            "    O método <b>Body.mapping()</b> vai auxiliar em TODA validação do JSON, seja comparar valores, ou certificar que\n" +
-            "    o\n" +
-            "    Path existe dentro do seu JSON.<br>\n" +
-            "</p>\n" +
-            "<pre>\n" +
+            "    <br>\n" +
+            "    <hr>\n" +
+            "    <br>\n" +
+            "    <p style=\"font-size:30px\">Detalhes do <b>mapping</b>:</p>\n" +
+            "    <p>\n" +
+            "        O método <b>Body.mapping()</b> vai auxiliar em TODA validação do JSON, seja comparar valores, ou certificar que\n" +
+            "        o\n" +
+            "        Path existe dentro do seu JSON.<br>\n" +
+            "    </p>\n" +
+            "    <p>\n" +
+            "        O método <b>Body.mapping()</b> pode ser usado para extrair um valor de uma campo passando apenas o caminho\n" +
+            "        Path existe dentro do seu JSON.<br>\n" +
+            "    </p>\n" +
+            "    <pre>\n" +
             "    <code>\n" +
             "        Body().mapping(\"totalSumary > cardsCount\", 2);\n" +
             "    </code>\n" +
             "</pre>\n" +
-            "<p>Nesta validação acima o \"totalSumary\" é um objeto dentro do JSON, que contém um path chamado \"cardsCount\"<br>\n" +
-            "    nele, estamos pegando o valor e comparando.<br>\n" +
-            "    O sinal de <b> > </b> representa a entrada dentro da KEY, seja ela Objeto ou Array.\n" +
-            "</p>\n" +
-            "<h2>Agora um exemplo com Array:</h2>\n" +
-            "<pre>\n" +
+            "    <p>Nesta validação acima o \"totalSumary\" é um objeto dentro do JSON, que contém um path chamado \"cardsCount\"<br>\n" +
+            "        nele, estamos pegando o valor e comparando.<br>\n" +
+            "        O sinal de <b> > </b> representa a entrada dentro da KEY, seja ela Objeto ou Array.\n" +
+            "    </p>\n" +
+            "\n" +
+            "    <p>\n" +
+            "        O método <b>Body.mapping()</b> pode ser usado para extrair um valor de uma campo passando apenas o caminho.\n" +
+            "        Para o caso da KEY ser o valor de um array o Framework vai colocar todos os valores dentro da\n" +
+            "        <b>StringGlobal</b>\n" +
+            "        , após passar o caminho basta apenas usar o Assert passando a StringGlobal onde estará o valor.<br>\n" +
+            "    </p>\n" +
+            "    <pre>\n" +
             "    <code>\n" +
-            "        Body().mapping(\"bradesco > creditCards > bills > bills > billStatus\", \"billStatus\", \"FECHADA\", \"PAGA\");\n" +
+            "        Get();\n" +
+            "        Body()\n" +
+            "                         // others é um array, creditCard é um array, bills é um objeto, bills é um array, billMinimumAmount é uma key\n" +
+            "                .mapping(\"others > creditCards > bills > bills > billMinimumAmount\");\n" +
+            "        System.out.println(StringGlobal);\n" +
             "    </code>\n" +
             "</pre>\n" +
-            "<p>\n" +
-            "    Aqui temos o objecto \"bradesco\", depois um array \"creditCards\", depois um objeto \"bills\" e outro array \"bills\" e\n" +
-            "    por\n" +
-            "    fim o campo \"billStatus\"<br>\n" +
-            "    Toda essa complexidade para encontrar o Array seria necessário usar o JSONObject e o JSONArray umas duas vezes,\n" +
-            "    isso\n" +
-            "    dentro de uns 4 FOR.<br>\n" +
-            "    Usando o <b>mapping</b>, apenas precisamos informar o caminho até o path, depois passamos o path para o get<br>\n" +
-            "    e nessa parte se torna mais interessante, temos dois valores diferentes, o framework vai buscar se existe um ou\n" +
-            "    outro.<br>\n" +
-            "    Como se trata de um Array o mesmo campo pode vir com valor diferente dependendo do objeto desse Array.<br>\n" +
-            "    Usando o mapping você pode até passar <b>4</b> valores diferentes.\n" +
-            "</p>\n" +
-            "<br>\n" +
-            "<hr>\n" +
-            "<br>\n" +
-            "<p>O quanto o <b>mapping</b> consegue ir com arrays e objetos?</p>\n" +
-            "<br>\n" +
-            "<a href=\"https://ibb.co/PMmh2g5\"><img src=\"https://i.ibb.co/vhwPNkJ/Screen-Shot-2021-07-18-at-11-19-21.png\"\n" +
-            "                                      alt=\"Screen-Shot-2021-07-18-at-11-19-21\" border=\"0\"></a>\n" +
-            "<pre><code>\n" +
+            "    <h2>Agora um exemplo com Array validando 2 valores:</h2>\n" +
+            "    <pre>\n" +
+            "    <code>\n" +
+            "        // validação de 1 valor\n" +
+            "        Body().mapping(\"bradesco > creditCards > bills > bills > billStatus\", \"FECHADA\");\n" +
+            "\n" +
+            "        // validação de 2 valores, ou seja, a key pode ser o valor FECHADA ou ABERTA, caso não, aprensentará erro\n" +
+            "        Body().mapping(\"bradesco > creditCards > bills > bills > billStatus\", \"FECHADA\", \"PAGA\");\n" +
+            "\n" +
+            "        // validação 3 valores\n" +
+            "        Body().mapping(\"bradesco > creditCards > bills > bills > billStatus\", \"FECHADA\", \"PAGA\", \"ABERTA\");\n" +
+            "\n" +
+            "    </code>\n" +
+            "</pre>\n" +
+            "    <p>\n" +
+            "        Aqui temos o objecto \"bradesco\", depois um array \"creditCards\", depois um objeto \"bills\" e outro array \"bills\" e\n" +
+            "        por\n" +
+            "        fim o campo \"billStatus\"<br>\n" +
+            "        Toda essa complexidade para encontrar o Array seria necessário usar o JSONObject e o JSONArray umas duas vezes,\n" +
+            "        isso\n" +
+            "        dentro de uns 4 FOR.<br>\n" +
+            "        Usando o <b>mapping</b>, apenas precisamos informar o caminho até o path, depois passamos o path para o get<br>\n" +
+            "        e nessa parte se torna mais interessante, temos dois valores diferentes, o framework vai buscar se existe um ou\n" +
+            "        outro.<br>\n" +
+            "        Como se trata de um Array o mesmo campo pode vir com valor diferente dependendo do objeto desse Array.<br>\n" +
+            "        Usando o mapping você pode até passar <b>3</b> valores diferentes.\n" +
+            "    </p>\n" +
+            "    <br>\n" +
+            "    <hr>\n" +
+            "    <br>\n" +
+            "    <p>O quanto o <b>mapping</b> consegue ir com arrays e objetos?</p>\n" +
+            "    <br>\n" +
+            "    <a href=\"https://ibb.co/PMmh2g5\"><img src=\"https://i.ibb.co/vhwPNkJ/Screen-Shot-2021-07-18-at-11-19-21.png\"\n" +
+            "            alt=\"Screen-Shot-2021-07-18-at-11-19-21\" border=\"0\"></a>\n" +
+            "    <pre><code>\n" +
             "        Body()\n" +
             "                .mapping(\"data > users > form > info > information > dataInfo > enterpriseInfo > enterpriseData > enterpriseBody >\" +\n" +
             "                        \" enterpriseBodyUser > enterPrime > enterPrime > enterRise > nameEnterprise\", \"CI&T\");\n" +
             "</code></pre>\n" +
-            "<br>\n" +
-            "<hr>\n" +
-            "<br>\n" +
-            "<h2>Vídeo usando o método <b>mapping</b></h2>\n" +
-            "<div class=\"video\">\n" +
-            "    <div class=\"dvideo\">\n" +
-            "        <label>Validando com Framework</label>\n" +
-            "        <iframe src=\"https://drive.google.com/file/d/1YyVMM8XxXzYfeYpF11BAREwkGd0STBcb/preview\" width=\"340\"\n" +
+            "    <br>\n" +
+            "    <hr>\n" +
+            "    <br>\n" +
+            "    <h2>Vídeo usando o método <b>mapping</b></h2>\n" +
+            "    <div class=\"video\">\n" +
+            "        <div class=\"dvideo\">\n" +
+            "            <iframe src=\"https://drive.google.com/file/d/1YyVMM8XxXzYfeYpF11BAREwkGd0STBcb/preview\" width=\"340\"\n" +
             "                height=\"180\" allow=\"autoplay\"></iframe>\n" +
+            "        </div>\n" +
             "    </div>\n" +
-            "    <div class=\"dvideo\">\n" +
-            "        <label>Validando com RestAssured</label>\n" +
-            "        <iframe src=\"https://drive.google.com/file/d/1bM_dvYyxGxi3nuExWf1y38tGr2eAnPZ3/preview\" width=\"340\" height=\"180\" allow=\"autoplay\"></iframe>\n" +
-            "    </div>\n" +
-            "</div>\n" +
-            "<hr>\n" +
-            "<br>\n" +
-            "<br>\n" +
-            "<div class=\"info\">\n" +
-            "    <h2>Funcões do Framework</h2>\n" +
-            "    <ul>\n" +
-            "        <li>\n" +
-            "            <label><b>Body().get(key)</b></label>\n" +
-            "            <p>(Apenas Strings) Usando essa função irá retornar o valor do campo informado dentro get(), exemplo de uso:\n" +
-            "                <br>String value\n" +
-            "                = Body().get(\"name\");</p>\n" +
-            "        </li>\n" +
-            "        <li>\n" +
-            "            <label><b>Body().get(String key, String equals)</b></label>\n" +
-            "            <p>(Apenas Strings) Usando essa função irá retornar o valor do campo informado dentro get(), e irá comprar\n" +
-            "                com o valor equals exemplo de uso: <br>String value\n" +
-            "                = Body().get(\"name\", \"Michael\");</p>\n" +
-            "        </li>\n" +
-            "\n" +
-            "        <li>\n" +
-            "            <label><b>Body().get(String key, String equals, String equalsTo)</b></label>\n" +
-            "            <p>(Apenas Strings) Usando essa função irá retornar o valor do campo informado dentro get(), e irá comprar\n" +
-            "                com o valor equals, ou equalsTo exemplo de uso: <br>String value\n" +
-            "                = Body().get(\"name\", \"Michael\", \"Bernard\");</p>\n" +
-            "        </li>\n" +
-            "\n" +
-            "        <li>\n" +
-            "            <label><b>Body().contains(value)</b></label>\n" +
-            "            <p>(Apenas Strings) Usando essa função irá validar se o valor passado existe dentro do JSON não importando o\n" +
-            "                caminho, e pode ser passado vários valores, exemplo de uso: <br>String value\n" +
-            "                = Body().contains(\"Michael\", \"name\", \"lastName\", \"cpf\");</p>\n" +
-            "        </li>\n" +
-            "    </ul>\n" +
-            "</div>\n" +
-            "<hr>\n" +
+            "    <hr>\n" +
             "</body>\n" +
             "<br>\n" +
             "<footer>\n" +
@@ -1521,23 +1554,7 @@ public class TextSystemFiles {
             "</html>\n" +
             "\n" +
             "<style>\n" +
-            ".video{\n" +
-            "display: flex;\n" +
-            "margin-bottom: 32px;\n" +
-            "height: 250px;\n" +
-            "}\n" +
-            ".dvideo{\n" +
-            "  display: flex;\n" +
-            "  flex-direction: column;\n" +
-            "  margin-top:24px\n" +
-            "}\n" +
-            "\n" +
-            "label{\n" +
-            "font-size: 24px;\n" +
-            "margin-bottom:24px\n" +
-            "}\n" +
-            "\n" +
-            "    .info {\n" +
+            "    footer {\n" +
             "        margin-bottom: 40px\n" +
             "    }\n" +
             "\n" +
@@ -1560,12 +1577,12 @@ public class TextSystemFiles {
             "    html {\n" +
             "        height: 100% !important;\n" +
             "        background-image: linear-gradient(to left bottom, #ffffff, #faf8fb,\n" +
-            "         #f6f1f5, #f3e9ee, #f1e2e6, #e8d8da, #dfcdcf, #d6c3c3, #c5b4b4, #b5a5a5, #a59696, #958888);\n" +
+            "                #f6f1f5, #f3e9ee, #f1e2e6, #e8d8da, #dfcdcf, #d6c3c3, #c5b4b4, #b5a5a5, #a59696, #958888);\n" +
             "        background-attachment: fixed;\n" +
             "        padding-bottom: 20px;\n" +
             "        overflow-x: hidden;\n" +
-            "        padding:20px;\n" +
-            "        margin-left:20px\n" +
+            "        padding: 20px;\n" +
+            "        margin-left: 20px\n" +
             "    }\n" +
             "\n" +
             "    body {\n" +
@@ -1601,13 +1618,14 @@ public class TextSystemFiles {
             "        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);\n" +
             "    }\n" +
             "\n" +
-            "<!--    .dvideo {-->\n" +
-            "<!--        display: inline-block;-->\n" +
-            "<!--        zoom: 1;-->\n" +
-            "<!--        vertical-align: top;-->\n" +
-            "<!--        font-size: 20px;-->\n" +
-            "<!--        margin: 0px 0px 10px 10px-->\n" +
-            "<!--    }-->\n" +
+            "    .dvideo {\n" +
+            "        display: inline-block;\n" +
+            "        *display: inline;\n" +
+            "        zoom: 1;\n" +
+            "        vertical-align: top;\n" +
+            "        font-size: 20px;\n" +
+            "        margin: 0px 0px 10px 10px\n" +
+            "    }\n" +
             "\n" +
             "    /* Styles the lightbox, removes it from sight and adds the fade-in transition */\n" +
             "\n" +
@@ -1715,7 +1733,6 @@ public class TextSystemFiles {
             "    .lightbox-target:target a.lightbox-close {\n" +
             "        top: 0;\n" +
             "    }\n" +
-            "\n" +
             "</style>";
 
     public static String HTML_DEP = "\n" +

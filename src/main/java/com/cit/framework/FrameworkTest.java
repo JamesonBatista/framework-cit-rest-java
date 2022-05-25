@@ -6,11 +6,11 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.cit.framework.CITRestAssured.Get;
+import static com.cit.framework.CITRestAssured.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 
-public class FrameworkTest {
+public class FrameworkTest extends CITRestAssured {
 
 
     @Test
@@ -18,11 +18,14 @@ public class FrameworkTest {
 
 //        InitEnvironment();
 //        InitEnvironment();
-//        Environment("env5");
+        Environment("env4");
 ////        params.put("jey", "56413");
 ////        headers.put("token", "opijngaiopgniopnoprnh");
 ////        GetParamHeader();
-//        Get();
+        Get();
+        Body()
+                .mapping("others > creditCards > bills > bills > billTotalAmount", 100000.04);
+//        System.out.println(StringGlobal);
 //
 //
 //        Body().contains("automaticPaymen");

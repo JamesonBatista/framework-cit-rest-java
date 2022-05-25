@@ -90,7 +90,8 @@ public class CITRestAssured extends validationResponse {
         if (res == null || res.asString().contains(textNull)) {
             messages.ResponseNull();
         } else {
-            result.log().body();
+             result.log().body();
+
         }
     }
 
