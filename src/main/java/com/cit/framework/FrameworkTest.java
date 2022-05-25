@@ -22,9 +22,9 @@ public class FrameworkTest extends CITRestAssured {
 ////        params.put("jey", "56413");
 ////        headers.put("token", "opijngaiopgniopnoprnh");
 ////        GetParamHeader();
-        Get();
-        Body()
-                .mapping("others > creditCards > bills > bills > billTotalAmount", 100000.04);
+        Get(false);
+//        Body()
+//                .mapping("others > creditCards > bills > bills > billTotalAmount", 100000.04);
 //        System.out.println(StringGlobal);
 //
 //

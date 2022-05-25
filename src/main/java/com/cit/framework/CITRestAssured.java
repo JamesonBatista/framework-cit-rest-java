@@ -68,6 +68,8 @@ public class CITRestAssured extends validationResponse {
     }
 
     static void initReport(Boolean... logs) throws IOException, BradescoException {
+        messages = new AlertsMessages();
+
         if (result == null) {
             System.err.println("                                                 Seu retorno está NULL.");
             messages.ResponseNull();
@@ -77,6 +79,7 @@ public class CITRestAssured extends validationResponse {
         if (logs.length == 0) {
             ReportBradesco();
         } else {
+            result.log().body(true);
             System.out.println("\n                                √  Report não solicitado.");
         }
     }
@@ -89,9 +92,6 @@ public class CITRestAssured extends validationResponse {
         }
         if (res == null || res.asString().contains(textNull)) {
             messages.ResponseNull();
-        } else {
-             result.log().body();
-
         }
     }
 
@@ -108,7 +108,7 @@ public class CITRestAssured extends validationResponse {
         InitReport();
         return given().relaxedHTTPSValidation().filter(new RequestLoggingFilter(requestCapture))
                 .urlEncodingEnabled(false).contentType(ContentType.JSON)
-                .log().all()
+                .log().all(true)
                 ;
     }
 
@@ -1548,7 +1548,7 @@ public class CITRestAssured extends validationResponse {
     }
 
     public static RequestSpecification CertificationSpec(String keyPathFormatP12, String keyPass,
-                                                  String trustPathFormatP12, String trustPass) throws Exception {
+                                                         String trustPathFormatP12, String trustPass) throws Exception {
 
         char[] keyStorePassword = keyPass.toCharArray();
         KeyStore keyStore = loadKeyStore(keyPathFormatP12, keyStorePassword);
