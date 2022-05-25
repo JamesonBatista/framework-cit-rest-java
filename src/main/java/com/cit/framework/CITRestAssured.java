@@ -137,7 +137,6 @@ public class CITRestAssured extends validationResponse {
     public static RequestSpecification GivenExternal() throws IOException {
         InitReport();
         return given().filter(new RequestLoggingFilter(requestCapture))
-                .urlEncodingEnabled(false)
                 .log().all();
     }
 

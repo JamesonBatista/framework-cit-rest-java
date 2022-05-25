@@ -1133,16 +1133,7 @@ public class TextSystemFiles {
             "                para que os arquivos <b>setup.properties e leanft.properties</b>\n" +
             "                sejam criados automaticamente.\n" +
             "            </p>\n" +
-            "            <p>Ex:</p>\n" +
             "\n" +
-            "            <pre>\n" +
-            "                <code>\n" +
-            "                    @Test\n" +
-            "                    public void TesteInicial(){\n" +
-            "                        System.out.println(\"Iniciando BeforeClass\");\n" +
-            "                    }\n" +
-            "                </code>\n" +
-            "            </pre>\n" +
             "            <br>\n" +
             "            </p>\n" +
             "        </li>\n" +
@@ -1465,14 +1456,18 @@ public class TextSystemFiles {
             "        O método <b>Body.mapping()</b> vai auxiliar em TODA validação do JSON, seja comparar valores, ou certificar que\n" +
             "        o\n" +
             "        Path existe dentro do seu JSON.<br>\n" +
+            "        <code>\n" +
+            "            Body().mapping(\"totalSumary > cardsCount\", 2);\n" +
+            "        </code>\n" +
             "    </p>\n" +
             "    <p>\n" +
-            "        O método <b>Body.mapping()</b> pode ser usado para extrair um valor de uma campo passando apenas o caminho\n" +
-            "        Path existe dentro do seu JSON.<br>\n" +
+            "        O método <b>Body.mapping()</b> pode ser usado para extrair um valor de uma campo passando apenas o caminho.\n" +
+            "        <br>\n" +
             "    </p>\n" +
             "    <pre>\n" +
             "    <code>\n" +
-            "        Body().mapping(\"totalSumary > cardsCount\", 2);\n" +
+            "        // Dessa forma o mapping irá validar se a key existe e colocar o valor dela na <b>StringGlobal</b>\n" +
+            "        Body().mapping(\"totalSumary > cardsCount\");\n" +
             "    </code>\n" +
             "</pre>\n" +
             "    <p>Nesta validação acima o \"totalSumary\" é um objeto dentro do JSON, que contém um path chamado \"cardsCount\"<br>\n" +
