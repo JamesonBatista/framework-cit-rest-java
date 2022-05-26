@@ -59,7 +59,9 @@ public class TextSystemFiles {
             "reporter.evidence_dir=target/screenshots/\n" +
             "reporter.formatter=pdfFormatter\n" +
             "reporter.fmt_export={date}-{testStatus}-{testId}\n" +
-            "reporter.plugin.render_strategy=AUTO_AT_END_OF_SCENARIO";
+            "reporter.plugin.render_strategy=AUTO_AT_END_OF_SCENARIO\n" +
+            "reporter.clean_log_dir=yes\n" +
+            "reporter.clean_evidence_dir=yes";
 
     public static String leanft = "autoLaunch=false\n" +
             "title=CCS - Centro Certificação de Sistemas\n" +

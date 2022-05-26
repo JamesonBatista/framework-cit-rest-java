@@ -23,12 +23,22 @@ public class FrameworkTest extends CITRestAssured {
 ////        headers.put("token", "opijngaiopgniopnoprnh");
 ////        GetParamHeader();
         Get(false);
-//        Body()
+        Body().mapping("bradesco > creditCards > creditCardInfo > creditCardNetwork");
+        System.out.println(StringGlobal);
+
+        Environment("env5");
+        String body = "{\n" +
+                "  \"name\": \"" + StringGlobal + "\"\n" +
+                "}";
+        PostBody(body, false);
+        Body().mapping("name", StringGlobal);
+        System.out.println(StringGlobal);
+
 //                .mapping("others > creditCards > bills > bills > billTotalAmount", 100000.04);
 //        System.out.println(StringGlobal);
 //
 //
-//        Body().contains("automaticPaymen");
+
 
 //        Body()
 //                .mapping("data > brands","Amount",  5002.04, 251651)
