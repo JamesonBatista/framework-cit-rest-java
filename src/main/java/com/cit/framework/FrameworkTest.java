@@ -15,24 +15,27 @@ public class FrameworkTest extends CITRestAssured {
 
     @Test
     public void TestFrame() throws Exception {
-
+        InitEnvironment();
+        headers.put("", "");
+        GetHeader(false);
 //        InitEnvironment();
 //        InitEnvironment();
-        Environment("env4");
-////        params.put("jey", "56413");
-////        headers.put("token", "opijngaiopgniopnoprnh");
-////        GetParamHeader();
-        Get(false);
-        Body().mapping("bradesco > creditCards > creditCardInfo > creditCardNetwork");
-        System.out.println(StringGlobal);
+//        Environment("env4");
+//////        params.put("jey", "56413");
+//////        headers.put("token", "opijngaiopgniopnoprnh");
+//////        GetParamHeader();
+//        Get(false);
+//        Body().mapping("bradesco > creditCards > creditCardInfo > creditCardNetwork");
+//        System.out.println(StringGlobal);
+//
+//        Environment("env5");
+//        String body = "{\n" +
+//                "  \"name\": \"" + StringGlobal + "\"\n" +
+//                "}";
+//        PostBody(body, false);
+//        Body().mapping("name", StringGlobal);
+//        System.out.println(StringGlobal);
 
-        Environment("env5");
-        String body = "{\n" +
-                "  \"name\": \"" + StringGlobal + "\"\n" +
-                "}";
-        PostBody(body, false);
-        Body().mapping("name", StringGlobal);
-        System.out.println(StringGlobal);
 
 //                .mapping("others > creditCards > bills > bills > billTotalAmount", 100000.04);
 //        System.out.println(StringGlobal);

@@ -140,7 +140,7 @@ public class ClassReport extends CITRestAssured {
             messages.ResponseNull();
         }
 
-        if (response.asString().isEmpty() || response.asString().contains("{}") && !ReturnMethod().contains("DELETE")) {
+        if (response.asString().isEmpty() || response.asString().equalsIgnoreCase("{}") && !ReturnMethod().equalsIgnoreCase("DELETE")) {
             messages.AlertReturnIsEmpty();
         }
 
@@ -215,11 +215,11 @@ public class ClassReport extends CITRestAssured {
         String virgula = string.replaceAll(",", "");
         BradescoReporter.report(ReportStatus.OK, virgula);
         BradescoReporter.report(ReportStatus.WARNING, "<--------------------------------------------------->");
-
-        Exclud.ConsoleDesigner("    GET   ");
         BradescoReporter.report(ReportStatus.PASSED, "GET executado, abaixo evidências:");
         BradescoReporter.reportEvent(HttpRequestEvent.getRequest(URIFinal(), response.asString()));
         Finish();
+        Exclud.ConsoleDesigner("    GET   ");
+
     }
 
     private static void PostReport() throws BradescoException, IOException {
@@ -229,14 +229,13 @@ public class ClassReport extends CITRestAssured {
         String virgula = string.replaceAll(",", "");
         BradescoReporter.report(ReportStatus.OK, virgula);
         BradescoReporter.report(ReportStatus.WARNING, "");
-
-        Exclud.ConsoleDesigner("   POST   ");
-
         BradescoReporter.report(ReportStatus.PASSED, "POST executado, abaixo evidências:");
         BradescoReporter.reportEvent(HttpRequestEvent.postRequest(URIFinal(),
                 BODY,
                 response.asString()));
         Finish();
+        Exclud.ConsoleDesigner("   POST   ");
+
     }
 
     private static void PutReport() throws BradescoException, IOException {
@@ -246,14 +245,13 @@ public class ClassReport extends CITRestAssured {
         String virgula = string.replaceAll(",", "");
         BradescoReporter.report(ReportStatus.OK, virgula);
         BradescoReporter.report(ReportStatus.WARNING, "");
-
-        Exclud.ConsoleDesigner("    PUT   ");
-
         BradescoReporter.report(ReportStatus.PASSED, "PUT executado, abaixo evidências:");
         BradescoReporter.reportEvent(PutRequest(URIFinal(),
                 BODY,
                 response.asString()));
         Finish();
+        Exclud.ConsoleDesigner("    PUT   ");
+
     }
 
     private static void DeleteReport() throws BradescoException, IOException {
@@ -263,12 +261,11 @@ public class ClassReport extends CITRestAssured {
         String virgula = string.replaceAll(",", "");
         BradescoReporter.report(ReportStatus.OK, virgula);
         BradescoReporter.report(ReportStatus.WARNING, "");
-
-        Exclud.ConsoleDesigner(" DELETE   ");
-
         BradescoReporter.report(ReportStatus.PASSED, "DELETE executado. Não há evidências JSON, apenas Status OK.");
         BradescoReporter.reportEvent(DeleteRequest(URIFinal()));
         Finish();
+        Exclud.ConsoleDesigner(" DELETE   ");
+
     }
 
     private static void Finish() throws BradescoException, IOException {
@@ -283,8 +280,6 @@ public class ClassReport extends CITRestAssured {
 
 
     private static Event PutRequest(String url, String bodyAsString, String response) {
-
-
         return new HttpRequestEvent(ReportStatus.OK, "PUT", url, Optional.of(bodyAsString), response);
     }
 

@@ -87,7 +87,7 @@ public class CITRestAssured extends validationResponse {
     static void ValidationResponse() {
         messages = new AlertsMessages();
         Response res = result.extract().response();
-        if (response.asString().isEmpty() || response.asString().contains("{}") && !ReturnMethod().contains("DELETE")) {
+        if (response.asString().isEmpty() || response.asString().equalsIgnoreCase("{}") && !ReturnMethod().equalsIgnoreCase("DELETE")) {
             messages.AlertReturnIsEmpty();
         }
         if (res == null || res.asString().contains(textNull)) {
