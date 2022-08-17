@@ -2,9 +2,15 @@ package com.cit.framework;
 
 import com.bradesco.core.exception.BradescoAssertionException;
 import com.bradesco.core.exception.BradescoException;
+import com.bradesco.core.report.BradescoReporter;
+import com.bradesco.core.sdk.enums.ReportStatus;
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton;
 import com.nimbusds.jose.jca.JCASupport;
+import io.restassured.module.jsv.JsonSchemaValidator;
+import io.restassured.response.ResponseBody;
 import jsonvalidation.validationResponse;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -31,6 +37,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -40,9 +47,14 @@ import java.util.Map;
 
 import static com.cit.framework.ClassReport.ReportBradesco;
 import static com.cit.framework.ClassReport.ReturnMethod;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static io.restassured.RestAssured.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static util.FileProperties.GetProp;
 import static util.TextSystemFiles.textNull;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+
 
 public class CITRestAssured extends validationResponse {
 
@@ -60,6 +72,8 @@ public class CITRestAssured extends validationResponse {
     static StringWriter requestWriter;
     static PrintStream requestCapture;
     private static AlertsMessages messages;
+    //
+    public static boolean FRAMEWORK_MOCK_ACTIVE = false;
 
 
     static void InitReport() {
@@ -82,6 +96,7 @@ public class CITRestAssured extends validationResponse {
             result.log().body(true);
             System.out.println("\n                                √  Report não solicitado.");
         }
+        if (FRAMEWORK_MOCK_ACTIVE) closeMocks();
     }
 
     static void ValidationResponse() {
@@ -93,11 +108,36 @@ public class CITRestAssured extends validationResponse {
         if (res == null || res.asString().contains(textNull)) {
             messages.ResponseNull();
         }
+
     }
 
     public static ValidatableResponse ResponseBody() throws BradescoAssertionException {
-        if (result == null)
-            throw new BradescoAssertionException("\n\nO ResponseBody precisa que algum método Get, Post, Delete, Put, seja iniciado.");
+        if (result == null) {
+            throw new BradescoAssertionException("\n\nO ResponseBody() precisa que algum método Get, Post, Delete, Put, seja iniciado.");
+        }
+        return result;
+    }
+
+    public void schema(String nameJSON, String... path) throws BradescoAssertionException {
+        if (path.length > 0) {
+            for (String paths : path) {
+                result.body(JsonSchemaValidator.matchesJsonSchemaInClasspath(paths + nameJSON + ".json"));
+            }
+        } else if (path.length == 0) {
+            result.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schemas/" + nameJSON + ".json"));
+        } else {
+            throw new BradescoAssertionException("A forma correta de usar o schema(); :\n" +
+                    "ResponseBody().body(schema('name do JSON'));,\nou\n" +
+                    "ResponseBody().body(schema('name do JSON', 'schemas/nome do diretorio/ '));");
+        }
+    }
+
+    public static ValidatableResponse ResponseBody(ReportStatus status, String text) throws BradescoAssertionException {
+        if (result == null) {
+            throw new BradescoAssertionException("\n\nO ResponseBody() precisa que algum método Get, Post, Delete, Put, seja iniciado.");
+        } else {
+            BradescoReporter.report(status, text);
+        }
 
         return result;
     }
@@ -190,6 +230,7 @@ public class CITRestAssured extends validationResponse {
             return result;
         } finally {
             initReport(log);
+            if (FRAMEWORK_MOCK_ACTIVE) closeMocks();
         }
     }
 
@@ -205,6 +246,7 @@ public class CITRestAssured extends validationResponse {
             return result;
         } finally {
             initReport(log);
+
         }
     }
 
@@ -447,7 +489,6 @@ public class CITRestAssured extends validationResponse {
             initReport(log);
         }
     }
-
 
     public static ValidatableResponse GetFormParamHeader(Boolean... log) throws IOException, BradescoException {
         CheckFormParams();
@@ -786,7 +827,6 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-
     public static ValidatableResponse PostEndpoint(String Endpoint, Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
         try {
@@ -905,7 +945,6 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
-
     public static ValidatableResponse PostParam(Boolean... log) throws IOException, BradescoException {
         BODY = "POST SEM BODY ENVIADO";
         CheckParams();
@@ -969,7 +1008,6 @@ public class CITRestAssured extends validationResponse {
             initReport(log);
         }
     }
-
 
     public static ValidatableResponse PutBody(String body, Boolean... log) throws IOException, BradescoException {
         BODY = body;
@@ -1547,6 +1585,187 @@ public class CITRestAssured extends validationResponse {
         }
     }
 
+    static WireMockServer wireMockServer;
+    static String JSON;
+
+    public static void MockReturnGETJSON(String nameJSON, int status) throws BradescoAssertionException {
+        JSON = nameJSON;
+        if (FRAMEWORK_MOCK_ACTIVE) {
+            System.out.println("****************************************************************************");
+            System.out.println("Mock sendo iniciado Json " + nameJSON + ".json");
+            System.out.println("GET --> Use o endereço http://localhost:8090/mocks para fazer requisição.");
+            System.out.println("****************************************************************************");
+            wireMockServer = new WireMockServer(wireMockConfig().port(8090));
+            wireMockServer.start();
+
+            wireMockServer.stubFor(WireMock.get(urlEqualTo("/mocks"))
+                    .willReturn(aResponse().withHeader("Content-Type", "application/json")
+                            .withStatus(status)
+                            .withBodyFile(nameJSON + ".json")));
+        } else {
+            throw new BradescoAssertionException("\nAo tentar usar o Mock, por favor passe o valor true para variável.\n" +
+                    "Ex: FRAMEWORK_MOCK_ACTIVE=true\nDessa forma o Wiremock ficará ativo.\nInclua nos data.properties o mocks=http://localhost:8090/mocks e coloque mocks no default, antes de chamar o InitEnvironment()");
+        }
+    }
+
+    public static void MockReturnGETText(String text, int status) throws BradescoAssertionException {
+        JSON = text;
+        if (FRAMEWORK_MOCK_ACTIVE) {
+            System.out.println("****************************************************************************");
+            System.out.println("Mock sendo iniciado texto " + text);
+            System.out.println("GET --> Use o endereço http://localhost:8090/mocks para fazer requisição.");
+            System.out.println("****************************************************************************");
+
+            wireMockServer = new WireMockServer(wireMockConfig().port(8090));
+            wireMockServer.start();
+
+            wireMockServer.stubFor(WireMock.get(urlEqualTo("/mocks"))
+                    .willReturn(aResponse().withHeader("Content-Type", "text/plain")
+                            .withStatus(status)
+                            .withBody(text)));
+        } else {
+            throw new BradescoAssertionException("\nAo tentar usar o Mock, por favor passe o valor true para variável.\n" +
+                    "Ex: FRAMEWORK_MOCK_ACTIVE=true\nDessa forma o Wiremock ficará ativo.\nInclua nos data.properties o mocks=http://localhost:8090/mocks e coloque mocks no default, antes de chamar o InitEnvironment()");
+        }
+    }
+
+
+    public static void MockReturnPOSTJSON(String nameJSON, int status) throws BradescoAssertionException {
+        JSON = nameJSON;
+        if (FRAMEWORK_MOCK_ACTIVE) {
+            System.out.println("****************************************************************************");
+            System.out.println("Mock sendo iniciado Json " + nameJSON + ".json");
+            System.out.println("GET --> Use o endereço http://localhost:8090/mocks para fazer requisição.");
+            System.out.println("****************************************************************************");
+            wireMockServer = new WireMockServer(wireMockConfig().port(8090));
+            wireMockServer.start();
+
+            wireMockServer.stubFor(WireMock.post(urlEqualTo("/mocks"))
+                    .willReturn(aResponse().withHeader("Content-Type", "application/json")
+                            .withStatus(status)
+                            .withBodyFile(nameJSON + ".json")));
+        } else {
+            throw new BradescoAssertionException("\nAo tentar usar o Mock, por favor passe o valor true para variável.\n" +
+                    "Ex: FRAMEWORK_MOCK_ACTIVE=true\nDessa forma o Wiremock ficará ativo.\nInclua nos data.properties o mocks=http://localhost:8090/mocks e coloque mocks no default, antes de chamar o InitEnvironment()");
+        }
+    }
+
+    public static void MockReturnPOSTText(String text, int status) throws BradescoAssertionException {
+        JSON = text;
+        if (FRAMEWORK_MOCK_ACTIVE) {
+            System.out.println("****************************************************************************");
+            System.out.println("Mock sendo iniciado texto " + text);
+            System.out.println("GET --> Use o endereço http://localhost:8090/mocks para fazer requisição.");
+            System.out.println("****************************************************************************");
+
+            wireMockServer = new WireMockServer(wireMockConfig().port(8090));
+            wireMockServer.start();
+
+            wireMockServer.stubFor(WireMock.post(urlEqualTo("/mocks"))
+                    .willReturn(aResponse().withHeader("Content-Type", "text/plain")
+                            .withStatus(status)
+                            .withBody(text)));
+        } else {
+            throw new BradescoAssertionException("\nAo tentar usar o Mock, por favor passe o valor true para variável.\n" +
+                    "Ex: FRAMEWORK_MOCK_ACTIVE=true\nDessa forma o Wiremock ficará ativo.\nInclua nos data.properties o mocks=http://localhost:8090/mocks e coloque mocks no default, antes de chamar o InitEnvironment()");
+        }
+    }
+
+    public static void MockReturnPUTJSON(String nameJSON, int status) throws BradescoAssertionException {
+        JSON = nameJSON;
+        if (FRAMEWORK_MOCK_ACTIVE) {
+            System.out.println("****************************************************************************");
+            System.out.println("Mock sendo iniciado Json " + nameJSON + ".json");
+            System.out.println("GET --> Use o endereço http://localhost:8090/mocks para fazer requisição.");
+            System.out.println("****************************************************************************");
+            wireMockServer = new WireMockServer(wireMockConfig().port(8090));
+            wireMockServer.start();
+
+            wireMockServer.stubFor(WireMock.put(urlEqualTo("/mocks"))
+                    .willReturn(aResponse().withHeader("Content-Type", "application/json")
+                            .withStatus(status)
+                            .withBodyFile(nameJSON + ".json")));
+        } else {
+            throw new BradescoAssertionException("\nAo tentar usar o Mock, por favor passe o valor true para variável.\n" +
+                    "Ex: FRAMEWORK_MOCK_ACTIVE=true\nDessa forma o Wiremock ficará ativo.\nInclua nos data.properties o mocks=http://localhost:8090/mocks e coloque mocks no default, antes de chamar o InitEnvironment()");
+        }
+    }
+
+    public static void MockReturnPUTText(String text, int status) throws BradescoAssertionException {
+        JSON = text;
+        if (FRAMEWORK_MOCK_ACTIVE) {
+            System.out.println("****************************************************************************");
+            System.out.println("Mock sendo iniciado texto " + text);
+            System.out.println("GET --> Use o endereço http://localhost:8090/mocks para fazer requisição.");
+            System.out.println("****************************************************************************");
+
+            wireMockServer = new WireMockServer(wireMockConfig().port(8090));
+            wireMockServer.start();
+
+            wireMockServer.stubFor(WireMock.put(urlEqualTo("/mocks"))
+                    .willReturn(aResponse().withHeader("Content-Type", "text/plain")
+                            .withStatus(status)
+                            .withBody(text)));
+        } else {
+            throw new BradescoAssertionException("\nAo tentar usar o Mock, por favor passe o valor true para variável.\n" +
+                    "Ex: FRAMEWORK_MOCK_ACTIVE=true\nDessa forma o Wiremock ficará ativo.\nInclua nos data.properties o mocks=http://localhost:8090/mocks e coloque mocks no default, antes de chamar o InitEnvironment()");
+        }
+    }
+
+    public static void MockReturnDELETEJSON(String nameJSON, int status) throws BradescoAssertionException {
+        JSON = nameJSON;
+        if (FRAMEWORK_MOCK_ACTIVE) {
+            System.out.println("****************************************************************************");
+            System.out.println("Mock sendo iniciado Json " + nameJSON + ".json");
+            System.out.println("GET --> Use o endereço http://localhost:8090/mocks para fazer requisição.");
+            System.out.println("****************************************************************************");
+            wireMockServer = new WireMockServer(wireMockConfig().port(8090));
+            wireMockServer.start();
+
+            wireMockServer.stubFor(WireMock.delete(urlEqualTo("/mocks"))
+                    .willReturn(aResponse().withHeader("Content-Type", "application/json")
+                            .withStatus(status)
+                            .withBodyFile(nameJSON + ".json")));
+        } else {
+            throw new BradescoAssertionException("\nAo tentar usar o Mock, por favor passe o valor true para variável.\n" +
+                    "Ex: FRAMEWORK_MOCK_ACTIVE=true\nDessa forma o Wiremock ficará ativo.\nInclua nos data.properties o mocks=http://localhost:8090/mocks e coloque mocks no default, antes de chamar o InitEnvironment()");
+        }
+    }
+
+    public static void MockReturnDELETEText(String text, int status) throws BradescoAssertionException {
+        JSON = text;
+        if (FRAMEWORK_MOCK_ACTIVE) {
+            System.out.println("****************************************************************************");
+            System.out.println("Mock sendo iniciado texto " + text);
+            System.out.println("GET --> Use o endereço http://localhost:8090/mocks para fazer requisição.");
+            System.out.println("****************************************************************************");
+
+            wireMockServer = new WireMockServer(wireMockConfig().port(8090));
+            wireMockServer.start();
+
+            wireMockServer.stubFor(WireMock.delete(urlEqualTo("/mocks"))
+                    .willReturn(aResponse().withHeader("Content-Type", "text/plain")
+                            .withStatus(status)
+                            .withBody(text)));
+        } else {
+            throw new BradescoAssertionException("\nAo tentar usar o Mock, por favor passe o valor true para variável.\n" +
+                    "Ex: FRAMEWORK_MOCK_ACTIVE=true\nDessa forma o Wiremock ficará ativo.\nInclua nos data.properties o mocks=http://localhost:8090/mocks e coloque mocks no default, antes de chamar o InitEnvironment()");
+        }
+    }
+
+
+    public static void closeMocks() {
+        System.out.println("Finalizando Mocks... do Json/Text " + JSON);
+        if (null != wireMockServer && wireMockServer.isRunning()) wireMockServer.stop();
+
+        FRAMEWORK_MOCK_ACTIVE = false;
+    }
+
+    public static String ReadJSON(String path) throws IOException {
+        System.out.println("lendo caminho do JSON...");
+        return new String(Files.readAllBytes(Paths.get(path)));
+    }
+
     public static RequestSpecification CertificationSpec(String keyPathFormatP12, String keyPass,
                                                          String trustPathFormatP12, String trustPass) throws Exception {
 
@@ -1570,7 +1789,6 @@ public class CITRestAssured extends validationResponse {
         return RestAssured.given()
                 .config(config);
     }
-
     static KeyStore loadKeyStore(String file, char[] password) throws Exception {
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
         File key = ResourceUtils.getFile(file);

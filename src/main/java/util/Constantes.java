@@ -77,7 +77,10 @@ public interface Constantes {
             url = GetProp().getProperty("env8");
         } else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "env9")) {
             url = GetProp().getProperty("env9");
-        } else {
+        }else if (StringUtils.equalsIgnoreCase(GetProp().getProperty("default"), "mocks")) {
+            url = GetProp().getProperty("mocks");
+        }
+        else {
             throw new BradescoRuntimeException("\n                             Ambiente desconhecido: " + environment);
         }
         return url;

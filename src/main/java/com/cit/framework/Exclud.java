@@ -16,6 +16,11 @@ public class Exclud {
             AlertFiles(search);
             new File("src/test/resources").mkdir();
         }
+        search = new File("src/test/resources/__files");
+        if (!search.exists()) {
+            AlertFiles(search);
+            new File("src/test/resources/__files").mkdir();
+        }
         search = new File("src/test/resources/setup.properties");
         if (!search.exists()) {
             AlertFiles(search);

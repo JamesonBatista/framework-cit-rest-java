@@ -1,23 +1,23 @@
 package com.cit.framework;
 
-import jsonvalidation.validationResponse;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 
-import java.util.HashMap;
-import java.util.Map;
+import static io.restassured.RestAssured.given;
 
-import static com.cit.framework.CITRestAssured.*;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 
 public class FrameworkTest extends CITRestAssured {
 
 
     @Test
+    @DisplayName("request test wiremock")
     public void TestFrame() throws Exception {
+        FRAMEWORK_MOCK_ACTIVE = true;
+        MockReturnGETJSON("fileJson", 200);
         InitEnvironment();
-        headers.put("", "");
+        headers.put("son", "sombras");
         GetHeader(false);
+
 //        InitEnvironment();
 //        InitEnvironment();
 //        Environment("env4");
@@ -110,6 +110,7 @@ public class FrameworkTest extends CITRestAssured {
 //                .mapping("categoryMonthsAvailables > cards > internalBrand", "internalBrand", "OTHERS", "BRADESCO")
 //                .mapping("categoryMonthsAvailables > totalAmount", "totalAmount", 200000.08);
         ;
+
 
 //
 //        //Validação usando o Rest
