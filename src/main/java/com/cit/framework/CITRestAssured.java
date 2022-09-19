@@ -1755,7 +1755,10 @@ public class CITRestAssured extends validationResponse {
 
 
     public static void closeMocks() {
+        System.out.println("***********************************************************");
         System.out.println("Finalizando Mocks... do Json/Text " + JSON);
+        System.out.println("***********************************************************");
+
         if (null != wireMockServer && wireMockServer.isRunning()) wireMockServer.stop();
 
         FRAMEWORK_MOCK_ACTIVE = false;

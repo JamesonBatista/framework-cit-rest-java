@@ -411,6 +411,47 @@ Body().get("usedAmountFlexible", "100000.0001n", "Automação", "Framework");
 </code></pre>
 <br>
 <hr>
+
+<br>
+<h2>Usando Mock WireMock com RestAssured no Framework</h2>
+<p>
+    Para subir um Mock local, precisa seguir seguintes passos.<p>
+    <br>
+    1 - Tenha o JSON que será o retorno no caminho src/test/resource/NOME DE QUALQUER PASTA<p>
+    2 - Use a variável FRAMEWORK_MOCK_ACTIVE = true; para ativar o uso do Wiremock<p>
+    3 - Os métodos são baseados no tipo de requisição e no tipo do retorno. Ex GET com retorno JSON, ou GET com retorno TEXT<p>
+    4 - No seu arquivo data.properties coloque o seguinte mocks=http://localhost:8090/mocks e no default=mocks<p>
+    5 - Para desativar o Mock FRAMEWORK_MOCK_ACTIVE = false;<p>
+    <br>
+    <h2>Exemplo de uso:</h2>
+<br>
+<pre>
+    <code>
+        FRAMEWORK_MOCK_ACTIVE = true;
+        MockReturnGETJSON("fileJson", 200);
+        InitEnvironment();
+        headers.put("son", "sombras");
+        GetHeader(false);
+        <br>
+        MockReturnGETJSON(nome do JSON (sem o .json), status do retorno requerido)
+        <br>
+        <p>Métodos de Mock existentes no Framework</p>
+        MockReturnGETJSON()
+        MockReturnGETTEXT()
+        MockReturnPOSTJSON()
+        MockReturnPOSTTEXT()
+        MockReturnPUTJSON()
+        MockReturnPUTTEXT()
+        MockReturnDELETEJSON()
+        MockReturnDELETETEXT()
+
+    </code>
+</pre>
+
+</p>
+<br>
+
+<hr>
 <br>
 <h2>Vídeo usando o método <b>mapping</b></h2>
 <div class="video">

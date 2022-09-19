@@ -1,22 +1,49 @@
 package com.cit.framework;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
 
-import static io.restassured.RestAssured.given;
+import java.util.List;
 
 
 public class FrameworkTest extends CITRestAssured {
 
 
     @Test
-    @DisplayName("request test wiremock")
     public void TestFrame() throws Exception {
+
         FRAMEWORK_MOCK_ACTIVE = true;
+
         MockReturnGETJSON("fileJson", 200);
+
         InitEnvironment();
+
         headers.put("son", "sombras");
-        GetHeader(false);
+
+        GetHeader(true);
+
+        Body().mapping("data > completedAuthorisedPaymentType", 12)
+
+//        String arrayList = ResponseBody().extract().response().asString();
+//        JSONObject json = new JSONObject(arrayList);
+//        JSONArray arrayData;
+//        arrayData = json.getJSONArray("data");
+//
+//        String validation = new String();
+//        for (Object list : arrayData) {
+//            json = new JSONObject(list.toString());
+//            System.out.println(json.get("transactionDate"));
+//            if (!json.get("transactionDate").equals("2022-09-03")) {
+//                validation = json.get("transactionDate").toString();
+//            } else {
+//                validation = json.get("transactionDate").toString();
+//                break;
+//            }
+//        }
+//        Assert.assertEquals("2022-09-03", validation);
+
 
 //        InitEnvironment();
 //        InitEnvironment();

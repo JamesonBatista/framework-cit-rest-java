@@ -263,7 +263,7 @@ public class validationResponse {
 
         if (bodyStart) {
             if (response.asString().startsWith("[")) {
-                System.out.println(jsonArray);
+//                System.out.println(jsonArray);
                 for (Object list : jsonArray) {
                     jsonObjectValidation = new JSONObject(list.toString());
                 }
@@ -322,7 +322,7 @@ public class validationResponse {
     public <T extends Object> validationResponse mapping(String key, T equals) throws BradescoAssertionException {
         if (bodyStart) {
             if (response.asString().startsWith("[")) {
-                System.out.println(jsonArray);
+//                System.out.println(jsonArray);
                 for (Object list : jsonArray) {
                     jsonObjectValidation = new JSONObject(list.toString());
                 }
@@ -360,7 +360,6 @@ public class validationResponse {
                                 StringGlobal = jsonObjectValidation;
 
                             } else {
-
                                 StringGlobal = l.toString();
                                 stringVerify = true;
                             }
@@ -369,12 +368,14 @@ public class validationResponse {
                                 if (jsonObjectValidation.get(value).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
                                         jsonObjectValidation.get(value).getClass().getSimpleName().equalsIgnoreCase("Float")) {
                                     BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(value).toString());
-                                    Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(equals));
+//                                    Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(equals));
+                                    ValidatePathArray(value, equals);
                                 } else {
                                     if (stringVerify) {
-                                        Assert.assertEquals(equals.toString(), l.toString());
+                                        ValidatePathArray(value, equals);
                                     } else {
-                                        Assert.assertEquals(jsonObjectValidation.get(value).toString(), equals.toString());
+                                        ValidatePathArray(value, equals);
+
                                     }
                                 }
                             }
@@ -387,7 +388,7 @@ public class validationResponse {
                                 BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(value).toString());
                                 Assert.assertThat(bigDecimal.doubleValue(), Matchers.is(equals));
                             } else {
-                                Assert.assertThat(jsonObjectValidation.get(value), Matchers.is(equals));
+                                Assert.assertThat(equals, Matchers.is(jsonObjectValidation.get(value)));
                             }
                         else {
                             throw new BradescoAssertionException("\n\nO path  [ " + array + " ]  não existe no seu JSON, ou o caminho está errado.");
@@ -409,13 +410,14 @@ public class validationResponse {
 
 
     // validar 2 valores
-    public <T extends Object> validationResponse mapping(String key, T equals, T equalsTo) throws BradescoAssertionException {
+    public <T extends Object> validationResponse mapping(String key, T equals, T equalsTo) throws
+            BradescoAssertionException {
         ArrayList<Object> arrayValue = null;
         arrayValue = new ArrayList<>();
 
         if (bodyStart) {
             if (response.asString().startsWith("[")) {
-                System.out.println(jsonArray);
+//                System.out.println(jsonArray);
                 for (Object list : jsonArray) {
                     jsonObjectValidation = new JSONObject(list.toString());
                 }
@@ -494,13 +496,14 @@ public class validationResponse {
 
 
     //validar 3 valores
-    public <T extends Object> validationResponse mapping(String key, T equals, T equalsTo, T equalsTos) throws BradescoAssertionException {
+    public <T extends Object> validationResponse mapping(String key, T equals, T equalsTo, T equalsTos) throws
+            BradescoAssertionException {
         ArrayList<Object> arrayValue = null;
         arrayValue = new ArrayList<>();
 
         if (bodyStart) {
             if (response.asString().startsWith("[")) {
-                System.out.println(jsonArray);
+//                System.out.println(jsonArray);
                 for (Object list : jsonArray) {
                     jsonObjectValidation = new JSONObject(list.toString());
                 }
@@ -626,7 +629,8 @@ public class validationResponse {
 
     }
 
-    <T extends Object> void AssertJsonThree(String array, T equals, T equalsTo, T equalsTos) throws BradescoAssertionException {
+    <T extends Object> void AssertJsonThree(String array, T equals, T equalsTo, T equalsTos) throws
+            BradescoAssertionException {
         boolean value = false;
         if (jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
                 jsonObjectValidation.get(array).getClass().getSimpleName().equalsIgnoreCase("Float")) {
@@ -654,7 +658,8 @@ public class validationResponse {
 
     }
 
-    <T extends Object> void AssertJsonFour(String path, T equals, T equalsTos, T equalsTo, T equalsToS) throws BradescoAssertionException {
+    <T extends Object> void AssertJsonFour(String path, T equals, T equalsTos, T equalsTo, T equalsToS) throws
+            BradescoAssertionException {
         if (jsonObjectValidation.get(path).getClass().getSimpleName().equalsIgnoreCase("BigDecimal") ||
                 jsonObjectValidation.get(path).getClass().getSimpleName().equalsIgnoreCase("Float")) {
             BigDecimal bigDecimal = new BigDecimal(jsonObjectValidation.get(path).toString());
@@ -700,5 +705,18 @@ public class validationResponse {
         return this;
     }
 
-
+    <T extends Object> void ValidatePathArray(String value, T equals) {
+        Object validation = new Object();
+        for (Object list : jsonArray) {
+            JSONObject json = new JSONObject(list.toString());
+//                                            System.out.println(json.get(value));
+            if (json.get(value).equals(equals)) {
+                validation = json.get(value);
+                break;
+            } else {
+                validation = json.get(value);
+            }
+        }
+        Assert.assertEquals(equals, validation);
+    }
 }
